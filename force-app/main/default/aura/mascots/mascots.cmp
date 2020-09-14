@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="bolt_url" type="String" default=""/>
+    <section class="main-content" aura:id="main_content">
+      <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-around--medium">
+          <img class="mascot einstein" src="https://developer.salesforce.com/resources2/products/einstein/einstein-section-analytics.png"/>
+        </div>
+    </section>
+    <lightning:button label="Test" onclick="{!c.test}"/>
+</aura:component>

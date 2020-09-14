@@ -1,0 +1,36 @@
+<aura:component access="public">
+    <aura:attribute name="phrase" type="String" access="global"/>
+    <aura:attribute name="actionParameters" type="List" access="global"/>
+    <aura:attribute name="values" type="Map" access="global"/>
+
+    <aura:attribute name="phraseFragments" type="List" access="private"/>
+    <aura:attribute name="defaultParameterValueMap" type="Map" access="private"
+                    default="{'StringType': 'Xyz 123',
+                             	'IntegerType': 123456,
+                             	'DoubleType': 3.14159,
+                             	'SobjectType': 'Account',
+                             	'SobjectFieldType': 'Id',
+                             	'DatasetType': 'Account',
+                             	'DatasetFieldType': 'Id',
+                             	'BooleanType': true,
+                             	'NavigationDirectionType': 'Next',
+                             	'FilterOperatorType': 'Equals'
+                             }"/>
+    
+    <aura:handler name="init"
+                  value="{!this}"
+                  action="{!c.init}"/>
+    <div aura:id="intent-div" class="slds-text-body_regular">
+        <aura:iteration items="{! v.phraseFragments }" var="fragment">
+            <aura:if isTrue="{! fragment.isParameter }">
+                <aura:if isTrue="{! not(fragment.isExplicit) }">
+                    <span class="intent-param" title="{! fragment.parameterInfo }">{! fragment.value }</span>
+                </aura:if>
+                <aura:set attribute="else">
+                    <lightning:formattedText value="{! fragment.value }"/>
+                </aura:set>
+            </aura:if>
+        </aura:iteration>
+    </div>
+	
+</aura:component>

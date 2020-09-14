@@ -1,0 +1,164 @@
+<aura:component >
+    <aura:attribute name="templateApiName" 
+                    type="String" 
+                    access="public" 
+                    description="The Einstein Analytics embedded app template API name."/>
+
+    <aura:attribute name="busy" 
+                    type="String" 
+                    access="public"/>
+    
+    <aura:attribute name="waveAutoInstallRequest" 
+                    type="Object" 
+                    access="public"/>
+
+    <aura:attribute name="rendered" 
+                    type="Boolean" 
+                    access="public"
+                    default="true"/>
+    
+    <aura:attribute name="requestPermissions" 
+                    type="Object" 
+                    access="public"
+                    required="true"/>
+
+    <aura:attribute name="templateMetadata"
+                    type="Object"
+                    access="public"
+                    required="true"/>
+
+    <aura:attribute name="defaultTemplateBadge"
+                    type="String"
+                    default="/analytics/wave/static/images/WaveCommon/static/images/template/icons/default.png"
+                    access="private"/>
+
+    <aura:attribute name="defaultTemplatePreview"
+                    type="String"
+                    default="{!$Resource.default_preview}"
+                    access="private"/>
+
+    <aura:attribute name="defaultPreviewTitle"
+                    type="String"
+                    default="No previews exist for this app."
+                    access="private"/>
+
+    <aura:attribute name="defaultPreviewDescription"
+                    type="String"
+                    default="No previews exist for this app."
+                    access="private"/>
+    
+    <aura:attribute name="action"
+                    type="String"
+                    access="private"
+                    default="{! empty(v.waveAutoInstallRequest.folderId) ? 'Create' : 'Update' }"/>
+    
+
+    <wave:sdk aura:id="waveSdk"/>
+
+    <lightning:notificationsLibrary aura:id="notifyLib"/>
+    
+    <wave:autoInstallRequest aura:id="wairApi"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:if isTrue="{! and(v.rendered, not(empty(v.templateMetadata))) }">
+        <div>
+            <lightning:layout pullToBoundary="medium">
+                <lightning:layoutItem size="4" class="template-info-col" flexibility="auto" padding="horizontal-small">
+                    <div class="template-info">
+                        <lightning:layout multipleRows="true" pullToBoundary="medium">
+                            <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                <div>
+                                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                                        <div class="slds-media__figure">
+                                            <img class="template-badge" 
+                                                 src="{! empty(v.templateMetadata.icons.templateBadge) ? 
+                                                      v.defaultTemplateBadge : 
+                                                      v.templateMetadata.icons.templateBadge.url }"/>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <p class="slds-card__header-title slds-text-title_caps">
+                                                <lightning:formattedText value="Einstein Analytics"/>
+                                            </p>
+                                            <h1>
+                                                <lightning:formattedText value="{! v.templateMetadata.label }"/>
+                                            </h1>
+                                            <lightning:formattedText class="slds-text-body_small" 
+                                                                     value="{! 'Version: ' + v.templateMetadata.releaseInfo.templateVersion }"/>
+                                        </div>
+                                    </div>
+                                    <lightning:formattedText class="slds-text-heading_small" value="Overview"/>
+                                    <lightning:formattedText class="template-text" value="{! v.templateMetadata.description }"/>
+                                    <div class="template-section tag-section">
+                                        <aura:iteration var="tag" items="{! v.templateMetadata.tags }">
+                                            <lightning:badge label="{! tag }"/>
+                                        </aura:iteration>
+                                    </div>
+                                    <div class="template-section">
+                                        <aura:iteration var="attribute" items="{! v.templateMetadata.customAttributes }">
+                                            <lightning:formattedText class="slds-text-heading_small" value="{! attribute.label }"/>
+                                            <aura:iteration var="value" items="{! attribute.values }">
+                                                <lightning:formattedText class="template-text" value="{! value }"/>
+                                            </aura:iteration>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>            
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="around-medium">
+                    <div class="template-preview">
+                        <aura:if isTrue="{! empty(v.templateMetadata.icons.templatePreviews) }">
+                            <lightning:carousel disableAutoRefresh="true" disableAutoScroll="true" scrollDuration="3">
+                                <lightning:carouselImage src = "{! v.defaultTemplatePreview }"
+                                                         header = "{! v.defaultPreviewTitle }"
+                                                         description = "{! v.defaultPreviewDescription }"
+                                                         alternativeText = "{! v.defaultPreviewTitle }"
+                                                         href="javascript:void(0)">
+                                </lightning:carouselImage>
+                            </lightning:carousel>
+                            <aura:set attribute="else">
+                                <lightning:carousel disableAutoRefresh="false" disableAutoScroll="false">
+                                    <aura:iteration var="preview" items="{! v.templateMetadata.icons.templatePreviews }">
+                                        <lightning:carouselImage src = "{! preview.url }"
+                                                                 header = "{! preview.label }"
+                                                                 description = "{! preview.description }"
+                                                                 alternativeText = "{! preview.label }"
+                                                                 href="javascript:void(0)">
+                                        </lightning:carouselImage>
+                                    </aura:iteration>
+                                </lightning:carousel>
+                            </aura:set>
+                        </aura:if>                        
+                        <lightning:button label="{! v.action }"
+                                          variant="brand" class="action-button"
+                                          title="{! v.action + ' Application'}" 
+                                          disabled="{! not(v.requestPermissions.canCreate) }"
+                                          onclick="{! c.createApp }"/>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>            
+        </div>
+    </aura:if>
+    <aura:if isTrue="{! and(v.rendered,empty(v.templateMetadata)) }">
+        <div>
+            <lightning:card>
+                <aura:set attribute="title">
+                    <p class="slds-text-heading_large slds-text-title_caps slds-text-color_error">
+                        404 - Unable to Find Template
+                    </p>
+                </aura:set>
+                <p class="slds-p-horizontal_large">
+                    <aura:if isTrue="{! empty(v.templateApiName) }">
+                        No Einstein Analytics Template API Name specified.
+                        <aura:set attribute="else">
+	                    The Einstein Analytics template {! v.templateApiName } cannot be found or you are not permitted to see it.
+                        </aura:set>
+                    </aura:if>
+                </p>
+            </lightning:card>
+        </div>
+    </aura:if>
+
+</aura:component>

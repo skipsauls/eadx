@@ -1,0 +1,53 @@
+<aura:component access="global">
+    <aura:attribute name="text" type="String" access="global"/>
+    <aura:attribute name="state" type="String" access="global"/>
+    <aura:attribute name="actionsJSON" type="String" access="global"/>
+    <aura:attribute name="actionJSON" type="String" access="global"/>
+    <aura:attribute name="payloadJSON" type="String" access="global"/>
+    <aura:attribute name="resultsJSON" type="String" access="global"/>
+    <aura:attribute name="responseItems" type="List" access="global"/>
+    <aura:attribute name="selectedItemName" type="String" access="global"/>
+    <aura:attribute name="selectedItemJSON" type="String" access="global"/>
+    <aura:attribute name="channel" type="Object" access="global"/>
+    
+	<aura:handler name="change" value="{!v.selectedItemName}" action="{!c.handleSelectItem}"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div>
+        <lightning:layout verticalAlign="end">
+            <lightning:layoutItem size="4" class="slds-p-around_x-small">
+		        <lightning:input label="Phrase" type="text" value="{!v.text}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="1" class="slds-p-around_x-small">
+		        <lightning:buttonIcon iconName="utility:right" alternativeText="Execute" onclick="{!c.handleExecute}" variant="brand"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout>
+            <lightning:layoutItem size="4" class="slds-p-around_x-small">
+		        <lightning:textarea class="json actions" label="Actions" value="{!v.actionsJSON}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" class="slds-p-around_x-small">
+		        <lightning:textarea class="json action" label="Selected Action" value="{!v.actionJSON}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" class="slds-p-around_x-small">
+		        <lightning:textarea class="json payload" label="Payload" value="{!v.payloadJSON}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <lightning:layout>
+            <lightning:layoutItem size="4" class="slds-p-around_x-small">
+		        <lightning:textarea class="json results" label="Results" value="{!v.resultsJSON}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" class="slds-p-around_x-small">
+		        <lightning:select label="Response Items" value="{!v.selectedItemName}">
+                	<aura:iteration items="{!v.responseItems}" var="item">
+                    	<option value="{!item.name}">{!item.label}</option>
+                    </aura:iteration>
+                </lightning:select>
+		        <lightning:textarea class="json item" label="Selected Item" value="{!v.selectedItemJSON}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

@@ -1,0 +1,63 @@
+<aura:component>
+ 
+    <aura:attribute name="commanderState" type="String" access="global"/>
+    <aura:attribute name="commanderChannel" type="Object" access="global"/>
+     
+    <aura:attribute name="recordingSession" type="Object" access="public"/>
+    
+    <aura:attribute name="appCreateTargets" 
+                    type="List" 
+                    access="private" 
+                    default="['ManageCalculatorAirInvocable','GenericAirInvocable']"/>
+
+    <aura:attribute name="sessionRecordingTarget" 
+                    type="String" 
+                    access="private" 
+                    default="SessionRecordingInvocable"/>
+
+    <aura:registerEvent name="AnalyticsAppCreate" 
+                        type="c:AnalyticsAppCreateEvent"
+                        access="GLOBAL"/>
+
+    <aura:handler name="ChannelSubscribe" 
+   			event="c:ChannelSubscribeEvent" 
+            action="{! c.handleChannelSubscribeEventPayload }"/>
+
+    <aura:handler name="ChannelUnsubscribe" 
+   			event="c:ChannelUnsubscribeEvent" 
+            action="{! c.handleChannelUnsubscribeEventPayload }"/>
+
+    <aura:handler name="ViewSobjectType" 
+   			event="c:ViewSobjectTypeEvent" 
+            action="{! c.handleViewSobjectTypePayload}"
+            includeFacets="true"/>
+
+    <aura:handler name="ViewAnalyticsDashboard"  
+   			event="c:ViewAnalyticsDashboardEvent" 
+            action="{! c.handleDashboardEventPayload }"/>
+
+    <aura:handler name="AnalyticsDashboardUpdatePage" 
+   			event="c:AnalyticsDashboardUpdatePageEvent" 
+            action="{! c.handleDashboardUpdatePagePayload }"/>
+
+    <aura:handler name="DatasetFilter" 
+   			event="c:FilterDatasetEvent" 
+            action="{! c.handleFilterDatasetPayload }"/>
+
+    <aura:handler name="DatasetSelection" 
+   			event="c:FilterDatasetEvent" 
+            action="{! c.handleFilterDatasetPayload }"/>
+
+    <aura:handler name="InvocableActionApex" 
+   			event="c:InvocableActionApexEvent" 
+            action="{! c.handleInvocableActionApex }"/>
+
+    <lightning:navigation aura:id="navService"/>
+    <lightning:overlayLibrary aura:id="overlayApi"/>
+    
+    <einsteinconduit:commanderApi aura:id="commanderApi"/>
+    
+    <c:commanderUtility commanderChannel="{! v.commanderChannel }"
+                        commanderState="{! v.commanderState }"
+                        recordingSession="{! v.recordingSession }"/>
+</aura:component>

@@ -1,0 +1,16 @@
+.THIS .action-button-no-border{
+    height: 20px;
+}
+.THIS .template-badge{
+    width: 32px;
+    height: auto;
+}
+.THIS .dashboard-container{
+    position: absolute;
+}
+.THIS .waiting-container{
+    width: 100%;
+}
+.THIS.hide-title > header.slds-card__header {
+    display: none;
+}

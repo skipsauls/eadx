@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Contains a manager overview based on the Sales Wave Manager Overview dashboard.</description>
+    <label>Manager Overview</label>
+    <motif>Custom84: Presenter</motif>
+    <page>Manager_Overview</page>
+</CustomTab>

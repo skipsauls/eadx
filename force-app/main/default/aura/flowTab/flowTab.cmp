@@ -1,0 +1,17 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" access="global" >
+    <aura:attribute name="flowName" type="String" access="GLOBAL" description="The flow to run" default="Demo_1"/>
+    <aura:attribute name="screenName" type="String" access="GLOBAL" description="The screen to show (for testing)" default="flowDemo1"/>
+        
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="outer">
+        <lightning:layout class="flow" horizontalAlign="start" verticalAlign="start" pullToBoundary="small" multipleRows="false">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="3">
+                <lightning:card title="Lightning Flow" iconName="utility:flow">    
+	    			<lightning:flow aura:id="flowData" onstatuschange="{!c.handleFlowStatusChange}"/>
+                </lightning:card>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

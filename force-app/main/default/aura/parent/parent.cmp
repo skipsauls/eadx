@@ -1,0 +1,6 @@
+<aura:component >
+    <aura:attribute name="foo" type="String" default="bar" access="global"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <c:child aura:id="child"/>
+    <h1>Parent</h1>
+</aura:component>

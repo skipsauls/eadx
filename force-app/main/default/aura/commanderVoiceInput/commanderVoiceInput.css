@@ -1,0 +1,35 @@
+.THIS {
+}
+
+.THIS .hide {
+    display: none;
+}
+
+.THIS iframe {
+    border: 0px none;
+    outline: 0px none;
+    height: 3rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+}
+
+.THIS iframe.hidden {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+.THIS > input {
+    width: 100%;
+}
+
+.THIS .enable {
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    right: 2px;
+}

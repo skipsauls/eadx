@@ -1,0 +1,6 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__mort_calc_Amortized_Schedule"/>
+    
+    <wave:waveDashboard developerName="{!v.developerName}" height="600"/>
+    
+</aura:component>

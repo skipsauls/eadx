@@ -1,0 +1,8 @@
+.THIS {
+}
+
+.THIS .editor textarea {
+    font-size: 15pt;
+    line-height: 1.3em;
+    height: 10em;
+}

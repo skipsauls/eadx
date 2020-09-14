@@ -1,0 +1,44 @@
+<apex:page lightningStylesheets="true">
+    <apex:slds />
+    <apex:includeLightning />
+    <div class="slds-scope">
+        <div class="slds-box slds-m-around_small">
+            <div class="slds-text-heading_medium">Lightning Component - Native UI</div>
+            <div id="cmp_method_test"></div>
+        </div>
+        <div class="slds-box slds-m-around_small">
+            <div class="slds-text-heading_medium">Visualforce - Component Methods</div>
+            <span class="slds-assistive-text"></span>
+            <label for="input-1" class="slds-form-element__label slds-no-flex">Text</label>
+            <div class="slds-form-element__control slds-grow">
+                <input type="text" id="text" class="slds-input" value="Visualforce"/>
+            </div>
+            <button class="slds-button slds-button_neutral" label="Echo Local" onclick="doEchoLocal();">Echo Local</button>    
+            <button class="slds-button slds-button_neutral" label="Echo Remote" onclick="doEchoRemote();">Echo Remote</button>    
+        </div>
+    </div>
+    <script>
+    var loAppName = "c:loApp";
+    var cmpMethodTest = null;    
+    
+    $Lightning.use(loAppName, function(evt) {
+        $Lightning.createComponent("c:cmpMethodTest", {}, "cmp_method_test", function(cmp, msg, err) {
+            cmpMethodTest = cmp;
+        });
+    });      
+    
+    function doEchoLocal() {
+        var text = document.getElementById('text').value;
+        cmpMethodTest.echoLocal(text, $A.getCallback(function(err, resp) {
+            alert('Local returned: ' + resp || err);
+        }));
+    }
+    
+    function doEchoRemote() {
+        var text = document.getElementById('text').value;
+        cmpMethodTest.echoRemote(text, $A.getCallback(function(err, resp) {
+            alert('Remote returned: ' + resp || err);
+        }));
+    }
+    </script>
+</apex:page>

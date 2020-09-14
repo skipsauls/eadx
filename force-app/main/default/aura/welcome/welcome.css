@@ -1,0 +1,95 @@
+.THIS {
+}
+
+.THIS .launch {
+}
+
+.THIS .launch .item {
+    width: 200px;
+    height: 200px;
+    padding: 40px;
+    border: 0px none;
+    border-radius: 100px;
+    background-color: #FFFFFF;
+    background-repeat: no-repeat;
+    box-shadow: 3px 3px 20px #3873ab, 0px 0px 15px #b0c5df;
+}
+
+.THIS .launch .item.tableau_explorer1 {
+    background-position: 10px 10px;
+    background-size: 90%;
+}
+
+.THIS .launch .item.fortnite1 {
+    background-position: 0px 0px;
+    background-size: 100%;
+}
+
+.THIS .launch .item.bolt1 {
+    background-position: -30px -15px;
+    background-size: 160%;
+}
+
+.THIS .launch .item.dashstate1 {
+    background-position: -50px -50px;
+    background-size: 160%;
+}
+
+.THIS .launch .item.pie1 {
+    background-position: -55px 16px;
+    background-size: 120%;
+}
+
+.THIS .launch .item.twitter1 {
+    background-position: -25px -25px;
+    background-size: 380%;
+}
+
+.THIS .launch .item.sharinpix1 {
+    background-position: 0px 75px;
+    background-size: 100%;
+}
+
+.THIS .launch .item.templatemanager1 {
+    background-position: 0px 0px;
+    background-size: 130%;
+}
+
+.THIS .launch .item.explorer1 {
+    background-position: -14px -8px;
+}
+
+.THIS .launch .item.adx1 {
+    background-position: -61px -63px;
+    background-size: 150%;
+}
+
+.THIS .launch .item.location1 {
+    background-position: -75px -95px;
+    background-size: 150%;
+}
+
+.THIS .launch .item.pagetest1 {
+    background-position: -5px 5px;
+    background-size: 160%;
+}
+
+.THIS .launch .item.imagemaptest1 {
+    background-position: -15px -10px;
+    background-size: 120%;
+}
+
+.THIS .launch .item.letsrace1 {
+    background-position: 50% 50%;
+    background-size: 150%;
+}
+
+.THIS .launch .item.forcerecorddata1 {
+    background-position: 0px -10px;
+    background-size: 120%;
+}
+
+.THIS a, .THIS a:hover, .THIS a:visited, .THIS a:link, .THIS a:active {
+    color: #000000;
+    text-decoration: none;
+}

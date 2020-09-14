@@ -1,0 +1,39 @@
+.THIS {
+}
+
+.THIS .status {
+}
+
+.THIS .status-Success {
+    background: #FCB95B;
+}
+
+.THIS .status-Failed {
+    background: #FF0000;
+}
+
+.THIS .status-InProgress {    
+    background-color: #4D381C;
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;    
+}
+
+.THIS .status-AppInProgress {
+    background-color: #4D381C;
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;    
+}
+
+@keyframes color {
+    0% {
+        background-color: #4D381C;
+    }
+    50% {
+        background-color: #FCB95B;
+    }
+    100% {
+        background-color: #4D381C;
+    }
+}

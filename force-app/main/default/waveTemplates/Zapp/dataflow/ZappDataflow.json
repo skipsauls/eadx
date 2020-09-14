@@ -1,0 +1,39 @@
+{
+  "isDeletable": true,
+  "longRunningAlertInMins": "",
+  "notificationLevel": "",
+  "workflowDefinition": {
+    "sfdcDigest_Opportunity": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Amount"},
+          {"name": "ExpectedRevenue"},
+          {"name": "FiscalYear"},
+          {"name": "LeadSource"},
+          {"name": "ForecastCategory"},
+          {"name": "Name"},
+          {"name": "StageName"},
+          {"name": "TotalOpportunityQuantity"}
+        ],
+        "object": "Opportunity"
+      }
+    },
+    "register_oppty1": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "oppty1",
+        "alias": "${App.Datasets.oppty1_tp.FullyQualifiedName}",
+        "source": "sfdcDigest_Opportunity"
+      }
+    }
+  },
+  "DataflowType": "USER",
+  "_type": "dataflow",
+  "name": "eadx__Zapp_dataflow",
+  "MasterLabel": "Zapp_dataflow",
+  "_url": "/insights/internal_api/v1.0/esObject/workflow//json",
+  "_uid": "",
+  "nextRun": "",
+  "WorkflowStatus": "Inactive"
+}

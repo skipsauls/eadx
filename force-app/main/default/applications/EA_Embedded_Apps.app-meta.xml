@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>View embedded Einstein Analytics applications dynamically.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Einstein Analytics Embedded Apps</label>
+    <navType>Standard</navType>
+    <tabs>EA_Embedded_App</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>EA_Embedded_Apps_UtilityBar</utilityBar>
+</CustomApplication>

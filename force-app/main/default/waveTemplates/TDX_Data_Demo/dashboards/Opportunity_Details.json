@@ -1,0 +1,96 @@
+{
+  "name" : "Opportunity_Details_tp",
+  "label" : "Opportunity Details",
+  "folder" : {
+    "id" : "${App.Folder.Id}"
+  },
+  "state" : {
+    "dataSourceLinks" : [ ],
+    "gridLayouts" : [
+      {
+        "name" : "Default",
+        "numColumns" : 12,
+        "pages" : [
+          {
+            "widgets" : [
+              {
+                "colspan" : 12,
+                "column" : 0,
+                "name" : "table_1",
+                "row" : 0,
+                "rowspan" : 9,
+                "widgetStyle" : {
+                  "borderEdges" : [ ]
+                }
+              }
+            ]
+          }
+        ],
+        "rowHeight" : "normal",
+        "selectors" : [ ],
+        "style" : {
+          "alignmentX" : "left",
+          "alignmentY" : "top",
+          "backgroundColor" : "#F2F6FA",
+          "cellSpacingX" : 8,
+          "cellSpacingY" : 8,
+          "fit" : "original",
+          "gutterColor" : "#C5D3E0"
+        },
+        "version" : 1.0
+      }
+    ],
+    "layouts" : [ ],
+    "steps" : {
+      "OpptyDetails_1" : {
+        "datasets" : [
+          {
+            "name" : "${App.Datasets.OpptyDS.Alias}"
+          }
+        ],
+        "isFacet" : true,
+        "isGlobal" : false,
+        "label" : "OpptyDetails",
+        "query" : {
+          "query" : {
+            "values" : [ ]
+          },
+          "version" : -1.0
+        },
+        "type" : "grain",
+        "useGlobal" : true,
+        "visualizationParameters" : {
+          "parameters" : {
+            "customBulkActions" : [ ],
+            "maxColumnWidth" : 300,
+            "minColumnWidth" : 40,
+            "mode" : "variable",
+            "totals" : true
+          },
+          "type" : "table"
+        }
+      }
+    },
+    "widgetStyle" : {
+      "backgroundColor" : "#FFFFFF",
+      "borderColor" : "#E6ECF2",
+      "borderEdges" : [ ],
+      "borderRadius" : 0,
+      "borderWidth" : 1
+    },
+    "widgets" : {
+      "table_1" : {
+        "parameters" : {
+          "customBulkActions" : [ ],
+          "exploreLink" : true,
+          "maxColumnWidth" : 300,
+          "minColumnWidth" : 40,
+          "mode" : "variable",
+          "step" : "OpptyDetails_1",
+          "totals" : true
+        },
+        "type" : "table"
+      }
+    }
+  }
+}

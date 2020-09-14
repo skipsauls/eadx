@@ -1,0 +1,69 @@
+.THIS {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+
+.THIS .outer {
+    position: relative;
+}
+
+.THIS .dashboard-container {
+    position: absolute;
+	top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0.5;
+}
+
+.THIS .overlay-container {
+    position: absolute;
+	top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 1;
+}
+
+.THIS .container.opacity05 {
+    opacity: 0.05;
+}
+
+.THIS .container.opacity10 {
+    opacity: 0.10;
+}
+
+.THIS .container.opacity20 {
+    opacity: 0.20;
+}
+
+.THIS .container.opacity25 {
+    opacity: 0.25;
+}
+
+.THIS .container.opacity33 {
+    opacity: 0.33;
+}
+
+.THIS .container.opacity50 {
+    opacity: 0.50;
+}
+
+.THIS .container.opacity66 {
+    opacity: 0.66;
+}
+
+.THIS .container.opacity75 {
+    opacity: 0.75;
+}
+
+.THIS .container.opacity100 {
+    opacity: 1.00;
+}
+
+.THIS .dashboard-outer.hidden {
+    display: none;
+}
+
+.THIS .hide {
+    display: none;
+}

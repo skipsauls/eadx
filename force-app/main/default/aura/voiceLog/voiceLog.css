@@ -1,0 +1,58 @@
+.THIS {
+    display: block;
+}
+
+.THIS .outer {
+    display: block;
+    position: relative;
+    overflow-y: auto;    
+}
+
+.THIS .log {
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.THIS .log .item-container {
+	margin: 0;
+    padding: 2px 0;
+    position: relative;
+    clear: both;
+}
+
+.THIS .log .item {
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    margin: 0 4px 10px 8px;
+    padding: 8px 12px;
+    line-height: 1.25rem;
+    max-width: 80%;
+    word-break: break-word;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
+
+.THIS .log .item.left {
+	float: none;
+}
+
+.THIS .log .item.left div {
+	text-align: left;
+}
+
+.THIS .log .item.right {
+    float: right;
+}
+
+.THIS .log .item.right div {
+	text-align: left;
+}
+
+.THIS .slds-avatar {
+    vertical-align: top;
+}

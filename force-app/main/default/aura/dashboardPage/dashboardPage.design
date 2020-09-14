@@ -1,0 +1,8 @@
+<design:component label="Dashboard Page">
+    <design:attribute name="developerName" label="Dashboard Developer Name"/>
+    <design:attribute name="dashboardId" label="Dashboard Id"/>
+    <design:attribute name="pageField" label="Page Field"/>
+    <design:attribute name="pageFieldMapping" label="Page-Field Mapping"/>
+    <design:attribute name="pageId" label="Page Id"/>
+    <design:attribute name="height" label="Height"/>
+</design:component>

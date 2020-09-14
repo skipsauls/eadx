@@ -1,0 +1,3 @@
+<design:component label="Quip Doc Viewer">
+    <design:attribute name="threadId" label="Thread ID" description="ID of the doc to display"/>
+</design:component>

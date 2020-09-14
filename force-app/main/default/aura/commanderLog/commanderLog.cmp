@@ -1,0 +1,86 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" controller="SessionRecordingInvocable" access="global" >
+    <aura:attribute name="height" type="String" access="global" default="8rem"/>
+    <aura:attribute name="sessions" type="Object[]" access="global" default="[]"/>
+    <aura:attribute name="sessionId" type="String" access="global" default=""/>
+    <aura:attribute name="session" type="Object" access="global"/>
+    <aura:attribute name="phrases" type="Object[]" access="global" default="[]"/>
+    <aura:attribute name="phraseIndex" type="Integer" access="global" default="0"/>
+    <aura:attribute name="currentRecording" type="Object" access="global"/>
+    
+    <aura:attribute name="command" type="Object" access="global"/>
+    <aura:attribute name="commandIndex" type="Integer" access="global" default="0"/>
+    <aura:attribute name="currentCommand" type="Object" access="global"/>
+    <aura:attribute name="executeCommand" type="Object" access="global"/>
+    <aura:attribute name="intervalDelay" type="Integer" access="global" default="4000"/>
+    <aura:attribute name="interval" type="Integer" access="global"/>
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="style" type="String" access="global"/>
+    
+    <aura:registerEvent name="ExternalCommanderPhraseEvent" 
+                        type="c:ExternalCommanderPhraseEvent"
+                        access="GLOBAL"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.sessionId}" action="{!c.handleSessionIdChange}"/>
+    <aura:handler name="change" value="{!v.phraseIndex}" action="{!c.handlePhraseIndexChange}"/>
+    <aura:handler name="change" value="{! v.currentRecording }" 
+                  action="{! c.onRecordingSessionChange }"/>
+
+    <aura:handler event="c:RecordedSessionReloadEvent" 
+                  action="{!c.handleGlobalRecordingSessionReloadEvent}"
+                  includeFacets="true"/> 
+
+    <aura:method name="log" action="{!c.log}" description="Logs the text for the specified user"> 
+        <aura:attribute name="user" type="String" required="true"/> 
+        <aura:attribute name="text" type="String" required="true"/> 
+    </aura:method>    
+    <aura:method name="clear" action="{!c.clear}" description="Clears the log">        
+    </aura:method>
+    
+    <c:sessionRecordingApi aura:id="sessionRecordingApi"/>
+    
+    <div class="{!'outer slds-m-around_small ' + v.class}" style="{!v.style}">
+        <lightning:select label="Sessions" value="{!v.sessionId}">
+            <option value="">Please Select a Session</option>
+            <aura:iteration items="{!v.sessions}" var="session" indexVar="idx">
+                <option value="{!session.Id}">{!session.Name}</option>
+            </aura:iteration>
+        </lightning:select>
+        <div class="commands slds-m-vertical_small slds-border_top slds-border_bottom slds-border_right slds-border_left">
+            <aura:if isTrue="{!v.phrases != null}">
+                <div onkeypress="{!c.handleKeypress}" onblur="{!c.handleBlur}" onfocusout="{!c.handleFocusOut}">
+                    <ul>
+                        <aura:iteration items="{!v.phrases}" var="phrase" indexVar="idx">
+                            <li>
+                                <lightning:input class="{!'command slds-border_bottom' + (idx == v.phraseIndex ? ' selected' : '')}"
+                                                 type="text"
+                                                 label="none"
+                                                 variant="label-hidden"
+                                                 disabled="{!idx == v.phraseIndex ? false : true}"
+                                                 onclick="{!c.selectPhrase}"
+                                                 name="{!idx}"
+                                                 value="{!phrase.text}">
+                                </lightning:input>
+                            </li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+            </aura:if>
+        </div>
+        <div class="controls">
+            <lightning:layout verticalAlign="center">
+                <lightning:layoutItem flexibility="auto, no-grow">
+                    <lightning:buttonIcon variant="bare" iconName="utility:left" alternativeText="Previous and execute" onclick="{!c.goPreviousAndExecute}"/>
+                    <lightning:buttonIcon variant="bare" iconName="utility:up" alternativeText="Previous" onclick="{!c.previousPhrase}"/>
+                    <lightning:buttonIcon variant="bare" iconName="utility:down" alternativeText="Next" onclick="{!c.nextPhrase}"/>
+                    <lightning:buttonIcon variant="bare" iconName="utility:right" alternativeText="Execute and go next" onclick="{!c.executeAndGoNext}"/>
+                </lightning:layoutItem>
+                <!--
+                <lightning:layoutItem flexibility="auto, no-grow">
+                    <lightning:buttonIcon variant="bare" iconName="{!v.interval != null ? 'utility:pause' : 'utility:play'}" alternativeText="Play" onclick="{!c.playPause}"/>
+                </lightning:layoutItem>
+     			-->
+            </lightning:layout>
+        </div>
+    </div>
+</aura:component>

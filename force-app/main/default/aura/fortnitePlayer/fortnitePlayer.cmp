@@ -1,0 +1,67 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="username" type="String" access="global" description="The Fortnite username" default="Ninja"/>
+    <aura:attribute name="platform" type="String" access="global" description="The Fortnite platform" default="pc"/>
+    <aura:attribute name="window" type="String" access="global" description="The Fortnite platform" default="alltime"/>
+
+    <aura:attribute name="windows" type="String[]" access="global" description="The Fortnite window to query" default="alltime,season4,season5"/>
+    <aura:attribute name="platforms" type="String[]" access="global" description="The Fortnite platforms" default="pc,xb1,ps4"/>
+    
+    <aura:attribute name="playerInfo" type="Object" access="global" description="The Fortnite player info"/>
+    <aura:attribute name="playerData" type="Object" access="global" description="The Fortnite player data"/>
+    
+    <aura:attribute name="playerInfoMap" type="Map" access="global" description="Map for looking player info"/>
+    <aura:attribute name="playerDataMap" type="Map" access="global" description="Map for looking player data"/>
+    
+    <aura:attribute name="items" type="Object" access="private"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/> 
+    
+    <lightning:notificationsLibrary aura:id="notifications"/>    
+    <wave:sdk aura:id="sdk"/>    
+    <c:fortnite aura:id="fortnite"/>
+    
+    <c:fortniteAPI aura:id="fortniteAPI"/>
+
+    <div class="main">
+        <lightning:card title="Players" iconName="utility:user" class="transparent slds-p-around_x-small">
+            <aura:set attribute="actions">
+                <div onkeyup="{!c.handleLookupKeyUp}">
+                    <lightning:input
+                                     aura:id="username-search"
+                                     name="username-search"
+                                     label="Lookup the username"
+                                     type="search"
+                                     variant="label-hidden"
+                                     placeholder="Username"
+                                     value="JLSlaughter"
+                                     />
+                </div>                
+            </aura:set>            
+            <lightning:tree items="{! v.items }" onselect="{!c.handleSelectItem}"/>
+        </lightning:card>
+        <!--
+        <lightning:card title="Player Lookup" iconName="utility:user" class="transparent slds-card_boundary slds-p-around_x-small">
+            <div class="slds-form slds-form_horizontal">
+                <lightning:input label="Username" name="username" value="{!v.username}"/>
+                <lightning:select label="Platform" value="{!v.platform}">
+                    <aura:iteration items="{!v.platforms}" var="platform">
+                        <option name="{!platform}" val="{!platform}">{!platform}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <lightning:select label="Window" value="{!v.window}">
+                    <aura:iteration items="{!v.windows}" var="window">
+                        <option name="{!window}" val="{!window}">{!window}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <div class="slds-align_absolute-center slds-p-vertical_small">
+                    <lightning:button label="Lookup" variant="brand" iconName="utility:search" iconPosition="right" onclick="{!c.handleLookupPlayer}"/>
+                    <lightning:button label="Lookup 2" variant="brand" iconName="utility:search" iconPosition="right" onclick="{!c.handleLookupPlayer2}"/>
+                </div>
+            </div>
+        </lightning:card>
+		-->
+    </div>
+    
+</aura:component>

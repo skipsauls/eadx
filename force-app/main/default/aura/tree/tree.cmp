@@ -1,0 +1,13 @@
+<aura:component access="global">
+    <aura:attribute name="header" type="String" access="global"/>
+    <aura:attribute name="items" type="Object" access="global"/>
+    <aura:attribute name="itemMap" type="Object" access="global"/>
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="level" type="Integer" default="1"/>
+    <aura:attribute name="selectedItem" type="Object" access="global"/>
+    
+    <div class="slds-tree_container">
+        <h4 class="slds-tree__group-header" id="treeheading">{!v.header}</h4>
+        <c:treeBranch items="{!v.items}" itemMap="{!v.itemMap}" level="{!v.level}" selectedItem="{!v.selectedItem}" role="tree"/>
+    </div>
+</aura:component>

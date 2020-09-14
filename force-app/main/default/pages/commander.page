@@ -1,0 +1,29 @@
+<apex:page >
+    <apex:includeLightning />
+    <apex:slds />
+    
+    <div class="slds-scope">
+        
+        <h1>Commander Test</h1>
+        <div id="commander"></div>    
+    </div>
+    
+    <script>
+    var sessionId = '{!$Api.Session_ID}';
+    var loAppName = "c:loApp";
+    var commander = null;
+    
+    $Lightning.use(loAppName, function(evt) {
+        $Lightning.createComponent("c:commanderTester", {"aura:id": "commander"}, "commander", function(cmp, msg, err) {            
+            commander = cmp;
+            /*
+            let invokeMethod = sdk.invokeMethod;
+            sdk.invokeMethod = function(context, methodName, methodParameters, callback) {
+                invokeMethod(context, methodName, methodParameters, callback);
+                sdk.ping($A.getCallback(function() {}));
+            }
+            */
+        });
+    }); 
+    </script>    
+</apex:page>

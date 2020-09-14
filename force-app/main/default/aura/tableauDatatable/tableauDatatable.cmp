@@ -1,0 +1,78 @@
+<aura:component controller="AnalyticsDatatableController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+    
+    <!--
+
+	-->
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="columns" type="List" access="global"/>    
+    <aura:attribute name="data" type="Object[]" access="global"/>
+    <aura:attribute name="defaultSortDirection" type="String" default="asc" access="global"/>
+    <aura:attribute name="enableInfiniteLoading" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="hideCheckboxColumn" type="Boolean" default="false" access="global"/>
+	<aura:attribute name="isLoading" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="keyField" type="String" access="global"/>
+    <aura:attribute name="loadMoreOffset" type="Integer" access="global" default="20"/>
+    <aura:attribute name="maxColumnWidth" type="Integer" access="global" default="1000"/>
+    <aura:attribute name="maxRowSelection" type="Integer" access="global"/>
+    <aura:attribute name="minColumnWidth" type="Integer" access="global" default="50"/>
+    <aura:attribute name="onheaderaction" type="Aura.Action" access="global"/>
+    <aura:attribute name="onloadmore" type="Aura.Action" access="global"/>
+    <aura:attribute name="onresize" type="Aura.Action" access="global"/>
+    <aura:attribute name="onrowaction" type="Aura.Action" access="global"/>
+    <aura:attribute name="onrowselection" type="Aura.Action" access="global"/>
+    <aura:attribute name="onsort" type="Aura.Action" access="global"/>
+    <aura:attribute name="resizeColumnDisabled" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="resizeStep" type="Integer" access="global" default="10"/>
+    <aura:attribute name="rowNumberOffset" type="Integer" access="global" default="0"/>
+    <aura:attribute name="selectedRows" type="List" access="global"/>
+    <aura:attribute name="showRowNumberColumn" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="sortedBy" type="String" access="global"/>
+    <aura:attribute name="sortedDirection" type="String" access="global"/>    
+    <aura:attribute name="title" type="String" access="global"/>    
+    
+	<aura:attribute name="uiThemeName" type="String" access="global"/>
+    
+    <aura:attribute name="view" type="Object" access="global"/>    
+    <aura:attribute name="fieldMap" type="Object"/>    
+    
+    <aura:handler name="change" value="{!v.view}" action="{!c.handleViewChange}"/>
+    <aura:handler name="change" value="{!v.selectedRows}" action="{!c.handleSelectedRowsChange}"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="datatable">
+        <lightning:spinner aura:id="spinner" variant="brand" size="large" class="slds-hide"/>
+        <lightning:datatable aura:id="datatable"
+                             class="{!'analytics-datatable ' + v.class}"
+                             columns="{!v.columns}" 
+                             data="{!v.data}" 
+                             defaultSortDirection="{!v.defaultSortDirection}"
+                             enableInfiniteLoading="{!v.enableInfiniteLoading}"
+                             hideCheckboxColumn="{!v.hideCheckboxColumn}"
+                             isLoading="{!v.isLoading}"
+                             keyField="{!v.keyField}"
+                             maxColumnWidth="{!v.maxColumnWidth}"
+                             maxRowSelection="{!v.maxRowSelection}"
+                             minColumnWidth="{!v.minColumnWidth}"
+                             
+                             onclick="{c.handleClick}"
+                             onrowselection="{!c.handleRowSelection}"
+                             onrowaction="{!c.handleRowAction}"
+                             onsort="{!c.handleSort}"
+                             
+                             resizeColumnDisabled="{!v.resizeColumnDisabled}"
+                             resizeStep="{!v.resizeStep}"
+                             rowNumberOffset="{!v.rowNumberOffset}"
+                             selectedRows="{!v.selectedRows}"
+                             showRowNumberColumn="{!v.showRowNumberColumn}"
+                             sortedBy="{!v.sortedBy}"
+                             sortedDirection="{!v.sortedDirection}"
+                             title="{!v.title}"
+                             />
+        
+    </div>
+    
+</aura:component>

@@ -1,0 +1,5 @@
+<aura:interface description="Interface for Lightning Widgets" access="global">
+    <aura:attribute name="step" type="String" description="The name of the step." access="global"/>
+    <aura:attribute name="result" type="Object" description="The result binding." access="global"/>
+    <aura:attribute name="selection" type="Object" description="The selection binding." access="global"/>
+</aura:interface>

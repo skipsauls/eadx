@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StageName__c</fullName>
+    <externalId>false</externalId>
+    <label>Stage Name</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prospecting</fullName>
+                <default>false</default>
+                <label>Prospecting</label>
+            </value>
+            <value>
+                <fullName>Qualification</fullName>
+                <default>false</default>
+                <label>Qualification</label>
+            </value>
+            <value>
+                <fullName>Needs Analysis</fullName>
+                <default>false</default>
+                <label>Needs Analysis</label>
+            </value>
+            <value>
+                <fullName>Value Proposition</fullName>
+                <default>false</default>
+                <label>Value Proposition</label>
+            </value>
+            <value>
+                <fullName>Id. Decision Makers</fullName>
+                <default>false</default>
+                <label>Id. Decision Makers</label>
+            </value>
+            <value>
+                <fullName>Perception Analysis</fullName>
+                <default>false</default>
+                <label>Perception Analysis</label>
+            </value>
+            <value>
+                <fullName>Proposal/Price Quote</fullName>
+                <default>false</default>
+                <label>Proposal/Price Quote</label>
+            </value>
+            <value>
+                <fullName>Negotiation/Review</fullName>
+                <default>false</default>
+                <label>Negotiation/Review</label>
+            </value>
+            <value>
+                <fullName>Closed Won</fullName>
+                <default>false</default>
+                <label>Closed Won</label>
+            </value>
+            <value>
+                <fullName>Closed Lost</fullName>
+                <default>false</default>
+                <label>Closed Lost</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

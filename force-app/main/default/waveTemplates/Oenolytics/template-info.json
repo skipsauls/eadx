@@ -1,0 +1,87 @@
+{
+  "templateType" : "app",
+  "label" : "Oenolytics",
+  "name" : "Oenolytics",
+  "namespace" : "eadx",
+  "description" : "",
+  "assetVersion" : 47.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.0",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Oenolytics Customer",
+      "name" : "Oenolytics_Customer_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Oenolytics_Customer.json"
+    },
+    {
+      "label" : "overview",
+      "name" : "overview_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/overview.json"
+    },
+    {
+      "label" : "Test",
+      "name" : "Test1_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Test1.json"
+    }
+  ],
+  "eltDataflows" : [ ],
+  "datasetFiles" : [
+    {
+      "label" : "cleaned-wine-data-v2",
+      "name" : "cleaned_winemag_data_130k_v2_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/cleaned_winemag_data_130k_v2_XMD.json"
+    },
+    {
+      "label" : "dirty-wine-data-v1",
+      "name" : "winemag_data_130k_v1_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/winemag_data_130k_v1_XMD.json"
+    },
+    {
+      "label" : "DO_NOT_USE_winemag-data-130k-v2",
+      "name" : "winemag_data_130k_v2_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/winemag_data_130k_v2_XMD.json"
+    },
+    {
+      "label" : "winequality-red",
+      "name" : "winequality_red_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/winequality_red_XMD.json"
+    }
+  ],
+  "storedQueries" : [ ],
+  "imageFiles" : [ ],
+  "extendedTypes" : { },
+  "templateDependencies" : [ ],
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templatePreviews" : [ ]
+  }
+}

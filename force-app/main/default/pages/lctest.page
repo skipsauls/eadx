@@ -1,0 +1,120 @@
+<apex:page lightningStyleSheets="true">
+    <apex:slds />
+    <apex:includeLightning />
+    <div class="slds-scope">
+        <h1>User Name: {!$User.FirstName}</h1>
+        <h1>User Profile ID: {!$User.ProfileId}</h1>
+        <div id="zoo"/>
+        <div id="dashboard"/>
+        <div id="monitor"/>
+    </div>
+    
+    <script>
+    
+    function handleValueChange(event) {
+        console.warn('handleValueChange: ', event);
+    }
+    
+    $Lightning.use('c:loApp', function(evt) {
+        
+        
+        $A.eventService.addHandler({
+            event: "wave:selectionChanged",
+            handler: function(event) {
+                console.warn("wave:selectionChanged handler: ", event);
+                var params = event.getParams();
+                console.warn("params: ", params);
+            }
+        });
+        
+        $A.eventService.addHandler({
+            event: 'eadx:datatableRowSelection',
+            handler: function(event) {
+                console.warn('vf page --- eadx:datatableRowSelection handler: ', event);
+                var selectedRows = event.getParam('selectedRows');
+                console.warn('vf page --- selectedRows: ', selectedRows);
+                selectedRows.forEach(function(row, i) {
+                    console.warn('row ', i, ': ', row);
+                })
+            }
+        });
+        
+        var event = $A.get("e.c:datatableRowSelection");
+        console.warn('vf page e.c:datatableRowSelection event: ', event);
+        //event.setParams({selectedRows: selectedRows});
+        //event.fire();
+        
+        var event2 = $A.get("e.c:analyticsTreeSelection");
+        console.warn('vf page e.c:analyticsTreeSelection event: ', event);
+        
+        var config = {
+            dashboardId: '0FKB0000000DEHhOAO',
+            width: '1200px',
+            height: '600px',
+            filter: ''
+        };
+        
+        var columns = [
+            { label: 'Opportunity name', fieldName: 'opportunityName', type: 'text'},
+            {
+                label: 'Confidence',
+                fieldName: 'confidence',
+                type: 'percent',
+                cellAttributes: { iconName: { fieldName: 'trendIcon' },
+                                 iconPosition: 'right' }
+            },
+            {
+                label: 'Amount',
+                fieldName: 'amount',
+                type: 'currency',
+                typeAttributes: { currencyCode: 'EUR'}
+            },
+            { label: 'Contact Email', fieldName: 'contact', type: 'email'},
+            { label: 'Contact Phone', fieldName: 'phone', type: 'phone'}
+        ];
+        
+        var data =   [
+            {
+                id: 'a',
+                opportunityName: 'Cloudhub',
+                confidence: 0.2,
+                amount: 25000,
+                contact: 'jrogers@cloudhub.com',
+                phone: '2352235235',
+                trendIcon: 'utility:down'
+            },
+            {
+                id: 'b',
+                opportunityName: 'Quip',
+                confidence: 0.78,
+                amount: 740000,
+                contact: 'quipy@quip.com',
+                phone: '2352235235',
+                trendIcon: 'utility:up'
+            }
+        ];
+        
+        var keyField = 'id';
+        
+        var selectedRows = null;
+        
+        var datatableConfig = {
+            keyField: keyField,
+            columns: columns,
+            data: data,
+            selectedRows: selectedRows
+        };
+        
+        $Lightning.createComponent('eadx:myDatatable', datatableConfig, 'zoo', function(cmp, msg, err) {
+        });
+        /*
+        $Lightning.createComponent('wave:waveDashboard', config, 'dashboard', function(cmp, msg, err) {
+        });
+        $Lightning.createComponent('c:waveEventMonitor', {}, 'monitor', function(cmp, msg, err) {
+        });
+        */
+        
+    });    
+    
+    </script>
+</apex:page>

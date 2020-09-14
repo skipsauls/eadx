@@ -1,0 +1,4 @@
+<apex:page controller="AuthTest" action="{!getAccessTokenVF}">
+    <h1>Access Token: {!accessToken}</h1>
+
+</apex:page>

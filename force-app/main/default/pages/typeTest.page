@@ -1,0 +1,623 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+        <apex:slds />
+        <title>Type Test</title>
+        <!-- Move the styles into a CSS file -->
+        <style>
+            body {
+                margin: 5px;
+                padding: 0;
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: 800px;
+            }
+            
+            .slds-scope .logo {
+                /*
+                background-image: url('TBD');
+                background-repeat: no-repeat;
+                background-size: cover;
+                height: 290px;
+                */
+            }
+            
+            .slds-scope .slds-checkbox .slds-form-element__label {
+                font-size: 1rem;
+            }
+
+            /* Force the picklist to use the width of the container */
+            .slds-scope .slds-picklist {
+                display: block;
+            }
+               
+            /* Force the picklist input field to use the width of the container */
+            .slds-scope .slds-picklist__input {
+                width: 100%;
+            }
+            
+            /* Force the picklist dropdown to use the width of the container */
+            .slds-scope .slds-picklist .slds-dropdown {
+                width: 100%;
+                max-width: 100%;
+            } 
+                        
+        </style>    
+    </head>
+    <body>
+        <div class="slds-scope">
+            <div class="logo">
+                <div class="slds-container--medium" id="container">
+                    <div class="slds-form--stacked" id="form"></div>
+                </div>
+            </div>                        
+        </div>
+                
+        <script type="text/javascript" src="/analytics/wave/sdk/js/40.0/wizard-min.js"></script>
+
+        <script>
+        
+            var urlTemplate = "{!URLFOR($Resource.wave_template_assets, 'screenshots/Test_Dashboard_{{name}}_theme.png')}"
+            var _svgUrl = "{!URLFOR($Asset.SLDS, 'assets/icons/%%TYPE%%-sprite/svg/symbols.svg#%%NAME%%')}";
+            
+            // Note that the SLDS sizes are smaller than the wizard counterparts
+            var containerSizeClasses = {
+                "small": ["slds-container--medium"],
+                "medium": ["slds-container--large"],
+                "large": ["slds-container--x-large"]
+            };
+            
+            function setSize(size) {
+                for (var key in containerSizeClasses) {
+                    document.querySelector("#container").classList.remove(containerSizeClasses[key].join("\",\""));
+                }
+                document.querySelector("#container").classList.add(containerSizeClasses[size].join("\",\""));
+            }
+
+            function selectItem(el) {
+                document.querySelectorAll(".item.selected").forEach(function(e){e.classList.remove("selected");});
+                el.classList.add("selected");
+                
+                /*
+                var autoConfigure = el.getAttribute("data-auto-configure");
+                autoConfigure = autoConfigure === "true" ? true : false;
+                Controller.update({name: "auto_configure2", value: autoConfigure}, function(variables) {
+                    console.warn("update returned: ", variables);
+                });
+                */
+            }
+            
+            function createFormElement() {
+                var el = document.createElement("div");
+                el.classList.add("slds-form-element", "slds-m-bottom--x-large");
+                return el;
+            }
+
+            function createFormElementControl() {
+                var el = document.createElement("div");
+                el.classList.add("slds-form-element__control");
+                return el;
+            }
+
+            function createFormElementLabel(value, targetId) {
+                var el = document.createElement("label");
+                el.classList.add("slds-form-element__label", "slds-text-heading--small");
+                el.setAttribute("for", targetId);
+                el.innerHTML = value;
+                return el;
+            }
+            
+            function createFormElementDescription(value) {
+                var el = document.createElement("p");
+                el.classList.add("slds-text-color--weak", "slds-text-title", "slds-m-bottom--small");
+                el.innerHTML = value;
+                return el;
+            }
+            
+            function updateValue(name, value) {
+                Controller.update({name: name, value: value}, function(variables) {
+                    //console.warn("update returned: ", variables);
+                });            
+            }
+            
+            function createPicklist(name, options, value, def) {
+
+                var type = def.variableType.type;
+                var isMultiple = type === "ArrayType";
+                
+                var uid = name.replace(/\ /g, "_");
+
+                var picklist = document.createElement("div");
+                picklist.classList.add("slds-picklist", "slds-dropdown-trigger", "slds-dropdown-trigger--click", "slds-size-large", "slds-m-bottom--x-large");
+                picklist.setAttribute("id", "picklist_" + uid);
+                  
+                // for testing                               
+                //picklist.classList.add("slds-is-open");
+                              
+                var specifiedElement = document.getElementById('a');
+                
+                // Handle clicks outside of picklist to close it
+                document.addEventListener('click', function(evt) {
+                    console.warn("click: ", evt);
+                    var isClickInside = picklist.contains(evt.target);
+                
+                    if (!isClickInside) {
+                        console.warn("click is outside picklist: ", picklist);
+                        picklist.classList.remove("slds-is-open");
+                    } else {
+                        console.warn("click is inside picklist: ", picklist);
+                    }
+                });
+                
+                var formEl = document.createElement("div");
+                formEl.classList.add("slds-form-element");
+
+                picklist.appendChild(formEl);
+                
+                var label = createFormElementLabel(def.label, uid);
+                formEl.appendChild(label);
+                var desc = createFormElementDescription(def.description, uid);
+                formEl.appendChild(desc);
+                
+                var control = document.createElement("div");
+                control.classList.add("slds-form-element__control", "slds-input-has-icon", "slds-input-has-icon--right", "slds-picklist__input");
+                formEl.appendChild(control);
+                
+                var search = document.createElement("input");
+                search.classList.add("slds-lookup__search-input", "slds-input");
+                search.setAttribute("type", "search");
+                //search.setAttribute("value", value);
+                search.setAttribute("data-uid", uid);
+                search.setAttribute("data-multiple", isMultiple);
+                search.setAttribute("placeholder", "TBD");
+
+                search.onclick = function(evt) {
+                    //console.warn("click: ", evt, this);
+                    var _uid = this.getAttribute("data-uid");
+                    var _isMultiple = this.getAttribute("data-multiple");
+                    document.querySelector("#picklist_" + uid).classList.toggle("slds-is-open");
+                }
+
+
+                control.appendChild(search);                
+
+                var button = document.createElement("button");                
+                button.classList.add("slds-button", "slds-input__icon", "slds-text-color--default");
+                button.setAttribute("aria-expanded", "false");
+                button.setAttribute("data-uid", uid);
+                button.setAttribute("data-multiple", isMultiple);
+                
+                button.onclick = function(evt) {
+                    //console.warn("click: ", evt, this);
+                    var _uid = this.getAttribute("data-uid");
+                    var _isMultiple = this.getAttribute("data-multiple");
+                    document.querySelector("#picklist_" + uid).classList.toggle("slds-is-open");
+                }
+                
+                
+                var svgns = "http://www.w3.org/2000/svg";
+                var xlinkns = "http://www.w3.org/1999/xlink";
+                                
+                var svg = document.createElementNS(svgns, "svg");
+                svg.classList.add("slds-button__icon");
+                svg.setAttributeNS(null, "aria-hidden", true);
+                var useEl = document.createElementNS(svgns, "use");
+                var url = _svgUrl.replace("%%TYPE%%", "utility");
+                url = url.replace("%%NAME%%", "down");
+                useEl.setAttributeNS(xlinkns, "href", url);
+                svg.appendChild(useEl);
+
+                button.appendChild(svg);
+                control.appendChild(button);
+                                
+                var dropdown = document.createElement("div");
+                dropdown.classList.add("slds-dropdown", "slds-dropdown--left", "slds-dropdown--length-5");
+                dropdown.setAttribute("role", "listbox");
+                picklist.appendChild(dropdown);
+                
+                var list = document.createElement("ul");
+                list.classList.add("slds-dropdown__list");
+                list.setAttribute("role", "presentation");
+                dropdown.appendChild(list);
+                
+                var item = null;
+                var icon = null;
+                var label = null;
+                var text = null;
+                
+                options.forEach(function(option, index) {
+                    item = document.createElement("li");
+                    item.setAttribute("role", "presentation");
+                    
+                    icon = document.createElement("span");
+                    icon.classList.add("slds-lookup__item-action", "slds-lookup__item-action--label");
+                    icon.setAttribute("role", "option");
+                    icon.setAttribute("tabindex", index = 0 ? 0 : -1);
+                    item.appendChild(icon);
+                    
+                    svg = document.createElementNS(svgns, "svg");
+                    svg.classList.add("slds-icon", "slds-icon--selected", "slds-icon--small", "slds-icon-text-default", "slds-m-right--x-small", "slds-shrink-none");                                        
+                    svg.setAttributeNS(null, "aria-hidden", true);
+                    var useEl = document.createElementNS(svgns, "use");
+                    var url = _svgUrl.replace("%%TYPE%%", "utility");
+                    url = url.replace("%%NAME%%", "check");
+                    useEl.setAttributeNS(xlinkns, "href", url);
+                    svg.appendChild(useEl);    
+                    icon.appendChild(svg);
+                    
+                    label = document.createElement("span");
+                    label.classList.add("slds-truncate");
+                    
+                    if (option.value === value) {
+                        text = document.createElement("span");
+                        text.classList.add("slds-assistive-text");
+                        //label.appendChild(text);
+                        
+                        item.classList.add("slds-is-selected");
+                        
+                        search.setAttribute("value", option.label);
+                    }
+                    
+                    item.setAttribute("data-name", option.name);
+                    item.setAttribute("data-value", option.value);
+                    item.setAttribute("data-label", option.label);
+                    item.setAttribute("data-uid", uid);
+                    item.setAttribute("data-multiple", isMultiple);
+                    item.onclick = function(evt) {
+                        var _value = this.getAttribute("data-value");
+                        var _label = this.getAttribute("data-label");
+                        var _uid = this.getAttribute("data-uid");
+                        var _isMultiple = this.getAttribute("data-multiple");
+                        //console.warn("_isMultiple: ", _isMultiple, typeof _isMultiple);
+                        if (_isMultiple === 'false') {
+                            var items  = document.querySelectorAll("#picklist_" + _uid + " li");
+                            items.forEach(function(item) {
+                                if (item !== this) {
+                                    item.classList.remove("slds-is-selected");
+                                }                                    
+                            });
+    
+                            this.classList.toggle("slds-is-selected");
+
+                            var _search = document.querySelector("#picklist_" + _uid + " input[type='search']");
+                            _search.setAttribute("value", _label);
+                            
+                            if (this.classList.contains("slds-is-selected")) {
+                                updateValue(name, _value);
+                            } else {
+                                updateValue(name, null);
+                            }
+                            
+                            document.querySelector("#picklist_" + _uid).classList.remove("slds-is-open");
+                                                       
+                        } else {
+                            console.warn("not multiple");
+                            this.classList.toggle("slds-is-selected");
+                            // Handle multiple select update here
+                            //
+                            //
+                            
+                        }
+                    }
+                    
+                    label.innerHTML = option.label;
+
+                    icon.appendChild(label);
+                    
+                    list.appendChild(item);
+                });
+                
+               
+                            
+            
+                return picklist;
+            }
+            
+            function createSelect(name, options, value, def) {
+                var formEl = createFormElement();
+
+                var uid = name.replace(/\ /g, "_");
+                var label = createFormElementLabel(def.label, uid);
+                formEl.appendChild(label);
+                var desc = createFormElementDescription(def.description, uid);
+                formEl.appendChild(desc);
+                var control = createFormElementControl();
+                var container = document.createElement("div");
+                container.classList.add("slds-select_container");
+                var select = document.createElement("select");
+                select.setAttribute("data-name", name);
+                select.classList.add("slds-select");
+                var optEl = null;
+                options.forEach(function(option) {
+                    optEl = document.createElement("option");
+                    optEl.setAttribute("value", option.value);                    
+                    optEl.innerHTML = option.label;
+                    if (option.value === value) {
+                        optEl.setAttribute("selected", "selected");
+                    }
+                    select.appendChild(optEl);
+                });
+                select.onchange = function(e) {
+                    var value = e.srcElement.value;
+                    var name = e.srcElement.getAttribute("data-name");
+                    updateValue(name, value);
+                }
+                control.appendChild(select);
+                formEl.appendChild(control);
+                
+                return formEl;         
+            }
+            
+            // https://robertnyman.com/html5/forms/input-types.html
+            var inputTypeMap = {
+                "BooleanType": "checkbox",
+                "StringType": "text",
+                "NumberType": "number",
+                "DateTimeType": "datetime"
+                                
+            };
+            
+            function createInput(name, options, value, def) {
+                var type = def.variableType.type;
+                var formEl = createFormElement();
+                var uid = name.replace(/\ /g, "_");
+                var label = createFormElementLabel(def.label, uid);
+                formEl.appendChild(label);
+                var desc = createFormElementDescription(def.description, uid);
+                formEl.appendChild(desc);
+                var control = createFormElementControl();
+                var inputType = inputTypeMap[type] || "text";
+                var input = null;
+                var range = null;
+                if (inputType === "number" && def.variableType.min && def.variableType.max) {
+                    range = document.createElement("input");
+                    range.setAttribute("data-name", name);
+                    range.setAttribute("type", "range");
+                    range.setAttribute("value", value || def.variableType.min);
+                    range.setAttribute("min", def.variableType.min);
+                    range.setAttribute("max", def.variableType.max);
+                    range.setAttribute("data-uid", uid);
+                    range.setAttribute("name", uid + "-range-slider");
+                    control.appendChild(range);
+                }
+                
+                input = document.createElement("input");
+                input.classList.add("slds-input");
+                input.setAttribute("data-name", name);
+                input.setAttribute("type", inputType);
+                input.setAttribute("placeholder", "TBD");
+                input.setAttribute("value", value || "");
+                if (range !== null) {
+                    input.setAttribute("type", "text");
+                    input.setAttribute("data-uid", uid);
+                    input.setAttribute("name", uid + "-range-input");
+                    input.classList.add("slds-m-horizontal--small");
+                    input.style.width = "8rem";
+                    input.onchange = function(e) {
+                        var value = e.srcElement.value;
+                        var slider = document.querySelector("[name=" + uid + "-range-slider]");
+                        slider.value = value;                        
+                        var name = e.srcElement.getAttribute("data-name");
+                        updateValue(name, value);
+                    }
+                    range.onmousemove = function(e) {
+                        var value = e.srcElement.value;
+                        var uid = e.srcElement.getAttribute("data-uid");
+                        document.querySelector("[name=" + uid + "-range-input]").setAttribute("value", value);
+                        var name = e.srcElement.getAttribute("data-name");
+                        updateValue(name, value);
+                    }
+
+                }
+                
+                control.appendChild(input);
+                formEl.appendChild(control);
+                return formEl;
+            }
+
+            function createCheckbox(name, options, value, def) {
+                var type = def.variableType.type;
+                var formEl = createFormElement();
+                var uid = name.replace(/\ /g, "_");
+                //var desc = createFormElementDescription(def.description, uid);
+                //formEl.appendChild(desc);
+                
+                var control = createFormElementControl();
+                var span = document.createElement("span");
+                span.classList.add("slds-checkbox");
+                
+                var input = document.createElement("input");
+                input.classList.add("slds-input");
+                input.setAttribute("type", "checkbox");
+                input.setAttribute("placeholder", "TBD");
+                input.setAttribute("checked", value ? "checked" : "");
+                input.setAttribute("data-checkbox-input", uid + "-" + name);
+                
+                span.appendChild(input);
+                
+                var label = document.createElement("label");
+                label.classList.add("slds-checkbox__label");
+                label.setAttribute("for", uid);
+                
+                var lspan = document.createElement("span");
+                lspan.classList.add("slds-checkbox--faux");
+                lspan.setAttribute("data-name", name);
+                lspan.onclick = function(e) {
+                    var value = e.srcElement.value;
+                    var name = e.srcElement.getAttribute("data-name");
+                    var checkbox = document.querySelector("[data-checkbox-input=" + uid + "-" + name);
+                    var checked = checkbox.checked;
+                    if (checked === true) {                    
+                        checkbox.checked = false;
+                        value = false;
+                    } else {
+                        checkbox.checked = true;
+                        value = true;
+                    }
+                    updateValue(name, value);                
+                }
+                
+
+                label.appendChild(lspan);
+                
+                lspan = document.createElement("span");
+                lspan.classList.add("slds-form-element__label", "slds-text-heading--small");
+                lspan.innerHTML = def.label;
+                label.appendChild(lspan);
+                
+                var desc = createFormElementDescription(def.description);
+                label.appendChild(desc);
+
+                span.appendChild(label);
+                control.appendChild(span);
+                formEl.appendChild(control);
+                return formEl;
+            }
+            
+            function renderControl(name, index, options, value, def) {
+                var form = document.querySelector("#form");
+                var type = def.variableType.type;
+                
+                //console.warn("type: ", type);
+                //console.warn("---------------------------> value: ", value);
+                
+                /*
+                 * Change this to pass value and def to creates
+                 * The value is the current value
+                 * The default value should be highlighted in the UI
+                 * Not sure what computed value is... <- Maybe from an expression eval?
+                 *
+                 */
+                
+                var currentValue = null;
+                if (typeof value !== "object") {
+                    currentValue = value;
+                } else {
+                    currentValue = value || def.mostRecentValue || def.computedValue || def.defaultValue || null;
+                    if (type === "SobjectType") {
+                        currentValue = currentValue.sobjectName;
+                    } else if (type === "SobjectFieldType") {
+                        currentValue = currentValue.fieldName;
+                    }
+                }
+                var control = null;
+                if (type === "BooleanType") {
+                    control = createCheckbox(name, options, currentValue, def);                    
+                } else {
+                    if (options && options.length > 0) {
+                        //control = createSelect(name, options, currentValue, def);
+                        control = createPicklist(name, options, currentValue, def);
+                        
+                    } else {
+                        control = createInput(name, options, currentValue, def);                    
+                    }
+                }
+                form.appendChild(control);
+            }
+            
+            function renderControls(metadata) {
+                var page = metadata.page;
+                var values = metadata.values;
+                var defs = metadata.variableDefinitions;
+                var name = null;
+                var value = null;
+                var def = null;
+                page.variables.forEach(function(v, i) {
+                    if (v.visiblity !== false) {
+                        Controller.options(v.name, i, function(name, index, options) {
+                            def = defs[name];
+                            value = values[name]
+                            //console.warn("index: ", index, ", name: ", name, ", value: ", value, ", def: ", def, ", options: ", options);
+                            renderControl(name, index, options, value, def);
+                        });
+                    }
+                });
+            
+            }
+           
+            function addLoadEvent(func) { 
+                var oldonload = window.onload; 
+                if (typeof window.onload != 'function') { 
+                    window.onload = func; 
+                } 
+                else { 
+                    window.onload = function() { 
+                        if (oldonload) { 
+                            oldonload(); 
+                        } 
+                        func(); 
+                    } 
+                } 
+            }     
+    
+
+            
+            (function (global, wave) {
+                "use strict";
+                var metadata = {};
+                
+                var methods = {
+                
+                    ready: function(size, callback) {
+                        size = size || "small";
+                        wave.wizard.publish({name : 'wizard.ready',  "payload" : {size : size}, callback : function (response) {
+                            var payload = response.payload;
+                            metadata = {
+                                page : payload.page,
+                                variableDefinitions : payload.variableDefinitions,
+                                values : payload.initialValues
+                            };
+                            if (callback instanceof Function) {
+                                callback(metadata);
+                            }                    
+                        }});
+                    },
+                    options: function (name, index, callback) {
+                        wave.wizard.publish({name : 'wizard.options',  payload : {name: name}, callback : function (response) {
+                            //console.warn("wizard.options returned: ", response);
+                            var options = response.payload.options;
+                            if (callback instanceof Function) {
+                                callback(name, index, options);
+                            }
+                        }});
+                    },                    
+                    update: function (payload, callback) {
+                        wave.wizard.publish({name : 'wizard.update',  payload : payload, callback : function (response) {
+                            //console.warn("wizard.update returned: ", response);
+                            var variables = response.payload;
+                            if (callback instanceof Function) {
+                                callback(variables);
+                            }
+                        }});
+                    },
+                    subscribe: function(name, callback) {
+                        wave.wizard.subscribe({name: 'wizard.' + name, function(response) {
+                            console.warn("wizard.subscribe ' + name + ' returned: ", response);
+                        
+                        }});
+                        
+                    }                  
+
+                };
+                
+                if (!global.Controller) {
+                    global.Controller = {};
+                }
+                
+                global.Controller = methods;
+                
+            } (window, Wave));
+            
+            addLoadEvent(function() {
+                var size = "medium";
+                setSize(size);
+                Controller.ready(size, function(metadata) {
+                    //console.warn("ready: ", metadata);
+                    renderControls(metadata);
+                });
+            });
+                      
+        </script>
+    </body>
+</html>    
+</apex:page>

@@ -1,0 +1,54 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    
+    <!-- Attributes for the predictionService component -->
+    <aura:attribute name="headerTitle" type="String" access="global" description="The title for the header" default="Einstein Discovery"/>
+    <aura:attribute name="predictionTitle" type="String" access="global" description="The title of the prediction to display" default="Attrition Risk"/>
+    <aura:attribute name="predictionDefinition" type="String" access="global" description="The prediction definition ID for the payload" default="0ORB0000000GqaNOAS"/>
+    <aura:attribute name="type" type="String" access="global" description="The type for the payload" default="Records"/>
+    <aura:attribute name="records" type="String" access="global" description="The records for the payload" default="a1SB0000000A9laMAC"/>
+    <aura:attribute name="maxPrescriptions" type="Integer" access="global" description="The max predictions to display" default="5"/>
+    <aura:attribute name="showIcons" type="Boolean" access="global" description="Determines whether to show icons" default="false"/>
+    <aura:attribute name="showHeader" type="Boolean" access="global" description="Determines whether to show header" default="false"/>
+    
+    <!-- Attributes from MS Teams -->
+    <aura:attribute name="teamInfo" type="String" access="global"/>
+    <aura:attribute name="teamContext" type="Object" access="global"/>
+    <aura:attribute name="teamTab" type="Object" access="global"/>
+    
+    <aura:attribute name="chatConfig" type="Object" access="global"/>
+    <aura:attribute name="isLoaded" type="Boolean" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="main">
+        <!--
+        <c:predictionService headerTitle="{!v.headerTitle}"
+                             predictionTitle="{!v.predictionTitle + ' for ' + v.chatConfig.name}"
+                             predictionDefinition="{!v.predictionDefinition}"
+                             type="{!v.type}"
+                             records="{!v.chatConfig.record}"
+                             maxPrescriptions="{!v.maxPrescriptions}"
+                             showIcons="{!v.showIcons}"
+                             showHeader="{!v.showHeader}"
+                             />
+		-->
+        <c:predictionService headerTitle="{!v.headerTitle}"
+                             predictionTitle="{!v.predictionTitle + ' for ' + v.chatConfig.name}"
+                             predictionDefinition="{!v.predictionDefinition}"
+                             type="{!v.type}"
+                             records="a0WB0000000Zq0CMAS"
+                             maxPrescriptions="{!v.maxPrescriptions}"
+                             showIcons="{!v.showIcons}"
+                             showHeader="{!v.showHeader}"
+                             />
+        <c:predictionService headerTitle="{!v.headerTitle}"
+                             predictionTitle="{!v.predictionTitle + ' for ' + v.chatConfig.name}"
+                             predictionDefinition="{!v.predictionDefinition}"
+                             type="{!v.type}"
+                             records="a0WB0000000ZpzrMAC"
+                             maxPrescriptions="{!v.maxPrescriptions}"
+                             showIcons="{!v.showIcons}"
+                             showHeader="{!v.showHeader}"
+                             />
+    </div>
+</aura:component>

@@ -1,0 +1,42 @@
+.THIS {
+}
+
+.THIS .html-content {
+    color: #333333;
+    overflow: auto;
+}
+
+.THIS h1 {
+    font-size: 35px;
+    
+}
+
+.THIS h2 {
+    font-size: 19px
+}
+
+.THIS h3 {
+    
+    font-size: 14px;
+}
+
+.THIS table th, .THIS table tr td:first-child {
+    background: #f4f4f4;
+    vertical-align: middle;
+    font-size: 14px;
+    text-align: center;
+    color: #3c3c3c;
+    border: 1px solid #e1e1e1;
+}
+
+.THIS table td {
+    border: 1px solid #e1e1e1;
+    cursor: default;
+    font-size: 13px;
+    line-height: 14px;
+    height: 22px;
+    padding: 3px 4px;
+    word-wrap: break-word;
+    background-color: #fff;
+    color: #333;
+}

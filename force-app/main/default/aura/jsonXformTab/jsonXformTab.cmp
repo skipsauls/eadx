@@ -1,0 +1,109 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="jsonXformController">
+    
+    <aura:attribute name="name" type="String" access="global" description="The name of the transform for saves." />
+    <aura:attribute name="xform" type="Object" access="global" description="The transform object."/>
+    
+    <aura:attribute name="document" type="Object" access="global" description="The source document object."/>
+    <aura:attribute name="values" type="Object" access="global" description="The values (variables) object for the transformation."/>    
+    <aura:attribute name="definition" type="Object" access="global" description="The defintion (rules) object for the transformation."/>
+    <aura:attribute name="result" type="Object" access="global" description="The resulting document object."/>
+    <aura:attribute name="errors" type="Object[]" access="global" description="The errors from the transform."/>
+    
+    <aura:attribute name="enabled" type="Boolean" access="global" default="false" description="Flag for enabling transforms."/>
+    
+    <aura:attribute name="assetType" type="String" access="global" description="The asset type to import." default="Template"/>
+    <aura:attribute name="asset" type="Object" access="global" description="The imported asset."/>
+    <aura:attribute name="modalAction" type="String" access="global" description="The action to take."/>
+    
+    <aura:attribute name="importMenuItems" type="Object[]"/>
+
+    <aura:attribute name="tabs" type="Aura.Component[]"/>
+    <aura:attribute name="tabId" type="String"/>
+    
+
+    <aura:method name="handleNameChange" action="{!c.handleNameChange}" description="Called to change name on tab.">
+        <aura:attribute name="name" type="String"/>
+        <aura:attribute name="tabId" type="String"/>
+    </aura:method>
+    
+    <aura:method name="showErrors" action="{!c.handleShowErrors}" description="Called to show errors.">
+        <aura:attribute name="name" type="String"/>
+        <aura:attribute name="tabId" type="String"/>
+        <aura:attribute name="errors" type="Object[]"/>
+    </aura:method>
+
+    <aura:method name="showToast" action="{!c.handleShowToast}" description="Called to show messages.">
+        <aura:attribute name="title" type="String"/>
+        <aura:attribute name="message" type="String"/>
+        <aura:attribute name="variant" type="String"/>
+    </aura:method>
+
+    <aura:method name="closeTab" action="{!c.handleCloseTab}" description="Called when tab is to be closed.">
+        <aura:attribute name="tabId" type="String"/>
+    </aura:method>
+    
+    <!--
+    <aura:handler name="change" value="{!v.errors}" action="{!c.showErrors}"/>
+  	-->
+    <aura:handler name="change" value="{!v.tabId}" action="{!c.handleTabChange}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="outer">
+        <div class="slds-page-header">
+            
+            <lightning:layout horizontalAlign="spread">
+                <lightning:layoutItem class="" flexibility="auto, no-shrink">
+                    <h2>
+                        <lightning:icon iconName="standard:merge" size="medium" class="slds-m-right_small"/>
+                        
+                        <span class="slds-text-heading_small">JSON Transforms</span>
+                    </h2>
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem class="slds-align_absolute-center" flexibility="grow">
+                </lightning:layoutItem>  
+                
+                <lightning:layoutItem class="" flexibility="auto, no-shrink" alignmentBump="right">
+                    
+                    <lightning:buttonGroup class="slds-m-horizontal_small">
+                        <lightning:button aura:id="new" label="New" iconName="utility:new" iconPosition="left" onclick="{!c.handleNew}"/>
+                        <lightning:button aura:id="load" label="Load" iconName="utility:file" iconPosition="left" onclick="{!c.handleLoad}"/>
+                        <lightning:button aura:id="load" label="Save" iconName="utility:save" iconPosition="left" onclick="{!c.handleSave}"/>
+                    </lightning:buttonGroup>
+                    <lightning:buttonMenu aura:id="import_menu" label="Import" alternativeText="Import" onselect="{!c.handleImportMenuSelect}">
+                        <aura:iteration items="{!v.importMenuItems}" var="item">
+                            <lightning:menuItem aura:id="import_menu_item" label="{!item.label}" value="{!item.value}" prefixIconName="{!item.iconName}"/>
+                        </aura:iteration>
+                    </lightning:buttonMenu>
+                    
+                </lightning:layoutItem>
+                
+            </lightning:layout>
+            
+        </div>
+        
+        <aura:if isTrue="{!v.tabs.length > 0}">
+        
+        <div class="slds-card slds-m-top_small ">
+
+            <lightning:tabset aura:id="tabset" variant="scoped" selectedTabId="{!v.tabId}">
+                {!v.tabs}
+            </lightning:tabset>
+        </div>
+        </aura:if>
+        
+    </div>
+    <lightning:notificationsLibrary aura:id="notifyLib"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+<!--    
+    <c:jsonXform aura:id="jsonXform"
+                 document="{!v.document}"
+                 values="{!v.values}"
+                 definition="{!v.definition}"
+                 result="{!v.result}"
+                 errors="{!v.errors}"
+                 enabled="{!v.enabled}"
+                 />	
+-->
+</aura:component>

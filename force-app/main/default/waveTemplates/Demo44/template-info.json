@@ -1,0 +1,48 @@
+{
+  "templateType" : "app",
+  "label" : "Demo44",
+  "name" : "Demo44",
+  "namespace" : "eadx",
+  "description" : "Come and listen to my story about a man named Jed, a poor mountaineer, barely kept his family fed. And then one day he was shootin at some food, and up through the ground come a bubblin crude. Oil that is, black gold, Texas tea.",
+  "assetVersion" : 42.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.0",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "New dashboard",
+      "name" : "New_dashboard2_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/New_dashboard2.json"
+    }
+  ],
+  "eltDataflows" : [ ],
+  "datasetFiles" : [ ],
+  "storedQueries" : [ ],
+  "imageFiles" : [ ],
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templateDetail" : { }
+  }
+}

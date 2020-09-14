@@ -1,0 +1,8 @@
+<aura:component access="global" implements="lightning:backgroundUtilityItem,force:hasRecordId">
+    <aura:attribute name="recordId" type="String" access="GLOBAL" description="The id of the record to show, etc."/>    
+    <aura:attribute name="sub" type="Object"/>
+    <aura:attribute name="phrase" type="String"/>    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:handler name="change" value="{!v.recordId}" action="{!c.handleRecordIdChange}"/>     
+	<lightning:empApi aura:id="empApi"/>
+</aura:component>

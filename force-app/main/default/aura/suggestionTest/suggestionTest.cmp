@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Fortnite_Season_9"/>
+    <aura:attribute name="altDeveloperNames" type="String[]" access="global" default=""/>
+    <aura:attribute name="timout" type="Integer" access="global" default="2000"/>
+    
+    <lightning:button label="Test" onclick="{!c.test}"/>
+    <wave:waveDashboard developerName="{!v.developerName}" height="700" hideOnError="true"/>
+</aura:component>

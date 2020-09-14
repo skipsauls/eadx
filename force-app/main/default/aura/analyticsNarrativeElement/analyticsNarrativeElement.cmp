@@ -1,0 +1,89 @@
+<aura:component access="global">
+    <aura:attribute name="element" type="Object" access="global"/>
+    <aura:attribute name="clas" type="String" access="global"/>
+    
+    <aura:attribute name="type" type="String" access="global"/>
+    <aura:attribute name="value" type="String" access="global"/>
+    <aura:attribute name="properties" type="List" access="global"/>
+    <aura:attribute name="elements" type="List" access="global"/>
+    
+	<aura:handler name="init" value="{!this}" action="{!c.handleElementChange}" />    
+    <aura:handler name="change" value="{!v.element}" action="{!c.handleElementChange}"/>
+
+    <aura:if isTrue="{!v.element.elements != null}">
+
+        <div class="{!v.clas}">
+            
+            <aura:if isTrue="{!v.element.value != null}">
+                <span class="value">
+                    {!v.element.value}
+                </span>
+                
+                <aura:set attribute="else">
+                    
+                    <aura:if isTrue="{!v.element.type == 'LIST'}">
+                        <ul class="slds-list_dotted">
+                            
+                            <aura:iteration items="{!v.element.elements}" var="element">
+                                <li><c:analyticsNarrativeElement element="{!element}"/></li>
+                            </aura:iteration>
+                            
+                        </ul>
+                        
+                        <aura:set attribute="else">
+        
+                            <aura:iteration items="{!v.element.elements}" var="element">
+                                <c:analyticsNarrativeElement element="{!element}"/>
+                            </aura:iteration>
+                            
+                        </aura:set>
+                        
+                    </aura:if>
+                    
+                </aura:set>
+            </aura:if>
+        </div>
+
+        
+        <aura:set attribute="else">
+            <div class="{!v.clas}">
+                
+                <span class="value">
+                    {!v.element.value}
+                </span>
+            </div>
+                                
+        </aura:set>
+        
+	</aura:if>
+
+<!--    
+    <div class="{!v.clas}">
+        
+        <span class="value">
+        	{!v.element.value}
+        </span>
+        
+        <aura:if isTrue="{!v.element.elements != null}">
+            <aura:if isTrue="{!v.element.type == 'LIST'}">
+                <ul class="slds-list_dotted">
+                    
+                    <aura:iteration items="{!v.element.elements}" var="element">
+                        <li><c:analyticsNarrativeElement element="{!element}"/></li>
+                    </aura:iteration>
+                    
+                </ul>
+                <aura:set attribute="else">
+
+                    <aura:iteration items="{!v.element.elements}" var="element">
+                        <c:analyticsNarrativeElement element="{!element}"/>
+                    </aura:iteration>
+                    
+                </aura:set>
+            </aura:if>
+            
+        </aura:if>
+    </div>
+-->
+    
+</aura:component>

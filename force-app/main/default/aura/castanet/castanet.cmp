@@ -1,0 +1,67 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="currentDashboardId" type="String" default="0FKB00000005vcLOAQ" access="global"/>
+    
+    <section class="main-content">
+        
+        <div class="slds-page-header">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                        
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Rohde Corp - 80,000 Widgets">Rohde Corp - {!v.currentDashboardId}</h1>
+                    <p class="slds-text-body_small slds-line-height_reset">Mark Jaeckal • Unlimited Customer • 11/13/15</p>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="slds-grid .slds-grid_align-spread slds-grid--pull-padded slds-p-around--medium">
+            <div aura:id="dashboard-container" class="slds-p-horizontal--small slds-size--3-of-3">
+                
+                <button class="slds-button slds-button__neutral" data-dashboard-id="0FKB00000005vc6OAA" data-show-panel="true" onclick="{!c.showDashboard}">Show Exec Overview</button>
+                <button class="slds-button slds-button__neutral" data-dashboard-id="0FKB00000005vcLOAQ" data-show-panel="false" onclick="{!c.showDashboard}">Show Sales Rep Overview</button>
+                
+                <div class="dashboard-outer lightning" aura:id="dashboard-outer">
+                    <wave:waveDashboard dashboardId="{!v.currentDashboardId}" openLinksInNewWindow="false" height="600"/>
+                </div>
+                
+            </div>
+            <div aura:id="side-panel" class="slds-p-horizontal--small slds-size--0-of-3 slds-is-collapsed slds-hide">
+                <div class="slds-form-element slds-p-around--medium">              
+                    <label class="slds-form-element__label" for="lo-app-select">Lightning Out Apps</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select class="slds-select" id="lo-app-select" onchange="selectLtngOutApp(this)">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-p-around--medium">
+                    <label class="slds-form-element__label" for="dashboard-select">Dashboards</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select class="slds-select" id="dashboard-select" onchange="selectDashboard(this)">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-p-around--medium">
+                    <label class="slds-form-element__label" for="component-select">Components</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select class="slds-select" id="component-select" onchange="selectComponent(this)">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    
+</aura:component>

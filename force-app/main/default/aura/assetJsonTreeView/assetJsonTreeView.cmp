@@ -1,0 +1,16 @@
+<aura:component access="global">
+    <aura:attribute name="json" type="String" access="global" description="The JSON to display as a searchable tree"/>
+    <aura:attribute name="asset" type="Object" access="global" description="The currently selected asset object. May be null."/>
+    <aura:attribute name="assetDetails" type="Object" access="global" description="The currently selected asset object. May be null."/>        
+    <aura:attribute name="items" type="Object" access="global"/>
+    <aura:attribute name="itemsMap" type="Object" access="global"/>
+    
+    <aura:handler name="change" value="{!v.assetDetails}" action="{!c.handleAssetChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="outer">
+        <div class="details-tree-container">
+            <lightning:tree items="{!v.items}" onselect="{!c.handleSelect}" class="analytics-resource-tree"/>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,68 @@
+{
+  "name" : "New_dashboard2_tp",
+  "label" : "New dashboard",
+  "folder" : {
+    "id" : "${App.Folder.Id}"
+  },
+  "mobileDisabled" : false,
+  "state" : {
+    "dataSourceLinks" : [ ],
+    "filters" : [ ],
+    "gridLayouts" : [
+      {
+        "name" : "Default",
+        "numColumns" : 12,
+        "pages" : [
+          {
+            "label" : "Untitled",
+            "name" : "e88b6517-376e-4bff-8c9e-e06de3986f68",
+            "widgets" : [
+              {
+                "colspan" : 2,
+                "column" : 2,
+                "name" : "text_1",
+                "row" : 3,
+                "rowspan" : 1,
+                "widgetStyle" : {
+                  "borderEdges" : [ ]
+                }
+              }
+            ]
+          }
+        ],
+        "rowHeight" : "normal",
+        "selectors" : [ ],
+        "style" : {
+          "alignmentX" : "left",
+          "alignmentY" : "top",
+          "backgroundColor" : "#F2F6FA",
+          "cellSpacingX" : 8,
+          "cellSpacingY" : 8,
+          "fit" : "original",
+          "gutterColor" : "#C5D3E0"
+        },
+        "version" : 1.0
+      }
+    ],
+    "layouts" : [ ],
+    "steps" : { },
+    "widgetStyle" : {
+      "backgroundColor" : "#FFFFFF",
+      "borderColor" : "#E6ECF2",
+      "borderEdges" : [ ],
+      "borderRadius" : 0,
+      "borderWidth" : 1
+    },
+    "widgets" : {
+      "text_1" : {
+        "parameters" : {
+          "fontSize" : 20,
+          "text" : "aqwfwqet",
+          "textAlignment" : "center",
+          "textColor" : "#091A3E"
+        },
+        "type" : "text"
+      }
+    }
+  }
+}

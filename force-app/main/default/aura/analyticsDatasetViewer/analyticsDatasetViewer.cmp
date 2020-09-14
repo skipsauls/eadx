@@ -1,0 +1,84 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="datasetId" type="String" access="global" description="The id of the dataset to show, etc."/>
+    <aura:attribute name="limit" type="Integer" access="global" description="The max number of results to display." default="100"/>
+    <aura:attribute name="showAllFields" type="Boolean" access="global" description="Determines whether to show all fields." default="false"/>
+    <aura:attribute name="autoExecute" type="Boolean" access="global" description="Determines whether to execute query on every change." default="false"/>
+    
+    <aura:attribute name="datasets" type="Object[]" access="global"/>
+    <aura:attribute name="datasetDetails" type="Object" access="global"/>
+    <aura:attribute name="fields" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="results" type="Object[]"/>
+    <aura:attribute name="resultColumns" type="List"/>
+    <aura:attribute name="resultSortedBy" type="String"/>
+    <aura:attribute name="resultSortedDirection" type="String"/>    
+    <aura:attribute name="resultDefaultSortDirection" type="String" default="asc"/>
+    
+    <aura:attribute name="xmd" type="Object"/>
+    <aura:attribute name="fieldMap" type="Object"/>    
+    <aura:attribute name="saql" type="String"/>
+    <aura:attribute name="editSaql" type="String"/>
+    
+    <aura:handler name="change" value="{!v.datasetId}" action="{!c.handleDatasetIdChange}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="dataset-outer" aura:id="dataset-outer">
+        
+        <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="11">
+                <lightning:textarea class="saql_editor" name="saql_editor" value="{!v.editSaql}" label="SAQL" onchange="{!c.handleEditSAQLChange}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="1">
+                <lightning:buttonIcon class="slds-m-around_small" size="large" variant="bare" alternativeText="Execute Query" iconName="utility:right" onclick="{!c.execQuery}"/>
+            </lightning:layoutItem>
+        </lightning:layout>         
+        
+        <div class="fields">
+            <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="2">
+                    <lightning:input type="checkbox" label="Auto Execute" name="autoexecute" checked="{!v.autoExecute}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="2">
+                    <lightning:input type="checkbox" label="Show All Fields" name="showallfields" checked="{!v.showAllFields}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="2">
+                    <lightning:input type="range" label="{!'Max Rows: ' + v.limit}" name="maxrows" min="1" max="2000" value="{!v.limit}" onchange="{!c.handleChangeLimit}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="2">
+                    <lightning:button label="Select All" onclick="{!c.selectAll}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="2">
+                    <lightning:button label="Clear Selections" onclick="{!c.clearSelections}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="2">
+                </lightning:layoutItem>
+            </lightning:layout>
+            <aura:iteration items="{!v.fields}" var="field">
+                <aura:if isTrue="{!v.showAllFields == true || field.hasLabel == true}">
+                    <lightning:pill class="{!'field-pill' + (field.selected ? ' selected' : '')}" label="{!field.label}" name="{!field.name}" title="{!field.label}" onclick="{!c.toggleField}">
+                        <aura:set attribute="media">                    
+                            <lightning:icon iconName="{!field.selected ? 'utility:check' : 'utility:dash'}" size="x-small"/>
+                        </aura:set>
+                    </lightning:pill>
+                </aura:if>
+            </aura:iteration>
+        </div>
+        
+        <div class="datatable results">
+            <lightning:spinner aura:id="result_spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide"/>
+            <c:analyticsDatatable data="{!v.results}" 
+                                  columns="{!v.resultColumns}" 
+                                  keyField="id"
+                                  sortedBy="{!v.resultSortedBy}"
+                                  sortedDirection="{!v.resultSortedDirection}"
+                                  defaultSortDirection="{!v.resultDefaultSortDirection}"
+                                  showRowNumberColumn="false"
+                                  hideCheckboxColumn="true"
+                                  saql="{!v.saql}"
+                                  xmd="{!v.xmd}"
+                                  fieldMap="{!v.fieldMap}"
+                                  />
+        </div>
+    </div>
+</aura:component>

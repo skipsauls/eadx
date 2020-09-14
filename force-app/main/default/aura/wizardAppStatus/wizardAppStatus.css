@@ -1,0 +1,35 @@
+.THIS {
+}
+
+.THIS .astro {
+    text-align: center;
+    margin: 0px auto;
+}
+
+.THIS .info h2 {
+    width: 640px;
+    text-align: center;
+}
+
+.THIS .status ul {
+    width: 320px;
+    text-align: center;
+    margin: 5px auto;
+}
+
+.THIS .status ul li {
+    text-align: left;
+}
+
+.THIS .info.more-info h2 {
+    text-align: left;
+    margin: 5px auto;
+}
+
+.THIS .status ul li .slds-icon_container {
+    stroke: #FFFFFF;
+    stroke-width: 1px;
+    border-radius: 32px;
+    padding: 2px;
+    background: #0404FF;
+}

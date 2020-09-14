@@ -1,0 +1,60 @@
+<aura:component >
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="style" type="String" access="global"/>
+    <aura:attribute name="sessionTree" type="List" access="private"/>    
+    <aura:attribute name="sessionMap" type="Map" access="private"/>    
+    <aura:attribute name="selected" type="String" access="private"/>    
+    
+    <aura:handler name="init" value="{!this}"
+                  action="{!c.init}"/>
+    
+    <aura:registerEvent name="ExternalCommanderPhraseEvent"
+                        type="c:ExternalCommanderPhraseEvent"
+                        access="GLOBAL"/>
+
+    <aura:registerEvent name="RecordedSessionReloadEvent"
+                        type="c:RecordedSessionReloadEvent"
+                        access="GLOBAL"/>
+
+    <aura:handler event="c:RecordedSessionReloadEvent" 
+                  action="{!c.handleGlobalRecordingSessionReloadEvent}"
+                  includeFacets="true"/> 
+
+    <c:sessionRecordingApi aura:id="sessionRecordingApi"/>
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="utility:setup"/>
+             Recorded Sessions
+        </aura:set>
+        <div class="{!'outer slds-m-around_small ' + v.class}" style="{!v.style}">
+            Einstein Commander can record/play command recordings, which can help you learn and present Einstein Analytics dashboard interactions.
+            
+            <div class="commands slds-m-vertical_small slds-border_top slds-border_bottom slds-border_right slds-border_left">
+                <aura:if isTrue="{!not(empty(v.sessionTree))}">
+                    <lightning:tree items="{! v.sessionTree }" header="Sessions" 
+                                    onselect="{! c.handleSelect }"/>
+                    <lightning:input variant="label-hidden" aura:id="selectedText" name="selectedText" 
+                                     value="{! v.selected.text }" label="Selected"/>
+                    <lightning:button label="Save" disabled="{! empty(v.selected) }" 
+                                      iconName="utility:save" iconPosition="left" 
+                                      onclick="{! c.updateItem }"/>
+                    <lightning:button label="Delete" disabled="{! empty(v.selected) }" 
+                                      iconName="utility:delete" iconPosition="left" 
+                                      onclick="{! c.deleteItem }"/>
+                    <lightning:button label="Try it!" disabled="{! empty(v.selected) || v.selected.type == 'session' }" 
+                                      iconName="utility:play" iconPosition="left"  
+                                      onclick="{! c.tryCommandPhrase }"/>
+                    
+                    <aura:set attribute="else">
+                        You don't have any recorded sessions yet. Do you want to create some examples?
+                        <lightning:input type="toggle" label="Create Learning Adventure examples" 
+                                         messageToggleActive="" messageToggleInactive="" 
+                                         name="learningAdventureDataCreator" aura:id="learningAdventureDataCreator"
+                                         onchange="{! c.onCreateDefaultLearningAdventure }"/>
+                    </aura:set>
+                </aura:if> 
+            </div>
+        </div>
+    </lightning:card>	
+</aura:component>

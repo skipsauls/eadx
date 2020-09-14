@@ -1,0 +1,13 @@
+{
+  "pages" : [
+    {
+        "title": "Customize the Demo Analytics App",
+        "variables": [
+             {"name": "DemoText"},
+             {"name": "DemoColor"},
+             {"name": "CreateConditionalDashboard"}
+        ]
+    }
+  ],
+  "displayMessages" : [ ]
+}

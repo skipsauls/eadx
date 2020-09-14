@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" access="global" description="Custom event for invocable apex actions">
+    <aura:attribute name="target" type="String"/>    
+    <aura:attribute name="actionResults" type="List"/>    
+</aura:event>

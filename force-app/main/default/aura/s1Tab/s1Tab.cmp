@@ -1,0 +1,17 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.selectDashboard}"/>
+    
+    <div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-order_1 slds-large-order_1">
+                <c:dashboardSelector dashboardId="{!v.dashboardId}"/>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-order_2 slds-large-order_1">
+                <div aura:id="dashboard" class="dashboard-container">        
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

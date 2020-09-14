@@ -1,0 +1,20 @@
+.THIS {
+}
+
+.THIS .analytics-resource-tree {
+    
+    
+}
+
+.THIS .loading-message {
+    position: relative;
+}
+
+.THIS .slds-spinner_container {
+	position: absolute;
+    height: 200px;
+}
+
+.THIS .slds-spinner {
+	position: relative;        
+}

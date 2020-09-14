@@ -1,0 +1,41 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="goodDeveloperName" type="String" access="global" default="eadx__Demo_Dashboard_2"/>
+    <aura:attribute name="badDeveloperName" type="String" access="global" default="bad__Does_Not_Exist"/>
+    <aura:attribute name="goodDashboardId" type="String" access="global" default="0FKB0000000L3cTOAS"/>
+    <aura:attribute name="badDashboardId" type="String" access="global" default="123456789012345678"/>
+    <aura:attribute name="altDeveloperName" type="String" access="global" default="eadx__Starbucks_Locations"/>
+    <aura:attribute name="altDashboardId" type="String" access="global" default="0FKB0000000DgHpOAK"/>
+
+    <div class="outer">
+        <lightning:layout>
+            <lightning:layoutItem class="slds-p-around_small" size="12">
+                <lightning:button label="Change Page to Private" onclick="{!c.changePageToPrivate}"/>
+                <lightning:button label="Change Page to Public" onclick="{!c.changePageToPublic}"/>
+                <lightning:button label="{!'Change Dev Name to ' + v.altDeveloperName}" onclick="{!c.changeDevName}"/>
+                <lightning:button label="{!'Filter in Update for '+ v.goodDashboardId}" onclick="{!c.filterInUpdate}"/>
+                <lightning:button label="{!'Change Id in Update to '+ v.altDashboardId}" onclick="{!c.changeIdInUpdate}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout>
+            <lightning:layoutItem class="slds-p-around_small" size="6">    
+                <h1>wave:waveDashboard developerName="{!v.goodDeveloperName}"</h1>
+                <wave:waveDashboard developerName="{!v.goodDeveloperName}" height="400"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around_small" size="6">    
+                <h1>wave:waveDashboard developerName="{!v.badDeveloperName}"</h1>
+                <wave:waveDashboard developerName="{!v.badDeveloperName}" height="400"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout>
+            
+            <lightning:layoutItem class="slds-p-around_small" size="6">    
+                <h1>wave:waveDashboard dashboardId="{!v.goodDashboardId}"</h1>
+                <wave:waveDashboard dashboardId="{!v.goodDashboardId}" height="400"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around_small" size="6">                
+                <h1>wave:waveDashboard dashboardId="{!v.badDashboardId}"</h1>
+                <wave:waveDashboard dashboardId="{!v.badDashboardId}" height="400"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

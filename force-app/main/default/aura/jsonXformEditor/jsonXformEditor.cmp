@@ -1,0 +1,73 @@
+<aura:component access="global" controller="jsonXformController">
+    
+    <aura:attribute name="tabId" type="String" access="global" description="The id of the tab for the editor." />
+    <aura:attribute name="name" type="String" access="global" description="The name of the transform for saves." />
+    <aura:attribute name="xform" type="Object" access="global" description="The transform object."/>
+    
+    <aura:attribute name="document" type="Object" access="global" description="The source document object."/>
+    <aura:attribute name="values" type="Object" access="global" description="The values (variables) object for the transformation."/>    
+    <aura:attribute name="definition" type="Object" access="global" description="The defintion (rules) object for the transformation."/>
+    <aura:attribute name="result" type="Object" access="global" description="The resulting document object."/>
+    <aura:attribute name="errors" type="Object[]" access="global" description="The errors from the transform."/>
+    
+    <aura:attribute name="enabled" type="Boolean" access="global" default="false" description="Flag for auto enabling transforms."/>
+    
+    <aura:attribute name="parent" type="Aura.Component" access="global" description="The parent component."/>
+    
+    <aura:handler name="change" value="{!v.name}" action="{!c.handleNameChange}"/>
+    
+    <aura:handler name="change" value="{!v.errors}" action="{!c.showErrors}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:method name="save" action="{!c.handleSave}" description="Called when xform is to be saved">
+    </aura:method>    
+    
+    <div class="outer">        
+        <div class="slds-card">
+            <span class="slds-is-absolute" style="position: absolute; right: 0;">
+                <lightning:buttonIcon class="slds-m-right_small" alternativeText="Close" iconName="utility:close" variant="bare" size="medium" onclick="{!c.handleClose}"/>
+            </span>
+            <lightning:layout>
+                <lightning:layoutItem size="3" class="slds-p-top_small slds-p-left_small slds-form">
+                    <lightning:input label="Name" value="{!v.name}" class="slds-form-element_horizontal"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" class="slds-align_absolute-center">
+                    <lightning:input type="checkbox" label="Auto Transform" checked="{!v.enabled}" messageToggleActive="" messageToggleInactive=""/>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6" class="slds-p-around_small slds-align_absolute-center">
+                    <lightning:button aura:id="transform" label="Transform" iconName="utility:play" iconPosition="left" variant="brand" onclick="{!c.handleTransform}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+            <lightning:layout>
+                <lightning:layoutItem size="3" class="slds-p-horizontal_small">
+                    <lightning:textarea label="Document" value="{!v.document}" class="text document" aura:id="document"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" class="slds-p-horizontal_small">
+                    <lightning:textarea label="Values" value="{!v.values}" class="text values" aura:id="values"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" class="slds-p-horizontal_small">
+                    <lightning:textarea label="Definition" value="{!v.definition}" class="text definition" aura:id="definition"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" class="slds-p-horizontal_small">
+                    <lightning:textarea label="Result" value="{!v.result}" class="text result" aura:id="result"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+        </div>
+        
+    </div>
+<!--    
+    <lightning:notificationsLibrary aura:id="notifyLib"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+-->
+    <c:jsonXform aura:id="jsonXform"
+                 document="{!v.document}"
+                 values="{!v.values}"
+                 definition="{!v.definition}"
+                 result="{!v.result}"
+                 errors="{!v.errors}"
+                 enabled="{!v.enabled}"
+                 />	
+</aura:component>

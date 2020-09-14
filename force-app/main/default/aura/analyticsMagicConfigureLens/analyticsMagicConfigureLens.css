@@ -1,0 +1,20 @@
+.THIS {
+}
+
+.THIS .column {
+    position: relative;
+}
+
+.THIS .kpi-container {
+	min-height: 100px;
+}
+
+.THIS .select {
+    min-width: 5rem;
+}
+
+.THIS .controls {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

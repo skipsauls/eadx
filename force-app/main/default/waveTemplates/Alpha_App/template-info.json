@@ -1,0 +1,68 @@
+{
+  "templateType" : "app",
+  "label" : "Alpha App",
+  "name" : "Alpha_App",
+  "namespace" : "eadx",
+  "assetVersion" : 41.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.2",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Alpha Dashboard",
+      "name" : "Alpha_Dashboard_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Alpha_Dashboard.json"
+    }
+  ],
+  "eltDataflows" : [
+    {
+      "label" : "Alpha Dataflow",
+      "name" : "Alpha_Dataflow1",
+      "condition" : "${Variables.Overrides.createDataflow}",
+      "file" : "dataflow/Alpha_Dataflow1.json"
+    }
+  ],
+  "datasetFiles" : [
+    {
+      "label" : "Alpha Oppty Dataset",
+      "name" : "Alpha_Oppty_Dataset",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/Alpha_Oppty_Dataset_XMD.json"
+    }
+  ],
+  "storedQueries" : [ ],
+  "imageFiles" : [
+    {
+      "name" : "kanagawa_wavejpg",
+      "condition" : "${Variables.Overrides.createAllImages}",
+      "file" : "images/kanagawa_wave.jpg"
+    }
+  ],
+  "extendedTypes" : { },
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templateDetail" : { }
+  }
+}

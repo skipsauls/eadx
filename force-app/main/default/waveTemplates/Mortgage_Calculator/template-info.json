@@ -1,0 +1,101 @@
+{
+  "templateType" : "embeddedapp",
+  "label" : "Mortgage Calculator EADL",
+  "name" : "Mortgage_Calculator",
+  "autoInstallDefinition" : "auto-install.json",
+  "description" : "Application template that demonstrates the power of the Einstein Analytics app template framework.",
+  "namespace" : "eadx",
+  "assetVersion" : 50.0,
+  "variableDefinition" : "variables.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "dashboard-rules.json"
+    },
+    {
+      "type" : "templateToApp",
+      "file" : "mort-calc-macros.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.11",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Amortized Schedule",
+      "name" : "mort_calc_Amortized_Schedule_tp",
+      "file" : "dashboards/Amortized_Schedule.json"
+    },
+    {
+      "label" : "Mortgage Calculator",
+      "name" : "mort_calc_Mortgage_Calculator_tp",
+      "file" : "dashboards/Mortgage_Calculator.json"
+    }
+  ],
+  "eltDataflows" : [ ],
+  "recipes" : [ ],
+  "datasetFiles" : [ ],
+  "storedQueries" : [ ],
+  "imageFiles" : [
+    {
+      "name" : "info_icon_png613111",
+      "condition" : "${Variables.Overrides.createAllImages}",
+      "file" : "images/info_icon.png"
+    },
+    {
+      "name" : "bg_main_mountain_jpg613111",
+      "condition" : "${Variables.Overrides.createAllImages}",
+      "file" : "images/bg_main_mountain.jpg"
+    }
+  ],
+  "extendedTypes" : { },
+  "templateDependencies" : [ ],
+  "tags" : [
+    "rules",
+    "macros",
+    "mortgage",
+    "ammortization",
+    "finance",
+    "EADL"
+  ],
+  "customAttributes" : [
+    {
+      "label" : "Features",
+      "values" : [
+        "Example Template Rules",
+        "Example Template Macros",
+        "Embedded Apps"
+      ]
+    },
+    {
+      "label" : "Publisher",
+      "values" : [
+        "Einstein Analytics"
+      ]
+    }
+  ],
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "morty_badge"
+    },
+    "templatePreviews" : [
+      {
+        "name" : "morty_preview",
+        "label" : "Mortgage Calculator",
+        "description" : "Calculate your mortgage payment based on amount, APR and number of years.  See how your ammortization behaves over time."
+      },
+      {
+        "name" : "morty_macros",
+        "label" : "Macros By Example",
+        "description" : "Test your rule skills by building sophisticated macros to reduce the amount of repetitive code."
+      }
+    ]
+  }
+}

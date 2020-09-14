@@ -1,0 +1,676 @@
+<apex:page applyBodyTag="false" applyHtmlTag="false" showHeader="false" standardStylesheets="false" docType="html-5.0">
+    <script type="text/javascript">
+    
+    var ltng_origin = "{!$CurrentPage.Parameters.ltng_origin}";
+    var ltng_url = "{!$CurrentPage.Parameters.ltng_url}";
+    var _uid = "{!$CurrentPage.Parameters.ltng_uid}";
+    
+    console.warn('voiceProxy ltng_origin: ', ltng_origin);
+    
+    window.addEventListener("message", messageHandler, true);
+    var json = JSON.stringify({type: "ready", uid: _uid});
+    var target = "{!$CurrentPage.Parameters.ltng_origin}";
+    if (window.parent && window.parent.postMessage && target !== null && target !== '') {
+        window.parent.postMessage(json, target);
+    }
+    
+    function messageHandler(event) {
+        //console.warn('event.origin: ', event.origin);
+        //console.warn('event.data: ', event.data);
+        if (event.origin === "{!$CurrentPage.Parameters.ltng_origin}") {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            var data = JSON.parse(event.data);
+            var type = data.type;
+            var uid = data.uid;
+            
+            if (type === 'startDictation' && _uid === uid) {
+                startDictation(data.config);
+            } else if (type === 'stopDictation' && _uid === uid) {
+                stopDictation(data.config);
+            } else if (type === 'speak' && _uid === uid) {
+                speak(data.config);
+            } else if (type === 'getVoices' && _uid === uid) {
+                getVoices(data.config);
+            } else if (type === 'getByteTimeDomainData' && _uid === uid) {
+                getByteTimeDomainData(data.config);
+            } else if (type === 'loadSounds' && _uid === uid) {
+                loadSounds(data.config);
+            } else if (type === 'playSound' && _uid === uid) {
+                playSound(data.config);
+            }
+        }
+    }
+    
+    var _voices = null;    // For use by API
+    var _voiceList = null; // To return to client        
+    
+    function speak(config) {
+        
+        console.warn('speak: ', config);
+        
+        var synth = window.speechSynthesis;
+        
+        var utterThis = new SpeechSynthesisUtterance(config.phrase);
+        
+        console.warn('config.voice: ', config.voice);
+        
+        if (_voices === null) {
+            _getVoices();
+        }
+        
+        for (var i = 0; i < _voices.length; i++) {
+            //console.warn('_voices[i].name: ', _voices[i].name);
+            if (_voices[i].name === config.voice) {                
+                utterThis.voice = _voices[i];
+                break;
+            }
+        }
+        
+        utterThis.volume = config.volume;
+        utterThis.rate = config.rate;
+        utterThis.pitch = config.pitch;
+        
+        utterThis.onstart = function(e){
+            _sendResponse({
+                source: 'SpeechSynthesis',
+                phase: 'onstart',
+                config: config
+            });
+        }
+        
+        utterThis.onend = function(e){            
+            _sendResponse({
+                source: 'SpeechSynthesis',
+                phase: 'onend',
+                config: config
+            });
+        }
+        
+        /*            
+            synth.onstart = function(e) {
+                _sendResponse({
+                    phase: 'onstart',
+                    config: config
+                });
+            }
+            synth.onend = function(e) {
+                _sendResponse({
+                    phase: 'onend',
+                    config: config
+                });
+            }
+            synth.onpause = function(e) {
+                _sendResponse({
+                    phase: 'onpause',
+                    config: config
+                });
+            }
+            synth.onresume = function(e) {
+                _sendResponse({
+                    phase: 'onresume',
+                    config: config
+                });
+            }            
+            synth.onerror = function(e) {
+                _sendResponse({
+                    phase: 'onerror',
+                    error: {
+                        error: e.error,
+                        message: e.message
+                    },
+                    config: config
+                });
+            }
+            synth.onmark = function(e) {
+                _sendResponse({
+                    phase: 'onmark',
+                    mark: {
+                        name: e.name
+                    },
+                    config: config
+                });
+            }
+            synth.onboundary = function(e) {
+                _sendResponse({
+                    phase: 'onboundary',
+                    boundary: {
+                        name: e.name
+                    },
+                    config: config
+                });
+            }
+            
+*/            
+        synth.speak(utterThis);
+        
+        
+    }
+    
+    function _sendResponse(response) {
+        var json = JSON.stringify({type: "response", uid: _uid, response: response});
+        window.parent.postMessage(json, ltng_origin);                    
+    }
+    
+    function _getVoices() {
+        console.warn('_getVoices');
+        setTimeout(function() {
+            var voices = window.speechSynthesis.getVoices();
+            var voiceList = [];
+            var voice = null;
+            voices.forEach(function(v) {
+                voice = {
+                    voiceURI: v.voiceURI,
+                    name: v.name,
+                    lang: v.lang,
+                    localService: v.localService,
+                    default: v.default
+                };
+                voiceList.push(voice);
+            });
+            
+            _voices = voices;
+            _voiceList = voiceList;
+        }, 1000);
+    }
+    
+    if (window.speechSynthesis && typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
+        window.speechSynthesis.onvoiceschanged = function() {
+            var voices = window.speechSynthesis.getVoices();
+            var voiceList = [];
+            var voice = null;
+            voices.forEach(function(v) {
+                voice = {
+                    voiceURI: v.voiceURI,
+                    name: v.name,
+                    lang: v.lang,
+                    localService: v.localService,
+                    default: v.default
+                };
+                voiceList.push(voice);
+            });
+            
+            _voices = voices;
+            _voiceList = voiceList;
+            
+        };
+    } else {
+        _getVoices();
+    }
+    
+    function getVoices(config) {
+        
+        var json = JSON.stringify({type: "response", uid: _uid, response: {voices: _voiceList}});
+        window.parent.postMessage(json, ltng_origin);  
+        
+    }
+    
+    var _recognition = null;
+    
+    function startDictation(config) {
+        
+        //console.warn('startDictation: ', config);
+        
+        //console.warn("window.hasOwnProperty('webkitSpeechRecognition'): ", window.hasOwnProperty('webkitSpeechRecognition'));
+        
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+            /*
+                if (typeof recognition !== 'undefined' && recognition !== null) {
+                    recognition.stop();
+                    var json = JSON.stringify({type: "response", uid: _uid, response: {message: 'Dictation already started'}});
+                    window.parent.postMessage(json, ltng_origin);
+                    return;
+                } else {                
+                    recognition = new webkitSpeechRecognition();
+                }
+                */
+            
+            /*
+                var recognition = new webkitSpeechRecognition();
+                recognition.continuous = config.continuous;
+                recognition.interimResults = config.interimResults;
+                recognition.maxAlternatives = config.maxAlternatives;            
+                recognition.lang = "en-US";
+                recognition.start();   
+
+                _recognition = recognition;
+                */
+            
+            var recognition = null;
+            
+            if (typeof _recognition !== 'undefined' && _recognition !== null) {
+                recognition = _recognition;
+            } else {
+                
+                recognition = new webkitSpeechRecognition();
+                _recognition = recognition;
+                
+                
+                recognition.continuous = config.continuous;
+                recognition.interimResults = config.interimResults;
+                recognition.maxAlternatives = config.maxAlternatives;            
+                recognition.lang = "en-US";
+                
+                
+                var response = null;
+                
+                recognition.onresult = function(e) {
+                    console.warn('voiceproxy - recognition.onresult: ', e);
+                    
+                    console.warn('results.length: ', e.results.length);
+                    console.warn('transcript: ', e.results[0][0].transcript);
+                    console.warn('confidence: ', e.results[0][0].confidence);                    
+                    console.warn('isFinal: ', e.results[0].isFinal);
+                    
+                    //if (config.interimResults === true || e.results[0].isFinal) {
+                    
+                    var resultsList = [];
+                    var alternative = null;
+                    for (var i = 0; i < e.results.length; i++) {
+                        resultList = [];
+                        for (var j = 0; j < e.results[i].length; j++) {
+                            alternative = e.results[i][j];
+                            console.warn('alternative: ', alternative);
+                            resultList.push({
+                                transcript: alternative.transcript,
+                                confidence: alternative.confidence,
+                                isFinal: e.results[i].isFinal //alternative.isFinal === true ? true : false
+                            });
+                        }
+                        resultsList.push(resultList);
+                    }                  
+                    
+                    response = {
+                        source: 'SpeechRecognition',                        
+                        phase: 'onresult',
+                        results: resultsList,
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);            
+                    recognition.stop();
+                    
+                    //}
+                };
+                
+                recognition.onerror = function(e) {
+                    //console.warn('recognition.onerror: ', e);
+                    //console.warn('error: ', e.error);
+                    //console.warn('message: ', e.message);
+                    recognition.stop();
+                    response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onerror',
+                        error: {
+                            error: e.error,
+                            message: e.message
+                        },
+                        config: config
+                    };                
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                
+                }
+                
+                recognition.nomatch = function(e) {
+                    //console.warn('recognition.nomatch: ', e);
+                    recognition.stop();
+                    response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'nomatch',
+                        error: {
+                            error: 'No match'
+                        },
+                        config: config
+                    };                
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                
+                }
+                
+                recognition.onstart = function(e) {
+                    //console.warn('recognition.onstart: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                
+                        phase: 'onstart',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);            
+                }
+                recognition.onend = function(e) {
+                    //console.warn('recognition.onend: ', e);
+                    
+                    _recognition = null;
+                    
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onend',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);            
+                }            
+                recognition.onspeechstart = function(e) {
+                    //console.warn('recognition.onspeechstart: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onspeechstart',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);            
+                }
+                recognition.onspeechend = function(e) {
+                    //console.warn('recognition.onspeechend: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onspeechend',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                     
+                }
+                recognition.onsoundstart = function(e) {
+                    //console.warn('recognition.onsoundstart: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onsoundstart',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                     
+                }
+                recognition.onsoundend = function(e) {
+                    //console.warn('recognition.onsoundend: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onsoundend',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                     
+                }
+                recognition.onaudiostart = function(e) {
+                    //console.warn('recognition.onaudiostart: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onaudiostart',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                     
+                }
+                recognition.onaudioend = function(e) {
+                    //console.warn('recognition.onaudioend: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onaudioend',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                     
+                }            
+                recognition.onpause = function(e) {
+                    //console.warn('recognition.onpause: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onpause',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                     
+                }
+                recognition.onresume = function(e) {
+                    //console.warn('recognition.onresume: ', e);
+                    var response = {
+                        source: 'SpeechRecognition',                    
+                        phase: 'onresume',
+                        config: config
+                    };
+                    
+                    var json = JSON.stringify({type: "response", uid: _uid, response: response});
+                    window.parent.postMessage(json, ltng_origin);                     
+                }
+                
+                recognition.start();
+            }
+        }
+    }
+    
+    function stopDictation(config) {
+        console.warn('stopDictation: ', config);
+        
+        console.warn('_recognition: ', _recognition, typeof _recognition);
+        
+        if (typeof _recognition !== 'undefined' && _recognition !== null) {
+            _recognition.stop();
+            _recognition = null;
+            var response = {
+                source: 'SpeechRecognition',                    
+                phase: 'stopped',
+                config: config
+            };                
+            var json = JSON.stringify({type: "response", uid: _uid, response: response});
+            console.warn('voiceProxy sending: ', json);
+            window.parent.postMessage(json, ltng_origin);            
+        }
+    }
+    
+    
+    // Voice analyzer below
+    
+    // Older browsers might not implement mediaDevices at all, so we set an empty object first
+    if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+    }
+    
+    
+    // Some browsers partially implement mediaDevices. We can't just assign an object
+    // with getUserMedia as it would overwrite existing properties.
+    // Here, we will just add the getUserMedia property if it's missing.
+    if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function(constraints) {
+            
+            // First get ahold of the legacy getUserMedia, if present
+            var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            
+            // Some browsers just don't implement it - return a rejected promise with an error
+            // to keep a consistent interface
+            if (!getUserMedia) {
+                return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+            }
+            
+            // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
+            return new Promise(function(resolve, reject) {
+                getUserMedia.call(navigator, constraints, resolve, reject);
+            });
+        }
+    }
+    
+    
+    
+    // set up forked web audio context, for multiple browsers
+    // window. is needed otherwise Safari explodes
+    
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    console.warn('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% voiceProxy - audioCtx: ', audioCtx);
+    
+    // SFX
+    
+    function loadSounds(config) {
+        console.warn('loadSounds: ', config);
+        
+        var resources = config.resources;
+        
+        var bufferLoader = new BufferLoader(audioCtx, resources, function(bufferList) {
+            console.warn('BufferLoader.finishedLoading: ', bufferList);
+		});
+    }
+    
+
+	function playSound(config) {
+        
+    }
+    
+    var voiceSelect = null;
+    var source;
+    var stream;
+    
+    //set up the different audio nodes we will use for the app
+    
+    var analyser = audioCtx.createAnalyser();
+    analyser.minDecibels = -90;
+    analyser.maxDecibels = -10;
+    analyser.smoothingTimeConstant = 0.85;
+    
+    console.warn('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% voiceProxy - analyser: ', analyser);
+    
+    var distortion = audioCtx.createWaveShaper();
+    var gainNode = audioCtx.createGain();
+    var biquadFilter = audioCtx.createBiquadFilter();
+    var convolver = audioCtx.createConvolver();
+    
+    // distortion curve for the waveshaper, thanks to Kevin Ennis
+    // http://stackoverflow.com/questions/22312841/waveshaper-node-in-webaudio-how-to-emulate-distortion
+    
+    function makeDistortionCurve(amount) {
+        var k = typeof amount === 'number' ? amount : 50,
+            n_samples = 44100,
+            curve = new Float32Array(n_samples),
+            deg = Math.PI / 180,
+            i = 0,
+            x;
+        for ( ; i < n_samples; ++i ) {
+            x = i * 2 / n_samples - 1;
+            curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+        }
+        return curve;
+    };
+    
+    if (navigator.mediaDevices.getUserMedia) {
+        console.log('getUserMedia supported.');
+        var constraints = {audio: true}
+        navigator.mediaDevices.getUserMedia (constraints)
+        .then(
+            function(stream) {
+                console.warn('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+                source = audioCtx.createMediaStreamSource(stream);
+                source.connect(analyser);
+                analyser.connect(distortion);
+                distortion.connect(biquadFilter);
+                biquadFilter.connect(convolver);
+                convolver.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                console.warn(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] calling analyze');
+                analyze();
+                //visualize();
+                //voiceChange();
+            })
+        .catch( function(err) { console.log('The following gUM error occured: ' + err);})
+    } else {
+        console.log('getUserMedia not supported on your browser!');
+    }
+    
+    
+    function getBuffer() {
+        console.warn('getBuffer');
+        analyser.getByteTimeDomainData(dataArray);
+        console.warn('dataArray: ', dataArray);
+        for(var i = 0; i < bufferLength; i++) {
+            var v = dataArray[i] / 128.0;
+            console.warn(i, v);    
+        }
+        
+    }
+    
+    var bufferLength = null;
+    var dataArray = null;
+    var bufferLengthAlt = null;
+    var dataArrayAlt = null;
+    
+    
+    function analyze() {
+        console.warn('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ analyze');
+        //var visualSetting = config.visualSetting || 'sinewave';
+        var visualSetting = 'sinewave';
+        
+        if (visualSetting === 'sinewave') {
+            analyser.fftSize = 2048;
+            bufferLength = analyser.fftSize;
+            console.log('bufferLength: ', bufferLength);
+            dataArray = new Uint8Array(bufferLength);
+            
+            analyser.getByteTimeDomainData(dataArray);
+            
+            
+        } else if (visualSetting === 'frequencybars') {    
+            analyser.fftSize = 256;
+            bufferLengthAlt = analyser.frequencyBinCount;
+            console.warn('bufferLengthAlt: ', bufferLengthAlt);
+            dataArrayAlt = new Uint8Array(bufferLengthAlt);
+            
+            analyser.getByteFrequencyData(dataArrayAlt);                
+        }
+        
+        console.warn('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ dataArray: ',typeof dataArray, dataArray);
+        console.warn('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ dataArrayAlt: ',typeof dataArrayAlt, dataArrayAlt);  
+        
+    }
+    
+    function getByteTimeDomainData(config) {
+        console.warn('voiceProxy.getByteTimeDomainData: ', config);
+        
+        var visualSetting = config.visualSetting || 'sinewave';
+        
+        console.warn('dataArray: ',typeof dataArray, dataArray)  
+        if (visualSetting === 'sinewave') {
+            /*
+                analyser.fftSize = 2048;
+                bufferLength = analyser.fftSize;
+                console.log('bufferLength: ', bufferLength);
+                dataArray = new Uint8Array(bufferLength);
+                */
+            
+            console.warn('1 dataArray: ', dataArray);
+            analyser.getByteTimeDomainData(dataArray);                
+            console.warn('2 dataArray: ', dataArray);
+            
+        } else if (visualSetting === 'frequencybars') {    
+            /*
+                analyser.fftSize = 256;
+                bufferLength = analyser.frequencyBinCount;
+                console.warn('bufferLength: ', bufferLength);
+                dataArray = new Uint8Array(bufferLength);
+                */
+                
+                console.warn('1 dataArrayAlt: ', dataArrayAlt);
+                analyser.getByteFrequencyData(dataArrayAlt); 
+                console.warn('2 dataArrayAlt: ', dataArrayAlt);
+            }
+        
+        
+        var response = {
+            source: 'AudioAnalyzer',                    
+            dataArray: visualSetting === 'sinewave' ? dataArray : dataArrayAlt,
+            bufferLength: visualSetting === 'sinewave' ? bufferLength : bufferLengthAlt,
+            config: config
+        };
+        
+        var json = JSON.stringify({type: "response", uid: _uid, response: response});
+        console.warn('voiceProxy sending json: ', json.length, json);
+        window.parent.postMessage(json, ltng_origin);        
+    }
+    
+    </script>
+</apex:page>

@@ -1,0 +1,15 @@
+.THIS {
+    overflow: hidden;
+}
+
+.THIS table {    
+}
+
+.THIS table tr {
+    line-height: 1.25rem;
+    height: 1.5rem;
+}
+
+.THIS table th, .THIS table td {
+    max-width: 5rem;
+}

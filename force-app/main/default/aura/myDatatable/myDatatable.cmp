@@ -1,0 +1,16 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="keyField" type="String" access="global"/>
+    <aura:attribute name="columns" type="List" access="global"/>
+    <aura:attribute name="data" type="Object[]" access="global"/>
+    <aura:attribute name="selectedRows" type="List" access="global"/>
+    
+	<aura:registerEvent name="datatableRowSelection" type="c:datatableRowSelection"/>
+    
+    <lightning:datatable aura:id="datatable"
+                         keyField="{!v.keyField}"
+                         columns="{!v.columns}" 
+                         data="{!v.data}"
+                         selectedRows="{!v.selectedRows}"
+                         onrowselection="{!c.handleRowSelection}"
+                         />    
+</aura:component>

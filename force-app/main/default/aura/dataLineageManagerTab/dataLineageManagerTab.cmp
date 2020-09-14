@@ -1,0 +1,108 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="dashboards" type="List" access="global"/>
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FKB0000000L3cTOAS"/>
+    
+    <aura:attribute name="datasets" type="List" access="global"/>
+    <aura:attribute name="datasetId" type="String" access="global" default="0FbB0000000BWdIKAW"/>
+    
+    <aura:attribute name="templates" type="List" access="global"/>
+    <aura:attribute name="templateId" type="String" access="global" default="0NkB00000004c0CKAQ"/>
+    
+    <aura:attribute name="assetManagerReady" type="Boolean" default="false"/>
+    <aura:attribute name="assetJson" type="List"/>
+    <aura:attribute name="lineage" type="Object"/>
+    <aura:attribute name="fieldLineage" type="List"/>
+    <aura:attribute name="fieldLineageTable" type="Object"/>
+    <aura:attribute name="fieldLineageColumns" type="List"/>
+    
+    <aura:handler name="change" value="{!v.assetManagerReady}" action="{!c.handleAssetManagerReady}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <c:dataLineageManager aura:id="dataLineageManager"/>
+    <c:assetManager aura:id="assetManager" ready="{!v.assetManagerReady}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <lightning:card title="{!'Einstein Analytics Lineage' + (v.lineage != null ? ': ' + v.lineage.label : '')}" class="slds-box_xx-small">
+        <lightning:layout>
+            <lightning:layoutItem flexibility="auto" size="3" class="slds-p-horizontal_x-small">
+                
+                <lightning:select value="{!v.datasetId}" label="Datasets">
+                    <option value="">-- None --</option>
+                    <aura:iteration items="{!v.datasets}" var="dataset">
+                        <option value="{!dataset.id}" text="{!dataset.label}"></option>
+                    </aura:iteration>
+                </lightning:select>
+                
+                <lightning:button label="Get Dataset Lineage" onclick="{!c.getDatasetLineage}" class="slds-align_absolute-center slds-m-vertical_x-small"/>
+                
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" size="3" class="slds-p-horizontal_x-small">
+                
+                <lightning:select value="{!v.dashboardId}" label="Dashboards">
+                    <option value="">-- None --</option>
+                    <aura:iteration items="{!v.dashboards}" var="dashboard">
+                        <option value="{!dashboard.id}" text="{!dashboard.label}"></option>
+                    </aura:iteration>
+                </lightning:select>
+                
+                <lightning:button label="Get Dashboard Lineage" onclick="{!c.getDashboardLineage}" class="slds-align_absolute-center slds-m-vertical_x-small"/>
+                
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" size="3" class="slds-p-horizontal_x-small">
+                
+                <lightning:select value="{!v.templateId}" label="Templates">
+                    <option value="">-- None --</option>
+                    <aura:iteration items="{!v.templates}" var="template">
+                        <option value="{!template.id}" text="{!template.label}"></option>
+                    </aura:iteration>
+                </lightning:select>
+                
+                <lightning:button label="Get Template Lineage" onclick="{!c.getTemplateLineage}" class="slds-align_absolute-center slds-m-vertical_x-small"/>
+                
+            </lightning:layoutItem>
+        </lightning:layout>
+    
+        <lightning:layout class="slds-wrap">
+            <lightning:layoutItem flexibility="auto" size="12">
+                <lightning:tabset>
+                    
+                    <lightning:tab label="Breadcrumbs">
+                        <aura:iteration items="{!v.fieldLineage}" var="breadcrumb">
+                            <lightning:breadcrumbs class="slds-box">
+                                <aura:iteration items="{!breadcrumb}" var="crumb" indexVar='c'>
+                                    <lightning:breadcrumb label="{!crumb.label}" name="{!crumb.label}" class="{!crumb.type}" title="{!crumb.type}"/>
+                                </aura:iteration>
+                            </lightning:breadcrumbs>
+                        </aura:iteration>
+                    </lightning:tab>
+                    
+                    <lightning:tab label="Table">
+                        <lightning:datatable
+                                             columns="{!v.fieldLineageColumns}"
+                                             data="{!v.fieldLineageTable}"
+                                             keyField="id"
+                                             onrowaction="{!c.handleFieldLineageRowAction}"/>
+                    </lightning:tab>
+                    
+                    <lightning:tab label="JSON">
+                        <lightning:layout class="slds-wrap">
+                            <aura:iteration items="{!v.assetJson}" var="item" indexVar="idx">
+                                <lightning:layoutItem flexibility="auto" size="3">
+                                    <lightning:card title="{!item.label}" class="slds-m-around_xx-small">
+                                        <lightning:textarea aura:id="{!item.name + '_json_view'}" value="{!item.json}" class="json-view"/>
+                                    </lightning:card>
+                                </lightning:layoutItem>
+                            </aura:iteration>
+                        </lightning:layout>
+                    
+                    </lightning:tab>
+                </lightning:tabset>
+                
+                
+            </lightning:layoutItem>
+            
+        </lightning:layout>
+    </lightning:card>
+    
+</aura:component>

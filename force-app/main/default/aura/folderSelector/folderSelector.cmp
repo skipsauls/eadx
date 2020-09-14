@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="folders" type="Object[]" default=""/>
+    <aura:attribute name="folderId" type="String" access="global"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <wave:sdk aura:id="sdk"/>	
+    <lightning:select name="select" label="Select an App" required="true" messageWhenValueMissing="Did you forget to select an app?" value="{!v.folderId}">
+        <option value="">-- None --</option>
+        <aura:iteration items="{!v.folders}" var="folder">
+            <option value="{!folder.id}" text="{!folder.label}"></option>
+        </aura:iteration>
+    </lightning:select>    
+</aura:component>

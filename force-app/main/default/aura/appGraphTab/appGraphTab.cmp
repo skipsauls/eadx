@@ -1,0 +1,228 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="assetType" type="String" access="global"/>
+    <aura:attribute name="asset" type="Object" access="global"/>
+    
+    <aura:attribute name="options" type="Object"/>
+    <aura:attribute name="network" type="Object"/>
+    <aura:attribute name="nodes" type="Object"/>
+    <aura:attribute name="edges" type="Object"/>
+    
+    <aura:attribute name="folders" type="Object"/>
+    <aura:attribute name="dashboards" type="Object"/>
+    <aura:attribute name="lenses" type="Object"/>
+    <aura:attribute name="datasets" type="Object"/>
+    <aura:attribute name="datasetDetailsMap" type="Object"/>
+    <aura:attribute name="datasetXmdMap" type="Object"/>
+    <aura:attribute name="datasetFieldsMap" type="Object"/>
+    <aura:attribute name="dataflows" type="Object"/>
+    <aura:attribute name="recipes" type="Object"/>
+    <aura:attribute name="templates" type="Object"/>
+    
+    <aura:attribute name="items" type="Object" access="global"/>
+    <aura:attribute name="itemMaps" type="Object" access="global"/>    
+    <aura:attribute name="itemMap" type="Object" access="global"/>    
+    <aura:attribute name="selectedItem" type="Object" access="global"/>
+    
+    <aura:attribute name="assetItemMap" type="Object" access="global"/>
+    
+    <aura:attribute name="assetMap" type="Map"/>
+    
+    <aura:attribute name="selectedNode" type="Object"/>
+    <aura:attribute name="selectedNodeType" type="String"/>
+    
+    <aura:attribute name="selectedAssetId" type="String"/>
+    <aura:attribute name="selectedAsset" type="Object"/>    
+    <aura:attribute name="selectedAssetChildren" type="List"/>
+    <aura:attribute name="selectedAssetChildMap" type="Object"/>
+    
+    <aura:attribute name="isSearchingAssetTree" type="Boolean" default="false"/>
+    <aura:attribute name="assetSearchTerm" type="String"/>
+    
+    <aura:attribute name="activeOptionSection" type="String"/>
+    
+    <aura:attribute name="showInspector" type="Boolean" default="false"/>
+    
+    <aura:handler name="change" value="{!v.assetSearchTerm}" action="{!c.handleAssetSearchTermChange}"/>
+    
+    <aura:handler name="change" value="{!v.asset}" action="{!c.handleSelectedAssetChange}"/>
+    <aura:handler name="change" value="{!v.options}" action="{!c.handleOptionsChange}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <ltng:require 
+                  styles="{!$Resource.vis_network_min_css}"
+                  scripts="{!join(',', $Resource.vis_network_min_js)}"
+                  afterScriptsLoaded="{!c.scriptsLoaded}" 
+                  />
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <lightning:spinner aura:id="spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide"/>            
+    
+    <lightning:layout>
+        
+        
+        
+        <lightning:layoutItem flexibility="auto" size="12">
+            <lightning:card iconName="standard:environment_hub" title="Einstein Analytics Data Catalog" class="analytics-catalog slds-m-horizontal_xx-small">
+                <aura:set attribute="title">
+                    <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            <h1 class="">Einstein Analytics Data Catalog</h1>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            <lightning:buttonGroup class="slds-m-horizontal_small">
+                                <lightning:buttonIcon class="slds-m-horizontal_x_small" variant="border-filled" alternativeText="Show Dependencies" iconName="utility:strategy" onclick="{!c.handleShowDependencies}"/>
+                                <lightning:buttonIcon class="slds-m-horizontal_x_small" alternativeText="Fit" iconName="utility:contract" onclick="{!c.handleFitNetwork}"/>                                
+                            </lightning:buttonGroup>
+                            <lightning:buttonIconStateful selected="{!v.options.physics.enabled == true}" name="Enable Physics" class="slds-m-horizontal_x_small" alternativeText="{!v.options.physics.enabled ? 'Disable Physics' : 'Enable Physics'}" iconName="utility:world" onclick="{!c.handleTogglePhysics}"/>
+                            <lightning:buttonGroup class="slds-m-horizontal_small">
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == true, v.options.layout.hierarchical.direction == 'LR')}" name="LR" class="slds-m-horizontal_x_small" alternativeText="Hierarchical Left-Right Layout" iconName="utility:toggle_panel_left" onclick="{!c.handleSetHierarchicalLayout}"/>
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == true, v.options.layout.hierarchical.direction == 'RL')}" name="RL" class="slds-m-horizontal_x_small" alternativeText="Hierarchical Right-Left Layout" iconName="utility:toggle_panel_right" onclick="{!c.handleSetHierarchicalLayout}"/>
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == true, v.options.layout.hierarchical.direction == 'UD')}" name="UD" class="slds-m-horizontal_x_small" alternativeText="Hierarchical Up-Down Layout" iconName="utility:toggle_panel_top" onclick="{!c.handleSetHierarchicalLayout}"/>
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == true, v.options.layout.hierarchical.direction == 'DU')}" name="DU" class="slds-m-horizontal_x_small" alternativeText="Hierarchical Down-Up Layout" iconName="utility:toggle_panel_bottom" onclick="{!c.handleSetHierarchicalLayout}"/>
+                            </lightning:buttonGroup>
+                            <lightning:buttonGroup class="slds-m-horizontal_small">
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == false, v.options.physics.solver == 'barnesHut')}" name="barnesHut" class="slds-m-horizontal_x_small" alternativeText="Barnes Hut" iconName="utility:high_velocity_sales" onclick="{!c.handleSetLayout}"/>
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == false, v.options.physics.solver == 'forceAtlas2Based')}" name="forceAtlas2Based" class="slds-m-horizontal_x_small" alternativeText="Force Atlas 2 Based" iconName="utility:expand" onclick="{!c.handleSetLayout}"/>
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == false, v.options.physics.solver == 'repulsion')}" name="repulsion" class="slds-m-horizontal_x_small" alternativeText="Repulsiont" iconName="utility:rotate" onclick="{!c.handleSetLayout}"/>
+                                <lightning:buttonIconStateful selected="{!and(v.options.layout.hierarchical.enabled == false, v.options.physics.solver == 'hierarchicalRepulsion')}" name="hierarchicalRepulsion" class="slds-m-horizontal_x_small" alternativeText="Hierarchical Repulsion" iconName="utility:replace" onclick="{!c.handleSetLayout}"/>
+                            </lightning:buttonGroup>                            
+                            <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Edit the Selected Item in Analytics Studio" iconName="utility:edit" onclick="{!c.handleEditAsset}"/>                                
+                            <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Clear" iconName="utility:clear" onclick="{!c.handleClearNetwork}"/>
+                            <lightning:buttonIconStateful selected="{!v.showInspector == true}" class="slds-m-horizontalsmall" alternativeText="{!v.showInspector == true ? 'Hide Inspector' : 'Show Inspector'}" iconName="utility:inspector_panel" onclick="{!c.handleToggleInspector}"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>                    
+                </aura:set>
+                
+                <lightning:layout class="slds-border_top">
+                    <lightning:layoutItem flexibility="auto" size="2">
+                        <div class="slds-p-vertical_small slds-border_right slds-border_bottom">
+                            
+                            <lightning:layout>
+                                <lightning:layoutItem flexibility="auto">
+                                    <div onkeyup="{!c.handleAssetTreeSearchKeyUp}" class="slds-m-horizontal_small">
+                                        <lightning:input
+                                                         aura:id="asset_tree_search"
+                                                         name="assetSearch"
+                                                         label="Search by name, label, or ID"
+                                                         placeholder="Search by name, label, or ID"
+                                                         isLoading="{!v.isSearchingAssetTree}"
+                                                         type="search"
+                                                         value="{!v.assetSearchTerm}"
+                                                         variant="label-hidden"
+                                                         />
+                                    </div>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    
+                                    <lightning:buttonIcon class="slds-m-horizontal_x_small" alternativeText="Refresh the List" iconName="utility:refresh" onclick="{!c.handleRefreshTree}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <div class="asset-tree-container">
+                                <c:assetTree aura:id="analytics_tree"
+                                             assetId="{!v.selectedAssetId}"
+                                             assetType="{!v.assetType}"
+                                             asset="{!v.asset}"
+                                             items="{!v.items}"
+                                             itemMaps="{!v.itemMaps}"
+                                             itemMap="{!v.itemMap}"
+                                             assetItemMap="{!v.assetItemMap}"
+                                             assetTypes="folders,dashboards,datasets,lenses,analyses"
+                                             pageSize="200"
+                                             />
+                            </div>
+                        </div>
+                        
+                    </lightning:layoutItem>                    
+                    
+                    
+                    
+                    
+                    
+                    <lightning:layoutItem flexibility="auto" size="{!v.showInspector ? '8' : '10'}">
+                        
+                        <div class="network-container" aura:id="network-container">
+                            <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" class="slds-hide"/>
+                            <div aura:id="mynetwork" class="mynetwork"></div>    
+                        </div>    
+                        
+                    </lightning:layoutItem>
+                    
+                    <aura:if isTrue="{!v.showInspector == true}">        
+                        <lightning:layoutItem flexibility="auto" size="2">
+                            
+                            <div class="inspector-container slds-border_left slds-border_bottom">
+                                
+                                <lightning:tabset class="slds-p-horizontal_x-small">
+                                    <lightning:tab label="Children">
+                                        <h1 class="slds-text-title_caps slds-m-bottom_small slds-truncate">{!v.selectedAsset ? (v.selectedAsset.type + ': ' + v.selectedAsset.label + ' | ' + v.selectedAsset.id) : ''}</h1>
+                                        <div class="inspector slds-truncate">
+                                            
+
+                                            <aura:iteration items="{!v.selectedAssetChildren}" var="child">
+
+                                                <aura:if isTrue="{!child.type == 'section'}">
+    
+                                                    <div class="slds-section slds-is-open">
+                                                        <h3 class="slds-section__title slds-theme_shade">
+                                                            <span class="slds-truncate slds-p-horizontal_small" title="{!child.label}">{!child.label}</span>
+                                                        </h3>
+                                                        <div aria-hidden="false" class="slds-section__content">
+                                                            <aura:iteration items="{!child.items}" var="item">
+                                                                <div class="slds-form-element slds-p-bottoom_xx-small">
+                                                                    <div class="slds-form-element__control">
+                                                                        <div class="slds-checkbox">
+                                                                            <input type="checkbox" name="{!item.name}" id="{!'checkbox_' + item.name}" value="{!item.name}" checked="{!item.checked}" onchange="{!c.handleSelectedAssetChildChange}"/>
+                                                                            <label class="slds-checkbox__label" for="{!'checkbox_' + item.name}">
+                                                                                <span class="slds-checkbox_faux"></span>
+                                                                                <span class="slds-form-element__label">{!item.label + ' | ' + item.name}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                                    
+                                                            </aura:iteration>
+                                                        </div>
+                                                    </div>
+                                                </aura:if>
+                                            </aura:iteration>
+                                                        
+                                        </div>
+                                    </lightning:tab>
+                                    
+                                    <lightning:tab label="Attributes">
+                                        <div class="inspector">
+                                            <c:assetJsonTreeView aura:id="asset_json_tree_view" asset="{!v.selectedAsset}" assetDetails="{!v.selectedAsset}"/>
+                                        </div>
+                                    </lightning:tab>
+
+                                    <lightning:tab label="Node">
+                                        <div class="inspector">
+                                            <c:assetJsonTreeView aura:id="node_json_tree_view" asset="{!v.selectedNode}" assetDetails="{!v.selectedNode}"/>
+                                        </div>
+                                    </lightning:tab>
+                                    
+                                </lightning:tabset>
+                                
+                            </div>
+                            
+                        </lightning:layoutItem>
+                    </aura:if>                    
+                </lightning:layout>
+                
+                
+                <aura:set attribute="footer">
+                </aura:set>
+            </lightning:card>
+            
+        </lightning:layoutItem>
+        
+        
+    </lightning:layout>
+    
+</aura:component>

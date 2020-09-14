@@ -1,0 +1,490 @@
+<apex:page standardStylesheets="false" lightningStylesheets="true" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+        <apex:slds />
+        <title>Analytics Sharing Utils</title>
+        <style>
+        
+            body, html {
+                margin: 0.75rem;
+                padding: 0;
+            }
+            
+            .html-framed, .html-framed body {
+                margin: 0;
+                padding: 5px;
+            }
+
+
+            .html-not-framed .slds-brand-band:before {
+                content: '';
+                display: block;
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-image: url(/_slds/images/themes/oneSalesforce/banner-brand-default.png?cache=210.2),-webkit-linear-gradient(to top,rgba(32, 92, 159, 0), rgb(32, 92, 159));
+                background-image: url(/_slds/images/themes/oneSalesforce/banner-brand-default.png?cache=210.2),linear-gradient(to top,rgba(32, 92, 159, 0), rgb(32, 92, 159));
+                background-repeat: repeat-x;
+                background-position: top left;
+            }
+            
+            .html-not-framed .slds-brand-band:after {
+                content: none;
+                display: block;
+                position: absolute;
+                z-index: -1;
+                left: 0;
+                right: 0;
+                top: 0;
+                width: 100%;
+                height: 3.125rem;
+                background-image: -webkit-linear-gradient(to bottom, rgba(175, 197, 222, 0) 60%,rgb(175, 197, 222));
+                background-image: linear-gradient(to bottom, rgba(175, 197, 222, 0) 60%,rgb(175, 197, 222));
+            }  
+            
+            .hidden {
+                display: none;
+            }
+                    
+            .hidden {
+                display: none;
+            }
+            
+            .slds-scope img.icon--medium {
+                max-width: 120px;
+                max-height: 100px;
+                min-width: 60px;
+                min-height: 50px;            
+            }
+
+            .slds-scope img.icon--small {
+                max-width: 60px;
+                max-height: 50px;
+                min-width: 60px;
+                min-height: 50px;            
+            }
+            
+            .slds-scope .slds-form-element__label {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .slds-scope .item-clickable {
+                cursor: pointer;
+                border: 1px solid transparent;
+            }
+
+            .slds-scope .item-clickable:hover {
+                background-color: #F0F8FC;
+            }
+            
+            .slds-scope .item-clickable.selected {
+                background-color: #FFFFFF;
+            }
+            
+            .slds-scope .item-clickable.selected .slds-image--card {
+                
+            }
+            
+            .slds-scope .item-clickable .slds-image--card {
+                width: 130px;
+                padding: 2px;
+                border: 0px none;
+                background: transparent;
+                box-shadow: none;
+            }                
+            
+            .slds-scope .button-bar {
+                min-height: 2rem;
+            }
+            
+            .slds-scope textarea#json {
+                display: block;
+                width: 100%;
+                min-height: 30rem;
+                resize: vertical;
+                font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+            }
+
+            .slds-scope #modal textarea.json {
+                display: block;
+                width: 100%;
+                min-height: 10rem;
+                resize: vertical;
+                font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+            }
+            
+            .slds-scope .toast-hidden, .slds-scope .modal-hidden, .slds-scope .backdrop-hidden {
+                display: none;
+            }
+            
+            .slds-scope .slds-form-element__control {
+                width: 62% !important;
+                margin: 0 2px;
+            }
+            
+            .slds-scope .slds-modal__container {
+                width: 50% !important;
+                max-width: 100% !important;
+            }
+
+            .slds-scope .slds-modal__container.wide {
+                width: 80% !important;
+                max-width: 100% !important;
+            }
+            
+            .slds-scope .slds-form--horizontal {
+                height: 36rem;
+                overflow-x: hidden;
+                overflow-y: auto;
+                padding-right: 1rem;
+            }
+            
+            .slds-scope button.copy-button {
+                float: right;
+            }
+            
+            .slds-scope .resource-label {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: inline-block;
+                width: 100%;                    
+            }
+
+            .slds-scope .resource-ns-name {
+                font-style: italic;
+                font-size: smaller;
+            }
+            
+            .slds-scope .slds-image--card {
+                background: transparent;
+                border: none;
+                box-shadow: none;                
+            }            
+                  
+            .slds-scope ul#resource-list {
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: 42rem;
+            }
+            
+            .pagespinner {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 10px;
+                z-index: 100000010;
+                background-color: rgba(255,255,255,.5);
+            }
+
+            .slds-scope #preview {
+                min-height: 10rem;
+            }
+            
+            .slds-scope img.preview-image {
+                max-height: 160px;
+                display: block;
+                margin: 5px;
+                border: 1px solid #F0F0F0;
+                padding: 10px;
+            }
+
+            .slds-scope .preview-message {
+                margin: 0 5px;
+                display: block;
+            }
+                
+            .slds-scope .icon-sharing {
+                margin-right: 20px;
+            }
+            
+            .slds-scope .icon-standard-analytics {
+                background-color: #0070d1;
+            }
+            
+            .slds-scope .item-clickable .slds-image--card {
+                width: 80px;
+            }
+            
+            .slds-scope .slds-page-header.slds-page-header_object-home {
+                margin: -0.75rem;
+            }
+          
+            .slds-scope .slds-grid--pull-padded, .slds-scope .slds-grid_pull-padded {
+                margin-top: 1.25rem;
+            }
+            
+        </style>
+    </head>
+    
+    <body>
+                            
+    <div class="slds-brand-band slds-brand-band_medium slds-template_bottom-magnet forceBrandBand"></div>
+    <div class="slds-scope slds-p-horizontal--x-small">
+        <div class="slds-notify_container toast-hidden" id="toast">
+            <div class="slds-notify slds-notify--toast" role="alert">
+                <span class="slds-assistive-text">Info</span> <button class="slds-button slds-notify__close slds-button--icon-inverse" id="toast-close" title="Close"><svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use></svg> <span class="slds-assistive-text">Close</span></button>
+                <div class="slds-notify__content">
+                    <h2 class="slds-text-heading--small" id="toast-message"></h2>
+                    <p id="toast-details"></p>
+                </div>
+            </div>
+        </div>
+        <div class="slds-page-header slds-page-header_object-home" style="">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container icon-standard-analytics"><svg aria-hidden="true" class="slds-icon">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/custom-sprite/svg/symbols.svg#custom102')}"></use></svg></span>
+                        </div>
+                        <div class="slds-media__body">
+                            <p class="slds-text-title_caps slds-line-height_reset">Analytics</p>
+                            <h1 class="slds-page-header__title slds-p-right_x-small">
+                                <span class="slds-grid slds-has-flexi-truncate slds-grid_vertical-align-center">
+                                    <span class="slds-truncate" title="Sharing Inheritance Coverage">Sharing Inheritance Coverage</span>
+                                </span>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-bottom_xx-small">
+                    <button class="slds-button slds-button_icon slds-m-left--xx-small slds-button_icon-border" onclick="refresh();" title="Refresh">
+                        <svg aria-hidden="true" class="slds-button__icon">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#refresh')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Refresh</span>
+                    </button>
+                    <button class="slds-button slds-button_icon slds-m-left--xx-small slds-button_icon-border" onclick="expSharingCoverage();" title="Export CSV">
+                        <svg aria-hidden="true" class="slds-button__icon">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#download')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Export CSV</span>
+                        <span class="slds-hide">
+                            <a href="#" id="download_link"></a>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            <div class="slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--4-of-12">
+                <div class="slds-box slds-box--xx-small slds-theme--shade slds-text-align--center">
+                    <div class="slds-tabs--default">
+                        <ul class="slds-tabs--default__nav" id="resource-tab-list" role="tablist"></ul>
+                    </div>
+                    <ul id="resource-list"></ul>
+                </div>
+            </div>
+            <div class="slds-p-left--small slds-size--1-of-2 slds-medium-size--4-of-6 slds-large-size--8-of-12">
+                <div class="slds-box slds-box--xx-small slds-theme--shade">
+                    <div class="button-bar slds-m-bottom--x-small">
+                        <div class="progressbar-container slds-hide" id="progressbar-container">
+                            <label for="progressbar" id="progressbar-label">Progress</label>
+                            <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="slds-progress-bar" id="progressbar" role="progressbar">
+                                <span class="slds-progress-bar__value" id="progressbar-value" style="width: 0%;">
+                                    <span class="slds-assistive-text" id="progressbar-text">0%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-tabs--scoped" id="details-content">
+                        <ul class="slds-tabs--scoped__nav" id="details-tab-list" role="tablist">
+                            <li class="slds-tabs--scoped__item slds-active" id="tab-overview__outer" role="presentation" title="Overview">
+                                <a aria-controls="tab-overview" aria-selected="true" class="slds-tabs--scoped__link" href="javascript:void(0);" id="tab-overview__item" role="tab" tabindex="0">Overview</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item" id="tab-attributes__outer" role="presentation" title="Attributes">
+                                <a aria-controls="tab-attributes" aria-selected="false" class="slds-tabs--scoped__link" href="javascript:void(0);" id="tab-attributes__item" role="tab" tabindex="-1">Attributes</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item" id="tab-json__outer" role="presentation" title="JSON">
+                                <a aria-controls="tab-json" aria-selected="false" class="slds-tabs--scoped__link" href="javascript:void(0);" id="tab-json__item" role="tab" tabindex="-1">JSON</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item" id="tab-sharing__outer" role="presentation" title="Sharing">
+                                <a aria-controls="tab-sharing" aria-selected="false" class="slds-tabs--scoped__link" href="javascript:void(0);" id="tab-sharing__item" role="tab" tabindex="-1">Sharing</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item" id="tab-preview__outer" role="presentation" title="Preview">
+                                <a aria-controls="tab-preview" aria-selected="false" class="slds-tabs--scoped__link" href="javascript:void(0);" id="tab-preview__item" role="tab" tabindex="-1">Preview</a>
+                            </li>
+                        </ul>
+                        
+                        <div aria-labelledby="tab-overview__item" class="slds-tabs--scoped__content slds-show" id="tab-overview" role="tabpanel">
+                            <div class="slds-form--horizontal" id="overview">
+                                <c:loDashboard loApp="c:loApp" dashboardId="0FKB00000008wHBOAY" width="1200" height="650"/>
+                            </div>
+                        </div>
+                        <div aria-labelledby="tab-attributes__item" class="slds-tabs--scoped__content slds-hide" id="tab-attributes" role="tabpanel">
+                            <div class="slds-clearfix">
+                                <div class="slds-float--left">
+                                    <input class="slds-input slds-lookup__search-input slds-size--large slds-m-around--small" id="attribute-search" onkeyup="searchAttributes(this);" placeholder="Search Attributes" type="search"/> <label class="hidden" id="match-count-label"><span id="match-count"></span>&nbsp;matches</label>
+                                </div>
+                            </div>
+                            <div class="slds-form--horizontal" id="attributes"></div>
+                        </div>
+                        <div aria-labelledby="tab-json__item" class="slds-tabs--scoped__content slds-hide" id="tab-json" role="tabpanel">
+                            <textarea id="json"></textarea>
+                        </div>
+                        <div aria-labelledby="tab-sharing__item" class="slds-tabs--scoped__content slds-hide" id="tab-sharing" role="tabpanel">
+                            <div id="sharing">
+                                TBD
+                            </div>
+                        </div>
+                        <div aria-labelledby="tab-preview__item" class="slds-tabs--scoped__content slds-hide" id="tab-preview" role="tabpanel">
+                            <div id="preview">
+                                TBD
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div aria-labelledby="header43" class="slds-modal slds-fade-in-open modal-hidden" id="modal" role="dialog" tabindex="-1">
+            <div class="slds-modal__container wide">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close"><svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#close')}"></use></svg> <span class="slds-assistive-text">Close</span></button>
+                    <h2 class="slds-text-heading--medium" id="modal-header">Create Template JSON</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <ul class="slds-has-dividers--top" id="attributes"></ul><label for="variableDef">Variable</label> <button class="slds-button slds-button--icon copy-button" onclick="copyToClipboard('#variableDef', 'variable definition JSON');" title="Copy to Clipboard"><svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium">
+                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#copy')}"></use></svg> <span class="slds-assistive-text">Copy to Clipboard</span></button> 
+                    <textarea class="json" id="variableDef" spellcheck="false">&gt;</textarea> <label for="ruleDef">Rule</label> <button class="slds-button slds-button--icon copy-button" onclick="copyToClipboard('#ruleDef', 'rule definition JSON');" title="Copy to Clipboard"><svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium">
+                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#copy')}"></use></svg> <span class="slds-assistive-text">Copy to Clipboard</span></button> 
+                    <textarea class="json" id="ruleDef" spellcheck="false">&gt;</textarea> <label for="pageDef">Page</label> <button class="slds-button slds-button--icon copy-button" onclick="copyToClipboard('#pageDef', 'page definition JSON');" title="Copy to Clipboard"><svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium">
+                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#copy')}"></use></svg> <span class="slds-assistive-text">Copy to Clipboard</span></button> 
+                    <textarea class="json" id="pageDef" spellcheck="false"></textarea>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button--neutral" name="cancelButton">Cancel</button> <button class="slds-button slds-button--brand" name="saveButton">Save</button>
+                </div>
+            </div>
+        </div>
+        <div aria-labelledby="header43" class="slds-modal slds-fade-in-open modal-hidden" id="template_update_modal" role="dialog" tabindex="-1">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close"><svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#close')}"></use></svg> <span class="slds-assistive-text">Close</span></button>
+                    <h2 class="slds-text-heading--medium" id="modal-header">Update Template JSON</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="dataflow_select">Select Dataflow</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="dataflow_select">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button--neutral" name="cancelButton">Cancel</button> <button class="slds-button slds-button--brand" name="updateButton">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open backdrop-hidden" id="backdrop"></div>
+
+        <c:loadinganalytics />
+
+    </div>
+        
+    <apex:includeScript value="{!URLFOR($Resource.asutils, '?ver=001')}"/>
+
+    <script>
+        
+        console.warn("window.top: ", window.top);
+        console.warn("window.self: ", window.self);
+        
+        if (window.top !== window.self) {
+            document.documentElement.classList.add("html-framed");
+        } else {
+            document.documentElement.classList.add("html-not-framed");        
+        }
+        
+        var _svgUrl = "{!URLFOR($Asset.SLDS, 'assets/icons/%%TYPE%%-sprite/svg/symbols.svg#%%NAME%%')}";
+        console.warn("__svgUrl: ", _svgUrl);
+        
+        // These are in the VF page to allow for easy use of REST
+        
+        function createRequest() {
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            return xhr;
+        }            
+        
+        function getSID() {
+            return "{!$Api.Session_ID}";
+        }
+        
+        function sendRequest(config, callback) {
+            var req = createRequest();
+            req.onreadystatechange = function() {
+                
+                if (req.readyState != 4) {
+                    return;
+                }
+                
+                var response = {};
+                
+                //console.warn("req.status: ", req.status);
+                //console.warn("req.response: ", req.response);
+                
+                if (req.status < 200 || req.status > 299) {
+                    response = {
+                        response: req.response,
+                        status: req.status,
+                        statusText: req.statusText,
+                        headers: req.getAllResponseHeaders(),
+                        config: config
+                    };
+                } else {
+                    response = req.response;
+                }
+                
+                if (req.responseType === "xml") {
+                    response.xml = req.responseXML;
+                }
+                
+                if (typeof callback === "function") {
+                    callback(response);
+                }
+            }
+            
+            req.open(config.method, config.url, true);
+            
+            // Set the Authorization header for local calls
+            req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+            
+            if (config.headers) {
+                for (var key in config.headers) {
+                    req.setRequestHeader(key, config.headers[key]);
+                }
+            }
+            
+            // Not necessary when using proxy?
+            req.setRequestHeader("Access-Control-Allow-Origin", "*");
+            
+            //req.setRequestHeader("Accept", config.responseType || "json");
+            
+            req.responseType = config.responseType || "json";
+            
+            if (config.method === "POST" || config.method === "PUT" || config.method === "PATCH") {
+                req.send(config.body);
+            } else {
+                req.send();
+            }
+        }        
+    </script>
+    </body>
+</html>
+</apex:page>

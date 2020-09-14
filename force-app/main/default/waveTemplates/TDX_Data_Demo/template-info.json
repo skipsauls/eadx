@@ -1,0 +1,83 @@
+{
+  "templateType" : "app",
+  "label" : "TDX Data Demo",
+  "name" : "TDX_Data_Demo",
+  "namespace" : "eadx",
+  "templateIcon" : "default.png",
+  "assetIcon" : "16.png",
+  "assetVersion" : 40.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules-simple-macros.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.0",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Account Details",
+      "name" : "Account_Details_tp",
+      "condition" : "${Variables.LoadAcctDB1}",
+      "file" : "dashboards/Account_Details.json"
+    },
+    {
+      "label" : "Account Type",
+      "name" : "Account_Type_tp",
+      "condition" : "${Variables.LoadAcctDB2}",
+      "file" : "dashboards/Account_Type.json"
+    },
+    {
+      "label" : "Opportunity Details",
+      "name" : "Opportunity_Details_tp",
+      "condition" : "${Variables.LoadOpptyDB1}",
+      "file" : "dashboards/Opportunity_Details.json"
+    },
+    {
+      "label" : "Opportunity Stage",
+      "name" : "Opportunity_Stage_tp",
+      "condition" : "${Variables.LoadOpptyDB2}",
+      "file" : "dashboards/Opportunity_Stage.json"
+    },
+    {
+      "label" : "Demo VFDashboard",
+      "name" : "Demo_VFDashboard_tp",
+      "condition" : "${Variables.UseOpptySObject}",
+      "file" : "dashboards/Demo_VFDashboard.json"
+    }
+  ],
+  "eltDataflows" : [
+    {
+      "label" : "TDX Data Demo Dataflow",
+      "name" : "TDX_Data_DemoDataflow",
+      "condition" : "${Variables.Overrides.createDataflow}",
+      "file" : "dataflow/TDX_Data_DemoDataflow.json"
+    }
+  ],
+  "datasetFiles" : [
+    {
+      "label" : "AcctDS",
+      "name" : "AcctDS",
+      "condition" : "${Variables.UseAccountSObject}",
+      "userXmd" : "dataset_files/AcctDS_XMD.json"
+    },
+    {
+      "label" : "OpptyDS",
+      "name" : "OpptyDS",
+      "condition" : "${Variables.UseOpptySObject}",
+      "userXmd" : "dataset_files/OpptyDS_XMD.json"
+    }
+  ],
+  "imageFiles" : [ ]
+}

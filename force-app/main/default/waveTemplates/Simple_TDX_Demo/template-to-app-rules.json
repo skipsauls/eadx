@@ -1,0 +1,90 @@
+{
+  "constants" : [
+    {
+      "name": "BackgroundIsTeal",
+      "value": "${Variables.DemoColor == 'Teal'}"
+    },
+    {
+      "name": "BackgroundIsPurple",
+      "value": "${Variables.DemoColor == 'Purple'}"
+    },
+    {
+      "name": "BackgroundIsBlue",
+      "value": "${Variables.DemoColor == 'Blue'}"
+    }
+  ],
+  "rules" : [
+    {
+      "name": "SetText",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "asdf_tp"
+        }
+      ],
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set the dashboard text value",
+          "path": "$.label",
+          "value": "${Variables.DashboardTitle}"
+        }
+      ]
+    },
+    {
+      "name": "SetBackgroundTeal",
+      "condition": "${Constants.BackgroundIsTeal}",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set the dashboard container color to teal",
+          "path": "$.state.gridLayouts.*.pages.*.widgets[?(@.name == 'container_1')].widgetStyle.backgroundColor",
+          "value": "#2EC2BA"
+        }
+      ]
+    },
+    {
+      "name": "SetBackgroundPurple",
+      "condition": "${Constants.BackgroundIsPurple}",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set the dashboard container color to purple",
+          "path": "$.state.gridLayouts.*.pages.*.widgets[?(@.name == 'container_1')].widgetStyle.backgroundColor",
+          "value": "#9271E8"
+        }
+      ]
+    },
+    {
+      "name": "SetBackgroundBlue",
+      "condition": "${Constants.BackgroundIsBlue}",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set the dashboard container color to blue",
+          "path": "$.state.gridLayouts.*.pages.*.widgets[?(@.name == 'container_1')].widgetStyle.backgroundColor",
+          "value": "#44A2F5"
+        }
+      ]
+    }
+  ],
+  "macros" : [ ]
+}

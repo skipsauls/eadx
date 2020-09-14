@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="developerName" type="String" access="global" default="df17eadx__Manager_Overview_3"/>
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FK1I000000Du0wWAC"/>
+    
+    <lightning:layout horizontalAlign="space">
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="3">        
+            <c:userRoleTree developerName="{!v.developerName}" dashboardId="{!v.dashboardId}" height="760px"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="9">
+            <lightning:card title="LeaderBoard" iconName="custom:custom15">
+            <wave:waveDashboard dashboardId="{!v.dashboardId}"
+                                height="760"
+                                openLinksInNewWindow="false"
+                                showHeader="false"
+                                showTitle="false"
+                                showSharing="false"
+                                />                
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>    
+</aura:component>

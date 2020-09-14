@@ -1,0 +1,35 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="TemplateConfigController">	
+    <aura:attribute name="title" type="String" description="title for the wizard page" default="Create the App"/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="nextStep" type="String" access="global" default="blank" description="What to do next."/>    
+    <aura:attribute name="templateId" type="String" access="global" default="blank" description="The selected template to preview, configure, etc.."/>    
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config object ID."/>
+    <aura:attribute name="selectedType" type="String" access="global" default="" description="The selected template type (app or dashboard)."/>
+    <aura:attribute name="appName" type="String" access="global" default="" description="The name of the app to create."/>
+
+    <aura:attribute name="template" type="Object" access="global" description="The selected template details."/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="outer">
+        <div class="slds-text-align_center slds-text-heading_medium slds-m-around_small">{!v.title}</div>
+        <lightning:layout class="controls" horizontalAlign="center" verticalAlign="center">
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="3"></lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+                <lightning:input type="text" label="Enter Your App Name" value="{!v.appName}"/>
+            </lightning:layoutItem>            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="3"></lightning:layoutItem>
+        </lightning:layout>
+            
+        <lightning:layout class="footer" horizontalAlign="end" verticalAlign="center" pullToBoundary="small" multipleRows="false">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="2">
+                <lightning:button variant="neutral" label="Back" onclick="{!c.handleBack}"/>
+                <lightning:button variant="brand" label="Create" onclick="{!c.createApp}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+            
+    </div>
+    
+</aura:component>

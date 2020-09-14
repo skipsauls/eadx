@@ -1,0 +1,73 @@
+<aura:component isTemplate="true" extends="aura:template">
+    <aura:set attribute="title" value="Embed Test"/>
+    <aura:set attribute="loadingText" value=""/>
+    <aura:set attribute="extraMetaTags">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+    </aura:set>
+    
+    
+    <aura:set attribute="auraInlineStyle">
+        .main {
+            overflow-x: hidden;
+            position: relative;
+            overflow: hidden;
+            background: #FFFFFF;
+        	margin: 0;
+        	padding: 0;
+        }
+        
+        .assetContainer.waveAsset {
+        	margin: 0px auto;
+     	}
+
+
+		button {
+			background: red;
+		}        
+    </aura:set>
+    <aura:set attribute="afterBody">
+        <script>
+        	console.warn('afterBody');
+            
+            function waveUpdate(params) {
+            	console.warn('waveUpdate: ', params);
+            	let p = JSON.parse(params);
+            	console.warn('p: ', p);
+            	console.warn('p json: ', JSON.stringify(p));
+            	p.value = JSON.stringify(p.value);
+            	let evt = $A.get("e.wave:update");
+            	evt.setParams(p);
+        		evt.fire();
+            }
+
+			function geocodeAddress() {
+			    try {
+			        webkit.messageHandlers.geocodeAddress.postMessage(
+			        	{ 
+			        		street: document.getElementById("street").value,
+			        		city: document.getElementById("city").value,
+			        		state: document.getElementById("state").value,
+			        		country: document.getElementById("country").value
+			        	});
+            		//document.querySelector('h1').style.color = "green";
+			    } catch(err) {
+            		//document.querySelector('h1').style.color = "red";
+			    }
+			}
+
+			function changeBackgroundColor(colorText) {
+                console.warn('changeBackgroundColor: ', colorText);
+	            //document.body.style.background = colorText;
+			}
+
+			function setLatLon(lat, lon) {
+                console.warn('setLatLon: ', lat, lon);
+            	//document.getElementById("latitude").value = lat;
+            	//document.getElementById("longitude").value = lon;
+			}
+                    
+        </script>
+    </aura:set>
+    <aura:set attribute="bodyClass" value="main"/>
+    <aura:set attribute="defaultBodyClass" value="main"/>
+</aura:component>

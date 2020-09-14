@@ -1,0 +1,44 @@
+.THIS {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    height: 1080px;
+}
+
+.THIS.main {
+	background-repeat: no-repeat;
+	background-size: 80px;
+	background-position: 15px 10px;
+	transition: background-position 0.7s ease;
+}
+
+.THIS .title {
+    text-overflow: ellipsis;
+    height: 1rem;
+    display: block;
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS ul.breadcrumbs {
+    display: inline-flex;
+}
+
+.THIS ul.breadcrumbs li {
+	margin-right: 5px;
+}
+
+.THIS ul.list {
+    height: 10rem;
+    overflow: auto;
+}
+
+.THIS ul.list li {
+    cursor: pointer;
+}
+
+.THIS .doc-viewer {
+    height: 30rem;
+    overflow: auto;
+}

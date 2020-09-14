@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assetIcon>/analytics/wave/web/proto/images/app/icons/11.png</assetIcon>
+    <folder>eadx__Pages_Demo</folder>
+    <masterLabel>Pages Demo</masterLabel>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>demo@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>wow_demo__Wow_Demo</templateOrigin>
+    <templateVersion>1.0</templateVersion>
+</WaveApplication>

@@ -1,0 +1,87 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="galleryItem" type="Object" access="global"/>
+    <aura:attribute name="switch" type="String" access="global" default="A"/>
+    
+    <aura:attribute name="dashboards" type="Object[]" access="global"/>
+    
+    <aura:attribute name="developerNames" type="String[]" access="global"/>
+    <aura:attribute name="developerNameA" type="String" access="global" default="eadx__Let_s_Race"/>
+    <aura:attribute name="developerNameB" type="String" access="global" default="eadx__Let_s_Race"/>
+    
+    <aura:attribute name="height" type="Integer" access="global" default="700"/>
+    
+    <aura:attribute name="ready" type="Boolean" access="global" default="false"/>
+    
+    <aura:attribute name="sync" type="Boolean" access="global" default="true"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.developerNameA}" action="{!c.handleDeveloperNameAChanged}"/>
+    <aura:handler name="change" value="{!v.developerNameB}" action="{!c.handleDeveloperNameBChanged}"/>
+    
+    <aura:handler event="wave:discoverResponse" action="{!c.handleDiscoverResponse}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div>
+        <div class="slds-box slds-theme_default header">
+            <h1 class="slds-text-heading_large slds-align_absolute-center ">Let's Race!</h1>
+        </div>
+        <lightning:layout class="slds-m-vertical_small">
+            <lightning:layoutItem flexibility="auto" size="6">  
+                <lightning:card iconName="standard:lightning_component" title="Summer '19" class="slds-m-right_x-small">
+                    <aura:set attribute="actions">
+                        <fieldset class="slds-form-element slds-form-element_compound">
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-4">
+                                        <lightning:input type="checkbox" checked="{!v.sync}" label="Sync" class="slds-align_absolute-center"/>
+                                    </div>
+                                    <div class="slds-size_3-of-4">
+                                        <lightning:select value="{!v.developerNameA}" label="Dashboard" variant="label-hidden" class="select slds-align_absolute-center">
+                                            <option value="">Please select a dashboard</option>
+                                            <aura:iteration items="{!v.dashboards}" var="dashboard">
+                                                <option value="{!(dashboard.namespace != null ? (dashboard.namespace + '__') : '') + dashboard.name}">{!dashboard.label}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </aura:set>
+                    <wave:waveDashboard aura:id="dashboard"
+                                        developerName="{!v.developerNameA}"
+                                        height="{!v.height}"
+                                        showSharing="false"
+                                        showHeader="false"
+                                        showTitle="false"
+                                        />
+                </lightning:card>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" size="6">            
+                <lightning:card iconName="standard:waits" title="Pre Summer '19" class="slds-m-left_x-small">
+                    <aura:set attribute="actions">
+                        <fieldset class="slds-form-element slds-form-element_compound">
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-4">
+                                        <lightning:input type="checkbox" checked="{!v.sync}" label="Sync" class="slds-align_absolute-center"/>
+                                    </div>
+                                    <div class="slds-size_3-of-4">
+                                        <lightning:select value="{!v.developerNameB}" label="Dashboard" variant="label-hidden" class="select slds-align_absolute-center">
+                                            <option value="">Please select a dashboard</option>
+                                            <aura:iteration items="{!v.dashboards}" var="dashboard">
+                                                <option value="{!(dashboard.namespace != null ? (dashboard.namespace + '__') : '') + dashboard.name}">{!dashboard.label}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </aura:set>
+                    <div aura:id="dashboard_old">
+                    </div>
+                </lightning:card>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

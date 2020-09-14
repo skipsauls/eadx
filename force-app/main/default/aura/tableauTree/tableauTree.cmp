@@ -1,0 +1,52 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="assetId" type="String" access="global" description="The ID of the currently selected asset. May be null"/>
+    <aura:attribute name="assetType" type="String" access="global" description="The type of the currently selected asset. May be null"/>
+    <aura:attribute name="asset" type="Object" access="global" description="The currently selected asset object. May be null"/>
+    <aura:attribute name="items" type="Object" access="global"/>
+    <aura:attribute name="itemMap" type="Object" access="global"/>
+    <aura:attribute name="itemMaps" type="Object" access="global"/>
+    <aura:attribute name="assetItemMap" type="Object" access="global"/>
+    <aura:attribute name="pageSize" type="Integer" access="global" default="20" description="The number of items to retrieve"/>
+    <aura:attribute name="showDetails" type="Boolean" access="global" default="false" description="Show the details for an asset as child nodes in tree"/>
+    <aura:attribute name="assetTypes" type="String[]" access="global" default="*" description="The types of assets to list in the tree."/>
+
+    
+    <aura:attribute name="proxyReady" type="Boolean" access="global" default="false"/>
+
+
+    <aura:attribute name="siteName" type="String" access="global" description="The selected Tableau Site" default="eadx"/>
+    <aura:attribute name="site" type="Object" access="global" description="The Tableau Site"/>
+    <aura:attribute name="sites" type="Object[]" access="global" description="The Tableau Site(s)"/>
+
+    <aura:attribute name="selectedItem" type="Object" access="global" description="The currently selected item"/>
+
+    
+    <aura:registerEvent name="analyticsTreeSelection" type="c:analyticsTreeSelection"/>
+                                                                                     
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<aura:handler name="change" value="{!v.proxyReady}" action="{!c.handleProxyReady}"/>
+    
+	<aura:handler name="change" value="{!v.selectedItem}" action="{!c.handleSelectedItemChange}"/>
+
+	<aura:method name="refresh" description="Force the tree to refresh">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <c:proxy aura:id="proxy" ready="{!v.proxyReady}"/>
+    
+    <!--
+    <div class="sites">
+		<lightning:select name="site" value="{!v.siteName}" onchange="{!c.handleSiteNameChange}">
+        	<aura:iteration items="{!v.sites}" var="site">
+            	<option value="{!site.contentUrl}">{!site.name}</option>
+            </aura:iteration>
+        </lightning:select>
+    </div>
+    -->
+    
+    <div class="tree">
+	    <lightning:tree items="{! v.items }" onselect="{!c.handleSelect}" class="tableau-resource-tree"/>
+
+    </div>
+</aura:component>

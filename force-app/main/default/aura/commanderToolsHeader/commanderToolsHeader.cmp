@@ -1,0 +1,11 @@
+<aura:component access="global">
+    <div class="slds-page-header banner-header clouds-img">
+        <div class="slds-media">
+            <div class="banner-header einstein-icon"></div>
+        </div>
+        <div class="slds-media__body">
+            <div class="banner-header einstein-text"></div>
+        </div>
+        <div class="banner-header einstein-img"></div>
+    </div>
+</aura:component>

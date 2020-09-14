@@ -1,0 +1,11 @@
+<aura:component access="global">
+    <aura:attribute name="appTemplate" type="Object" access="global"/>    
+    <div class="slds-image">
+        <img class="icon--medium" src="{!v.appTemplate.icons.templateBadge.url}"></img>
+    </div>
+    <div class="slds-media__body slds-m-around--small">
+        <div class="slds-text-align--left slds-text-heading--small resource-label" title="{!v.appTemplate.label + '&nbsp;(' + v.appTemplate.namespace + '__' + v.appTemplate.name + ')'}">
+            {!v.appTemplate.label}
+        </div>
+    </div>
+</aura:component>

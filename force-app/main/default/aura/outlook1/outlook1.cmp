@@ -1,0 +1,28 @@
+<aura:component implements="clients:availableForMailAppAppPage,clients:hasItemContext">
+
+<!--
+    Add these handlers to customize what happens when the attributes change
+    <aura:handler name="change" value="{!v.subject}" action="{!c.handleSubjectChange}" />
+    <aura:handler name="change" value="{!v.people}" action="{!c.handlePeopleChange}" />
+-->
+
+    <div id="content">
+        <h1><b>Email subject</b></h1>
+        <span id="subject">{!v.subject}</span>
+
+        <h1>To:</h1>
+        <aura:iteration items="{!v.people.to}" var="to">
+            {!to.name} - {!to.email} <br/>
+        </aura:iteration>
+
+        <h1>From:</h1>
+        {!v.people.from.name} - {!v.people.from.email}
+
+        <h1>CC:</h1>
+        <aura:iteration items="{!v.people.cc}" var="cc">
+            {!cc.name} - {!cc.email} <br/>
+        </aura:iteration>
+
+        <span class="greeting">New Email Arrived</span>, {!v.subject}!
+    </div>
+</aura:component>

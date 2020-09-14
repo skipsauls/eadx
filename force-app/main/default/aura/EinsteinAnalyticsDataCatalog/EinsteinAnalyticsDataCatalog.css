@@ -1,0 +1,45 @@
+.THIS {
+}
+
+.THIS .slds-brand-band {
+    top: 50px;
+    background: transparent;
+}
+
+.THIS .slds-template_default {
+    padding: 8px;
+}
+
+.THIS .slds-template_default.slds-brand-band:before, .THIS .slds-template_default.slds-brand-band:after {
+    background: transparent;
+}
+
+.THIS .forceStyle .stage {
+    overflow: hidden;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -ms-box-orient: vertical;
+    box-orient: vertical;
+    flex-flow: column;
+    width: 100%;
+    height: 100%;
+}
+
+.THIS .forceStyle .viewport .stage {
+}
+
+.THIS .forceStyle.desktop .stage {
+    position: absolute;
+    overflow: visible;
+    width: auto;
+    z-index: 0;
+}
+
+.THIS .forceStyle.desktop .stage, .THIS .forceStyle.desktop .stage .global.forceToast, .THIS .forceStyle.desktop .stage .forceToastMessageQueue, .THIS .forceStyle.desktop .stage .s1FixedFullWidth {
+    left: 0;
+    right: 0;
+}
+
+.THIS .forceStyle.desktop .viewport .stage {
+
+}

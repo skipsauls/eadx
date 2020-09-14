@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Demo_Dashboard_2"/>
+    
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="800"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+            <c:dashboardSDKNamespaced/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+            <wave:waveDashboard developerName="{!v.developerName}"
+                                height="{!v.height}"
+                                openLinksInNewWindow="true"
+                                showHeader="true"
+                                showTitle="true"
+                                showSharing="true"
+                                />
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+</aura:component>

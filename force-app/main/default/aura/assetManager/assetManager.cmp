@@ -1,0 +1,58 @@
+<aura:component access="global">
+    <aura:attribute name="ready" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="apiVersion" type="Object" access="global"/>
+    <aura:attribute name="waveUrls" type="Object" access="global"/>
+    <aura:attribute name="proxyReady" type="Boolean" default="false"/>
+    
+    <aura:handler name="change" value="{!v.proxyReady}" action="{!c.handleProxyReady}"/>
+    
+    <aura:method name="getAsset" action="{!c.getAsset}" description="Gets the metadata for the specified asset"> 
+        <aura:attribute name="config" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getDataset" action="{!c.getDataset}" description="Gets the specified dataset"> 
+        <aura:attribute name="id" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getDatasetDetails" action="{!c.getDatasetDetails}" description="Gets the details for the specified dataset"> 
+        <aura:attribute name="dataset" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="listDatasets" action="{!c.listDatasets}" description="Returns the list of datasets"> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="listReplicatedDatasets" action="{!c.listReplicatedDatasets}" description="Returns the list of replicated datasets"> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getReplicatedDatasetFields" action="{!c.getReplicatedDatasetFields}" description="Gets the fields for the replicated dataset"> 
+        <aura:attribute name="url" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="listRecipes" action="{!c.listRecipes}" description="Returns the list of recipes"> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getRecipeFile" action="{!c.getRecipeFile}" description="Returns the file associated with a recipes"> 
+        <aura:attribute name="url" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="listDashboards" action="{!c.listDashboards}" description="Returns the list of dashboards"> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="describeDashboard" action="{!c.describeDashboard}" description="Gets the details for the specified dashboard">
+        <aura:attribute name="id" type="String"/>        
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <c:proxy aura:id="proxy" ready="{!v.proxyReady}"/>
+    <wave:sdk aura:id="sdk"/>
+    
+</aura:component>

@@ -1,0 +1,38 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+	<aura:attribute name="commanderAction" type="Object" access="global"/>
+
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <li class="slds-setup-assistant__item">
+        <article class="slds-setup-assistant__step">
+           
+        <div class="slds-setup-assistant__step-summary">
+        <div class="slds-media">
+            
+        <div class="slds-setup-assistant__step-summary-content slds-media__body">
+        	<h3 class="slds-setup-assistant__step-summary-title slds-text-heading_small">
+                    {!v.commanderAction.label}            
+            </h3>
+            <p><strong>{!v.commanderAction.description}</strong></p>
+            <section>
+            <div class="slds-summary-detail__content" >
+            <ul class="slds-is-nested">
+                <li>Possible Intents:</li>
+                <ul class="slds-is-nested">
+                {!v.body}              
+            </ul></ul>
+			</div>
+                
+           </section>
+        </div>
+         <!--
+        <div class="slds-media__figure slds-media__figure_reverse">            
+        	<button class="slds-button slds-button_outline-brand">Try it!</button>
+        </div>
+-->
+        </div>
+        </div>
+        </article>
+        
+     </li>
+
+</aura:component>

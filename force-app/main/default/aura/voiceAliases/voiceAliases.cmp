@@ -1,0 +1,63 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="aliases" type="List" access="global"/>
+    <aura:attribute name="aliasColumns" type="List" access="global"/>
+    <aura:attribute name="selectedRows" type="List" access="global"/>    
+    
+    <aura:attribute name="alias" type="Object" access="global"/>
+    <aura:attribute name="aliasJson" type="String" access="global"/>
+    <aura:attribute name="aliasQuery" type="String" access="global"/>
+    <aura:attribute name="aliasQueryResultsJson" type="String" access="global"/>
+    
+	<aura:method name="test" description="Testing only" access="global">
+        <aura:attribute name="alpha" type="String" description="The alpha string" access="global"/>
+        <aura:attribute name="beta" type="Integer"/>
+        <aura:attribute name="gamma" type="String[]" default="1,2,3"/>
+        <aura:attribute name="delta" type="Object"/>
+        <aura:attribute name="rho" type="List"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />	
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem size="12" class="slds-p-around_x-small">
+            <lightning:card iconName="standard:drafts"
+                            title="Voice Aliases">
+                <aura:set attribute="actions">
+                    <lightning:button label="Execute Query" onclick="{!c.handleExecuteQuery}"/>
+                </aura:set>
+                <lightning:layout>
+                    <lightning:layoutItem size="12" class="slds-p-around_x-small">
+                        <lightning:datatable
+                                             class="table-container slds-box"
+                                             keyField="id"
+                                             data="{!v.aliases}"
+                                             columns="{!v.aliasColumns}"
+                                             maxRowSelection="1"
+                                             onrowselection="{!c.handleRowSelection}"
+                                             onrowaction="{!c.handleRowAction}"
+                                             />
+                        
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout>
+        <lightning:layoutItem size="4" class="slds-p-around_x-small">
+            <lightning:textarea aura:id="alias_json" value="{!v.aliasJson}" class="json-view" label="Definition"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" class="slds-p-around_x-small">
+            <lightning:textarea aura:id="alias_query" value="{!v.aliasQuery}" class="json-view" label="SAQL"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" class="slds-p-around_x-small">
+            <lightning:textarea aura:id="alias_query_results" value="{!v.aliasQueryResultsJson}" class="json-view" label="Results"/>
+        </lightning:layoutItem>
+                    
+                </lightning:layout>
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+</aura:component>

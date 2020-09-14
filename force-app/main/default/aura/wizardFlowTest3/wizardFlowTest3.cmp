@@ -1,0 +1,120 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global" controller="TemplateConfigController">
+    <aura:attribute name="title" type="String" description="title for the wizard page" default="Choose an App Template"/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="nextStep" type="String" access="global" default="blank" description="What to do next."/>    
+    <aura:attribute name="templateId" type="String" access="global" default="blank" description="The selected template to preview, configure, etc.."/>    
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config object ID."/>
+
+    <aura:attribute name="featuredTemplateNames" type="String[]" access="global" default="sfdc_internal__Service_Analytics_Flex,sfdc_internal__Sales_Analytics_Flex" description="The featured template names in ns__name form."/>
+    
+    <aura:attribute name="typeList" type="Object[]" access="global" default="" description="The list of template types."/>
+    <aura:attribute name="selectedType" type="String" access="global" default="app" description="The selected template type."/>
+    
+    <aura:attribute name="filterByList" type="Object[]" access="global" default="" description="The list of filter items."/>
+    <aura:attribute name="selectedFilter" type="String" access="global" default="" description="The list of selected filter items."/>
+    
+    <aura:attribute name="searchTerm" type="String" access="global" default="" description="The search term."/>
+    
+    <aura:attribute name="featuredList" type="Object[]" access="global" default="" description="The list of featured templates."/>
+    <aura:attribute name="templateList" type="Object[]" access="global" default="" description="The list of templates."/>
+    <aura:attribute name="selectedTemplate" type="String" access="global" default="" description="The name of the selected template."/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <aura:handler name="change" value="{!v.selectedType}" action="{!c.handleTypeChange}"/>
+    
+    <aura:handler name="change" value="{!v.selectedFilter}" action="{!c.handleFilterChange}"/>
+    
+    <aura:handler name="change" value="{!v.searchTerm}" action="{!c.handleSearchTermChange}"/>
+    
+    <!--
+    <h1>Create Template App</h1>
+    <h1>Start From: {!v.startFrom}</h1>
+    <h1>Template Config ID: {!v.configId}</h1>
+    <h1>Bobby likes Lightning {!v.startFrom}</h1>
+    <h1>selectedType: {!v.selectedType}</h1><br/>
+    <h1>searchTerm: {!v.searchTerm}</h1><br/>
+    <h1>selectedFilter: {!v.selectedFilter}</h1><br/>
+    -->
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="outer">
+        <div class="slds-text-align_center slds-text-heading_medium slds-m-around_small">{!v.title}</div>
+        <lightning:layout class="controls" horizontalAlign="spread" verticalAlign="center">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="4">
+                
+                
+                <lightning:select label=" " name="type" value="{!v.selectedType}">
+                    <aura:iteration items="{!v.typeList}" var="item">
+                        <option value="{!item.value}">{!item.label}</option>
+                    </aura:iteration>
+                </lightning:select>            
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="4">  
+                <lightning:input type="search" label=" " name="search" value="{!v.searchTerm}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="4">
+                <lightning:select label=" " name="filterBy" value="{!v.selectedFilter}">
+                    <aura:iteration items="{!v.filterByList}" var="item">
+                        <aura:if isTrue="{!item.group != null}">
+                            <optgroup label="{!item.label}">
+                                <aura:iteration items="{!item.items}" var="child">
+                                    <option value="{!child.value}">{!child.label}</option>
+                                </aura:iteration>
+                            </optgroup>
+                            <aura:set attribute="else">
+                                <option value="{!item.value}">{!item.label}</option>
+                            </aura:set>
+                        </aura:if>                    
+                    </aura:iteration>
+                </lightning:select>            
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <lightning:layout class="main" horizontalAlign="start" verticalAlign="start" pullToBoundary="small" multipleRows="true">
+            
+            <aura:iteration items="{!v.templateList}" var="template">
+                <aura:if isTrue="{!template.shown == true}">
+                    <lightning:layoutItem flexibility="auto" padding="around-small" size="{!template.featured == true ? '6' : '3'}">
+                        <div class="card-outer" onclick="{!c.handleSelectTemplate}" data-template-id="{!template.id}">
+                            <lightning:card class="{!template.featured == true ? 'card featured' : 'card'}">
+                                <aura:set attribute="title">
+                                    <lightning:avatar src="{!template.icons.appBadge.url}" fallbackIconName="{!template.type == 'app' ? 'standard:folder' : 'standard:dashboard'}" alternativeText="{!template.label}" size="small"/>
+                                    <span class="slds-text-heading_small slds-m-horizontal_small">{!template.label}</span>
+                                </aura:set>
+                                <aura:set attribute="actions">
+                                    <lightning:buttonIcon iconName="utility:preview" alternativeText="Preview" name="{!template.id}" onclick="{!c.preview}"/>
+                                </aura:set>
+                                <p class="slds-p-around_x-small">
+                                    <aura:if isTrue="{!template.templateType == 'app'}">
+                                        <img class="{!template.featured ? 'detail featured' : 'detail'}" src="{!template.icons.templateDetail.url}" alt="{!template.description}"/>                            
+                                        <div class="{!template.featured ? 'description featured' : 'description'}">{!template.description}</div>
+                                    </aura:if>
+                                    
+                                    <aura:if isTrue="{!template.templateType == 'dashboard'}">
+                                        <div class="slds-clearfix">
+                                            <img class="dashboard slds-float_left slds-p-around_x-small" src="{!template.icons.templateBadge.url}" alt="{!template.description}"/>                            
+                                            <span class="">{!template.description}</span>
+                                        </div>
+                                    </aura:if>
+                                    
+                                </p>
+                                <aura:set attribute="footer">
+                                </aura:set>
+                            </lightning:card>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>                
+            </aura:iteration>
+            
+        </lightning:layout>
+        <lightning:layout class="footer" horizontalAlign="end" verticalAlign="center" pullToBoundary="small" multipleRows="false">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="2">
+                <lightning:button variant="neutral" label="Back" onclick="{!c.handleBack}"/>
+                <lightning:button variant="brand" label="Next" onclick="{!c.handleNext}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

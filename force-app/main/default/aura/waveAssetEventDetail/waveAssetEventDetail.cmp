@@ -1,0 +1,19 @@
+<aura:component >
+    <aura:attribute name="title" type="String" default="Events"/>
+    <aura:attribute name="events" type="List" required="true"/>
+
+    <aura:attribute name="columns" type="List"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div aura:id="event-data">
+        <lightning:datatable data="{! v.events }" 
+                             columns="{! v.columns }"
+                             keyField="itemId"
+                             sortedBy="index"
+                             sortedDirection="asc"
+                             wrapTextMaxLines="10"
+                             resizeColumnDisabled ="true"
+                             hideCheckboxColumn="true"/>        
+    </div>
+</aura:component>

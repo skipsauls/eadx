@@ -1,0 +1,74 @@
+<aura:component controller="SOQLDatatableController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="dashboardId" type="String" description="Dashboard ID"/>
+    <aura:attribute name="dashboards" type="Object" description="Cached dashboard details"/>
+    <aura:attribute name="datasets" type="Object" description="Cached dataset details"/>
+    <aura:attribute name="datasetFields" type="Object" description="Cached dataset fields"/>
+    <aura:attribute name="selectedSteps" type="Object" description="Steps with selections, used to see if they need to be cleared"/>
+    <aura:attribute name="selectedFields" type="Object" description="Selected fields, used for WHERE clauses"/>
+    
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="columns" type="List" access="global"/>    
+    <aura:attribute name="data" type="Object[]" access="global"/>
+    
+    <aura:attribute name="iconName" type="String" access="global" default="standard:account"/>
+    <aura:attribute name="objectApiName" type="String" access="global" default="Account"/>
+    <aura:attribute name="listName" type="String" access="global" default="RecentlyViewedAccounts"/>
+    <aura:attribute name="rows" type="Integer" access="global" default="5"/>
+    
+    <aura:attribute name="fields" type="String" access="global" default="Name"/>
+    <aura:attribute name="eaFieldMap" type="String" access="global" default="UniqueUserName=Owner.Name"/>
+    
+    <aura:attribute name="height" type="String" access="global" default="300px"/>
+    
+    <aura:attribute name="statecode" type="String" access="global" default=""/>
+    <aura:attribute name="countrycode" type="String" access="global" default=""/>
+    
+    <aura:attribute name="keyField" type="String" access="global" default="Id"/>    
+    
+    <aura:attribute name="defaultSortDirection" type="String" default="asc" access="global"/>
+    <aura:attribute name="enableInfiniteLoading" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="hideCheckboxColumn" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false" access="global"/>    
+    <aura:attribute name="resizeColumnDisabled" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="resizeStep" type="Integer" access="global" default="10"/>
+    <aura:attribute name="rowNumberOffset" type="Integer" access="global" default="0"/>
+    <aura:attribute name="selectedRows" type="List" access="global"/>
+    <aura:attribute name="showRowNumberColumn" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="sortedBy" type="String" access="global"/>
+    <aura:attribute name="sortedDirection" type="String" access="global"/>    
+    <aura:attribute name="title" type="String" access="global"/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <aura:handler name="change" value="{!v.statecode}" action="{!c.handleStatecodeChange}"/>
+    <aura:handler name="change" value="{!v.countrycode}" action="{!c.handleCountrycodeChange}"/>
+    
+    <lightning:card title="{!v.title}" iconName="{!v.iconName}">
+        
+        <div class="datatable" style="{!'height:' + v.height}">
+            <lightning:datatable aura:id="datatable"
+                                 class="{!v.class}"
+                                 columns="{!v.columns}" 
+                                 data="{!v.data}" 
+                                 keyField="{!v.keyField}"
+                                 onrowselection="{!c.handleRowSelection}"
+                                 onrowaction="{!c.handleRowAction}"
+                                 onsort="{!c.handleSort}"
+                                 
+                                 defaultSortDirection="{!v.defaultSortDirection}"
+                                 enableInfiniteLoading="{!v.enableInfiniteLoading}"
+                                 hideCheckboxColumn="{!v.hideCheckboxColumn}"
+                                 isLoading="{!v.isLoading}"
+                                 
+                                 title="{!v.title}"
+                                 />
+            
+        </div>
+    </lightning:card>
+    
+</aura:component>

@@ -1,0 +1,20 @@
+.THIS {
+    width: 100%;
+}
+.THIS .node_container {
+    text-align: left;
+    padding-top: 20px;
+}
+.THIS .node_step {
+    text-align: left;
+}
+.THIS .node_noop{
+    opacity: .2;
+}
+.THIS .slds-progress{
+    max-width: 100%;
+}
+.THIS .event-detail-modal{
+	width: 70%;
+	max-width: 70rem;    
+}

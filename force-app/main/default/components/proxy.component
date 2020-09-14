@@ -1,0 +1,98 @@
+<apex:component >
+    <script type="text/javascript">
+    window.addEventListener("message", messageHandler, false);
+    window.parent.postMessage({"type": "ready"}, "{!$CurrentPage.Parameters.ltng_origin}");
+
+    function messageHandler(event) {
+        var data = event.data;
+        var type = data.type;
+        if (type === "request") {
+            sendRequest(data.xhrConfig);    
+        }
+    }
+    
+    function createRequest() {
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return xhr;
+    }            
+    
+    function sendRequest(xhrConfig) {
+        var req = createRequest();
+        req.onreadystatechange = function() {
+            if (req.readyState != 4) {
+                return;
+            }
+            
+            var response = {};
+            
+            console.warn("proxy - req: ", req);
+            
+            if (req.status < 200 || req.status > 299) {
+                response = {
+                    status: req.status,
+                    statusText: req.statusText,
+                    headers: req.getAllResponseHeaders(),
+                    xhrConfig: xhrConfig
+                };
+            } else {
+                
+                response = {
+                    status: req.status,
+                    statusText: req.statusText,
+                    body: req.response,
+                    type: req.responseType,
+                    headers: req.getAllResponseHeaders(),
+                    xhrConfig: xhrConfig
+                };
+            }
+            
+            if (req.responseType === "xml") {
+                response.xml = req.responseXML;
+            }
+            
+            window.parent.postMessage({"type": "response", "response": response}, "*");
+        }
+        
+        //
+        
+        if (xhrConfig.url.indexOf("http") < 0) {
+            req.open(xhrConfig.method, xhrConfig.url, true);
+            // Set the Authorization header for local calls
+            req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+            
+        } else {
+            // Use the proxy
+            req.open(xhrConfig.method, "/services/proxy", true);
+            
+            // Set the endpoint accordingly for using the proxy
+            req.setRequestHeader("SalesforceProxy-Endpoint", xhrConfig.url);
+            
+        }
+        
+        if (xhrConfig.headers) {
+            for (var key in xhrConfig.headers) {
+                req.setRequestHeader(key, xhrConfig.headers[key]);
+            }
+        }
+        
+        // Not necessary when using proxy?
+        req.setRequestHeader("Access-Control-Allow-Origin", "*");
+        
+        //req.setRequestHeader("Accept", xhrConfig.responseType || "json");
+        
+        req.responseType = xhrConfig.responseType || "json";
+        
+        if (xhrConfig.method === "POST") {
+            req.send(xhrConfig.body);
+        } else {
+            req.send();
+        }
+        
+    }
+    </script>    
+</apex:component>

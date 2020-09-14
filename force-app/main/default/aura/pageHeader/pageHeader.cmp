@@ -1,0 +1,29 @@
+<aura:component access="global">
+    <aura:attribute name="actions" type="Object[]" access="global"/>
+    <div class="slds-scope slds-p-horizontal--x-small">
+        <div class="slds-page-header slds-page-header_object-home" style="">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <lightning:icon iconName="custom:custom102" variant="bare" size="large" alternativeText="Close" class="analytics-brand"/>
+                        </div>
+                        <div class="slds-media__body">
+                            <p class="slds-text-title_caps slds-line-height_reset">Setup</p>
+                            <h1 class="slds-page-header__title slds-p-right_x-small">
+                                <span class="slds-grid slds-has-flexi-truncate slds-grid_vertical-align-center">
+                                    <span class="slds-truncate" title="Sharing Inheritance Coverage">Einstein Analytics App Manager</span>
+                                </span>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-bottom_xx-small">
+                    <aura:iteration items="{!v.actions}" var="action">
+	                    <lightning:button variant="neutral" label="{!action.label}" name="{!action.name}" onclick="{!c.fireAction}"/>
+                    </aura:iteration>
+                </div>
+            </div>
+        </div>	
+    </div>
+</aura:component>

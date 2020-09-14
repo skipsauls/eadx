@@ -1,0 +1,19 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <aura:attribute name="developerName" type="String" default="mort_calc_Mortgage_Calculator" access="GLOBAL"/>
+    <aura:attribute name="height" type="Integer" default="500" access="GLOBAL"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <lightning:layout>        
+        <lightning:layoutItem flexibility="auto" size="12">
+            <wave:waveDashboard developerName="{!v.developerName}"
+                                height="{!v.height}"
+                                openLinksInNewWindow="true"
+                                showHeader="false"
+                                showTitle="false"
+                                showSharing="false"
+                                />        	
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

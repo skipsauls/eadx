@@ -1,0 +1,31 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <aura:attribute name="options" type="Object" default="" access="global" description="The chart options"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:method name="setType" action="{!c.setChartType}"  description="Sets the chart type"> 
+        <aura:attribute name="type" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getType" action="{!c.getChartType}"  description="Gets the chart type"> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="listTypes" action="{!c.listChartTypes}"  description="Lists the chart types"> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    
+       <!--
+                             src="/resource/1541798676315/eadx__SendReceiveMessages/index.html" 
+		-->
+    <div class="outer">
+        <lightning:container aura:id="ReactApp"
+                             src="{!$Resource.SendReceiveMessages + '/index.html'}"
+                             onmessage="{!c.handleMessage}"
+                             onerror="{!c.handleError}"/>    
+    </div>
+    
+</aura:component>

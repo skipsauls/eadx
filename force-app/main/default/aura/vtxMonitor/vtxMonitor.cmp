@@ -1,0 +1,123 @@
+<aura:component controller="AlexaProxy" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="transactions" type="Object[]" access="global"/>
+    
+    <div class="outer">
+        <section class="main-content" aura:id="main_content">    
+            <article class="slds-card slds-p-around--x-small">
+                <div class="slds-grid slds-grid--pull-padded slds-p-horizontal--medium">
+                    <lightning:button iconName="utility:refresh" class="" iconPosition="right" variant="neutral" onclick="{!c.refresh}" label="Refresh" title="Refresh"/>
+                </div>
+                
+                <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-horizontal--medium">
+                    
+                    <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-p-horizontal--medium">
+                        <thead aura:id="table-head">
+                            <tr class="slds-text-title_caps">
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Name">Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div classs="slds-truncate" title="Date">Date</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="App">App</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Device">Device</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="User">User</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Speaker">Speaker</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Confidence">Confidence</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Intent">Intent</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Slots">Slots</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Method">Method</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="URI">URI</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Audio">Audio</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Display">Display</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Video">Video</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Actions">Actions</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody aura:id="table-body">
+                            <aura:iteration items="{!v.transactions}" var="transaction" indexVar="idx">
+                                <tr>
+                                    <td scope="row" data-label="Name">
+                                        <div class="slds-truncate" title="{!transaction.Name}">{!transaction.Name}</div>
+                                    </td>
+                                    <td scope="row" data-label="Name">
+                                        <lightning:formattedDateTime value="{!transaction.CreatedDate}" year="numeric" month="numeric" day="numeric"  hour="2-digit" minute="2-digit" timeZoneName="short" />                                
+                                    </td>
+                                    <td scope="row" data-label="App">
+                                        <div class="slds-truncate" title="{!(transaction.Application_Alias__c || '?') + ' - (' + transaction.Application_Id__c + ')'}">{!transaction.Application_Alias__c || '?'}</div>
+                                    </td>
+                                    <td scope="row" data-label="Device">
+                                        <div class="slds-truncate" title="{!(transaction.Device_Alias__c || '?') + ' - (' + transaction.Device_Id__c + ')'}">{!transaction.Device_Alias__c || '?'}</div>
+                                    </td>
+                                    <td scope="row" data-label="User">
+                                        <div class="slds-truncate" title="{!(transaction.User_Alias__c || '?') + ' - (' + transaction.User_Id__c + ')'}">{!transaction.User_Alias__c || '?'}</div>
+                                    </td>
+                                    <td scope="row" data-label="Speaker">
+                                        <div class="slds-truncate" title="{!(transaction.Speaker_Alias__c || '?')  + ' - (' + transaction.Speaker_Id__c + ')'}">{!transaction.Speaker_Alias__c || '?'}</div>
+                                    </td>
+                                    <td scope="row" data-label="Confidence">
+                                        <div class="slds-truncate" title="{!transaction.Speaker_Confidence__c}">{!transaction.Speaker_Confidence__c}</div>
+                                    </td>
+                                    <td scope="row" data-label="Intent">
+                                        <div class="slds-truncate" title="{!transaction.Intent_Name__c}">{!transaction.Intent_Name__c}</div>
+                                    </td>
+                                    <td scope="row" data-label="Slots">
+                                        <div class="slds-truncate" title="{!transaction.Slot_Values__c}">{!transaction.Slot_Values__c}</div>
+                                    </td>
+                                    <td scope="row" data-label="Method">
+                                        <div class="slds-truncate" title="{!transaction.HTTP_Method__c}">{!transaction.HTTP_Method__c}</div>
+                                    </td>
+                                    <td scope="row" data-label="Slots">
+                                        <div class="slds-truncate" title="{!transaction.URI__c}">{!transaction.URI__c}</div>
+                                    </td>
+                                    <td scope="row" data-label="Audio">
+                                        <lightning:input type="checkbox" name="audio" label="&nbsp;" checked="{!transaction.Audio__c == true}"/>
+                                    </td>
+                                    <td scope="row" data-label="Display">
+                                        <lightning:input type="checkbox" name="display" label="&nbsp;" checked="{!transaction.Display__c == true}"/>
+                                    </td>
+                                    <td scope="row" data-label="Video">
+                                        <lightning:input type="checkbox" name="video" label="&nbsp;" checked="{!transaction.Video__c == true}"/>
+                                    </td>
+                                    <td scope="row" data-label="Actions">
+                                        <lightning:buttonIcon iconName="utility:right" size="medium" alternativeText="Details" value="{!idx}" onclick="{!c.getDetails}"/>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                </div>                    
+            </article>
+            
+            
+        </section>
+    </div>
+    
+</aura:component>

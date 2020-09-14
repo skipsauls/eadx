@@ -1,0 +1,31 @@
+<aura:component access="global">
+
+    <aura:attribute name="serverUrl" type="String" access="global" default="us-west-2b.online.tableau.com"/>
+    <aura:attribute name="siteNames" type="String[]" access="global" default="eadx,einsteinsandbox"/>
+    <aura:attribute name="siteName" type="String" access="global" default="eadx"/>
+    <aura:attribute name="username" type="String" access="global" default="df19codey@gmail.com"/>
+    <aura:attribute name="password" type="String"/>
+    <aura:attribute name="tableauAuth" type="Object" access="global"/>
+
+    <aura:attribute name="proxyReady" type="Boolean" access="global" default="false"/>
+
+    <aura:handler name="change" value="{!v.proxyReady}" action="{!c.handleProxyReady}"/>
+    
+    <c:proxy aura:id="proxy" ready="{!v.proxyReady}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="outer">
+        
+        <lightning:select value="{!v.siteName}" label="Site Name">
+            <aura:iteration items="{!v.siteNames}" var="siteName">
+                <option value="{!siteName}" selected="{!siteName == v.siteName}">{!siteName}</option>
+            </aura:iteration>
+        </lightning:select>
+        
+		<lightning:input class="slds-m-vertical_small" type="text" label="User Name" name="name" value="{!v.username}"/>
+		<lightning:input class="slds-m-vertical_small" type="password" label="Password" name="password" value="{!v.password}"/>
+        
+    </div>
+    
+</aura:component>

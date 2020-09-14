@@ -1,0 +1,85 @@
+<aura:component access="global">
+    <aura:attribute name="ready" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="baseUrl" type="String" access="global" description="Base URL for proxy"/>
+    <aura:attribute name="ltngUrl" type="String" access="global" description="URL necessary for use with Lightning Out"/>
+    <aura:attribute name="vf_voice_proxy_id" type="String" access="global" default="vf_voice_proxy_frame"/>
+    <aura:attribute name="vf_voice_proxy_url" type="String"/>
+    <aura:attribute name="vf_origin_url" type="String"/>
+    <aura:attribute name="query_params" type="String" access="global"/>
+    <aura:attribute name="uid" type="String"/>
+
+    <aura:method name="exec" action="{!c.exec}"  description="Executes the specified call"> 
+        <aura:attribute name="url" type="String"/>
+        <aura:attribute name="method" type="String" default="GET"/>
+        <aura:attribute name="body" type="String"/>
+        <aura:attribute name="uid" type="String" required="true"/>        
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="startDictation" action="{!c.startDictation}"  description="Starts dictation"> 
+        <aura:attribute name="lang" type="String" default="en-US"/>
+        <aura:attribute name="continuous" type="Boolean" default="false"/>
+        <aura:attribute name="interimResults" type="Boolean" default="false"/>
+        <aura:attribute name="maxAlternatives" type="Integer" default="1"/>
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="stopDictation" action="{!c.stopDictation}"  description="Stops dictation"> 
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getVoices" action="{!c.getVoices}"  description="Gets the list of voices"> 
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="speak" action="{!c.speak}"  description="Speaks the text"> 
+        <aura:attribute name="phrase" type="String"/>
+        <aura:attribute name="voice" type="String"/>
+        <aura:attribute name="volume" type="Double"/>
+        <aura:attribute name="rate" type="Double"/>
+        <aura:attribute name="pitch" type="Double"/>
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <!-- Voice analysis methods -->
+    <aura:method name="startAnalysis" action="{!c.startAnalysis}"  description="Starts analysis"> 
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="stopAnalysis" action="{!c.stopAnalysis}"  description="Stops analysis"> 
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="getByteTimeDomainData" action="{!c.getByteTimeDomainData}" description="Returns a buffer for audio levels">
+        <aura:attribute name="visualSetting" type="String"/>
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="loadSounds" action="{!c.loadSounds}" description="Loads the sounds to play">
+        <aura:attribute name="resources" type="Object"/>
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="playSound" action="{!c.playSound}" description="Plays the specified sound">
+        <aura:attribute name="name" type="String"/>
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="stopSound" action="{!c.stopSound}" description="Stops the specified sound">
+        <aura:attribute name="name" type="String"/>
+        <aura:attribute name="uid" type="String" required="true"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <iframe aura:id="{!v.vf_voice_proxy_id}" id="{!v.vf_voice_proxy_id}" src="{!v.vf_voice_proxy_url}" allow="microphone"></iframe>
+    
+</aura:component>

@@ -1,0 +1,15 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="folderId" type="String" access="global"/>
+    <aura:attribute name="dashboards" type="Object[]" default=""/>
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    <aura:attribute name="developerName" type="String" access="global"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.folderId}" action="{!c.selectFolder}"/>    
+    <wave:sdk aura:id="sdk"/>	
+    <lightning:select name="select" label="Select a Dashboard" required="true" messageWhenValueMissing="Did you forget to select a dashboard?" value="{!v.developerName}">
+        <option value="">-- None --</option>
+        <aura:iteration items="{!v.dashboards}" var="dashboard">
+            <option value="{!(dashboard.namespace != null ? dashboard.namespace + '__' : '') + dashboard.name}" text="{!dashboard.label}"></option>
+        </aura:iteration>
+    </lightning:select>    
+</aura:component>

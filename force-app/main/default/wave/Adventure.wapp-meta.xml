@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assetIcon>/analytics/wave/web/proto/images/app/icons/11.png</assetIcon>
+    <folder>eadx__Adventure</folder>
+    <masterLabel>Adventure</masterLabel>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>skip@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>sfdc_internal__Learning_Adventure</templateOrigin>
+    <templateVersion>5.0</templateVersion>
+</WaveApplication>

@@ -1,0 +1,30 @@
+.THIS {
+}
+
+.THIS .settings {
+    position: absolute;
+    top: 4px;
+    right: 16px;
+    z-index: 30000;
+    padding: 0;
+    margin: 0;
+    line-height: 1rem;
+}
+
+.THIS.wizard-modal {
+    min-width: 90%;
+    min-height: 54rem;
+}
+
+.THIS.wizard-modal .slds-modal__container {
+    width: 90rem;
+    min-width: 72rem;
+    max-width: 90rem;
+    height: 54rem;
+    min-height: 48rem;
+    max-height: 64rem;
+}
+
+.THIS.wizard-modal .modal-body.scrollable.slds-modal__content {
+    overflow: hidden;
+}

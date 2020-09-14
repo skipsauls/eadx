@@ -1,0 +1,21 @@
+<aura:component access="global">
+    
+    <aura:attribute name="commanderEvent" type="Object" access="global"/>
+    <aura:attribute name="speechText" type="String" access="global"/>
+    <aura:attribute name="systemLogText" type="String" access="global"/>
+    <aura:attribute name="userLogText" type="String" access="global"/>
+    <aura:attribute name="proxy" type="Object" access="global"/>
+    
+    <aura:handler name="onCommanderAction" 
+                  event="einsteinconduit:commanderActionEvent" 
+                  action="{!c.handleCommanderEvent}"
+                  includeFacets="true"/>
+    
+    <aura:handler name="InvocableActionApex" 
+                  event="c:InvocableActionApexEvent" 
+                  action="{!c.handleCommanderEventPayload}"/>
+    
+    <aura:handler name="change" value="{!v.commanderEvent}" 
+                  action="{!c.handleCommanderEventChange}"/>
+    
+</aura:component>

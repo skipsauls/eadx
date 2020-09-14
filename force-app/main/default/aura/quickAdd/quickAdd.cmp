@@ -1,0 +1,18 @@
+<aura:component implements="force:lightningQuickAction">
+
+    <!-- Very simple addition -->
+    <aura:attribute name="num1" type="Decimal" access="global"/>
+    <aura:attribute name="num2" type="Decimal" access="global"/>
+    <aura:attribute name="sum" type="Decimal" access="global"/>
+    
+    <lightning:input type="number" name="myNumber" value="{!v.num1}" label="Number 1"/> +
+    <lightning:input type="number" name="myNumber" value="{!v.num2}" label="Number 2"/>
+
+    <br/>
+    <lightning:button label="Add" onclick="{!c.clickAdd}"/>
+    <br/>
+    <h1 class="{!and(v.num1 != null, v.num2 != null) ? 'slds-show' : 'slds-hide'}">
+        The sum is {!v.sum}    	
+    </h1>
+
+</aura:component>

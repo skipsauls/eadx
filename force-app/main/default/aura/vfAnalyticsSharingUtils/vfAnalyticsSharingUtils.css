@@ -1,0 +1,12 @@
+.THIS {
+}
+
+.THIS iframe {
+    width: 100%;
+    min-height: 800px;
+    height: 800px;
+    border: 0px none;
+    outline: none;
+    background: transparent;
+    overflow: hidden;
+}

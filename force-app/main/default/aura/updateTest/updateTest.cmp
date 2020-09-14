@@ -1,0 +1,72 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="dashboardADeveloperName" type="String" default="eadx__Dashboard_A"/>
+    <aura:attribute name="dashboardAId" type="String" default="0FKB0000000L4qcOAC"/>
+    <aura:attribute name="dashboardBDeveloperName" type="String" default="eadx__Dashboard_B"/>
+    <aura:attribute name="dashboardBId" type="String" default="0FKB0000000L4qhOAC"/>
+    
+    <aura:attribute name="developerNameAParams" type="String"/>
+    <aura:attribute name="dashboardIdAParams" type="String"/>
+    <aura:attribute name="developerNameBParams" type="String"/>
+    <aura:attribute name="dashboardIdBParams" type="String"/>
+    
+    <aura:attribute name="height" type="Integer" default="200"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="main">
+        
+        <lightning:layout verticalAlign="center">
+            <lightning:layoutItem size="3" padding="horizontal-small">
+                <div class="slds-box slds-card">
+                    <lightning:textarea label="developerNameAParams:" value="{!v.developerNameAParams}"/>
+                    <lightning:button label="Fire" onclick="{!c.fireDeveloperNameAParams}"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="9" padding="horizontal-small" class="slds-box slds-card slds-m-around_small">
+                <label>developerName: {!v.dashboardADeveloperName}</label>
+                <wave:waveDashboard developerName="{!v.dashboardADeveloperName}" height="{!v.height}" showTitle="false" showHeader="false" showSharing="false"/>
+            </lightning:layoutItem>                
+        </lightning:layout>
+
+        <lightning:layout verticalAlign="center">
+            <lightning:layoutItem size="3" padding="horizontal-small">
+                <div class="slds-box slds-card">
+                    <lightning:textarea label="dashboardIdAParams:" value="{!v.dashboardIdAParams}"/>
+                    <lightning:button label="Fire" onclick="{!c.fireDashboardIdAParams}"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="9" padding="horizontal-small" class="slds-box slds-card slds-m-around_small">
+                <label>dashboardId: {!v.dashboardAId}</label>
+                <wave:waveDashboard dashboardId="{!v.dashboardAId}" height="{!v.height}" showTitle="false" showHeader="false" showSharing="false"/>
+            </lightning:layoutItem>                
+        </lightning:layout>
+        
+        <lightning:layout verticalAlign="center">
+            <lightning:layoutItem size="3" padding="horizontal-small">
+                <div class="slds-box slds-card">
+                    <lightning:textarea label="developerNameBParams" value="{!v.developerNameBParams}"/>
+                    <lightning:button label="Fire" onclick="{!c.fireDeveloperNameBParams}"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="9" padding="horizontal-small" class="slds-box slds-card slds-m-around_small">
+                <label>developerName: {!v.dashboardBDeveloperName}</label>
+                <wave:waveDashboard developerName="{!v.dashboardBDeveloperName}" height="{!v.height}" showTitle="false" showHeader="false" showSharing="false"/>
+            </lightning:layoutItem>                
+        </lightning:layout>
+
+        <lightning:layout verticalAlign="center">
+            <lightning:layoutItem size="3" padding="horizontal-small">
+                <div class="slds-box slds-card">
+                    <lightning:textarea label="dashboardIdBParams:" value="{!v.dashboardIdBParams}"/>
+                    <lightning:button label="Fire" onclick="{!c.fireDashboardIdBParams}"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="9" padding="horizontal-small" class="slds-box slds-card slds-m-around_small">
+                <label>dashboardId: {!v.dashboardBId}</label>
+                <wave:waveDashboard dashboardId="{!v.dashboardBId}" height="{!v.height}" showTitle="false" showHeader="false" showSharing="false"/>
+            </lightning:layoutItem>                
+        </lightning:layout>
+        
+    </div>
+    
+</aura:component>

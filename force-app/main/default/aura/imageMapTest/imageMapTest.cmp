@@ -1,0 +1,33 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Image_Test_2"/>
+    <aura:attribute name="dashboardDef" type="Object"/>
+    <aura:attribute name="pages" type="Object[]"/>
+    <aura:attribute name="pageMap" type="Object"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div>
+        <lightning:layout>
+            <lightning:layoutItem size="7" flexibility="no-shrink" class="slds-m-right_small">
+                <img class="df18-overview-footer" src="{!$Resource.df18_overview_footer_1100x560}" usemap="#image-map" alt="Intro" onclick="{!c.handleImageMapClick}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="5" class="slds-p-horizontal_small">
+                <wave:waveDashboard developerName="{!v.developerName}" height="560" showHeader="false" showTitle="false" showSharing="false"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <map name="image-map">
+            <area onclick="{!c.handleImageMapClick}" target="_self" alt="Astro" title="Astro" href="#astro" coords="322,364,311,404,322,440,314,484,284,519,205,536,130,470,132,433,176,439,157,415,176,387,177,355,186,334,207,313,214,286,246,304,273,308,310,299,314,333" shape="poly"/>
+            <area onclick="{!c.handleImageMapClick}" target="_self" alt="Cloudy" title="Cloudy" href="#cloudy" coords="849,102,30" shape="circle"/>
+            <area onclick="{!c.handleImageMapClick}" target="_self" alt="Einstein" title="Einstein" href="#einstein" coords="847,154,913,224" shape="rect"/>
+            <area onclick="{!c.handleImageMapClick}" target="_self" alt="Codey" title="Codey" href=" #codey" coords="917,285,894,309,884,329,878,362,830,342,801,294,783,232,803,212,826,197,844,195,847,233,881,224,903,240" shape="poly"/>
+            <area onclick="{!c.handleImageMapClick}" target="_self" alt="Appy" title="Appy" href="#appy" coords="834,360,910,488" shape="rect"/>
+        </map>
+        
+    </div>
+    
+</aura:component>

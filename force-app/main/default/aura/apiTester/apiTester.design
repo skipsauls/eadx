@@ -1,0 +1,3 @@
+<design:component label="API Test">
+    <design:attribute name="bar" label="Baz Thing"/>
+</design:component>

@@ -1,0 +1,12 @@
+.THIS {
+}
+
+.THIS .slds-modal_medium .slds-modal__container, .THIS .slds-modal--medium .slds-modal__container {
+    width: 70%;
+    max-width: none;
+    min-width: 40rem;
+}
+
+.THIS .modal-content {
+    min-height: 24rem;
+}

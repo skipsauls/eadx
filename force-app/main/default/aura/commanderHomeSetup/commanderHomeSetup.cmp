@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
+    <c:commanderLearningAdventureSetup/>
+    <c:commanderRecordedSessionSetup/>
+</aura:component>

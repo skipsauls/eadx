@@ -1,0 +1,102 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="folders" type="Object[]" default=""/>
+    <aura:attribute name="folderId" type="String" access="global"/>
+    <aura:attribute name="dashboards" type="Object[]"/>    
+    <aura:attribute name="dashboard" type="Object"/>    
+    <aura:attribute name="dashboardDevName" type="String" access="global" default="eadx__Tableau_Overview"/>
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FKB0000000L3cTOAS"/>
+    <aura:attribute name="dashboardStateJson" type="String" access="global"/>
+
+    <aura:attribute name="lastState1" type="Object" access="global"/>
+    <aura:attribute name="lastState2" type="Object" access="global"/>
+
+    <aura:attribute name="filter1" type="String" access="global"/>
+
+    <aura:attribute name="vizUrl" type="String" access="global" default="https://us-west-2b.online.tableau.com/t/eadx/views/lo_demo/Overview?:retry=yes&amp;:showAppBanner=false&amp;:display_count=n&amp;:showVizHome=n&amp;:origin=viz_share_link"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />	
+
+	<aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+
+    <aura:registerEvent name="update" type="wave:update"/>
+    
+    <wave:sdk aura:id="sdk"/>
+     
+    <lightning:layout>
+        <lightning:layoutItem size="12" class="slds-p-around_x-small">
+            <lightning:card iconName="standard:multi_picklist"
+                            title="Lightning Viz">
+                <aura:set attribute="actions">
+                </aura:set>
+                <lightning:layout verticalAlign="start">
+                    <lightning:layoutItem size="6" class="slds-p-around_x-small">
+                        <div class="slds-box">
+                            <h2 class="slds-card__header-title">Einstein Analtyics Dashboard</h2>
+                            <wave:waveDashboard aura:id="dashboard_1"
+                                                developerName="{!v.dashboardDevName}"
+                                                height="700"
+                                                showHeader="false"
+                                                showTitle="false"
+                                                showSharing="false"
+                                                isLoaded="{!v.isLoaded1}"
+                                                />
+                        </div>
+                    </lightning:layoutItem>
+                    <!--
+                    <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                        
+                        <lightning:layout verticalAlign="start">
+                            <lightning:layoutItem size="6" class="slds-p-right_x-small">
+                                <lightning:select name="select" label="Select an App" required="true" messageWhenValueMissing="Did you forget to select an app?" value="{!v.folderId}">
+                                    <option value="">None</option>
+                                    <aura:iteration items="{!v.folders}" var="folder">
+                                        <option value="{!folder.id}" text="{!folder.label}"></option>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-p-left_x-small">
+                                <lightning:select name="select" label="Select a Dashboard" required="true" messageWhenValueMissing="Did you forget to select a dashboard?" value="{!v.dashboardDevName}">
+                                    <option value="">None</option>
+                                    <aura:iteration items="{!v.dashboards}" var="dashboard">
+                                        <option value="{!dashboard.namespace == null ? dashboard.name : dashboard.namespace + '__' + dashboard.name}" text="{!dashboard.label}"></option>
+                                    </aura:iteration>
+                                </lightning:select>                         
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <lightning:textarea aura:id="dashboard_state_json" value="{!v.dashboardStateJson}" class="json-view" label="State"/>
+                        <div class="slds-align_absolute-center">
+                            <lightning:button label="Get State" iconPosition="left" iconName="utility:forward" onclick="{!c.handleGetState}" class="action-button slds-m-around_x-small"/>
+                            <lightning:button label="Set State" iconPosition="right" iconName="utility:forward" onclick="{!c.handleSetState}" class="action-button slds-m-around_x-small"/>
+                        </div>
+                        <div class="slds-align_absolute-center">
+                            <lightning:buttonIcon alternativeText ="Left to Right" iconName="utility:right" onclick="{!c.handleLeftToRight}" class="action-button slds-m-around_x-small"/>
+                            <lightning:buttonIcon alternativeText ="Right to Left" iconName="utility:left" onclick="{!c.handleRightToLeft}" class="action-button slds-m-around_x-small"/>
+                        </div>
+                        <div class="slds-align_absolute-center">
+                            <lightning:button label="Save State" iconPosition="left" iconName="utility:download" onclick="{!c.handleSaveState}" class="action-button slds-m-around_x-small"/>
+                            <lightning:button label="Load State" iconPosition="left" iconName="utility:upload" onclick="{!c.handleLoadState}" class="action-button slds-m-around_x-small"/>
+                        </div>
+                        
+                    </lightning:layoutItem>
+-->
+                    <lightning:layoutItem size="6" class="slds-p-around_x-small">
+                        <div class="slds-box">
+                            <h2 class="slds-card__header-title">Tableau Viz</h2>
+                            <c:tableauViz aura:id="viz"
+                                          vizURL="{!v.vizUrl}"
+                                          height="700"
+                                          hideTabs="false"
+                                          hideToolbar="true"
+                                          onmarks_selection="{!c.handleOnMarksSelection}"
+                                          onfilter_change="{!c.handleOnFilterChange}"
+                                          onparameter_value_change="{!c.handleOnParameterValueChange}"
+                                          />         
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+</aura:component>

@@ -1,0 +1,24 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" >
+    <aura:attribute name="analysisId" type="String" access="GLOBAL" description="The id of the analysis"/>
+    <aura:attribute name="analysis" type="Object" access="GLOBAL" description="The analysis object"/>
+    <aura:attribute name="analysisDetails" type="Object" access="GLOBAL" description="The analysis details object"/>
+    <aura:attribute name="inputProfile" type="Object" access="GLOBAL" description="The input profile object returned from API call"/>
+    <aura:attribute name="story" type="Object" access="GLOBAL" description="The story generated from API call"/>
+    <aura:attribute name="insights" type="List" access="global" description="The insights in the Story"/>
+    <aura:attribute name="insight" type="Object" access="global" description="The selected insight"/>
+    <aura:attribute name="index" type="Integer" access="GLOBAL" description="The index for the insight to display"/>
+    <aura:attribute name="baseUrl" type="String" access="GLOBAL" description="Base URL for org for proxy" default="https://adx-dev-ed.my.salesforce.com"/>
+    <aura:attribute name="ltngUrl" type="String" access="GLOBAL" description="Base URL for org for proxy" default="https://adx-dev-ed.lightning.force.com"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.handleAnalysisIdChange}"/>
+    
+    <aura:handler name="change" value="{!v.analysisId}" action="{!c.handleAnalysisIdChange}"/>
+    <aura:handler name="change" value="{!v.index}" action="{!c.handleIndexChange}"/>
+    
+    <c:proxy aura:id="proxy" ltngUrl="{!v.ltngUrl}"/>
+    
+    <div class="main">
+        <c:analyticsNarrative insight="{!v.insight}"/>
+    </div>    
+    
+</aura:component>

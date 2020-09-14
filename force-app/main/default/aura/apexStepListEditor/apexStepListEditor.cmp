@@ -1,0 +1,42 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" Controller="ApexTwitterUtils">
+    <aura:attribute name="selectedName" type="String" access="global"/>       
+    <aura:attribute name="selectedItems" type="String[]" access="global"/>    
+    <aura:attribute name="lists" type="String[]" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--
+	<aura:handler name="change" value="{!v.selectedName}" action="{!c.selectList}"/>
+    -->
+    <section class="main-content" aura:id="main_content">
+            <lightning:select name="dataset_select" label="Select an Apex Step List" required="false" value="{!v.selectedName}" onchange="{!c.selectList}">
+                <option value="">-- None --</option>
+                <aura:iteration items="{!v.lists}" var="name">
+                    <option value="{!name}" text="{!name}" selected="{!name == v.selectedName}"></option>
+                </aura:iteration>
+            </lightning:select>                
+            
+            <lightning:input type="text" name="list_name" label="Name" value="{!v.selectedName}"/>
+            
+            <div class="slds-m-vertical_xx-small">
+                <label class="slds-form-element__label" for="itemlist">Items</label>
+                <dl class="slds-dl_inline slds-scrollable slds-box item-list" aura:id="itemList">
+                    <aura:iteration items="{!v.selectedItems}" var="item" indexVar="index">
+                        <dt class="slds-dl_inline__label slds-m-top_xxx-small">
+                            <lightning:input class="item-list-input" type="text" label="{!item}" name="{!index}" variant="label-hidden" value="{!item}" onblur="{!c.updateItem}"/>
+                        </dt>
+                        <dd class="slds-dl_inline__detail slds-m-top_xxx-small">
+                            <lightning:buttonIcon iconName="utility:arrowup" variant="bare" size="small" name="{!index}" alternativeText="{!'Move ' + item + ' up'}" onclick="{!c.moveItemUp}"/>
+                            <lightning:buttonIcon iconName="utility:arrowdown" variant="bare" size="small" name="{!index}" alternativeText="{!'Delete ' + item + ' down'}" onclick="{!c.moveItemDown}"/>
+                            <lightning:buttonIcon iconName="utility:delete" variant="bare" size="small" name="{!index}" alternativeText="{!'Delete ' + item}" onclick="{!c.deleteItem}"/>
+                        </dd>
+                    </aura:iteration>
+                </dl>
+            </div>
+            <lightning:buttonIcon iconName="utility:add" variant="border" name="add_item" alternativeText="Add Item" onclick="{!c.addItem}"/>
+            <div class="slds-align_absolute-center slds-m-top_x-small" >
+                <lightning:button variant="neutral" name="update_button" label="Update" onclick="{!c.updateList}"/>
+                <lightning:button variant="destructive" name="delete_button" label="Delete" onclick="{!c.deleteList}"/>
+            </div>
+            
+    </section>
+</aura:component>

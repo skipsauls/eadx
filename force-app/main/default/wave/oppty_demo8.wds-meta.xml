@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveDataset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <application>eadx__ISV_Webinar_Demo</application>
+    <masterLabel>oppty_demo</masterLabel>
+    <templateAssetSourceName>oppty_demo</templateAssetSourceName>
+</WaveDataset>

@@ -1,0 +1,266 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:attribute name="channels" type="Object[]" access="global"/>
+    <aura:attribute name="channel" type="Object" access="GLOBAL" description="The channel to display."/>
+    <aura:attribute name="channelDetails" type="Object" access="GLOBAL" description="The detailed channel info to display."/>
+
+    <aura:attribute name="subscriptions" type="Object" access="GLOBAL" description="The subscriptions map for monitoring."/>
+    <aura:attribute name="selectedSubscription" type="Object" access="GLOBAL" description="The selected subscription for monitoring."/>
+    
+    <aura:attribute name="channelColumns" type="List"/>
+    <aura:attribute name="subscriberColumns" type="List"/>
+    <aura:attribute name="eventLogColumns" type="List"/>
+
+    <aura:attribute name="selectedLoglineJson" type="String" access="GLOBAL" description="The JSON logline to display."/>
+    
+    <aura:attribute name="sidebarItems" type="List"/>
+    
+    <aura:attribute name="closeAction" type="String"/>
+    
+    <aura:registerEvent name="commanderTreeRefresh" type="c:commanderTreeRefresh" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{!v.channel}" action="{!c.handleChannelSelect}"/>
+    
+    <aura:method name="refresh" description="Force the view to refresh">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>    
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <wave:sdk aura:id="sdk"/>
+        
+    <einsteinconduit:commanderApi aura:id="commanderApi"/>
+    
+	<lightning:empApi aura:id="empApi"/>
+    
+    <aura:dependency resource="c:commanderChannelEditor"/>
+    <aura:dependency resource="c:commanderToolsModalFooter"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+	<lightning:notificationsLibrary aura:id="notifyLib"/>
+    
+    <lightning:card>
+        <lightning:spinner aura:id="spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide"/>
+        <aura:set attribute="title">
+            
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="custom:custom30" alternativeText="Channel" size="medium" class="channel-icon"/>
+                </div>
+                
+                <div class="slds-media__body">
+                    <p class="slds-card__header-title slds-text-title_caps">
+                        <lightning:formattedText value="{!v.channelDetails == null ? 'Channels' : 'Channel'}"/>
+                    </p>
+                    <h1>
+                        <lightning:formattedText value="{!v.channelDetails == null ? 'All Channels' : v.channelDetails.name}"/>
+                    </h1>
+                </div>
+            </div>
+        </aura:set>
+        
+        <aura:set attribute="actions">
+            <div class="{!v.channelDetails == null ? '' : 'slds-hide'}">
+                <lightning:button label="New" variant="brand" onclick="{!c.handleCreateChannel}"/>
+            </div>
+            <div class="{!v.channelDetails == null ? 'slds-hide' : ''}">
+                <lightning:button label="Back" variant="base" onclick="{!c.handleBack}"/>                
+            </div>
+        </aura:set>
+        
+        <div class="{!v.channelDetails == null ? '' : 'slds-hide'}">
+            
+            <lightning:datatable data="{!v.channels}"
+                                 columns="{!v.channelColumns}"
+                                 keyField="id"
+                                 class="channels-table slds-table_bordered"
+                                 maxRowSelection="0"
+                                 hideCheckboxColumn="true"
+                                 resizeColumnDisabled="true"
+                                 suppressBottomBar="true"
+                                 maxColumnWidth="2000"
+                                 onrowselection="{!c.handleSelectChannel}"
+                                 onrowaction="{!c.handleChannelAction}"
+                                 />
+            
+        </div>
+        
+        
+        <div class="{!v.channelDetails != null ? '' : 'slds-hide'}">
+            
+            <div class="channel-outer" aura:id="channel-outer">
+                <lightning:tabset>
+                    
+                    <lightning:tab label="Details">
+                        <div class="panel details slds-m-horizontal_small">
+                            <lightning:layout verticalAlign="start">
+                                <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Label</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.channelDetails.label}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Name</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.channelDetails.name}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Topic</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.channelDetails.topic}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">ID</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.channelDetails.id}</span>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Subscribers</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.channelDetails.subscribers.length}</span>
+                                        </div>
+                                    </div>
+                                    
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Description</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.channelDetails.description}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Owner</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.channelDetails.owner.name}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Created</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-form-element__static">
+                                                <lightning:formattedDateTime value="{!v.channelDetails.createdDate}"
+                                                                             year="numeric"
+                                                                             month="numeric"
+                                                                             day="numeric"
+                                                                             hour="2-digit"                                 
+                                                                             minute="2-digit"
+                                                                             hour12="true"
+                                                                             />
+                                                by {!v.channelDetails.createdBy.name}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Last Modified</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-form-element__static">
+                                                <lightning:formattedDateTime value="{!v.channelDetails.lastModifiedDate}"
+                                                                             year="numeric"
+                                                                             month="numeric"
+                                                                             day="numeric"
+                                                                             hour="2-digit"                                 
+                                                                             minute="2-digit"
+                                                                             hour12="true"
+                                                                             />
+                                                by {!v.channelDetails.lastModifiedBy.name}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </lightning:tab>
+                    
+                    <lightning:tab label="Subscribers">
+                        <div class="panel subscribers slds-m-horizontal_small">
+                            <lightning:card title="Subscribers" iconName="standard:user">
+                                <div aura:id="subscribers-table-container" class="subscribers-table-container slds-box slds-p-around_none">
+                                    
+                                    <lightning:layout class="slds-m-vertical_small">
+                                        <lightning:layoutItem size="12">
+                                            <lightning:datatable data="{!v.channelDetails.subscribers}"
+                                                                 columns="{!v.subscriberColumns}"
+                                                                 keyField="id"
+                                                                 class="subscribers-table"
+                                                                 maxRowSelection="1"
+                                                                 maxColumnWidth="2000"
+                                                                 onrowselection="{!c.handleSelectSubscriber}"
+                                                                 onrowaction="{!c.handleSubscriberAction}"
+                                                                 onsave="{!c.handleSaveSubscribers}"
+                                                                 oncancel="{!c.handleCancelSaveSubscribers}"
+                                                                 />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:card>
+                            
+                        </div>
+                    </lightning:tab>
+
+                    <lightning:tab label="Monitor">
+                        <div class="panel monitor slds-m-horizontal_small">
+                            <lightning:card title="Event Log" iconName="standard:logging">
+                                <aura:set attribute="actions">
+                                    <lightning:buttonStateful
+                                                              labelWhenOff="Subscribe"
+                                                              labelWhenOn="Subscribed"
+                                                              labelWhenHover="Unsubscribe"
+                                                              iconNameWhenOff="utility:add"
+                                                              iconNameWhenOn="utility:check"
+                                                              iconNameWhenHover="utility:close"
+                                                              state="{!v.selectedSubscription.subscription != null}"
+                                                              onclick="{!c.handleChannelSubscriptionClick}"
+                                                              />
+                                </aura:set>
+                                    
+                                <div aura:id="monitor-table-container" class="monitor-table-container slds-box slds-p-around_none">
+                                    <lightning:layout class="slds-m-vertical_small">
+                                        <lightning:layoutItem size="12">
+                                            <lightning:datatable data="{!v.selectedSubscription.log}"
+                                                                 columns="{!v.eventLogColumns}"
+                                                                 keyField="uid"
+                                                                 class="event-log-table"
+                                                                 maxRowSelection="1"
+                                                                 maxColumnWidth="2000"
+                                                                 onrowselection="{!c.handleSelectEventLogline}"
+                                                                 />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                                
+                                <div class="{!v.selectedLoglineJson == null ? 'slds-hide' : ''}">
+                                	<lightning:textarea label="Logline" value="{!v.selectedLoglineJson}" variant="label-hidden" class="json-view slds-m-top_small"/>
+                                </div>
+                                
+                            </lightning:card>
+                            
+                        </div>
+                    </lightning:tab>
+                    
+                    
+                </lightning:tabset>
+            </div>
+        </div>
+    </lightning:card>
+    
+</aura:component>

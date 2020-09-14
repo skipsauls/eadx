@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <div class="slds-p-around_small">
+        <c:assetHistoryManager/>
+    </div>	
+</aura:component>

@@ -1,0 +1,54 @@
+<aura:component controller="ApexSAQLQueryController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="lenses" type="Object[]" access="global"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="results" type="Object[]"/>
+    <aura:attribute name="resultColumns" type="List"/>
+    <aura:attribute name="resultSortedBy" type="String"/>
+    <aura:attribute name="resultSortedDirection" type="String"/>    
+    <aura:attribute name="resultDefaultSortDirection" type="String" default="asc"/>
+    
+    <aura:attribute name="xmd" type="Object"/>
+    <aura:attribute name="fieldMap" type="Object"/>    
+    <aura:attribute name="saql" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <section class="main-content" aura:id="main_content">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-m-horizontal--xxx-small">
+            
+            <lightning:card title="Lenses" iconName="utility:search">
+                <div class="datatable lenses">
+                    <lightning:datatable data="{!v.lenses}" 
+                                         columns="{!v.columns}" 
+                                         keyField="id"
+                                         onrowselection="{!c.handleSelectLens}"
+                                         onrowaction="{!c.handleLensAction}"
+                                         hideCheckboxColumn="true"/>
+                </div>
+            </lightning:card>
+                        
+            <lightning:card title="Query Results" iconName="utility:table">
+                <lightning:textarea class="saql_editor" name="saql_editor" value="{!v.saql}" label="SAQL" onchange="{!c.execQuery}"/>
+                <div class="datatable results">
+                    <lightning:spinner aura:id="result_spinner" variant="brand" size="large" class="slds-hide"/>
+                    <c:analyticsDatatable data="{!v.results}" 
+                                          columns="{!v.resultColumns}" 
+                                          keyField="id"
+                                          sortedBy="{!v.resultSortedBy}"
+                                          sortedDirection="{!v.resultSortedDirection}"
+                                          defaultSortDirection="{!v.resultDefaultSortDirection}"
+                                          hideCheckboxColumn="true"
+                                          saql="{!v.saql}"
+                                          xmd="{!v.xmd}"
+                                          fieldMap="{!v.fieldMap}"
+                                          />
+                    
+                </div>
+            </lightning:card>
+
+        </div>
+    </section>
+</aura:component>

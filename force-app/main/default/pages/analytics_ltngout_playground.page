@@ -1,0 +1,19 @@
+<apex:page standardStylesheets="false" showHeader="false">
+    <apex:slds />
+    <div>
+        <button class="slds-button slds-button_neutral" onclick="launchPlayground();">Launch Playground</button>
+        <button class="slds-button slds-button_neutral" onclick="launchPlaygroundLocalhost();">Launch Playground (Localhost)</button>
+    </div>
+    <div>
+        URL: {!LEFT($CurrentPage.URL,FIND('/',$CurrentPage.URL,10))}
+    </div>
+    <script>
+        function launchPlayground() {
+            window.open("https://analytics-ltngout-playground.herokuapp.com?origin={!LEFT($CurrentPage.URL,FIND('/',$CurrentPage.URL,10))}", "_blank");
+        }
+        
+        function launchPlaygroundLocalhost() {
+            window.open("https://localhost:3001?origin={!LEFT($CurrentPage.URL,FIND('/',$CurrentPage.URL,10))}", "_blank");
+        }
+    </script>
+</apex:page>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folder>eadx__Simple_TDX_Demo</folder>
+    <masterLabel>Simple TDX Demo</masterLabel>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>mandy@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>eadx__Simple_TDX_Demo</templateOrigin>
+    <templateVersion>1.1</templateVersion>
+</WaveApplication>

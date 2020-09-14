@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="DatasetVersionTestController" access="global" >
+    <aura:attribute name="datasetName" type="String" access="global" default="eadx__oppty_demo"/>
+    <aura:attribute name="datasetId" type="String" access="global"/>
+    <aura:attribute name="versionId" type="String" access="global"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <div>        
+    	<h1>Dataset Name: {!v.datasetName}</h1>
+    	<h1>Dataset ID: {!v.datasetId}</h1>
+    	<h1>Version ID: {!v.versionId}</h1>
+    </div>
+</aura:component>

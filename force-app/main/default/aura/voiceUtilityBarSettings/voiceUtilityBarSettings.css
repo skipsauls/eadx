@@ -1,0 +1,8 @@
+.THIS {
+}
+
+.THIS .hotkey-table {
+    height: 320px;
+    overflow: scroll;
+    display: block;
+}

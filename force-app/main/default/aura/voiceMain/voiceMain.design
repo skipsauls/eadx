@@ -1,0 +1,6 @@
+<design:component label="Voice Main">
+    <design:attribute name="currentState" label="Current State"/>
+    <design:attribute name="config" label="Config"/>
+    <design:attribute name="configId" label="Config ID"/>
+    <design:attribute name="configName" label="Config Name"/>
+</design:component>

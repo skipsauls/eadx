@@ -1,0 +1,11 @@
+.THIS {
+}
+
+.THIS .tabset {
+
+}
+
+.THIS .json textarea {
+    resize: none;
+    height: 50rem;
+}

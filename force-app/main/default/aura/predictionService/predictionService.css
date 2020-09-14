@@ -1,0 +1,80 @@
+.THIS {
+}
+
+.THIS .value.true {
+    color: #14854d;
+}
+
+.THIS .value.false {
+    color: #c03938;
+}
+
+.THIS .trendIcon {
+    padding-right: .25rem;
+}
+
+.THIS .strongText {
+    font-weight: 700;
+}
+
+.THIS .subTitle {
+    padding: .5rem 0;
+    font-weight: 700;
+    color: #16325c;
+}
+
+.THIS .textColorGrey {
+    color: #706e6b;
+    vertical-align: text-bottom;
+}
+
+
+.THIS .predictionContainer {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+}
+
+.THIS .predictionContainer span {
+    line-height: 1;
+    margin-top: auto;
+}
+
+.THIS section li {
+    padding-bottom: .25rem;
+}
+
+.THIS .predictionResult {
+    padding-right: .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: auto;
+    min-width: 1%;
+    max-width: 40%;
+    font-weight: 700;
+    color: #16325c;
+    vertical-align: text-bottom;
+}
+
+.THIS .einsteinHolder {
+    display: flex;
+    background-image: url(https://df19ea.lightning.force.com/img/analytics/einsteindatadiscovery/einstein_header_background.svg);
+    background-repeat: no-repeat;
+    background-position: right 0 bottom 6px;
+    background-size: cover;
+    align-items: center;
+}
+
+.THIS .header-icon {
+    margin-left: auto;
+}
+
+.THIS .title {
+    color: #16325c;
+}
+
+.THIS .box-custom {
+    padding: 0 0 1rem 0;
+}

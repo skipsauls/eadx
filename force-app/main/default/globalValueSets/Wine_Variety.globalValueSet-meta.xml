@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Cabernet Sauvignon</fullName>
+        <default>false</default>
+        <label>Cabernet Sauvignon</label>
+    </customValue>
+    <customValue>
+        <fullName>Carmenere</fullName>
+        <default>false</default>
+        <label>Carmenere</label>
+    </customValue>
+    <customValue>
+        <fullName>Chardonnay</fullName>
+        <default>false</default>
+        <label>Chardonnay</label>
+    </customValue>
+    <customValue>
+        <fullName>Chenin Blanc</fullName>
+        <default>false</default>
+        <label>Chenin Blanc</label>
+    </customValue>
+    <customValue>
+        <fullName>Frappato</fullName>
+        <default>false</default>
+        <label>Frappato</label>
+    </customValue>
+    <customValue>
+        <fullName>Gamay</fullName>
+        <default>false</default>
+        <label>Gamay</label>
+    </customValue>
+    <customValue>
+        <fullName>Malbec</fullName>
+        <default>false</default>
+        <label>Malbec</label>
+    </customValue>
+    <customValue>
+        <fullName>Meritage</fullName>
+        <default>false</default>
+        <label>Meritage</label>
+    </customValue>
+    <customValue>
+        <fullName>Merlot</fullName>
+        <default>false</default>
+        <label>Merlot</label>
+    </customValue>
+    <customValue>
+        <fullName>Nero d&#39;Avola</fullName>
+        <default>false</default>
+        <label>Nero d&#39;Avola</label>
+    </customValue>
+    <customValue>
+        <fullName>Petite Sirah</fullName>
+        <default>false</default>
+        <label>Petite Sirah</label>
+    </customValue>
+    <customValue>
+        <fullName>Petit Verdot</fullName>
+        <default>false</default>
+        <label>Petit Verdot</label>
+    </customValue>
+    <customValue>
+        <fullName>Pino Gris</fullName>
+        <default>false</default>
+        <label>Pino Gris</label>
+    </customValue>
+    <customValue>
+        <fullName>Pino Noir</fullName>
+        <default>false</default>
+        <label>Pino Noir</label>
+    </customValue>
+    <customValue>
+        <fullName>Portugese Red</fullName>
+        <default>false</default>
+        <label>Portugese Red</label>
+    </customValue>
+    <customValue>
+        <fullName>Primitivo</fullName>
+        <default>false</default>
+        <label>Primitivo</label>
+    </customValue>
+    <customValue>
+        <fullName>Red Blend</fullName>
+        <default>false</default>
+        <label>Red Blend</label>
+    </customValue>
+    <customValue>
+        <fullName>Riesling</fullName>
+        <default>false</default>
+        <label>Riesling</label>
+    </customValue>
+    <customValue>
+        <fullName>Sangiovese</fullName>
+        <default>false</default>
+        <label>Sangiovese</label>
+    </customValue>
+    <customValue>
+        <fullName>Sauvignon Blanc</fullName>
+        <default>false</default>
+        <label>Sauvignon Blanc</label>
+    </customValue>
+    <customValue>
+        <fullName>Tempranillo-Merlot</fullName>
+        <default>false</default>
+        <label>Tempranillo-Merlot</label>
+    </customValue>
+    <customValue>
+        <fullName>Viognier</fullName>
+        <default>false</default>
+        <label>Viognier</label>
+    </customValue>
+    <customValue>
+        <fullName>White Blend</fullName>
+        <default>false</default>
+        <label>White Blend</label>
+    </customValue>
+    <customValue>
+        <fullName>Zinfandel</fullName>
+        <default>false</default>
+        <label>Zinfandel</label>
+    </customValue>
+    <description>The variety for a wine</description>
+    <masterLabel>Wine Variety</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

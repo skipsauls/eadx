@@ -1,0 +1,73 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="ApexFortniteStoreController" access="global" >
+    <aura:attribute name="storeItems" type="Object[]" description="The items in the store."/>
+    <aura:attribute name="weeklyItems" type="Object[]" description="The weekly items in the store."/>
+    <aura:attribute name="dailyItems" type="Object[]" description="The daily items in the store."/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <c:fortnite aura:id="fortnite"/>
+    
+    <div class="main">
+        <lightning:layout>
+            <lightning:layoutItem size="8" padding="horizontal-small">
+                <h1 class="title slds-m-around_small slds-p-left_small">Featured Items</h1>
+                <lightning:layout multipleRows="true" verticalAlign="stretch">
+                    <aura:iteration items="{!v.weeklyItems}" var="item">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" padding="around-small" flexibility="auto">
+                            <div class="{! 'store-item ' + item.item.rarity}">
+                                <div class="image">
+                                	<img src="{!item.item.images.transparent}"/>
+                                </div>
+                                <div class="name">
+                                    {!item.name}
+                                </div>
+                                <div class="vBucks">
+                                    <img src="{!$Resource.vbucks_icon}"/>
+  									<span class="label">{!item.cost}</span>
+                                </div>
+                            </div>
+                            <!--
+                                                    <h1>{!item.imageUrl}</h1>
+                                                    <h1>{!item.manifestId}</h1>
+                                                    <h1>{!item.name}</h1>
+                                                    <h1>{!item.rarity}</h1>
+                                                    <h1>{!item.storeCategory}</h1>
+                                                    <h1>{!item.vBucks}</h1>
+                                                    -->
+                        </lightning:layoutItem>
+                    </aura:iteration>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="horizontal-small">
+                <h1 class="title slds-m-around_small slds-p-left_small">Daily Items</h1>                
+                <lightning:layout multipleRows="true" horizontalAlign="spread" verticalAlign="stretch">
+                    <aura:iteration items="{!v.dailyItems}" var="item">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="around-small" flexibility="auto">
+                            <div class="{! 'store-item ' + item.item.rarity}">
+                                <div class="image">
+                                	<img src="{!item.item.images.transparent}"/>
+                                </div>
+                                <div class="name">
+                                    {!item.name}
+                                </div>
+                                <div class="vBucks">
+                                    <img src="{!$Resource.vbucks_icon}"/>
+  									<span class="label">{!item.cost}</span>
+                                </div>
+                            </div>
+                            <!--
+                                                <h1>{!item.imageUrl}</h1>
+                                                <h1>{!item.manifestId}</h1>
+                                                <h1>{!item.name}</h1>
+                                                <h1>{!item.rarity}</h1>
+                                                <h1>{!item.storeCategory}</h1>
+                                                <h1>{!item.vBucks}</h1>
+                                                -->
+                        </lightning:layoutItem>
+                    </aura:iteration>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

@@ -1,0 +1,14 @@
+.THIS {
+}
+
+.THIS .details-tree-container {
+    height: 700px;
+    overflow-x: hidden;
+    overflow-y: scroll;    
+}
+
+.THIS .details-card {
+    height: 700px;
+    overflow-x: hidden;
+    overflow-y: scroll;    
+}

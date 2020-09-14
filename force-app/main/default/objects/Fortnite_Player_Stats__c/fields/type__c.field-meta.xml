@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>type__c</fullName>
+    <description>The game type</description>
+    <externalId>false</externalId>
+    <label>type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>solo</fullName>
+                <default>false</default>
+                <label>solo</label>
+            </value>
+            <value>
+                <fullName>duo</fullName>
+                <default>false</default>
+                <label>duo</label>
+            </value>
+            <value>
+                <fullName>squad</fullName>
+                <default>false</default>
+                <label>squad</label>
+            </value>
+            <value>
+                <fullName>ltm</fullName>
+                <default>false</default>
+                <label>ltm</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

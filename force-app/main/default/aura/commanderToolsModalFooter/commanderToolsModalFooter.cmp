@@ -1,0 +1,6 @@
+<aura:component access="global">
+    <aura:attribute name="closeAction" type="String" access="global"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:button name="cancel" label="Cancel" onclick="{!c.handleCancel}"/>
+    <lightning:button name="save" label="Save" variant="brand" onclick="{!c.handleSave}"/>
+</aura:component>

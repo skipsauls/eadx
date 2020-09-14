@@ -1,0 +1,16 @@
+.THIS {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    height: 1080px;
+    position: relative;
+	top: 0px;
+}
+
+.THIS .main-content {
+    overflow-x: hidden;
+}
+
+.THIS .slds-table th, .THIS .slds-table td {
+    max-width: 15rem;    
+}

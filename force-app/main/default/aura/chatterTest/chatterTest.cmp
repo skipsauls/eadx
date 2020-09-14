@@ -1,0 +1,11 @@
+<aura:component controller="ChatterController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="communityId" type="String" access="global"/>
+    <aura:attribute name="subjectId" type="String" access="global"/>
+    <aura:attribute name="text" type="String" access="global"/>
+    
+    <lightning:input type="text" label="Community ID" value="{!v.communityId}"/>
+    <lightning:input type="text" label="Subject ID" value="{!v.subjectId}"/>
+    <lightning:textarea label="Tsext" value="{!v.text}"/>
+    <lightning:button label="test" onclick="{!c.doTest}"/>
+    
+</aura:component>

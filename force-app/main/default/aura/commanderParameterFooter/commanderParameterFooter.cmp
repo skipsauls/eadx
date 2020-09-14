@@ -1,0 +1,5 @@
+<aura:component access="global">
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:button name="cancel" label="Cancel" onclick="{!c.handleCancel}"/>
+    <lightning:button name="ok" label="OK" variant="brand" onclick="{!c.handleOK}"/>
+</aura:component>

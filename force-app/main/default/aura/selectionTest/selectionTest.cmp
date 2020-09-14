@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="selectionJSON" type="String" access="GLOBAL" default=""/>
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL"/>
+    <aura:attribute name="developerName" type="String" access="GLOBAL"/>
+    <aura:attribute name="dataset" type="String" access="GLOBAL"/>
+    <aura:attribute name="fields" type="String[]" access="GLOBAL"/>
+    <aura:attribute name="selection" type="Object[]" access="GLOBAL"/>
+    <aura:attribute name="isFilter" type="Boolean" access="GLOBAL" default="false"/>
+    <aura:attribute name="operator" type="String" access="GLOBAL" description="The operator for filters." default="in"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<aura:handler name="change" value="{!v.dashboardId}" action="{!c.update}"/>
+	<aura:handler name="change" value="{!v.dataset}" action="{!c.update}"/>
+	<aura:handler name="change" value="{!v.fields}" action="{!c.update}"/>
+	<aura:handler name="change" value="{!v.selection}" action="{!c.update}"/>
+	<aura:handler name="change" value="{!v.isFilter}" action="{!c.update}"/>
+	<aura:handler name="change" value="{!v.operator}" action="{!c.update}"/>
+    
+    <!--
+    <aura:registerEvent name="update" type="wave:update"/>
+
+	call the "bolt" event for demos
+	-->
+    <aura:registerEvent name="update" type="c:waveUpdateBolt"/>
+    <div class="container">
+        <div class="slds-form-element slds-p-around--xx-small">
+            <lightning:textarea name="selectionText" value="{!v.selectionJSON}" label="Event Payload" class="selection_text"/>            
+        </div>
+        <div class="slds-form-element slds-p-around--xx-small">
+            <lightning:button variant="brand" label="Fire" onclick="{!c.fireEvent}"/>
+        </div>
+    </div>
+</aura:component>

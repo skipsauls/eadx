@@ -1,0 +1,16 @@
+.THIS {
+}
+
+.THIS .spinner-modal .slds-modal__container {
+    min-width: 100%;
+    max-width: 100%;
+	
+}
+
+.THIS .spinner-modal .slds-modal__header {
+    display: none;
+}
+
+.THIS .spinner-modal .slds-modal__content {
+    background: transparent;
+}

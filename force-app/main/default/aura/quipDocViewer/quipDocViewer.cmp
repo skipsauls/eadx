@@ -1,0 +1,39 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="QuipDemoController">
+	<aura:attribute name="tabId" type="String" access="GLOBAL" description="The tab ID set by the Lightning Console"/>    
+    <aura:attribute name="threadId" type="String" access="global"/>
+    <aura:attribute name="thread" type="Object" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    <aura:handler name="change" value="{!v.threadId}" action="{!c.changeThreadId}"/>
+	<aura:handler event="c:showQuipThread" action="{!c.showQuipThread}"/>
+	<aura:handler event="lightning:tabCreated" action="{!c.onTabCreated}"/>
+    <aura:handler event="lightning:tabFocused" action="{!c.onTabFocused}"/>
+	<aura:handler event="lightning:tabRefreshed" action="{!c.onTabRefreshed}"/>
+	<aura:handler event="lightning:tabUpdated" action="{!c.onTabUpdated}"/>
+    
+	<lightning:workspaceAPI aura:id="workspace"/>
+    
+    <article class="slds-card slds-p-around--xx-small">
+        
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-m-bottom_xx-small">
+                <lightning:icon iconName="standard:quip" size="medium" alternativeText="Quip"/>
+                <div class="slds-float_right">
+                    <lightning:buttonGroup >
+                        <lightning:buttonIcon alternativeText="Refresh" iconName="utility:refresh" onclick="{!c.refresh}"/>
+                        <lightning:buttonIcon alternativeText="Folders" iconName="utility:new_window" onclick="{!c.openInQuip}"/>
+                    </lightning:buttonGroup>
+                </div>
+            </div>
+            <div class="slds-form-element slds-m-around_xx-small">
+                <aura:renderIf isTrue="{!v.thread != null}">
+                    <div class="html-content">
+                        <div class="document-content">
+	                        <aura:unescapedHtml value="{!v.thread.html}"/>
+                        </div>
+                    </div>
+                </aura:renderIf>
+            </div>
+        </div>
+    </article>
+</aura:component>

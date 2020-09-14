@@ -1,0 +1,55 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:availableForFlowScreens" access="global" controller="TemplateConfigController">
+    <aura:attribute name="stages" type="String" access="global"/>
+    <aura:attribute name="currentStage" type="String" access="global"/>    
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config ID."/>    
+    <aura:attribute name="interviewId" type="String" access="global" default="" description="The GUID for this interview."/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <div class="outer">
+        
+        <c:wizardLauncher aura:id="launcher"/>
+        
+        <lightning:layout horizontalAlign="space" verticalAlign="start">
+            <lightning:layoutItem flexibility="auto" size="3">                
+                <lightning:layout verticalAlign="start" multipleRows="true">
+                    <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="12" > 
+                        
+                        <lightning:card title="Einstein Analytics - Lightning Config">
+                            <div class="einstein-container" onclick="{!c.createApp}">
+                                <img class="einstein" src="https://c1.sfdcstatic.com/content/dam/web/en_us/www/images/campaign/lightning/lightning-einstein.png"/>
+                            </div>
+                        </lightning:card>
+                        
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" padding="around-small" size="12" > 
+                        <c:locationTree height="270px"
+                                        objectType="Account"
+                                        title="Account Locations"
+                                        iconName="standard:account"
+                                        objectAddressPrefix="Billing"
+                                        datasetName="{!v.datasetName}"
+                                        developerName="{!v.developerName}"
+                                        dashboardId="{!v.dashboardId}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="12"> 
+                        <lightning:card title="Account" iconName="standard:account">
+	                        <force:recordView recordId="0011I000006cw7zQAA"/>
+                        </lightning:card>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="9">
+                <c:wizardDashboard />
+            </lightning:layoutItem>
+        </lightning:layout>        
+        
+        
+        
+        <!--
+     <lightning:flow aura:id="flowData" onstatuschange="{!c.handleFlowStatusChange}"/>
+  -->
+    </div>
+    
+</aura:component>

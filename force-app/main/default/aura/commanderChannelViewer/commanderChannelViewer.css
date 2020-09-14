@@ -1,0 +1,48 @@
+.THIS {
+}
+
+.THIS span:empty:before {
+  content: "\200b";
+}
+
+.THIS .channel-icon {
+    background-color: #88C2F6;
+}
+
+.THIS .slds-table_header-fixed, .THIS .slds-table--header-fixed {
+    border: inherit;
+}
+
+.THIS .spinner-modal .slds-modal__container {
+    min-width: 100%;
+    max-width: 100%;
+	
+}
+
+.THIS .spinner-modal .slds-modal__header {
+    display: none;
+}
+
+.THIS .spinner-modal .slds-modal__content {
+    background: transparent;
+}
+
+.THIS .monitor-table-container {
+    height: 400px;
+}
+
+.THIS .json-view  textarea  {
+    height: 300px;
+    overflow: auto;
+    resize: none;
+    white-space: normal;
+    word-break: normal;
+    font-family: monospace;
+    font-size: 10pt;
+    line-height: 1.1rem;
+    font-weight: normal;
+    font-style: normal;
+    padding: 2px;
+    background-color: #FFFFFF;
+    color: #000000;
+}

@@ -1,0 +1,74 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item padding="around-small" size="3">
+            <lightning-button onclick={handleListDashboards} label="List Dashboards"></lightning-button>
+            <lightning-button onclick={handleListLenses} label="List Lenses"></lightning-button>
+            <lightning-button onclick={handleListDatasets} label="List Datasets"></lightning-button>
+            <lightning-button onclick={handleListFolders} label="List Folders"></lightning-button>
+            <lightning-button onclick={handleListTemplates} label="List Templates"></lightning-button>
+        </lightning-layout-item>
+        <!--
+        <lightning-layout-item padding="around-small" size="3">
+            <template if:true={dashboardsOptions}>
+                <lightning-combobox label="Dashboards" options={dashboardsOptions}></lightning-combobox>
+            </template>
+            <template if:true={lensesOptions}>
+                <lightning-combobox label="Lenses" options={lensesOptions}></lightning-combobox>
+            </template>
+            <template if:true={datasetsOptions}>
+                    <lightning-combobox label="Datasets" options={datasetsOptions}></lightning-combobox>
+                </template>
+            <template if:true={foldersOptions}>
+                <lightning-combobox label="Folders" options={foldersOptions}></lightning-combobox>
+            </template>
+            <template if:true={templatesOptions}>
+                    <lightning-combobox label="Templates" options={templatesOptions}></lightning-combobox>
+            </template>            
+        </lightning-layout-item>
+        -->
+        <lightning-layout-item padding="around-small" size="3">
+            <template if:true={folders}>
+                <c-lwc-select class="slds-around-small" label="Folders" options={folders}>
+                    <template for:each={folders} for:item="folder">
+                        <option key={folder.id} value={folder.id}>{folder.label}</option>
+                    </template>
+                </c-lwc-select>                    
+            </template>
+            <template if:true={dashboards}>
+                <c-lwc-select class="slds-around-small" label="Dashboards" options={dashboards} onchange={handleSelectDashboard}>
+                    <template for:each={dashboards} for:item="dashboard">
+                        <option key={dashboard.id} value={dashboard.id}>{dashboard.label}</option>
+                    </template>
+                </c-lwc-select>                    
+            </template>
+            <template if:true={lenses}>
+                <c-lwc-select class="slds-around-small" label="Lenses" options={lenses}>
+                    <template for:each={lenses} for:item="lens">
+                        <option key={lens.id} value={lens.id}>{lens.label}</option>
+                    </template>
+                </c-lwc-select>                    
+            </template>
+            <template if:true={datasets}>
+                <c-lwc-select class="slds-around-small" label="Datasets" options={datasets}>
+                    <template for:each={datasets} for:item="dataset">
+                        <option key={dataset.id} value={dataset.id}>{dataset.label}</option>
+                    </template>
+                </c-lwc-select>                    
+            </template>
+            <template if:true={templates}>
+                <c-lwc-select class="slds-around-small" label="Templates" options={templates}>
+                    <template for:each={templates} for:item="template">
+                        <option key={template.id} value={template.id}>{template.label}</option>
+                    </template>
+                </c-lwc-select>                    
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item padding="around-small" size="12">
+            <textarea class="slds-textarea json">
+                {jsonResponse}
+            </textarea>                
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

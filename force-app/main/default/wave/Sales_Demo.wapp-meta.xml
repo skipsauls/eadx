@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assetIcon>/analytics/wave/web/proto/images/app/icons/6.png</assetIcon>
+    <folder>eadx__Sales_Demo</folder>
+    <masterLabel>Sales Demo</masterLabel>
+    <shares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>jdoe@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>skip@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>sfdc_internal__Sales_Analytics_Flex</templateOrigin>
+    <templateVersion>5.0</templateVersion>
+</WaveApplication>

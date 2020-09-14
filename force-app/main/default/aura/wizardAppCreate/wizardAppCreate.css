@@ -1,0 +1,8 @@
+.THIS {
+    overflow: hidden;    
+}
+
+.THIS.outer {
+    height: 45rem;
+    overflow: hidden;
+}

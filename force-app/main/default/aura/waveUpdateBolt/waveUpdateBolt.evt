@@ -1,0 +1,7 @@
+<aura:event type="COMPONENT" description="Component event fired by children of SDK Tab to enable animations" access="GLOBAL">
+    <aura:attribute name="id" type="String" access="global"/>
+    <aura:attribute name="devName" type="String" access="global"/>
+    <aura:attribute name="pageid" type="String" access="global"/>
+    <aura:attribute name="value" type="String" access="global"/>
+    <aura:attribute name="type" type="String" access="global"/>
+</aura:event>

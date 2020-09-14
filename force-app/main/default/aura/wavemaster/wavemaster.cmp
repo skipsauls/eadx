@@ -1,0 +1,12 @@
+<aura:component access="global">    
+    <aura:attribute name="paused" type="Boolean" access="global" default="false"/>
+    
+    <div class="container">
+        <div class="main">
+            <div class="ocean">
+                <div class="{!'wave' + (v.paused == true ? ' paused' : '')}"></div>
+                <div class="{!'wave' + (v.paused == true ? ' paused' : '')}"></div>
+            </div>                
+        </div>
+    </div>
+</aura:component>

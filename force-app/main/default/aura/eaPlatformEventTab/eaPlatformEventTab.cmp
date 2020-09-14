@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable" >
+    <section class="main-content">
+        <h1>$Resource.cometd_3_1_0 + '/cometd.js': {!$Resource.cometd_3_1_0 + '/cometd.js'}</h1>
+        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-around--medium">
+            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--4-of-12">
+                <c:eaPlatformEventManager />
+                <c:eaPlatformEventTester />
+            </div>
+            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--4-of-6 slds-large-size--8-of-12">
+                <wave:waveDashboard dashboardId="0FK1I000000DzKoWAK" height="650" showTitle="false" showHeader="false"/>
+            </div>
+        </div>
+    </section>
+</aura:component>

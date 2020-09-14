@@ -1,0 +1,29 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="ApexSAQLController">
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Demo_Dashboard_2"/>
+    <aura:attribute name="dashboardId" type="String"/>
+    
+    <aura:attribute name="dashboardObj" type="Object"/>
+
+    <aura:attribute name="pageId" type="String" access="global"/>
+    <aura:attribute name="pages" type="Object[]"/>
+    <aura:attribute name="pagesMap" type="Object"/>
+    
+    <aura:attribute name="datasets" type="Object[]"/>
+    <aura:attribute name="datasetsMap" type="Object"/>
+    <aura:attribute name="datasetId" type="String"/>
+    <aura:attribute name="datasetName" type="String"/>
+    <aura:attribute name="dataset" type="Object"/>
+    <aura:attribute name="datasetFieldsMap" type="Object"/>
+
+    <aura:attribute name="selections" type="Object"/>
+    
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.selectDashboard}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <h1>dashboardId: {!v.dashboardId}</h1>
+    <wave:waveDashboard developerName="{!v.developerName}" height="700"/>
+    
+</aura:component>

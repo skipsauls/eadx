@@ -1,0 +1,74 @@
+<aura:component controller="AnalyticsDatatableController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="saql" type="String" access="global"/>
+    <aura:attribute name="kpi" type="String" access="global"/>
+    <aura:attribute name="lensDevName" type="String" access="global"/>
+    <aura:attribute name="xmd" type="Object"/>
+    <aura:attribute name="fieldMap" type="Object"/>    
+    <aura:attribute name="fields" type="Object[]"/>    
+    <aura:attribute name="field" type="Object"/>
+    <aura:attribute name="fieldName" type="String"/>
+    <aura:attribute name="fieldMembers" type="Object[]"/>    
+    <aura:attribute name="fieldMember" type="Object"/>
+    
+    <aura:attribute name="records" type="Object[]"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="count" type="Integer"/>
+    <aura:attribute name="index" type="Integer" default="0"/>
+    
+    <aura:attribute name="value" type="Decimal" access="global"/>
+    <aura:attribute name="format" type="String" access="global"/>
+    <aura:attribute name="decimalDigits" type="Integer" access="global"/>
+    <aura:attribute name="style" type="String" access="global"/>
+    <aura:attribute name="title" type="String" access="global"/>
+    
+    <!--
+    <aura:handler name="change" value="{!v.saql}" action="{!c.handleSAQLChange}"/>
+ -->
+    <aura:handler name="change" value="{!v.lensDevName}" action="{!c.handleLensDevNameChange}"/>
+    <aura:handler name="change" value="{!v.kpi}" action="{!c.handleKPIChange}"/>
+    <aura:handler name="change" value="{!v.index}" action="{!c.handleKPIChange}"/>
+    <aura:handler name="change" value="{!v.fieldName}" action="{!c.handleFieldNameChange}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="outer">
+        <lightning:select name="selectKPI" label="KPI" value="{!v.kpi}">
+            <option value="">choose one...</option>
+            <aura:iteration items="{!v.columns}" var="column">
+                <option value="{!column.name}">{!column.name} ({!column.type})</option>
+            </aura:iteration>
+        </lightning:select>            
+
+        <lightning:select name="selectFieldName" label="Field" value="{!v.fieldName}">
+            <option value="">choose one...</option>
+            <aura:iteration items="{!v.fields}" var="field">
+                <option value="{!field.name}">{!field.displayName} ({!field.type})</option>
+            </aura:iteration>
+        </lightning:select>            
+
+        <lightning:select name="selectMemberName" label="Member" value="{!v.fieldMember}">
+            <option value="">choose one...</option>
+            <aura:iteration items="{!v.fieldMembers}" var="member">
+                <option value="{!member.member}">{!member.member} - {!member.label} - {!member.color}</option>
+            </aura:iteration>
+        </lightning:select>            
+
+        <lightning:input type="text" label="Format" name="format" value="{!v.format}"/>
+        <lightning:input type="range" label="{!'Decimal Digits: ' + v.decimalDigits}" name="digits" min="0" max="32" value="{!v.decimalDigits}"/>        
+        <lightning:input type="range" label="{!'Index: ' + v.index + ' of ' + v.count}" name="number" min="0" max="{!v.count}" onchange="{!c.handleIndexChange}"/>
+        
+        <!--
+        <h1>count: {!v.count}</h1>
+        <h1>index: {!v.index}</h1>
+        <h1>SAQL: {!v.saql}</h1>
+        <h1>{!v.value}</h1>
+        -->
+        
+        <!--
+        <lightning:formattedNumber value="{!v.value}" style="{!v.style}" title="{!v.title}"/>
+		-->
+    </div>    
+</aura:component>

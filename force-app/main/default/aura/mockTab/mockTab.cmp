@@ -1,0 +1,4 @@
+<aura:component implements="force:appHostable" access="global">
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FKB000000092VyOAI"/>
+    <c:mockEditor dashboardId="{!v.dashboardId}"/>        
+</aura:component>

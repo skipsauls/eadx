@@ -1,0 +1,3 @@
+<aura:tokens extends="force:base">
+    <!-- your own tokens here -->
+</aura:tokens>

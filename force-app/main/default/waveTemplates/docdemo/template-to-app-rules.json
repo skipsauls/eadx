@@ -1,0 +1,23 @@
+{
+  "constants" : [ ],
+  "macros" : [ ],
+  "rules" : [
+    {
+      "name": "asdf_label",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "asdf_tp"
+        }
+      ],
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set the value for label in asdf.",
+          "path": "$.label",
+          "value": "${Variables.asdf_label}"
+        }
+      ]
+    }       
+   ]
+}

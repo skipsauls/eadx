@@ -1,0 +1,31 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global" controller="TemplateConfigController">
+    <aura:attribute name="title" type="String" description="title for the wizard page" default="Create Analytics App"/>
+    <aura:attribute name="starts" type="Object[]" description="The starting points (template, blank, etc.)"/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="interviewId" type="String" access="global" default="" description="The current interview GUID."/>
+    <aura:attribute name="stages" type="String" access="global"/>
+    <aura:attribute name="currentStage" type="String" access="global"/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <div class="outer">
+        <lightning:layout class="main" horizontalAlign="spread" verticalAlign="center">
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="1">
+            </lightning:layoutItem>
+            <aura:iteration items="{!v.starts}" var="item">
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="5">  
+                    <lightning:card class="start card slds-align_absolute-center">
+                        <div class="image slds-m-around_large">
+                            <img src="{!item.imageURL}"/>
+                        </div>
+                        <h1 class="label slds-text-heading_small slds-m-around_small">{!item.label}</h1>
+                        <h1 class="description slds-text-title slds-m-around_small">{!item.description}</h1>
+                        <lightning:button class="slds-m-around_small" label="{!item.buttonLabel}" variant="brand" name="{!item.name}" onclick="{!c.chooseStart}"/>
+                    </lightning:card>
+                </lightning:layoutItem>
+            </aura:iteration>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="1">
+            </lightning:layoutItem>        
+        </lightning:layout>
+    </div>    
+</aura:component>

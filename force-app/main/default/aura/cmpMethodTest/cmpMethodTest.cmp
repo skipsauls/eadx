@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="CmpMethodApexController">
+    <aura:attribute name="text" type="String" access="global" default="Lightning"/>
+    <aura:method name="echoLocal" description="Local function to echo the text">
+        <aura:attribute name="text" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>   
+    <aura:method name="echoRemote" description="">
+        <aura:attribute name="text" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <lightning:input type="text" label="Text" value="{!v.text}"/>
+    <lightning:button label="Echo Local" onclick="{!c.doEchoLocal}"/>    
+    <lightning:button label="Echo Remote" onclick="{!c.doEchoRemote}"/>    
+</aura:component>

@@ -1,0 +1,19 @@
+.THIS {
+}
+
+.THIS .icon {
+    width: 24px;
+}
+
+.THIS .asset-tree-container {
+    height: 700px;
+    overflow: auto;
+}
+
+.THIS .asset-viewer {
+
+}
+
+.THIS .asset-viewer.hide {
+	display: none;
+}

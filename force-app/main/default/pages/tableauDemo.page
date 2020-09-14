@@ -1,0 +1,14 @@
+<apex:page >
+    <apex:includeScript value="{!URLFOR($Resource.tableau_2_min_js)}"/>
+    
+    <div id="vizContainer"></div>  
+    
+    <script>
+    
+    let containerDiv = document.getElementById("vizContainer");
+    let url = "https://us-west-2b.online.tableau.com/#/site/eadx/views/Superstore/Product";        
+    let viz = new tableau.Viz(containerDiv, url);
+    
+    </script>
+    
+</apex:page>

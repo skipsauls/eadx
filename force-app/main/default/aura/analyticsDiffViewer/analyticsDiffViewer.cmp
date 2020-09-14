@@ -1,0 +1,93 @@
+<aura:component access="global" >
+    <aura:attribute name="class" type="String" access="GLOBAL" description="Outer class."/>
+    <aura:attribute name="name" type="String" access="GLOBAL" description="Name to use for identifying component."/>
+    <aura:attribute name="title" type="String" access="GLOBAL" description="Title to display."/>
+    <aura:attribute name="type" type="String" access="GLOBAL" description="Type of asset."/>
+    <aura:attribute name="assetId" type="String" access="GLOBAL" description="The id of the asset to show, etc."/>
+    <aura:attribute name="asset" type="Object" access="GLOBAL" description="The asset object"/>
+    <aura:attribute name="assetDetails" type="Object" access="GLOBAL" description="The details of the asset object"/>
+    <aura:attribute name="assetJSON" type="String" access="GLOBAL" description="JSON for the asset"/>
+    
+    <aura:attribute name="versions" type="Object[]"/>        
+    
+    <aura:attribute name="versionId" type="String"/>
+    <aura:attribute name="version" type="Object"/>
+    <aura:attribute name="versionJSON" type="String"/>    
+    
+    
+    <aura:attribute name="showJSON" type="Boolean" description="Toggle between dashboard and JSON view" default="false"/>
+    <aura:attribute name="showDiff" type="Boolean" description="Toggle diff on or off" default="false"/>
+    <aura:attribute name="diff" type="String" access="GLOBAL" description="Used for diffs"/>
+    <aura:attribute name="view" type="String" description="The view to display (JSON, diff, preview, etc.)" default="json"/>
+
+	<aura:attribute name="dashboardId" type="String" access="GLOBAL"/>
+	<aura:attribute name="datasetId" type="String" access="GLOBAL"/>
+	<aura:attribute name="lensId" type="String" access="GLOBAL"/>
+
+    <aura:attribute name="assetCamelType" type="String" access="GLOBAL" />
+    
+    <aura:handler name="change" value="{!v.asset}" action="{!c.handleAssetChange}"/>
+
+    <aura:handler name="change" value="{!v.versionId}" action="{!c.handleVersionIdChange}"/>
+    
+    <c:proxy aura:id="proxy"/>    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="{!'outer ' + v.class}">
+        <lightning:card title="{!v.title}" class="container">
+            
+            <aura:set attribute="actions">
+                
+                <lightning:buttonGroup class="">
+                    <lightning:select value="{!v.versionId}" label="" class="version-select nolabel slds-m-horizontal_small">
+                        <option value="">choose one...</option>
+                        <option value="CURRENT" selected="{!'CURRENT' == v.versionId}">Current</option>
+                        <aura:iteration items="{!v.versions}" var="version">
+                            <option value="{!version.id}" selected="{!version.id == v.versionId}">{!version.name} ({!version.formattedLastModifiedDate})</option>
+                        </aura:iteration>
+                    </lightning:select>
+                    
+                    <lightning:buttonIconStateful
+                                                  alternativeText="{!v.showJSON == true ? 'Show Dashboard' : 'Show JSON'}"
+                                                  iconName="{!v.showJSON == true ? 'utility:chart' : 'utility:left_align_text'}"
+                                                  selected="{!v.showJSON}"
+                                                  onclick="{!c.toggleShowJSON}"
+                                                  />                
+                    <lightning:buttonIconStateful
+                                                  alternativeText="{!v.showDiff == true ? 'Show Dashboard' : 'Show Diff'}"
+                                                  iconName="{!v.showDiff == true ? 'utility:chart' : 'utility:merge'}"
+                                                  selected="{!v.showDiff}"
+                                                  onclick="{!c.toggleShowDiff}"
+                                                  />                
+                    
+                    
+                    
+                    <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Refresh" iconName="utility:refresh" onclick="{!c.handleRefresh}"/>
+                    <lightning:buttonIcon class="" alternativeText="View in Analytics Studio" iconName="utility:preview" onclick="{!c.handleView}"/>
+                    <lightning:buttonIcon class="" alternativeText="Edit in Analytics Studio" iconName="utility:edit" onclick="{!c.handleEdit}"/>                
+                </lightning:buttonGroup>   
+            </aura:set>
+            
+            <div class="tabs">
+            
+                <lightning:tabset aura:id="tabset" class="tabset">
+                
+                	<lightning:tab label="Preview" id="preview">
+                        <c:analyticsDashboardViewer dashboardId="{!v.asset.id}" versionId="{!v.versionId}"/>
+                    </lightning:tab>
+                	<lightning:tab label="Diff" id="diff">      
+                    </lightning:tab>
+                	<lightning:tab label="JSON" id="json">
+			            <lightning:textarea class="json slds-m-around_small" aura:id="right-version-json" label="JSON" value="{!v.versionJSON}"/>
+                    </lightning:tab>
+                	<lightning:tab label="Info" id="info">                    
+                    </lightning:tab>
+                    
+                </lightning:tabset>
+            </div>
+            
+            
+        </lightning:card>
+	</div>
+
+</aura:component>

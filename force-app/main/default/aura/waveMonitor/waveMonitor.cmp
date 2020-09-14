@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction" access="global" >
+    <aura:handler event="force:navigateHome" action="{!c.handleNavigateHome}"/>
+    <aura:handler event="force:navigateToSObject" action="{!c.handleNavigateToSObject}"/>
+    <aura:handler event="force:navigateToObjectHome" action="{!c.handleNavigateToObjectHome}"/>
+    <aura:handler event="force:tabFocused" action="{!c.handleTabFocused}"/>
+
+    <aura:handler event="force:navigateToURL" action="{!c.handleNavigateToURL}"/>
+    
+    <aura:dependency resource="force:navigateToURL" type="EVENT"/>
+<!--
+    <aura:handler event="force:navigateToList" action="{!c.handleNavigateToList}"/>
+    <aura:handler event="force:navigateToRelatedList" action="{!c.handleNavigateToRelatedList}"/>
+-->
+    <div class="container">
+		Wave Monitor!
+        <h1>Record ID: {!v.recordId}</h1>
+        <h1>SObject: {!v.sObjectName}</h1>
+        <lightning:button variant="brand" label="Sales Analytics" onclick="{!c.launchSalesWave}" /> 
+    </div>	
+</aura:component>

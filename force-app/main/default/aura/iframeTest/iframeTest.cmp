@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="url" type="String" default="https://login.salesforce.com"/>
+	<div>
+        <iframe src="{!v.url}"/>
+    </div>
+          
+          
+</aura:component>

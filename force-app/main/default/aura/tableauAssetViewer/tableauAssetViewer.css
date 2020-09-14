@@ -1,0 +1,33 @@
+.THIS {
+}
+
+.THIS .asset-outer {
+}
+
+.THIS .panel {
+    height: 700px;
+    overflow: auto
+}
+
+.THIS .viewer .hide {
+    display: none;
+}
+
+.THIS .viewer .show {
+    display: block;
+}
+
+.THIS .json-view  textarea {
+    height: 670px;
+    overflow: auto;
+    resize: none;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 10pt;
+    line-height: 1.1rem;
+    font-weight: normal;
+    font-style: normal;
+    padding: 2px;
+    background-color: #FFFFFF;
+    color: #000000;
+}

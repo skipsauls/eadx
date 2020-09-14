@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="state" type="String" />
+    <aura:attribute name="filters" type="List" />
+</aura:event>

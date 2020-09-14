@@ -1,0 +1,86 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="states" type="Object[]" access="global"/>
+    <aura:attribute name="state" type="String" access="global"/>
+    <aura:attribute name="stateIndex" type="Integer" access="global" default="-1"/>    
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" default="0FKB00000003fBpOAI"/>    
+    
+    <aura:attribute name="savedViewId" type="String" access="global"/>    
+    <aura:attribute name="savedViews" type="Object[]" access="global"/>
+    <aura:attribute name="savedView" type="Object" access="global"/>    
+    <aura:attribute name="savedViewJson" type="String" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    <aura:handler name="change" value="{!v.stateIndex}" action="{!c.handleStateIndexChange}"/>
+    <aura:handler name="change" value="{!v.savedViewId}" action="{!c.handleSavedViewIdChange}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="outer">
+        
+        <lightning:layout>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="12">  
+                <lightning:card iconName="standard:hierarchy" title="Analytics Assets">
+                    <aura:set attribute="title">
+                        <lightning:layout horizontalAlign="spread" verticalAlign="center">
+                            <lightning:layoutItem flexibility="auto">
+                                <h1 class="">Saved Views</h1>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                
+                                <lightning:select label="Saved Views" value="{!v.savedViewId}" variant="label-hidden" class="form-element_inline">
+                                    <option value="                    " label=""/>
+                                    <aura:iteration items="{!v.savedViews}" var="savedView" indexVar="idx">
+                                        <option value="{!savedView.id}" label="{!savedView.label}" selected="{!v.savedViewId == savedView.id}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                                
+                                <lightning:buttonGroup class="form-element_inline">
+                                    
+                                    <lightning:buttonIcon class="slds-m-horizontal_x-small" alternativeText="Refresh the List" iconName="utility:refresh" onclick="{!c.handleRefresh}"/>
+                                    <!--
+                                    <lightning:buttonMenu aura:id="menu" iconName="utility:settings" alternativeText="Show menu" onselect="{!c.handleSelect}">
+										<lightning:menuItem label="Save" value="save"/>
+										<lightning:menuItem label="Clone" value="clone"/>
+										<lightning:menuItem label="Delete" value="delete"/>
+                                    </lightning:buttonMenu>
+									-->
+                                    <lightning:buttonIcon class="slds-m-horizontal_x-small" alternativeText="Save" iconName="utility:save" onclick="{!c.handleSave}"/>
+                                    <lightning:buttonIcon class="slds-m-horizontal_x-small" alternativeText="Clone" iconName="utility:copy" onclick="{!c.handleClone}"/>
+                                    <lightning:buttonIcon class="" alternativeText="Delete" iconName="utility:delete" onclick="{!c.handleDelete}"/>
+                                </lightning:buttonGroup>
+                            </lightning:layoutItem>
+                        </lightning:layout>                    
+                    </aura:set>
+                    <div>
+                        <lightning:textarea label="Saved View" value="{!v.savedViewJson}" variant="label-hidden" class="code slds-m-horizontal_small"/>
+                        
+                    </div>
+                    <aura:set attribute="footer">
+                    </aura:set>
+                </lightning:card>
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <lightning:layout>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="12">  
+                <wave:waveDashboard dashboardId="{!v.dashboardId}" height="700"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    <!--        
+        <div>
+            <lightning:select label="Saved Views" value="{!v.savedViewId}">
+                <option value="" label=""/>
+                <aura:iteration items="{!v.savedViews}" var="savedView" indexVar="idx">
+                    <option value="{!savedView.id}" label="{!savedView.label}" selected="{!v.savedViewId == savedView.id}"/>
+                </aura:iteration>
+            </lightning:select>
+            <lightning:textarea label="Saved View" value="{!v.savedViewJson}" class="code"/>
+            <lightning:button label="Update" onclick="{!c.updateSavedView}"/>
+            <lightning:button label="Set State" onclick="{!c.setState}"/>
+            <wave:waveDashboard dashboardId="{!v.dashboardId}" height="700"/>
+        </div>
+    -->
+    
+</aura:component>

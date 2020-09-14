@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event fired when config changes, allowing other components to react">
+    <aura:attribute name="name" type="String" access="global" description="The configuration name"/>
+    <aura:attribute name="config" type="String" access="global" description="The configuration JSON"/>
+</aura:event>

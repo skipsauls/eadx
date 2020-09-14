@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveLens xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <content xsi:nil="true"/>
+    <application>eadx__Sales_Demo1</application>
+    <datasets>eadx__pipeline_trending3</datasets>
+    <masterLabel>Historical Pipeline By Forecast</masterLabel>
+    <templateAssetSourceName>Historical_Pipeline_By_Forecast</templateAssetSourceName>
+    <visualizationType>stackvbar</visualizationType>
+</WaveLens>

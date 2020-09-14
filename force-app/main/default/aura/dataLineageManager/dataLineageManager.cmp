@@ -1,0 +1,10 @@
+<aura:component access="global">
+    <aura:method name="getLineage" action="{!c.getLineage}"  description="Gets the lineage for the specified asset"> 
+        <aura:attribute name="config" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    
+    <c:assetManager aura:id="assetManager"/>
+    
+</aura:component>

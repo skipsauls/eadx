@@ -1,0 +1,62 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="height" type="String" access="global" default="8rem"/>
+    <aura:attribute name="sessions" type="Object[]" access="global" default="[]"/>
+    <aura:attribute name="sessionIndex" type="Integer" access="global" default="0"/>
+    <aura:attribute name="session" type="Object" access="global"/>
+    <aura:attribute name="command" type="Object" access="global"/>
+    <aura:attribute name="commandIndex" type="Integer" access="global" default="0"/>
+    <aura:attribute name="currentCommand" type="Object" access="global"/>
+    <aura:attribute name="executeCommand" type="Object" access="global"/>
+    <aura:attribute name="intervalDelay" type="Integer" access="global" default="200"/>
+    <aura:attribute name="interval" type="Integer" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.sessionIndex}" action="{!c.handleSessionIndexChange}"/>
+    <aura:handler name="change" value="{!v.commandIndex}" action="{!c.handleCommandIndexChange}"/>
+    
+    <aura:method name="log" action="{!c.log}" description="Logs the text for the specified user"> 
+        <aura:attribute name="user" type="String" required="true"/> 
+        <aura:attribute name="text" type="String" required="true"/> 
+    </aura:method>    
+    <aura:method name="clear" action="{!c.clear}" description="Clears the log">        
+    </aura:method>
+    
+    <div class="outer slds-m-around_small">
+        <lightning:select label="Sessions" value="{!v.sessionIndex}">
+            <aura:iteration items="{!v.sessions}" var="session" indexVar="idx">
+                <option value="{!idx}">{!session.label}</option>
+            </aura:iteration>
+        </lightning:select>
+        <div class="commands slds-m-vertical_small slds-border_top slds-border_bottom slds-border_right slds-border_left">
+            <ul>
+                <aura:iteration items="{!v.session.commands}" var="command" indexVar="idx">
+                    <li>
+                        <lightning:input class="{!'command slds-border_bottom' + (idx == v.commandIndex ? ' selected' : '')}"
+                                         type="text"
+                                         variant="label-hidden"
+                                         disabled="{!idx == v.commandIndex ? false : true}"
+                                         onclick="{!c.selectCommand}"
+                                         onchange="{!c.updateCommand}"
+                                         name="{!idx}"
+                                         value="{!command.text}">
+                        </lightning:input>
+                    </li>
+                </aura:iteration>
+            </ul>
+        </div>
+        <div class="controls">
+            <lightning:layout verticalAlign="center">
+            	<lightning:layoutItem flexibility="auto, no-grow">
+                    <lightning:buttonIcon variant="bare" iconName="utility:up" alternativeText="Previous" onclick="{!c.previousCommand}"/>
+                    <lightning:buttonIcon variant="bare" iconName="utility:down" alternativeText="Next" onclick="{!c.nextCommand}"/>
+                </lightning:layoutItem>
+            	<lightning:layoutItem flexibility="auto, grow">
+	                <lightning:input type="text" variant="label-hidden" value="{!v.currentCommand.partial}" label="Current Command"/>
+                </lightning:layoutItem>
+            	<lightning:layoutItem flexibility="auto, no-grow">
+	                <lightning:buttonIcon variant="bare" iconName="{!v.interval != null ? 'utility:pause' : 'utility:play'}" alternativeText="Play" onclick="{!c.playPause}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </div>
+</aura:component>

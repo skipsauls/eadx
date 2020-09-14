@@ -1,0 +1,103 @@
+<aura:component access="global">
+    
+    <aura:attribute name="headerTitle" type="String" access="global" description="The title for the header" default="Einstein Discovery"/>
+    <aura:attribute name="predictionTitle" type="String" access="global" description="The title of the prediction to display" default="Attrition Risk"/>
+    <aura:attribute name="predictionDefinition" type="String" access="global" description="The prediction definition ID for the payload" default="0ORB0000000Ccs1OAC"/>
+    <aura:attribute name="type" type="String" access="global" description="The type for the payload" default="Records"/>
+    <aura:attribute name="records" type="String" access="global" description="The records for the payload" default="a1SB0000000A9laMAC"/>
+    <aura:attribute name="maxPrescriptions" type="Integer" access="global" description="The max predictions to display" default="5"/>
+    <aura:attribute name="showIcons" type="Boolean" access="global" description="Determines whether to show icons" default="true"/>
+    <aura:attribute name="showHeader" type="Boolean" access="global" description="Determines whether to show header" default="true"/>
+    
+    <aura:attribute name="payload" type="Object" access="global" description="The payload for the call to the service"/>
+    <aura:attribute name="prediction" type="Object" access="global" description="The prediction returned from the service"/>
+    
+    <aura:attribute name="baseUrl" type="String" access="GLOBAL" description="Base URL for org for proxy" default="https://adx-dev-ed.my.salesforce.com"/>
+    <aura:attribute name="ltngUrl" type="String" access="GLOBAL" description="Base URL for org for proxy" default="https://adx-dev-ed.lightning.force.com"/>
+    
+    <aura:attribute name="username" type="String" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{!v.predictionDefinition}" action="{!c.handlePredictionDefinitionChange}"/>
+    <aura:handler name="change" value="{!v.type}" action="{!c.handleTypeChange}"/>
+    <aura:handler name="change" value="{!v.records}" action="{!c.handleRecordsChange}"/>
+    
+    <aura:handler name="change" value="{!v.index}" action="{!c.handleIndexChange}"/>
+    
+    <c:proxy aura:id="proxy" ltngUrl="{!v.ltngUrl}"/>
+    
+    
+    <div class="{!v.prediction != null ? 'outer' : 'slds-hide'}">
+        <div class="slds-box slds-box_xx-small box-custom slds-theme_default slds-m-around_xx-small">
+            
+            <section class="{!v.showHeader == true ? 'highlight' : 'slds-hide'}">
+                <div class="einsteinHolder">
+                    <h2 class="title slds-text-heading_medium slds-p-left_x-large">{!v.headerTitle}</h2>
+                    <img alt=""
+                         src="https://df19ea.lightning.force.com//img/analytics/einsteindatadiscovery/einstein_header_icon.svg"
+                         class="header-icon first"/>
+                </div>
+            </section>
+            
+            <section class="slds-p-left_x-large slds-p-top_x-small slds-p-bottom_xx-small">
+                <div class="preditionContainer">
+                    <span class="predictionResult slds-text-heading_medium">
+                        <span class="unit"></span>
+                        <span title="{!v.prediction.total > 25 ? 'High' : 'Low'}">{!v.prediction.total > 25 ? 'High' : 'Low'}</span>
+                    </span>
+                    <span title="{!v.predictionTitle}" class="textColorGrey">{!v.predictionTitle}</span>        
+                </div>
+            </section>
+            
+            <section class="slds-p-left_x-large">
+                <h3 class="subTitle">Top Factors</h3>
+                <ul>
+                    <aura:iteration items="{!v.prediction.prediction.middleValues}" var="middleValue">
+                        <li>
+                            <span class="{!'slds-p-right_x-small value ' + (lessthanorequal(middleValue.value, 0) ? 'true' : 'false')}">
+                                <img class="{!v.showIcons == true ? 'trendIcon' : 'slds-hide'}"
+                                     src="{!'https://df19ea.lightning.force.com/img/analytics/einsteindatadiscovery/trending' + (lessthanorequal(middleValue.value, 0) ? 'Down' : 'Up') + 'Min.svg'}"/>
+                                <span>
+                                    <lightning:formattedNumber value="{!middleValue.value}" maximumFractionDigits="2" minimumFractionDigits="2"/>                    	
+                                </span>
+                            </span>
+                            <aura:iteration items="{!middleValue.columns}" var="column" indexVar="idx">
+                                <span>{!(idx > 0 ? ' and ' : '')}</span>
+                                <span>{!column.columnName}</span>
+                                <span> is </span>
+                                <span class="strongText">{!column.columnValue}</span>
+                            </aura:iteration>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </section>
+            
+            <section class="slds-p-left_x-large">
+                <h3 class="subTitle">How To Improve This</h3>
+                <ul>
+                    <aura:iteration items="{!v.prediction.prescriptions}" var="prescription" indexVar="idx">
+                        <aura:if isTrue="{!lessthan(idx, v.maxPrescriptions)}">
+                            <li>
+                                <span class="{!'slds-p-right_x-small value ' + (lessthanorequal(prescription.value, 0) ? 'true' : 'false')}">
+                                    <img class="{!v.showIcons == true ? 'trendIcon' : 'slds-hide'}"
+                                         src="{!'https://df19ea.lightning.force.com/img/analytics/einsteindatadiscovery/trending' + (lessthanorequal(prescription.value, 0) ? 'Down' : 'Up') + 'Min.svg'}"/>
+                                    <span>
+                                        <lightning:formattedNumber value="{!prescription.value}" maximumFractionDigits="2" minimumFractionDigits="2"/>                    	
+                                    </span>
+                                </span>
+                                <aura:iteration items="{!prescription.columns}" var="column">
+                                    <span> by changing </span>
+                                    <span>{!column.columnName}</span>
+                                    <span> to </span>
+                                    <span class="strongText">{!column.columnValue}</span>
+                                </aura:iteration>
+                            </li>
+                        </aura:if>
+                    </aura:iteration>
+                </ul>
+            </section>
+        </div>
+    </div>
+    
+</aura:component>

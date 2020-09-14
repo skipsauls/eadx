@@ -1,0 +1,50 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard"/>
+    <aura:attribute name="developerName" type="String" access="GLOBAL" description="The developer name of the dashboard"/>
+    <aura:attribute name="pageId" type="String" access="GLOBAL" description="The id of the dashboard page" default="f2710d6e-3b35-4bff-b100-7b0b38fe1b9f"/>
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="700"/>
+
+    <aura:attribute name="dashboard" type="Object"/>
+    <aura:attribute name="dashboardDetails" type="Object"/>
+
+    <aura:attribute name="pageField" type="String" access="GLOBAL" description="The field on the record for mapping values to pages" default="Bought_VPN__c"/>
+    <aura:attribute name="pageFieldMapping" type="String" access="GLOBAL" description="fieldValue=pageId pairs for page state, comma separated" default="true=7d390b76-2525-4294-8398-1200f21ee07c,false=45d0c4f4-aadb-4684-87ee-4278d98697eb"/>
+    <aura:attribute name="pageFieldMap" type="Map" description="Generated map from pageFieldMapping"/>
+    <aura:attribute name="pageMap" type="Map" description="Generated map from dashboard details"/>
+    
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="recordFields" type="String[]"/>
+    <aura:attribute name="recordError" type="String"/>
+    
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+	<!--    
+    <aura:handler name="change" value="{!v.developerName}" action="{!c.handleChange}"/>
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.handleChange}"/>
+	-->
+    <aura:handler name="change" value="{!v.record}" action="{!c.handleRecordInit}"/>
+    <aura:handler name="change" value="{!v.pageId}" action="{!c.handlePageIdChange}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>    
+
+	<aura:registerEvent name="update" type="wave:update"/>
+    
+    <force:recordData aura:id="forceRecord"
+                      recordId="{!v.recordId}" 
+                      layoutType="FULL"
+                      targetRecord="{!v.record}"
+                      fields="{!v.recordFields}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordChange}" />
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="main">
+        <div class="container">
+            <wave:waveDashboard developerName="{!v.developerName}" height="{!v.height}" showHeader="false" showTitle="false" showSharing="false"/>
+        </div>
+    </div>    
+    
+    
+</aura:component>

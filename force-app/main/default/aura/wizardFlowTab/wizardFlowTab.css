@@ -1,0 +1,12 @@
+.THIS {
+}
+
+.THIS .einstein-container {
+	text-align: center;
+    cursor: pointer;
+}
+
+.THIS .einstein {
+	width: 100px;
+	margin: 0px auto;    
+}

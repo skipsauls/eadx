@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+	<aura:attribute name="actionIntents" type="Object[]" access="global"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <ol class="slds-setup-assistant">
+        {!v.body}
+    </ol>
+</aura:component>

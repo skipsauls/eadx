@@ -1,0 +1,175 @@
+{
+  "rules" : [
+    {
+      "name": "AddAccountFieldsToDataflow",
+      "condition": "${Variables.UseAccountSObject}",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        {
+         "action": "set",
+	     "description": "use selected values for sfdcDigest in dataflow",
+          "path": "$.workflowDefinition.Extract_Account.parameters.fields",
+          "value":"${array:concat(Rules.CurrentNode, array:forEach(Variables.Account_Fields, '{\"name\":\"${var.fieldName}\"}'))}"
+        }
+      ]
+    },
+	{
+      "name": "AddAccountFieldsToAccountDetails",
+      "condition": "${Variables.LoadAcctDB1}",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "Account_Details_tp"
+        }
+      ],
+      "actions": [
+        {
+         "action": "set",
+	     "description": "use selected values for dashboard query values",
+          "path": "$.state.steps.lens_1.query.query.values",
+          "value":"${array:forEach(Variables.Account_Fields, '${var.fieldName}')}"
+        }
+      ]
+    },
+    {
+      "name": "AddOpptyFieldsToDataflow",
+      "condition": "${Variables.UseOpptySObject}",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        {
+         "action": "set",
+	     "description": "use selected values for sfdcDigest in dataflow",
+          "path": "$.workflowDefinition.Extract_Opportunity.parameters.fields",
+          "value":"${array:concat(Rules.CurrentNode, array:forEach(Variables.Oppty_Fields, '{\"name\":\"${var.fieldName}\"}'))}"
+        }
+      ]
+    },
+	{
+      "name": "AddOpptyFieldsToOpptyDetails",
+      "condition": "${Variables.LoadOpptyDB1}",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "Opportunity_Details_tp"
+        }
+      ],
+      "actions": [
+        {
+         "action": "set",
+	     "description": "use selected values for dashboard query values",
+          "path": "$.state.steps.OpptyDetails_1.query.query.values",
+          "value":"${array:forEach(Variables.Oppty_Fields, '${var.fieldName}')}"
+        }
+      ]
+    },
+	{
+      "name": "DeleteAccountFromDataflow",
+      "condition": "${!Variables.UseAccountSObject}",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        {
+         "action": "eval",
+	     "description": "delete account nodes from dataflow",
+         "value": "${tdxDataDemo:deleteWorkflowNode('Extract_Account')}"
+        },
+        {
+         "action": "eval",
+	     "description": "delete account nodes from dataflow",
+          "value": "${tdxDataDemo:deleteWorkflowNode('Register_Account')}"
+        }
+      ]
+    },
+	{
+      "name": "DeleteOpptyFromDataflow",
+      "condition": "${!Variables.UseOpptySObject}",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        {
+         "action": "eval",
+	     "description": "delete opportunity nodes from dataflow",
+          "value": "${tdxDataDemo:deleteWorkflowNode('Extract_Opportunity')}"
+        },
+        {
+         "action": "eval",
+	     "description": "delete opportunity nodes from dataflow",
+         "value": "${tdxDataDemo:deleteWorkflowNode('Register_Opportunity')}"
+        }
+      ]
+    },
+    {
+	  "name": "Demo_VFDashboard_state_widgets_chart_1_parameters_visualizationType",
+	  "appliesTo": [
+	    {
+	      "type": "dashboard",
+	      "name": "Demo_VFDashboard_tp"
+	    }
+	  ],
+	  "actions": [
+	    {
+	      "action": "set",
+	      "description": "Set the value for state.widgets.chart_1.parameters.visualizationType in Demo_VFDashboard.",
+	      "path": "$.state.widgets.chart_1.parameters.visualizationType",
+	      "value": "${Variables.Demo_VFDashboard_state_widgets_chart_1_parameters_visualizationType}"
+	    }
+	  ]
+	},
+	{
+	  "name": "Demo_VFDashboard_state_gridLayouts0_style_backgroundColor",
+	  "appliesTo": [
+	    {
+	      "type": "dashboard",
+	      "name": "Demo_VFDashboard_tp"
+	    }
+	  ],
+	  "actions": [
+	    {
+	      "action": "set",
+	      "description": "Set the value for state.gridLayouts[0].style.backgroundColor in Demo_VFDashboard.",
+	      "path": "$.state.gridLayouts[0].style.backgroundColor",
+	      "value": "${Variables.Demo_VFDashboard_state_gridLayouts0_style_backgroundColor}"
+	    }
+	  ]
+	}
+  ],
+  "constants" : [ ],
+  "macros" : [
+    {
+      "namespace": "tdxDataDemo",
+      "definitions": [
+        {
+          "name": "deleteWorkflowNode",
+          "description": "Delete the node",
+          "parameters": [
+             "deleteNode"
+          ],
+          "actions": [
+            {
+              "action" : "delete",
+              "path": "$.workflowDefinition['${p.deleteNode}']"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="accessToken" type="String" access="global"/>
+	<h1>This is Lightning</h1>
+    <div>
+    	<iframe src="{!'https://df17eadx-dev-ed--df17eadx.na73.visual.force.com/apex/vframe?oauth_token=' + v.accessToken}"/>
+	</div>
+</aura:component>

@@ -1,0 +1,9 @@
+<aura:event type="APPLICATION" description="A variant of wave:update for testing EADL restrictions">
+    <aura:attribute name="value" type="String" access="global"/>
+    <aura:attribute name="devName" type="String" access="global"/>
+    <aura:attribute name="id" type="String" access="global"/>
+    <aura:attribute name="type" type="String" access="global" default="dashboard"/>
+    
+    <aura:attribute name="sdk_key" type="String" access="global"/>
+    
+</aura:event>

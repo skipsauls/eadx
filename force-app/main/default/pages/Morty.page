@@ -1,0 +1,9 @@
+<apex:page>
+    <wave:dashboard
+          dashboardId="{!$Analytics.Templates.eadx__Mortgage_Calculator.Dashboards.mort_calc_Mortgage_Calculator_tp[0].id}" 
+          height="800px" 
+          showTitle="false"
+          showSharing="true" 
+          openLinksInNewWindow="false" 
+          hideOnError="false"/>
+</apex:page>

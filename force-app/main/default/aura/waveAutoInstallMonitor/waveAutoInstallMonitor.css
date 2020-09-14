@@ -1,0 +1,30 @@
+.THIS{
+	background: rgb(242, 246, 250);
+}
+.THIS .inprogress-container{
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+    padding-top: 20px;
+}
+.THIS .status-box{
+    text-align: center;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-bottom: 2rem;
+}
+.THIS .loading-image-container{
+    text-align: center;
+    padding: 1rem;
+}
+.THIS .loading-image{
+    width: auto;
+    height: 100%;
+}
+.THIS .status-message{
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 1rem;
+}
+.THIS .action-buttons{
+}

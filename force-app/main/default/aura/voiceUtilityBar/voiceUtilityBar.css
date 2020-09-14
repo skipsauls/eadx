@@ -1,0 +1,207 @@
+.THIS {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+
+.THIS .dashboard-outer {
+    opacity: 1;
+    transition: opacity 3s ease;    
+}
+
+.THIS .dashboard-outer.fadeout {
+    transition-duration: 0.5s;    
+    opacity: 0;
+}
+
+.THIS .dashboard-outer.fadein {
+    transition-duration: 4s;
+    opacity: 1;
+}
+
+.THIS .dashboard-outer.hidden {
+    display: none;
+}
+
+.THIS .phase.onstart {
+    
+}
+
+.THIS .phase.onend {
+    
+}
+
+.THIS .phase.onsoundstart {	
+    color: orange;
+}
+
+.THIS .phase.onsoundend {
+    color: black;        
+}
+
+.THIS .phase.onspeechstart {
+    color: red;        
+}
+
+.THIS .phase.onspeechend {
+    color: yellow;        
+}
+
+.THIS .phase.onresult {
+    
+}
+
+.THIS .header.fixed {
+    position: fixed;
+    width: 100%;
+    background: #2EC2BB;
+    z-index: 10000;    
+}
+
+.THIS .header {
+    position: relative;
+    width: 100%;
+}
+
+.THIS .main {
+    position: relative;
+    z-index: 9000;
+}
+
+.THIS .toolbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.THIS .tools {
+    position: relative;
+    top: 64px;
+    z-index: 9000;
+}
+
+.THIS .hide {
+    display: none;    
+}
+
+.THIS .einstein {
+    
+}
+
+.THIS .einstein .icon_container {
+    height: 64px;
+    overflow: hidden;
+}
+
+.THIS .einstein img {
+    height: 100px;
+}
+
+.THIS .einstein img.standing {
+    display: block;    
+}
+
+.THIS .einstein img.snoozing.awake {
+    display: none;
+}
+
+.THIS .einstein img.snoozing.asleep {
+    display: block;
+}
+
+.THIS .einstein img.standing.asleep {
+    display: none;
+}
+
+.THIS .einstein img.listening.asleep {
+    display: none;
+}
+
+.THIS .einstein img.standing.onsoundstart, .THIS .einstein img.standing.onspeechstart {
+    display: none;
+}
+
+.THIS .einstein img.listening {
+    display: none;    
+}
+
+.THIS .einstein img.listening.onsoundstart, .THIS .einstein img.listening.onspeechstart {
+    display: block;
+}
+
+.THIS .main {
+    position: relative;    
+}
+
+.THIS .header .message {
+}
+
+.THIS .header .message .title {
+    font-style: italic;
+    font-weight: 700;
+	font-size: 20px;
+	color: #989898;
+    line-height: 31px;
+    padding-left: 18px;
+}
+
+.THIS .header .message .subtitle {
+    font-weight: bold;
+	font-size: 14px;
+	color: #616C77;
+    line-height: 21px;
+    padding-left: 18px;
+}
+
+.THIS .wavemaster-container {
+    position: fixed;    
+    bottom: 65px;
+    left: 0;
+    width: 100%;
+}
+
+.THIS .suggested-commands {
+    
+}
+
+.THIS .suggested-commands .list {
+    overflow: auto;
+}
+
+.THIS .command {
+    
+}
+
+.THIS .command .label {
+	font-size: 18px;
+	color: #057ADD;
+    line-height: 1.1em;
+    height: 2.2em;
+    position: relative;
+    width: 100%;
+}
+
+.THIS .command .label .icon {
+	height: 24px;
+}
+
+.THIS .command .label .title {
+	display: inline-block;
+    position: absolute
+}
+
+.THIS .fixed-input-container {
+    position: absolute;
+    bottom: 0;
+    margin: 2px 110%;
+    padding: 0;
+    width: 100%;
+    z-index: 10003;
+}
+
+.THIS .fixed-input {
+    position: relative;
+}
+
+.THIS .fixed-input input {
+
+}

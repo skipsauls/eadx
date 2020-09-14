@@ -1,0 +1,15 @@
+<design:component label="Analytics Magic Suggest">
+    <design:attribute name="title" label="Title"/>
+    <design:attribute name="iconName" label="Icon Name"/>    
+    <design:attribute name="recordId" label="Record ID"/>
+    <design:attribute name="assetType" label="Asset Type"/>
+    <design:attribute name="config" label="Config"/>
+    <design:attribute name="configId" label="Config ID"/>
+    <design:attribute name="configName" label="Config Name"/>
+    <design:attribute name="datasetIds" label="Dataset IDs"/>
+    <design:attribute name="matchedDatasetIds" label="Matched Dataset IDs"/>
+    <design:attribute name="dashboardIds" label="Dashboard IDs"/>
+    <design:attribute name="matchedDashboardIds" label="Matched Dashboard IDs"/>
+    <design:attribute name="lensIds" label="Lens IDs"/>
+    <design:attribute name="matchedLensIds" label="Matched Lens IDs"/>
+</design:component>

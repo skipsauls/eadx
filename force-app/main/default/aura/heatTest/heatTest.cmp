@@ -1,0 +1,16 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Heat_Test"/>
+    <aura:attribute name="startDate" type="String" access="global" default="10/01/2017"/>
+    <aura:attribute name="endDate" type="String" access="global" default="5/01/2018"/>
+    <aura:attribute name="interval" type="Long" access="global" default="1036800000"/>
+    <aura:attribute name="intervalObj" type="Object" access="global"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <div class="outer">
+        <lightning:button label="Run" onclick="{!c.run}"/>
+        <lightning:button label="Run2" onclick="{!c.run2}"/>
+        <wave:waveDashboard developerName="{!v.developerName}" height="720" showTitle="false" showSharing="false" showHeader="false"/>
+    </div>
+</aura:component>

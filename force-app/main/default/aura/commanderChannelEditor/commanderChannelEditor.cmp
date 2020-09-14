@@ -1,0 +1,20 @@
+<aura:component access="global">
+    <aura:attribute name="channel" type="Object" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <div class="channel-editor details slds-p-horizontal_small">
+        <div class="slds-form" role="list">
+            
+            <div class="slds-form__row">
+                <lightning:input type="text" label="Name" value="{!v.channel.name}" messageWhenPatternMismatch="Name must begin with /u, contain only valid path separators, and no spaces.." pattern="(\/u\/)([^\s$.?]*$)" class="slds-size_2-of-2" required="true"/>
+            </div>
+            <div class="slds-form__row">
+                <lightning:textarea label="Description" value="{!v.channel.description}" class="slds-size_2-of-2"/>
+            </div>
+        </div>
+        
+    </div>	
+</aura:component>

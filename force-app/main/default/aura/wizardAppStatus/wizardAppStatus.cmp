@@ -1,0 +1,63 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global" controller="TemplateConfigController">	
+    <aura:attribute name="title" type="String" description="title for the wizard page" default="Creating the App"/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="nextStep" type="String" access="global" default="blank" description="What to do next."/>    
+    <aura:attribute name="templateId" type="String" access="global" default="blank" description="The selected template to preview, configure, etc.."/>    
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config object ID."/>
+    <aura:attribute name="selectedType" type="String" access="global" default="" description="The selected template type (app or dashboard)."/>
+    <aura:attribute name="appName" type="String" access="global" default="" description="The name of the app to create."/>
+    
+    <aura:attribute name="statusItems" type="Object[]"/>
+    
+    <aura:attribute name="template" type="Object" access="global" description="The selected template details."/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="outer">
+        <div class="slds-text-align_center slds-text-heading_medium slds-m-around_small">{!v.title}</div>
+        <lightning:layout class="info" horizontalAlign="center" verticalAlign="center">
+            <lightning:layoutItem flexibility="auto" size="12">
+                <div class="astro slds-m-vertical_medium">
+                    <img src="/analytics/wave/web/proto/images/skipping_1s_16c_30fps.gif"/>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout class="info" horizontalAlign="center" verticalAlign="center">
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="12">
+                <h2 class="slds-text-heading_medium slds-align_absolute-center slds-m-vertical_small">Creating your app can take a while. See its status here.</h2>
+                <h2 class="slds-text-heading_small slds-align_absolute-center slds-m-vertical_small">The list below shows the status of each app asset. When you see ’Application Complete!’, refresh this page to start exploring your app.</h2>
+                <h2 class="slds-text-heading_small slds-align_absolute-center slds-m-vertical_medium">If your application fails, you’ll get an email with details.</h2>
+            </lightning:layoutItem>            
+        </lightning:layout>
+        
+        <lightning:layout class="status" horizontalAlign="center" verticalAlign="center">
+            <lightning:layoutItem flexibility="auto" size="12">
+                <ul>
+                    <aura:iteration items="{!v.statusItems}" var="item">
+                        <li class="slds-text-body_default slds-m-vertical_small">
+                            <lightning:icon class="{!'slds-m-right_medium' + !item.iconName}" iconName="{!item.iconName}" size="xx-small" alternativeText="{!item.label}"/>
+                            {!item.label}
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </lightning:layoutItem>            
+        </lightning:layout>
+        
+        <lightning:layout class="info more-info" horizontalAlign="center" verticalAlign="center">
+            <lightning:layoutItem flexibility="auto" size="12">
+                <h2 class="slds-text-body_default slds-m-vertical_medium"><lightning:icon class="slds-m-right_medium" iconName="utility:info" size="small" alternativeText="More Info"/>More Info</h2>
+                <h2 class="slds-text-body_default slds-m-vertical_medium">You can check on the dataflow status in the Data Manager by opening the gear in the upper right of the page. Select Data Manager and then select Dataflow View in the dropdown in the upper left.</h2>
+            </lightning:layoutItem>            
+        </lightning:layout>
+        
+        <lightning:layout class="footer" horizontalAlign="end" verticalAlign="center" pullToBoundary="small" multipleRows="false">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="2">
+                <lightning:button variant="brand" label="Done" onclick="{!c.handleDone}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+    </div>
+    
+</aura:component>

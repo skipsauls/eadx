@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Alliances</fullName>
+        <default>false</default>
+        <label>Alliances</label>
+    </customValue>
+    <customValue>
+        <fullName>Alliances GTM</fullName>
+        <default>false</default>
+        <label>Alliances GTM</label>
+    </customValue>
+    <customValue>
+        <fullName>Analytics AE</fullName>
+        <default>false</default>
+        <label>Analytics AE</label>
+    </customValue>
+    <customValue>
+        <fullName>CAM</fullName>
+        <default>false</default>
+        <label>CAM</label>
+    </customValue>
+    <customValue>
+        <fullName>CC BDR</fullName>
+        <default>false</default>
+        <label>CC BDR</label>
+    </customValue>
+    <customValue>
+        <fullName>CloudCraze AE</fullName>
+        <default>false</default>
+        <label>CloudCraze AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Commerce Cloud AE</fullName>
+        <default>false</default>
+        <label>Commerce Cloud AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Commerce Cloud BDR</fullName>
+        <default>false</default>
+        <label>Commerce Cloud BDR</label>
+    </customValue>
+    <customValue>
+        <fullName>Communities BD</fullName>
+        <default>false</default>
+        <label>Communities BD</label>
+    </customValue>
+    <customValue>
+        <fullName>CPQ AE</fullName>
+        <default>false</default>
+        <label>CPQ AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Cross-Sell BDR</fullName>
+        <default>false</default>
+        <label>Cross-Sell BDR</label>
+    </customValue>
+    <customValue>
+        <fullName>CSG Portfolio Success Mgr</fullName>
+        <default>false</default>
+        <label>CSG Portfolio Success Mgr</label>
+    </customValue>
+    <customValue>
+        <fullName>CSM</fullName>
+        <default>false</default>
+        <label>CSM</label>
+    </customValue>
+    <customValue>
+        <fullName>Data.com AE</fullName>
+        <default>false</default>
+        <label>Data.com AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Data.com BDR</fullName>
+        <default>false</default>
+        <label>Data.com BDR</label>
+    </customValue>
+    <customValue>
+        <fullName>Data.com Services Engagement Manager</fullName>
+        <default>false</default>
+        <label>Data.com Services Engagement Manager</label>
+    </customValue>
+    <customValue>
+        <fullName>EBR</fullName>
+        <default>false</default>
+        <label>EBR</label>
+    </customValue>
+    <customValue>
+        <fullName>ECS</fullName>
+        <default>false</default>
+        <label>ECS</label>
+    </customValue>
+    <customValue>
+        <fullName>ECS MC</fullName>
+        <default>false</default>
+        <label>ECS MC</label>
+    </customValue>
+    <customValue>
+        <fullName>Executive Sponsor</fullName>
+        <default>false</default>
+        <label>Executive Sponsor</label>
+    </customValue>
+    <customValue>
+        <fullName>Inbox SE</fullName>
+        <default>false</default>
+        <label>Inbox SE</label>
+    </customValue>
+    <customValue>
+        <fullName>ISV AE</fullName>
+        <default>false</default>
+        <label>ISV AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Jigsaw</fullName>
+        <default>false</default>
+        <label>Jigsaw</label>
+    </customValue>
+    <customValue>
+        <fullName>Jigsaw BD</fullName>
+        <default>false</default>
+        <label>Jigsaw BD</label>
+    </customValue>
+    <customValue>
+        <fullName>Jigsaw CSM</fullName>
+        <default>false</default>
+        <label>Jigsaw CSM</label>
+    </customValue>
+    <customValue>
+        <fullName>Jigsaw CSRM</fullName>
+        <default>false</default>
+        <label>Jigsaw CSRM</label>
+    </customValue>
+    <customValue>
+        <fullName>Jigsaw EBR</fullName>
+        <default>false</default>
+        <label>Jigsaw EBR</label>
+    </customValue>
+    <customValue>
+        <fullName>LoB Specialist</fullName>
+        <default>false</default>
+        <label>LoB Specialist</label>
+    </customValue>
+    <customValue>
+        <fullName>MC Ads/Krux AE</fullName>
+        <default>false</default>
+        <label>MC Ads/Krux AE</label>
+    </customValue>
+    <customValue>
+        <fullName>MC AE</fullName>
+        <default>false</default>
+        <label>MC AE</label>
+    </customValue>
+    <customValue>
+        <fullName>MC Agency AE</fullName>
+        <default>false</default>
+        <label>MC Agency AE</label>
+    </customValue>
+    <customValue>
+        <fullName>MC Alliances GTM</fullName>
+        <default>false</default>
+        <label>MC Alliances GTM</label>
+    </customValue>
+    <customValue>
+        <fullName>MC DMP AE</fullName>
+        <default>false</default>
+        <label>MC DMP AE</label>
+    </customValue>
+    <customValue>
+        <fullName>MC EBR</fullName>
+        <default>false</default>
+        <label>MC EBR</label>
+    </customValue>
+    <customValue>
+        <fullName>MC Messaging</fullName>
+        <default>false</default>
+        <label>MC Messaging</label>
+    </customValue>
+    <customValue>
+        <fullName>MC RM</fullName>
+        <default>false</default>
+        <label>MC RM</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </customValue>
+    <customValue>
+        <fullName>PAM</fullName>
+        <default>false</default>
+        <label>PAM</label>
+    </customValue>
+    <customValue>
+        <fullName>Partner</fullName>
+        <default>false</default>
+        <label>Partner</label>
+    </customValue>
+    <customValue>
+        <fullName>Platform AE</fullName>
+        <default>false</default>
+        <label>Platform AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Premier Notifications – All</fullName>
+        <default>false</default>
+        <label>Premier Notifications – All</label>
+    </customValue>
+    <customValue>
+        <fullName>Premier Notifications – High</fullName>
+        <default>false</default>
+        <label>Premier Notifications – High</label>
+    </customValue>
+    <customValue>
+        <fullName>Premier Notifications – None</fullName>
+        <default>false</default>
+        <label>Premier Notifications – None</label>
+    </customValue>
+    <customValue>
+        <fullName>PUBSEC Analytics AE</fullName>
+        <default>false</default>
+        <label>PUBSEC Analytics AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Pub-Sec Analytics AE</fullName>
+        <default>false</default>
+        <label>Pub-Sec Analytics AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Quip AE</fullName>
+        <default>false</default>
+        <label>Quip AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Quip BDR</fullName>
+        <default>false</default>
+        <label>Quip BDR</label>
+    </customValue>
+    <customValue>
+        <fullName>Radian6 AE</fullName>
+        <default>false</default>
+        <label>Radian6 AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Radian6 EBR</fullName>
+        <default>false</default>
+        <label>Radian6 EBR</label>
+    </customValue>
+    <customValue>
+        <fullName>Radian6 RM</fullName>
+        <default>false</default>
+        <label>Radian6 RM</label>
+    </customValue>
+    <customValue>
+        <fullName>Regional MC AE</fullName>
+        <default>false</default>
+        <label>Regional MC AE</label>
+    </customValue>
+    <customValue>
+        <fullName>RM</fullName>
+        <default>false</default>
+        <label>RM</label>
+    </customValue>
+    <customValue>
+        <fullName>Rypple AE</fullName>
+        <default>false</default>
+        <label>Rypple AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Sales Engineer</fullName>
+        <default>false</default>
+        <label>Sales Engineer</label>
+    </customValue>
+    <customValue>
+        <fullName>Sales Manager</fullName>
+        <default>false</default>
+        <label>Sales Manager</label>
+    </customValue>
+    <customValue>
+        <fullName>Sales Overlay</fullName>
+        <default>false</default>
+        <label>Sales Overlay</label>
+    </customValue>
+    <customValue>
+        <fullName>Salesperson</fullName>
+        <default>false</default>
+        <label>Salesperson</label>
+    </customValue>
+    <customValue>
+        <fullName>Senior ISV AE</fullName>
+        <default>false</default>
+        <label>Senior ISV AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Service Cloud AE</fullName>
+        <default>false</default>
+        <label>Service Cloud AE</label>
+    </customValue>
+    <customValue>
+        <fullName>Services</fullName>
+        <default>false</default>
+        <label>Services</label>
+    </customValue>
+    <customValue>
+        <fullName>Steelbrick AE - Do Not Use</fullName>
+        <default>false</default>
+        <label>Steelbrick AE - Do Not Use</label>
+    </customValue>
+    <customValue>
+        <fullName>Support AE1</fullName>
+        <default>false</default>
+        <label>Support AE1</label>
+    </customValue>
+    <customValue>
+        <fullName>Support AE2</fullName>
+        <default>false</default>
+        <label>Support AE2</label>
+    </customValue>
+    <customValue>
+        <fullName>TAE</fullName>
+        <default>false</default>
+        <label>TAE</label>
+    </customValue>
+    <customValue>
+        <fullName>Technical Evangelist</fullName>
+        <default>false</default>
+        <label>Technical Evangelist</label>
+    </customValue>
+    <customValue>
+        <fullName>Technical Evangelist Lead</fullName>
+        <default>false</default>
+        <label>Technical Evangelist Lead</label>
+    </customValue>
+    <masterLabel>Team Role</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

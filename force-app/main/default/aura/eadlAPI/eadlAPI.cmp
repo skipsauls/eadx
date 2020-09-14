@@ -1,0 +1,13 @@
+<aura:component access="global">
+	    
+    <aura:registerEvent name="update" type="c:eadlWaveUpdate"/>
+    
+    <aura:method name="createUpdateEvent" action="{!c.createUpdateEvent}"  description="Returns an update event in the callback">
+        <aura:attribute name="value" type="String"/>
+        <aura:attribute name="devName" type="String"/>
+        <aura:attribute name="id" type="String"/>
+        <aura:attribute name="type" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+</aura:component>

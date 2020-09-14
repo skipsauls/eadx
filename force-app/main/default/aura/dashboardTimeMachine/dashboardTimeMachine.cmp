@@ -1,0 +1,58 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <aura:attribute name="dashboardIds" type="String[]" access="global"/>
+    <aura:attribute name="width" type="Integer" access="global"/>
+    <aura:attribute name="height" type="Integer" access="global"/>
+    
+    <!--
+		http://joecritchley.com/demos/time-machine/
+	-->
+    <div aura:id="outer" class="outer">
+		<lightning:button onclick="{!c.prev}">Prev</lightning:button>
+        <lightning:button onclick="{!c.next}">Next</lightning:button>
+        <div aura:id="container" class="container">
+            <div aura:id="view" class="view">
+                <ul aura:id="stack" class="stack">
+<!--
+                    <li>
+                        <div style="width: 1200px; height: 1200px; border: 1px solid red; background: #C0C0C0;">A</div>
+                    </li>
+                    <li>
+                        <div style="width: 1200px; height: 1200px; border: 1px solid red; background: #C0C0C0;">B</div>
+                    </li>
+                    <li>
+                        <div style="width: 1200px; height: 1200px; border: 1px solid red; background: #C0C0C0;">C</div>
+                    </li>
+                    <li>
+                        <div style="width: 1200px; height: 1200px; border: 1px solid red; background: #C0C0C0;">D</div>
+                    </li>
+                    <li>
+                        <div style="width: 1200px; height: 1200px; border: 1px solid red; background: #C0C0C0;">E</div>
+                    </li>
+                    <li>
+                        <div style="width: 1200px; height: 1200px; border: 1px solid red; background: #C0C0C0;">F</div>
+                    </li>
+-->           
+                    <li>
+                        <div class="slds-text-heading_large">Leaderboard - v3.1</div>
+			            <wave:waveDashboard dashboardId="0FKB0000000DKQnOAO " height="1200" openLinksInNewWindow="false" showHeader="false" showTitle="false" showSharing="false"/>
+                    </li>
+                    <li>
+                        <div class="slds-text-heading_large">Leaderboard - v3.2</div>
+			            <wave:waveDashboard dashboardId="0FKB0000000DKQsOAO " height="1200" openLinksInNewWindow="false" showHeader="false" showTitle="false" showSharing="false"/>
+                    </li>
+                    <li>
+                        <div class="slds-text-heading_large">Leaderboard - v3.3</div>
+			            <wave:waveDashboard dashboardId="0FKB0000000DKQxOAO " height="1200" openLinksInNewWindow="false" showHeader="false" showTitle="false" showSharing="false"/>
+                    </li>
+                    <li>
+                        <div class="slds-text-heading_large">Leaderboard - v3.4</div>
+			            <wave:waveDashboard dashboardId="0FKB0000000DKR2OAO " height="1200" openLinksInNewWindow="false" showHeader="false" showTitle="false" showSharing="false"/>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

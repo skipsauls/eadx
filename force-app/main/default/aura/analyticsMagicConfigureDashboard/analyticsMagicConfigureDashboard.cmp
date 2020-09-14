@@ -1,0 +1,52 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global">
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="title" type="String" access="global" default="Analytics Magic"/>    
+    <aura:attribute name="iconName" type="String" access="global" default="utility:magicwand"/>        
+    <aura:attribute name="config" type="String" access="global"/>
+    <aura:attribute name="configId" type="String" access="global" default=""/>
+    <aura:attribute name="configName" type="String" access="global"/>
+    <aura:attribute name="dashboardIds" type="String" access="global"/>
+    <aura:attribute name="matchedDashboardIds" type="String" access="global"/>
+    <aura:attribute name="dashboards" type="Object[]"/>
+    <aura:attribute name="matchedDashboards" type="Object[]"/>
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.handleSelectDashboard}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="outer">
+        
+        <lightning:card aura:id="main-card" title="{!v.title}" class="" iconName="{!v.iconName}">
+            <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:back" alternativeText="Back" onclick="{!c.handleBack}"/>
+                <lightning:buttonIcon iconName="utility:forward" alternativeText="Next" onclick="{!c.handleNext}"/>
+            </aura:set>
+            
+            <lightning:layout horizontalAlign="spread" verticalAlign="stretch">
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="4" class="column">
+                    <lightning:select value="{!v.dashboardId}" class="select" label="Dashboard">
+                        <option value="">choose one...</option>
+                        <aura:iteration items="{!v.matchedDashboards}" var="dashboard">
+                            <option value="{!dashboard.id}">{!dashboard.label}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                    
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem class="column slds-grid_vertical-align-end" flexibility="auto" padding="around-small" size="8">
+                    <div class="dashboard-outer" aura:id="dashboard-outer">
+                        <div aura:id="dashboard" class="dashboard-container">        
+                        </div>
+                    </div>
+                    
+                </lightning:layoutItem>
+            </lightning:layout>        
+        </lightning:card>
+    </div>
+    
+    
+    
+</aura:component>

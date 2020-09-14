@@ -1,0 +1,18 @@
+<aura:component access="global">
+    <aura:attribute name="insight" type="Object" access="global"/>
+    <aura:if isTrue="{!v.insight != null}">
+        <div class="story">
+            <div class="narrative">
+                <div class="title slds-text-heading_medium slds-text-title_caps">
+                    <c:analyticsNarrativeElement element="{!v.insight.narrative.title}"/>
+                </div>
+                <div class="header slds-text-heading_small slds-m-vertical_small">
+                    <c:analyticsNarrativeElement element="{!v.insight.narrative.header}"/>
+                </div>
+                <div class="body">
+                    <c:analyticsNarrativeElement element="{!v.insight.narrative.body}"/>
+                </div>
+            </div>
+        </div>
+    </aura:if>    
+</aura:component>

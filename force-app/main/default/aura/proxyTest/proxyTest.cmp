@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <c:proxy aura:id="proxy"/> 
+    
+    <lightning:button label="Test" onclick="{!c.test}"/>
+    
+</aura:component>

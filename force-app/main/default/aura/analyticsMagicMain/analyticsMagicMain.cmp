@@ -1,0 +1,57 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global">
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="title" type="String" access="global" default="Analytics Magic"/>    
+    <aura:attribute name="iconName" type="String" access="global" default="utility:magicwand"/>    
+    <aura:attribute name="config" type="String" access="global"/>
+    <aura:attribute name="configId" type="String" access="global" default=""/>
+    <aura:attribute name="configName" type="String" access="global"/>    
+    <aura:attribute name="layoutType" type="String" default="FULL" access="global"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>    
+    <aura:attribute name="recordError" type="String"/>    
+    <aura:attribute name="sObjectName" type="String" access="global"/>
+    <aura:attribute name="isList" type="Boolean" access="global" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      layoutType="{!v.layoutType}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    
+    
+    <div class="outer">
+        <lightning:card title="{!v.title}" iconName="{!v.iconName}">
+            <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:settings" alternativeText="Configure" variant="border-filled" onclick="{!c.handleConfigure}"/>        
+            </aura:set>
+            <div class="{!'message ' + (v.config.length == 0 ? '' : 'hide')}">
+                
+                <lightning:layout class="main" horizontalAlign="spread" verticalAlign="stretch" pullToBoundary="small" multipleRows="true">
+                    <lightning:layoutItem flexibility="auto" padding="around-x_small" size="12" >
+                        <lightning:tile aura:id="outer-tile" label="" class="slds-box card slds-p-around_x_small slds-clearfix">
+                            <ul>
+                                <li aura:id="einstein-tile" class="slds-clearfix">
+                                    <img src="https://c1.sfdcstatic.com/content/dam/web/en_us/www/images/campaign/lightning/lightning-einstein.png"
+                                         class="einstein"
+                                         title="Einstein"/>
+                                    <h1 class="heading slds-text-heading_medium">Your {!v.record.apiName} page is very boring, and not very smart! Einstein can help you find some Analytics Assets to make it beautiful, and much, much smarter. Just click the button in the upper right and hold on tight!</h1>
+                                </li>
+                            </ul>
+                        </lightning:tile>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+            </div>
+            <div class="content">
+                {!v.body}
+            </div>
+        </lightning:card>                                                                          
+    </div>
+</aura:component>

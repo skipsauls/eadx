@@ -1,0 +1,12 @@
+<aura:component implements="c:lightningWidget">
+    <aura:attribute name="density" type="Integer" access="global" default="200"/>
+    <aura:attribute name="theme" type="String" access="global" default="light"/>
+    <aura:attribute name="animate" type="Boolean" access="global" default="false"/>
+    
+    <aura:handler name="change" value="{!v.result}" action="{!c.handleResultBinding}"/>
+    <aura:handler name="change" value="{!v.selection}" action="{!c.handleSelectionBinding}"/>
+    
+    <div aura:id="main">
+        ...
+    </div>
+</aura:component>

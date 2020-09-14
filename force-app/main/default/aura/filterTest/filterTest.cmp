@@ -1,0 +1,23 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="filter" type="String" access="GLOBAL"/>
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" default=""/>
+    <aura:attribute name="developerName" type="String" access="GLOBAL" default=""/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:registerEvent name="update" type="wave:update"/>
+    <div class="container">
+        <div class="slds-form-element slds-p-around--small">
+            <lightning:textarea name="filterText" value="{!v.filter}" label="Custom Filter" class="filter_text"/>
+        </div>
+        <div class="slds-form-element slds-p-around--small">
+            <label class="slds-form-element__label" for="dashboardId">Dashboard ID:</label>
+            <ui:inputText class="slds-input" value="{!v.dashboardId}"/>
+        </div>
+        <div class="slds-form-element slds-p-around--small">
+            <label class="slds-form-element__label" for="developerName">Developer Name:</label>
+            <ui:inputText class="slds-input" value="{!v.developerName}"/>
+        </div>
+        <div class="slds-form-element slds-p-around--small">
+	        <button variant="brand" type="button" label="Fire" class="slds-button slds-button--brand" onclick="{!c.handleUpdate}">Fire</button>
+        </div>
+    </div>
+</aura:component>

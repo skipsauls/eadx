@@ -1,0 +1,18 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global"  controller="TemplateConfigController">
+    <aura:attribute name="templates" type="Object[]" access="global" default="blank" description="asdfadsf."/>
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config object ID."/>
+    <aura:attribute name="appName" type="String" access="global" default="" description="Name to use for the app."/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <h1>Create Blank App</h1>
+    <h1>Start From: {!v.startFrom}</h1>
+    <h1>Template Config ID: {!v.configId}</h1>    
+    
+    <lightning:layout >
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="6"> 
+            <lightning:input type="text" label="Name" value="{!v.appName}"/>
+        </lightning:layoutItem>
+    </lightning:layout>    
+</aura:component>

@@ -1,0 +1,10 @@
+.THIS textarea.slds-textarea.event-log {
+    width: 100%;
+    height: 12em;
+    resize: none;
+    overflow: auto;
+}
+
+.THIS .hide {
+    display: none;
+}

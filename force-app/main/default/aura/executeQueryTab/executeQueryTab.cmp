@@ -1,0 +1,4 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <wave:sdk aura:id="sdk"/>
+    <lightning:button label="Test" onclick="{!c.test}"/>
+</aura:component>

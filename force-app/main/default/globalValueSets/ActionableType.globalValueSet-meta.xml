@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ViewSObject</fullName>
+        <default>false</default>
+        <label>View Object</label>
+    </customValue>
+    <customValue>
+        <fullName>VisualforcePage</fullName>
+        <default>false</default>
+        <label>Open Visualforce Page</label>
+    </customValue>
+    <customValue>
+        <fullName>EditSObject</fullName>
+        <default>false</default>
+        <label>Edit Object</label>
+    </customValue>
+    <customValue>
+        <fullName>ViewAnalyticsDashboard</fullName>
+        <default>false</default>
+        <label>View Analytics Dashboard</label>
+    </customValue>
+    <customValue>
+        <fullName>FilterAnalyticsDashboard</fullName>
+        <default>false</default>
+        <label>Filter Analytics Dashboard</label>
+    </customValue>
+    <customValue>
+        <fullName>ResetAnalyticsFilter</fullName>
+        <default>false</default>
+        <label>Reset Analytics Filter</label>
+    </customValue>
+    <customValue>
+        <fullName>SelectAnalyticsDashboard</fullName>
+        <default>false</default>
+        <label>Select Analytics Dashboard</label>
+    </customValue>
+    <customValue>
+        <fullName>ClearAnalyticsSelection</fullName>
+        <default>false</default>
+        <label>Clear Analytics Selection</label>
+    </customValue>
+    <customValue>
+        <fullName>OpenLightningFlow</fullName>
+        <default>false</default>
+        <label>Open Lightning Flow</label>
+    </customValue>
+    <customValue>
+        <fullName>ListActiveDashboards</fullName>
+        <default>false</default>
+        <label>List Active Dashboards</label>
+    </customValue>
+    <customValue>
+        <fullName>ListFilterFields</fullName>
+        <default>false</default>
+        <label>List Filter Fields</label>
+    </customValue>
+    <customValue>
+        <fullName>ListSelectionFields</fullName>
+        <default>false</default>
+        <label>List Selection Fields</label>
+    </customValue>
+    <customValue>
+        <fullName>ListFilterFieldValues</fullName>
+        <default>false</default>
+        <label>List Filter Field Values</label>
+    </customValue>
+    <customValue>
+        <fullName>ListAllListViews</fullName>
+        <default>false</default>
+        <label>List All List Views</label>
+    </customValue>
+    <customValue>
+        <fullName>ListListViews</fullName>
+        <default>false</default>
+        <label>List List Views</label>
+    </customValue>
+    <customValue>
+        <fullName>ShowListView</fullName>
+        <default>false</default>
+        <label>Show List View</label>
+    </customValue>
+    <customValue>
+        <fullName>GoToPage</fullName>
+        <default>false</default>
+        <label>Go To Page</label>
+    </customValue>
+    <customValue>
+        <fullName>NLQ</fullName>
+        <default>false</default>
+        <label>NLQ</label>
+    </customValue>
+    <customValue>
+        <fullName>ListSelectionFieldValues</fullName>
+        <default>false</default>
+        <label>List Selection Field Values</label>
+    </customValue>
+    <customValue>
+        <fullName>ListQuipFolders</fullName>
+        <default>false</default>
+        <label>List Quip Folders</label>
+    </customValue>
+    <customValue>
+        <fullName>OpenQuipFolder</fullName>
+        <default>false</default>
+        <label>Open Quip Folder</label>
+    </customValue>
+    <customValue>
+        <fullName>ShowQuipThread</fullName>
+        <default>false</default>
+        <label>Show Quip Thread</label>
+    </customValue>
+    <customValue>
+        <fullName>Reset</fullName>
+        <default>false</default>
+        <label>Reset</label>
+    </customValue>
+    <customValue>
+        <fullName>NavigateToDashboardPage</fullName>
+        <default>false</default>
+        <label>Navigate To Dashboard Page</label>
+    </customValue>
+    <masterLabel>ActionableType</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

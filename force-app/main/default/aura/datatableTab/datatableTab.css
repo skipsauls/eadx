@@ -1,0 +1,6 @@
+.THIS {
+}
+
+.THIS tr[data-row-key-value*="_hidden"] {
+    display: none;
+}

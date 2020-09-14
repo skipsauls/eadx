@@ -1,0 +1,20 @@
+.THIS {
+}
+
+.THIS .code {
+}
+
+.THIS .code textarea {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 10pt;
+    line-height: 1.1rem;
+    height: 20rem;
+}
+
+.THIS .form-element_inline {
+    display: inline-block;
+}
+
+.THIS select {
+    width: 12rem;
+}

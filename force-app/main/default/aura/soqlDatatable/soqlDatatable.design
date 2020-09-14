@@ -1,0 +1,4 @@
+<design:component label="Offce Datatable">
+    <design:attribute name="height" label="Height" description="The height of the datatable in px, em, rem, etc."/>
+    <design:attribute name="fields" label="Fields" description="Comma-delimited list of fields to show in the datatable."/>
+</design:component>

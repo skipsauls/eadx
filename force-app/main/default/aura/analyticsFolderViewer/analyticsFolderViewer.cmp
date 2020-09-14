@@ -1,0 +1,15 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" >
+    <aura:attribute name="folderId" type="String" access="GLOBAL" description="The id of the folder"/>
+    <aura:attribute name="folder" type="Object" access="GLOBAL" description="The object for the folder"/>
+    
+    <aura:handler name="change" value="{!v.folderId}" action="{!c.handleFolderIdChange}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="main">
+        <div class="container">
+            <div aura:id="folder" class="folder-container"></div>
+        </div>
+    </div>    
+    
+</aura:component>

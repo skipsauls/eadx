@@ -1,0 +1,48 @@
+{
+  "isDeletable": true,
+  "notificationLevel": "",
+  "workflowDefinition": {
+    "101": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Amount"},
+          {"name": "CloseDate"},
+          {"name": "Description"},
+          {"name": "ExpectedRevenue"},
+          {"name": "Fiscal"},
+          {"name": "FiscalQuarter"},
+          {"name": "FiscalYear"},
+          {"name": "ForecastCategory"},
+          {"name": "LeadSource"},
+          {"name": "Name"},
+          {"name": "Id"},
+          {"name": "Type"},
+          {"name": "eadx__OrderNumber__c"},
+          {"name": "Probability"},
+          {"name": "TotalOpportunityQuantity"},
+          {"name": "StageName"},
+          {"name": "IsWon"}
+        ],
+        "object": "Opportunity"
+      }
+    },
+    "102": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "oppty_demo",
+        "alias": "${App.Datasets.oppty_demo.FullyQualifiedName}",
+        "source": "101"
+      }
+    }
+  },
+  "DataflowType": "USER",
+  "_type": "dataflow",
+  "name": "eadx__Demo_App",
+  "description": "Datafow Copy",
+  "MasterLabel": "Demo App",
+  "_url": "/insights/internal_api/v1.0/esObject/workflow//json",
+  "_uid": "",
+  "nextRun": "",
+  "WorkflowStatus": "Inactive"
+}

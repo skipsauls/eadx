@@ -1,0 +1,86 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="AppTemplateController">
+    <aura:attribute name="eventLog" type="String[]" access="global" description="Log of the events"/>
+    <aura:attribute name="eventLogStr" type="String" access="global" description="Log in string form for display"/>
+    <aura:attribute name="appItems" type="Aura.Component[]" access="global" description="The items to display"/>
+    <aura:attribute name="dialogs" type="Aura.Component[]" access="global" description="Dialogs for wizard, etc."/>
+    <aura:attribute name="appName" type="String" access="global" description="The name of the test app."/>
+    <aura:attribute name="headerActions" type="Object[]" access="global" description="The actions for the page header."/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:dependency resource="c:installerAppRow"/>
+    <aura:dependency resource="c:installerActionMenu"/>
+    <aura:dependency resource="c:installerWizard"/>
+    <aura:dependency resource="c:installerAppTemplateSelect"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <c:streaming channel="/event/WaveAssetEvent" onMessage="{!c.handleWaveAssetEvent}"/>
+    
+    <c:pageHeader actions="{!v.headerActions}"/>
+    
+    <section class="main-content">
+        
+        <!-- REMOVE
+        <lightning:card title="Astro!">
+            <img src="/analytics/wave/web/proto/images/skipping_1s_16c_30fps.gif"/>
+        </lightning:card>
+        <lightning:card title="Testing" variant="narrow">
+            <button class="slds-button slds-button_neutral" onclick="{!c.createApp}">Create App</button>
+            <lightning:input label="Name" name="appName" type="text" placeholder="App Name" value="{!v.appName}" maxlength="50" />
+            <button class="slds-button slds-button_neutral" onclick="{!c.createAppFromTemplate}">Test Create</button>
+        </lightning:card>
+		-->
+        
+        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-around--medium">
+            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--4-of-6 slds-large-size--9-of-12">
+                <table aura:id="app-table" class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Index"></div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="App Name">App Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Template Name">Template Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Description">Description</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Last Modified Date">Last Modified Date</div>
+                            </th>
+                        </tr>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Actions"></div>
+                        </th>
+                    </thead>                   
+                    <tbody>
+                        {!v.appItems}
+                    </tbody>
+                </table>                
+            </div>            
+            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--3-of-12">
+                <div aura:id="progress" class="hide">
+                    <div aura:id="astro">
+                        <img src="/analytics/wave/web/proto/images/skipping_1s_16c_30fps.gif"/>
+                    </div>                    
+                    <ul aura:id="progress-list"></ul>
+                </div>
+            </div>            
+        </div>
+        
+        {!v.dialogs}
+
+        <div>
+            <div class="slds-form-element slds-m-around_small">
+                <label class="slds-form-element__label" for="mock_body">Event Log</label>
+                <textarea class="slds-textarea event-log" name="event-log" aura:id="event-log" value="{!v.eventLogStr}"></textarea>            
+                <button class="slds-button slds-button_neutral" onclick="{!c.clearLog}">Clear</button>                
+                <button class="slds-button slds-button_neutral" onclick="{!c.test}">Test</button>
+            </div> 
+        </div>
+    </section>    
+</aura:component>

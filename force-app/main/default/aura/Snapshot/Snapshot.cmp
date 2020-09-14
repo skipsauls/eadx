@@ -1,0 +1,31 @@
+<aura:component implements="force:appHostable" controller="SDKController">
+    
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FK1I000000DwQPWA0"/>
+    <aura:attribute name="developerName" type="String" access="global" default=""/>
+    <aura:attribute name="dashboardObj" type="Object"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.selectDashboard}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    <section class="main-content" aura:id="main_content">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            <div class="slds-p-left--small slds-p-right--x-small slds-size--1-of-2 slds-medium-size--3-of-6 slds-large-size--6-of-12">
+                <div class="slds-grid slds-wrap slds-card slds-p-around--x-small">
+                    <div class="slds-size_1-of-2 slds-p-around--xx-small">
+                        <c:dashboardSelector dashboardId="{!v.dashboardId}"/>
+                    </div>
+                </div>
+                <article class="slds-card slds-p-around--x-small">
+                    <c:player dashboardId="{!v.dashboardId}"/>
+                </article>
+            </div>            
+            <div class="slds-p-right--small slds-p-left--xx-small slds-size--1-of-2 slds-medium-size--3-of-6 slds-large-size--6-of-12">
+                <div class="dashboard-outer" aura:id="dashboard-outer">
+                    <div aura:id="dashboard" class="dashboard-container">        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aura:component>

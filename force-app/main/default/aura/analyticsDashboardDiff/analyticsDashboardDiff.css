@@ -1,0 +1,93 @@
+.THIS {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+
+.THIS.main {
+    position: relative;
+}
+
+.THIS .container {
+    position: relative;
+}
+
+.THIS .dashboard-container {
+    position: absolute;
+	top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 1.0;
+}
+
+.THIS .dashboard-tint {
+    position: absolute;
+	top: 0;
+    left: 0;
+    width: 100%;
+    height: 2048px;
+    opacity: 0.25;
+    background-color: #AAFFAA;
+}
+
+.THIS .overlay-container {
+    position: absolute;
+	top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 1;
+}
+
+.THIS .overlay-tint {
+    position: absolute;
+	top: 0;
+    left: 0;
+    width: 100%;
+    height: 2048px;
+    opacity: 0.25;
+    background-color: #FFAAAA;
+}
+
+.THIS .layer.opacity05 {
+    opacity: 0.05;
+}
+
+.THIS .layer.opacity10 {
+    opacity: 0.10;
+}
+
+.THIS .layer.opacity20 {
+    opacity: 0.20;
+}
+
+.THIS .layer.opacity25 {
+    opacity: 0.25;
+}
+
+.THIS .layer.opacity33 {
+    opacity: 0.33;
+}
+
+.THIS .layer.opacity50 {
+    opacity: 0.50;
+}
+
+.THIS .layer.opacity66 {
+    opacity: 0.66;
+}
+
+.THIS .layer.opacity75 {
+    opacity: 0.75;
+}
+
+.THIS .layer.opacity100 {
+    opacity: 1.00;
+}
+
+.THIS .dashboard-outer.hidden {
+    display: none;
+}
+
+.THIS .hide {
+    display: none;
+}

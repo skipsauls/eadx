@@ -1,0 +1,64 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="ApexTwitterController">
+    <aura:attribute name="type" type="String" access="global" default="ping"/>
+    <aura:attribute name="types" type="String[]" access="global" default="ping,refresh,step,selection,filter"/>
+    <aura:attribute name="target" type="String" access="global" default="0FKB0000000AXgPOAW"/>
+    <aura:attribute name="payload" type="String" access="global" default=""/>
+
+    <aura:attribute name="datasetName" type="String" access="GLOBAL" default="eadx__oppty_demo" description="Dataset used for refresh"/>
+    <aura:attribute name="fieldName" type="String" access="GLOBAL" default="StageName" description="Field in the dataset used for refresh"/>
+    <aura:attribute name="fieldValue" type="String" access="GLOBAL" default="Needs Analysis" description="Value for the field in the dataset used for refresh"/>
+    <aura:attribute name="fieldSwitch" type="String" access="GLOBAL" default="A" description="Value for the A/B switching on refresh"/>
+    
+    <aura:attribute name="started" type="Boolean" access="global" default="false" description="Indicates whether updates are running"/>    
+    <aura:attribute name="started2" type="Object" access="global" default="['Running','Stopped']" description="Indicates whether updates are running"/>    
+    <aura:attribute name="step" type="Integer" default="500" description="The step in milliseconds for updates"/>
+    <aura:attribute name="minDelay" type="Integer" default="1000" description="The minimum delay in milliseconds for updates"/>
+    <aura:attribute name="maxDelay" type="Integer" default="15000" description="The maximum delay in milliseconds for updates"/>
+    <aura:attribute name="delay" type="Integer" access="global" default="3000" description="The delay in milliseconds for updates"/>
+    <aura:attribute name="timestamp" type="Integer" default="0" description="Timestamp used for animation frame checks"/>
+    <aura:attribute name="globalId" type="String" description="ID for animation frames"/>    
+    
+    <aura:attribute name="limits" type="Object" access="global" description="The limits returned from Twitter"/>
+
+    <aura:attribute name="lists" type="String[]" access="global"/>
+    
+	<aura:handler name="change" value="{!v.lists}" action="{!c.handleFire}"/>
+
+    <aura:registerEvent name="update" type="wave:update"/>
+    
+    <!--
+
+ 	UNCOMMENT IF PLATFORM EVENTS ARE TO BE USED
+
+    <c:streaming channel="/event/df17eadx__EinsteinAnalyticsEvent__e" onMessage="{!c.handlePlatformEvent}"/>
+    <c:eaPlatformEventManager />
+
+    -->
+    
+    <section class="main-content" aura:id="main_content">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            <div class="slds-p-left--small slds-p-right--x-small slds-size--1-of-2 slds-medium-size--1-of-6 slds-large-size--2-of-12">
+				<article class="slds-card slds-p-around--xx-small">
+                    <lightning:layout horizontalAlign="space" verticalAlign="end" pullToBoundary="small">
+	                    <lightning:layoutItem flexibility="auto" size="4">
+                            <lightning:input name="interval" label="Interval" type="number" step="{!v.step}" min="{!v.minDelay}" max="{!v.maxDelay}" value="{!v.delay}"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto" size="4">
+	                        <lightning:button variant="{!v.started == true ? 'destructive' : 'success'}" label="{!v.started == true ? 'Stop' : 'Start'}" onclick="{!c.toggleRunning}"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </article>
+                <article class="slds-card slds-p-around--x-small">
+					<c:apexStepListEditor lists="{!v.lists}"/>
+                    <!--
+                    <sharinpix:SharinPixSearch />
+                    <c:waveEventMonitor />
+					-->
+                </article>
+            </div>
+            <div class="slds-p-left--small slds-p-right--x-small slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--10-of-12">
+                <wave:waveDashboard dashboardId="{!v.target}" height="900" showTitle="false" showHeader="false"/>
+            </div>
+        </div>
+    </section>
+</aura:component>

@@ -1,0 +1,95 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="appName" type="String" access="global" description="The unique name for the app" default="Promo_Test"/>
+    <aura:attribute name="appLabel" type="String" access="global" description="The label for the app" default="Promo Test"/>
+    <aura:attribute name="appDescription" type="String" access="global" description="The description of the app" default="An app for testing the promo button in Lightning."/>
+    <aura:attribute name="templateDeveloperName" type="String" access="global" description="The unique name or namespace__name for the target template"/>
+    <aura:attribute name="mode" type="String" description="The current mode (install, installing, installed)" default="install"/>
+    <aura:attribute name="assetSharingUrl" type="String" description="URL for opening the app"/>
+    <aura:attribute name="folder" type="Object" description="The template object"/>
+    <aura:attribute name="template" type="Object" description="The template object"/>
+    <aura:attribute name="templateValues" type="Object" description="The values for the template variables"/>
+    <aura:attribute name="status" type="Object" description="The latest app creation status"/>
+    <aura:attribute name="sub" type="Object" description="The streaming channel subscription"/>
+    <aura:attribute name="upgradable" type="Boolean" description="The latest app creation status" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    <lightning:empApi aura:id="empApi"/>
+    
+    <div class="outer">
+        <aura:if isTrue="{!v.template != null}">
+            <lightning:card >
+                <aura:set attribute="title">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+		                    <lightning:icon iconName="utility:einstein" alternativeText="Einstein Analytics" size="small"/>
+                        </div>
+                        <div class="slds-media__body">
+			                <h2 class="title">Einstein Analytics Template</h2>
+                        </div>
+                    </header>
+                </aura:set>
+                <aura:set attribute="actions">
+                    <lightning:buttonMenu aura:id="menu" onselect="{!c.handleMenuSelect}" alternativeText="Show menu" iconSize="small" menuAlignment="right">
+                    	<aura:if isTrue="{!v.mode == 'install'}">
+				        	<lightning:menuItem value="install" label="Install" iconName="utility:new"/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.mode == 'installed'}">
+                            <lightning:menuItem value="open" label="Open" iconName="utility:new_window"/>
+                            <aura:if isTrue="{!v.upgradable == true}">
+                            	<lightning:menuItem value="upgrade" label="Upgrade" iconName="utility:refresh"/>
+                            </aura:if>
+                            <lightning:menuItem value="remove" label="Remove" iconName="utility:delete"/>
+                        </aura:if>
+					</lightning:buttonMenu>
+                    <!--
+                    <aura:if isTrue="{!v.mode == 'install'}">
+                        <lightning:button label="Install" onclick="{!c.handleInstallApp}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.mode == 'installed'}">
+                        <lightning:button label="Remove" onclick="{!c.handleRemoveApp}"/>
+                        <aura:if isTrue="{!v.upgradable == true}">
+                            <lightning:button label="Upgrade" onclick="{!c.handleUpgradeApp}"/>
+                        </aura:if>
+                        <lightning:button label="Open" onclick="{!c.handleOpenApp}"/>
+                    </aura:if>
+					-->
+                </aura:set>
+                <div class="slds-clearfix">
+                    <div class="card-body slds-clearfix slds-p-around_small">
+                        <div class="icon slds-float_left slds-m-right_small">
+                            <img src="{!v.template.icons.templateBadge.url}" title="{!v.template.label}"/>
+                        </div>
+                        <span class="description">
+                            <h2 class="title">{!v.template.label}</h2>
+                            <aura:if isTrue="{!v.mode == 'install'}">
+                                {!v.template.description}
+                            </aura:if>
+                            <aura:if isTrue="{!v.mode == 'installing'}">
+                                Einstein Analytics is preparing the {!v.template.label} template.
+                                <lightning:spinner aura:id="spinner"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.mode == 'installed'}">
+                                {!v.template.label} is ready for you to use!
+                                <aura:if isTrue="{!v.upgradable == true}">
+                                    <p>
+                                        An updated version is available!
+                                    </p>
+                                </aura:if>
+                            </aura:if>                            
+                        </span>             
+                    </div>
+                </div>
+                <aura:set attribute="footer">
+                    <!--
+                    <aura:if isTrue="{!v.status != null}">
+                        {!v.status.EventType} - {!v.status.ItemLabel} ({!v.status.ItemName}) : {!v.status.Status}
+                    </aura:if>
+					-->
+                </aura:set>
+            </lightning:card>
+        </aura:if>
+        
+    </div>
+</aura:component>

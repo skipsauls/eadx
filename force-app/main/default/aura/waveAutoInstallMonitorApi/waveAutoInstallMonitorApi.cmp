@@ -1,0 +1,58 @@
+<aura:component >
+	<aura:attribute name="waveAutoInstallRequest"
+                    type="Object"
+                    access="public"
+                    required="true"/>
+
+    <aura:attribute name="requestPermissions" type="Object" 
+                    access="public" required="true"/>
+	
+    <aura:attribute name="pollerDelay" type="Integer"  
+					default="1000" access="public"/>    
+
+	<aura:attribute name="started"
+                    type="Boolean"
+                    default="false"/>
+    
+    <aura:attribute name="onAssetCompleteHandler"
+                    type="Object"
+                    access="private"/>
+
+    <aura:attribute name="subscribedEventTypes"
+                    type="Object"
+                    access="private"/>
+    
+    <aura:attribute name="onErrorHandler"
+                    type="Object"
+                    access="private"/>
+    
+    <aura:attribute name="pollerTimerId" 
+                    type="Integer" 
+                    access="private"/>
+
+    <aura:attribute name="empSubscription" 
+                    type="Object"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <lightning:empApi aura:id="empApi"/>
+    
+    <wave:autoInstallRequest aura:id="wairApi"/>
+    
+    <aura:method name="setAssetCompleteHandler" description="Sets handler to be called when a collection of assets is complete."
+                 action="{!c.setAssetCompleteHandler}"  access="PUBLIC"> 
+        <aura:attribute name="eventTypes" type="List" 
+                        description="The list of events you are interested in."/>
+        <aura:attribute name="handler" type="Function" 
+                        description="Handler to be invoked during the event."/>
+    </aura:method>    
+
+    <aura:method name="start" description="Starts monitoring the wave auto-install request and app."
+                 action="{!c.start}"  access="PUBLIC"> 
+    </aura:method>    
+
+    <aura:method name="stop" description="Stops monitoring the wave auto-install request and app."
+                 action="{!c.stop}"  access="PUBLIC"> 
+    </aura:method>    
+    
+</aura:component>

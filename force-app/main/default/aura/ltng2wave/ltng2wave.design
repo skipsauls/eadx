@@ -1,0 +1,3 @@
+<design:component label="Lightning 2 Wave">
+    <design:attribute name="dashboardId" label="Dashboard ID" description="ID of the Wave Dashboard to send the selection to."/>
+</design:component>

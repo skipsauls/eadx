@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <lightning:tabset selectedTabId="morty">
+        <lightning:tab label="Mortgage Calculator" id="morty">
+            <c:mortgageCalculator></c:mortgageCalculator>
+        </lightning:tab>
+        <lightning:tab label="Xyz Widgets" id="xyz_widgets">
+			<c:embeddedTemplatedApp templateApiName="eadx__Xyz_Widget_Application"
+                                dashboardHeight="1000"
+                                header="Einstein Analytics Studio"
+                                title="Xyz Widget Corporation"
+                                canManageDataflow="true"/>
+        </lightning:tab>
+    </lightning:tabset>	
+</aura:component>

@@ -1,0 +1,31 @@
+<aura:component access="global">
+	<aura:attribute name="appTemplates" type="Object[]" access="global"/>
+	<aura:attribute name="appTemplateMap" type="Object" access="global"/>
+	<aura:attribute name="selectedAppTemplate" type="Object" access="global"/>
+    <aura:attribute name="content" type="Aura.Component[]" access="global"/>
+    <aura:attribute name="callback" type="Object" access="global"/>
+    <aura:attribute name="defaultDetailUrl" type="String" access="global" default="/analytics/wave/web/proto/images/template/icons/default-details.png"/>
+        
+	<div class="outer">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-around--medium inner">
+            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--4-of-12 list-container">
+				<ul aura:id="list">
+					<aura:iteration items="{!v.appTemplates}" var="appTemplate">
+                        <li class="slds-media slds-media--responsive slds-m-around--small item-clickable" data-template-id="{!appTemplate.id}" onclick="{!c.selectAppTemplate}">
+                            <c:installerAppTemplateCard appTemplate="{!appTemplate}"/>
+                        </li>					
+                    </aura:iteration>
+                </ul>
+            </div>
+            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--4-of-6 slds-large-size--8-of-12">
+                <div class="details">
+                    <div class="slds-text-heading_medium slds-p-vertical_medium title">{!v.selectedAppTemplate.label}</div>
+                    <div class="slds-text-heading_small slds-p-vertical_medium description">{!v.selectedAppTemplate.description || '&nbsp;'}</div>
+                    <div class="slds-align_absolute-center">
+	                    <img src="{!v.selectedAppTemplate.icons.templateDetail.url || v.defaultDetailUrl}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

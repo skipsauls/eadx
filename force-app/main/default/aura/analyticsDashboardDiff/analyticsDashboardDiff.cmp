@@ -1,0 +1,25 @@
+<aura:component access="global" >
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard"/>
+    <aura:attribute name="overlayId" type="String" access="GLOBAL" description="The id for an overlay" default="0FKB00000009UWlOAM"/>
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="700"/>
+    
+    <aura:attribute name="showOverlay" type="Boolean" access="GLOBAL" default="false"/>
+    
+    <aura:attribute name="dashboard" type="Object"/>
+    <aura:attribute name="versions" type="Object[]"/>
+    
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.handleDashboardIdChange}"/>
+    <aura:handler name="change" value="{!v.overlayId}" action="{!c.handleOverlayIdChange}"/>
+    <aura:handler name="change" value="{!v.showOverlay}" action="{!c.handleToggleOverlay}"/>
+    
+    <div class="main">
+        <lightning:input type="checkbox" label="Overlay" name="overlay" checked="{!v.showOverlay}"/>
+        <div class="container">
+            <div aura:id="dashboard" class="layer dashboard-container"></div>
+            <div aura:id="dashboard-tint" class="layer dashboard-tint" style="{!'height:' + v.height + 'px;'}"></div>
+            <div aura:id="overlay" class="layer overlay-container hide"></div>
+            <div aura:id="overlay-tint" class="layer overlay-tint hide" style="{!'height:' + v.height + 'px;'}"></div>
+        </div>
+    </div>    
+    
+</aura:component>

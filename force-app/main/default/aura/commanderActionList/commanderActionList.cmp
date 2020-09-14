@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+	<aura:attribute name="commanderActions" type="Object[]" access="global"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <einsteinconduit:commanderApi aura:id="commanderApi"/>
+    <lightning:card>
+		<ol class="slds-setup-assistant">
+            <aura:iteration items="{!v.commanderActions}" var="commanderAction">
+                        <c:commanderActionItem commanderAction="{!commanderAction}"/>            
+            </aura:iteration>
+		</ol>          
+    </lightning:card>
+</aura:component>

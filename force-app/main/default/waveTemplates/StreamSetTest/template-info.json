@@ -1,0 +1,46 @@
+{
+  "templateType" : "app",
+  "label" : "StreamSetTest",
+  "name" : "StreamSetTest",
+  "namespace" : "eadx",
+  "templateIcon" : "default.png",
+  "assetIcon" : "16.png",
+  "assetVersion" : 40.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.1",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [ ],
+  "eltDataflows" : [
+    {
+      "label" : "StreamSetTest Dataflow",
+      "name" : "StreamSetTestDataflow",
+      "condition" : "${Variables.Overrides.createDataflow}",
+      "file" : "dataflow/StreamSetTestDataflow.json"
+    }
+  ],
+  "datasetFiles" : [
+    {
+      "label" : "opptytest111",
+      "name" : "opptytest111",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/opptytest111_XMD.json"
+    }
+  ],
+  "imageFiles" : [ ]
+}

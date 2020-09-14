@@ -1,0 +1,20 @@
+.THIS {
+    min-width: 640px;
+}
+
+.THIS .list {
+    height: 20rem;
+    overflow: auto;
+}
+
+.THIS .item {
+    overflow: hidden;
+}
+
+.THIS .header {
+    font-weight: bold;
+}
+
+.THIS .item.selected {
+    background-color: #D8EDFF;
+}

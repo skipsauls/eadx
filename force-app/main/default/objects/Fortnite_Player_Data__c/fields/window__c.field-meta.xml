@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>window__c</fullName>
+    <description>The time period, including all time or specific seasons</description>
+    <externalId>false</externalId>
+    <label>window</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>alltime</fullName>
+                <default>false</default>
+                <label>alltime</label>
+            </value>
+            <value>
+                <fullName>season6</fullName>
+                <default>false</default>
+                <label>season6</label>
+            </value>
+            <value>
+                <fullName>season5</fullName>
+                <default>false</default>
+                <label>season5</label>
+            </value>
+            <value>
+                <fullName>season4</fullName>
+                <default>false</default>
+                <label>season4</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

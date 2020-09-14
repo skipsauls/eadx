@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assetIcon>/analytics/wave/web/proto/images/app/icons/16.png</assetIcon>
+    <folder>eadx__UglyApp</folder>
+    <masterLabel>UglyApp</masterLabel>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>skip@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>eadx__Demo_App</templateOrigin>
+    <templateVersion>1.2</templateVersion>
+</WaveApplication>

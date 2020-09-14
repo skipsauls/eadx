@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>platform__c</fullName>
+    <externalId>false</externalId>
+    <label>platform</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>pc</fullName>
+                <default>false</default>
+                <label>pc</label>
+            </value>
+            <value>
+                <fullName>xb1</fullName>
+                <default>false</default>
+                <label>xb1</label>
+            </value>
+            <value>
+                <fullName>ps4</fullName>
+                <default>false</default>
+                <label>ps4</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

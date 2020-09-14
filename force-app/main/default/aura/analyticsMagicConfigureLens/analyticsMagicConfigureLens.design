@@ -1,0 +1,10 @@
+<design:component label="Analytics Magic Configure Lens">
+    <design:attribute name="recordId" label="Record ID"/>    
+    <design:attribute name="title" label="Title"/>    
+    <design:attribute name="iconName" label="Icon Name"/>    
+    <design:attribute name="config" label="Config"/>
+    <design:attribute name="configId" label="Config ID"/>
+    <design:attribute name="configName" label="Config Name"/>
+    <design:attribute name="lensIds" label="Lens IDs"/>
+    <design:attribute name="matchedLensIds" label="Matched Lens IDs"/>	
+</design:component>

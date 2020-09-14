@@ -1,0 +1,48 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="lensId" type="String" access="GLOBAL" description="The id of the lens to show, etc."/>
+    
+    <aura:attribute name="lenses" type="Object[]" access="global"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="results" type="Object[]"/>
+    <aura:attribute name="resultColumns" type="List"/>
+    <aura:attribute name="resultSortedBy" type="String"/>
+    <aura:attribute name="resultSortedDirection" type="String"/>    
+    <aura:attribute name="resultDefaultSortDirection" type="String" default="asc"/>
+    
+    <aura:attribute name="xmd" type="Object"/>
+    <aura:attribute name="fieldMap" type="Object"/>    
+    <aura:attribute name="saql" type="String"/>
+    <aura:attribute name="editSaql" type="String"/>
+    
+    <aura:handler name="change" value="{!v.lensId}" action="{!c.handleLensIdChange}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="lens-outer" aura:id="lens-outer">
+        
+        <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="11">
+                <lightning:textarea class="saql_editor" name="saql_editor" value="{!v.editSaql}" label="SAQL" onchange="{!c.handleEditSAQLChange}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="1">
+		        <lightning:buttonIcon class="slds-m-around_small" size="large" variant="bare" alternativeText="Execute Query" iconName="utility:right" onclick="{!c.execQuery}"/>
+            </lightning:layoutItem>
+        </lightning:layout>         
+        
+        
+        <div class="datatable results">
+            <lightning:spinner aura:id="result_spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide"/>
+            <c:analyticsDatatable data="{!v.results}" 
+                                  columns="{!v.resultColumns}" 
+                                  keyField="id"
+                                  sortedBy="{!v.resultSortedBy}"
+                                  sortedDirection="{!v.resultSortedDirection}"
+                                  defaultSortDirection="{!v.resultDefaultSortDirection}"
+                                  hideCheckboxColumn="true"
+                                  saql="{!v.saql}"
+                                  xmd="{!v.xmd}"
+                                  fieldMap="{!v.fieldMap}"
+                                  />
+        </div>
+    </div>
+</aura:component>

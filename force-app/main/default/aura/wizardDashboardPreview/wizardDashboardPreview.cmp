@@ -1,0 +1,30 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global" controller="TemplateConfigController">	
+    <aura:attribute name="title" type="String" description="title for the wizard page" default="Getting Started"/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="nextStep" type="String" access="global" default="blank" description="What to do next."/>    
+    <aura:attribute name="templateId" type="String" access="global" default="blank" description="The selected template to preview, configure, etc.."/>    
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config object ID."/>
+    <aura:attribute name="selectedType" type="String" access="global" default="" description="The selected template type (app or dashboard)."/>
+
+    <aura:attribute name="template" type="Object" access="global" description="The selected template details."/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="outer">
+        <div class="slds-text-align_center slds-text-heading_medium slds-m-around_small">{!v.title}</div>
+        <lightning:layout class="controls" horizontalAlign="spread" verticalAlign="center">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="2">
+                <div class="overview">
+                	{!v.template.description}
+                </div>
+                
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="10">
+                
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

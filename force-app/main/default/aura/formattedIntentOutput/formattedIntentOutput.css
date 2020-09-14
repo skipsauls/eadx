@@ -1,0 +1,7 @@
+.THIS .intent-param{
+    font-style: italic;
+}
+.THIS .intent-param:hover{
+    color:blue;
+    background-color: #E5E7E9;
+}

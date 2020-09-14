@@ -1,0 +1,26 @@
+.THIS {
+}
+
+.THIS .launch {
+}
+
+.THIS .launch .item {
+	margin: 0px auto;
+    width: 240px;
+    height: 240px;
+    padding: 40px;
+    border: 1px solid #3772A9;
+    border-radius: 120px;
+    background-repeat: no-repeat;
+    background: linear-gradient(#3772A9, #A1B9D8);    
+}
+
+
+.THIS a, .THIS a:hover, .THIS a:visited, .THIS a:link, .THIS a:active {
+    color: #000000;
+    text-decoration: none;
+}
+
+.THIS .launch .slds-text-heading_large, .THIS .launch .slds-text-heading--large {
+    font-size: 1.1rem;
+}

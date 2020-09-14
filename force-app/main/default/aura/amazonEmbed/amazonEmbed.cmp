@@ -1,0 +1,44 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="AmazonItemLookupController">
+    <aura:attribute name="asin" type="String" access="global" description="The ASIN used to display the Amazon listing."/>
+
+    <!-- Attributes from the simplified response -->
+    <aura:attribute name="ParentASIN" type="String"/>
+    <aura:attribute name="DetailPageURL" type="String"/>
+    <aura:attribute name="SmallImageURL" type="String"/>
+    <aura:attribute name="MediumImageURL" type="String"/>
+    <aura:attribute name="LargeImageURL" type="String"/>
+    <aura:attribute name="Manufacturer" type="String"/>
+    <aura:attribute name="ProductGroup" type="String"/>
+    <aura:attribute name="Title" type="String"/>
+    <aura:attribute name="LowestNewPrice" type="String"/>
+    <aura:attribute name="MoreOffersURL" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.asin}" action="{!c.changeASIN}"/>
+    
+    <div class="product-outer">
+        <div class="product-box">
+            <a target="_blank" href="{!v.DetailPageURL}">
+                <img src="{!v.MediumImageURL}" class="product-image"/>
+            </a>
+            <div class="product-title">
+                <h3>{!v.Title}</h3>
+            </div>
+            <p class="product-price">{!v.LowestNewPrice}<br/>
+                <a target="_blank" style="color: #337ab7; text-decoration:none;" href="{!v.MoreOffersURL}"> More offers </a>
+            </p>
+            <div>
+                <span class="a-button a-button-primary">
+                    <a target="_blank" href="{!v.DetailPageURL}" style="text-decoration:none">
+                        <span class="a-button-inner">
+                            <img src="http://webservices.amazon.com/scratchpad/assets/images/Amazon-Favicon-64x64.png" class="a-icon a-icon-shop-now"/>
+                            <input class="a-button-input" type="submit" value="Add to cart"/>
+                            <span class="a-button-text">Shop Now</span>
+                        </span>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

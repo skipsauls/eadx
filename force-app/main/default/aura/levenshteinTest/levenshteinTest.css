@@ -1,0 +1,6 @@
+.THIS {
+}
+
+.THIS .match input {
+    border: 1px solid red;
+}

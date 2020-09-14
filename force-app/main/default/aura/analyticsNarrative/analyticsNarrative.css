@@ -1,0 +1,36 @@
+.THIS {
+}
+
+.THIS .narrative {
+    
+}
+
+.THIS .narrative .title {
+    
+}
+
+.THIS .narrative div.paragraph {
+ 	display: inline;   
+}
+
+.THIS .narrative div.sub_heading {
+	padding: 3px 0;    
+}
+
+.THIS .narrative div.good_section {
+    color: #04844b;
+	padding: 3px 0;    
+}
+
+.THIS .narrative div.bad_section {
+    color: #c23934;
+	padding: 3px 0;    
+}
+
+.THIS .narrative .body .body > .paragraph:first-of-type {
+	font-size: 1.5rem;
+}
+
+.THIS .narrative .body .body > .paragraph:first-of-type .paragraph:first-of-type span.value {
+    font-weight: bold;
+}

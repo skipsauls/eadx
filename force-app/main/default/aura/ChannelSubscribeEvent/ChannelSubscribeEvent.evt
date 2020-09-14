@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Event to inform commander to subscribe/connect to a streaming channel.">
+    <aura:attribute name="channels" type="List"/>    
+</aura:event>

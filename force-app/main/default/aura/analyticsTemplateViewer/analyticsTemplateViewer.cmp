@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" >
+    <aura:attribute name="templateId" type="String" access="GLOBAL" description="The id of the template"/>
+    
+    <aura:handler name="change" value="{!v.templateId}" action="{!c.handleTemplateIdChange}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="main">
+        <div class="container">
+            <div aura:id="template" class="template-container"></div>
+        </div>
+    </div>    
+    
+</aura:component>

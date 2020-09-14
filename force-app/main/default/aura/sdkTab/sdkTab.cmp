@@ -1,0 +1,245 @@
+<aura:component implements="force:appHostable" controller="SDKController">
+
+    <aura:attribute name="folderId" type="String" access="global"/>
+    
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FKB00000009Tb1OAE"/>
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Welcome_Dashboard"/>
+    <aura:attribute name="dashboardObj" type="Object"/>
+
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="800"/>
+    
+    <aura:attribute name="pageId" type="String" access="global"/>
+    <aura:attribute name="pages" type="Object[]"/>
+    <aura:attribute name="pagesMap" type="Object"/>
+    
+    <aura:attribute name="datasets" type="Object[]"/>
+    <aura:attribute name="datasetsMap" type="Object"/>
+    <aura:attribute name="datasetId" type="String"/>
+    <aura:attribute name="datasetName" type="String"/>
+    <aura:attribute name="dataset" type="Object"/>
+    <aura:attribute name="datasetFieldsMap" type="Object"/>
+    
+    <aura:attribute name="dimensions" type="Object[]"/>
+    <aura:attribute name="dimension" type="Object"/>
+    <aura:attribute name="dimensionsOptions" type="Object[]"/>
+    <aura:attribute name="dimensionsValues" type="Object[]"/>
+    <aura:attribute name="dimensionName" type="String" default=""/>
+
+    <aura:attribute name="measures" type="Object[]"/>
+    <aura:attribute name="measure" type="Object"/>
+    <aura:attribute name="measuresOptions" type="Object[]"/>
+    <aura:attribute name="measuresValues" type="Object[]"/>
+    <aura:attribute name="measureName" type="String" default=""/>
+
+    <aura:attribute name="dates" type="Object[]"/>
+    <aura:attribute name="date" type="Object"/>
+    <aura:attribute name="datesOptions" type="Object[]"/>
+    <aura:attribute name="datesValues" type="Object[]"/>
+    <aura:attribute name="dateName" type="String" default=""/>
+
+    <aura:attribute name="selectedFieldName" type="String" default=""/>
+    <aura:attribute name="selectedFieldOptions" type="Object[]"/>
+    <aura:attribute name="selectedFieldValues" type="Object[]"/>
+    
+    <aura:attribute name="selectedNumber1" type="Double" default=""/>
+    <aura:attribute name="selectedNumber2" type="Double" default=""/>
+    
+    <aura:attribute name="selectedDate1" type="String" default=""/>
+    <aura:attribute name="selectedDate2" type="String" default=""/>
+
+    <aura:attribute name="isFilter" type="Boolean" default="false"/>
+    
+    <aura:attribute name="operator" type="String" access="GLOBAL" description="The operator for filters."/>
+
+    <aura:attribute name="filterDimensionOperators" type="Object[]" default="[{'label':'in','value':'in'},{'label':'not in','value':'not in'},{'label':'matches','value':'matches'}]"/>
+    <aura:attribute name="filterMeasureOperators" type="Object[]" default="[{'label':'is null','value':'is null'}, {'label':'is not null','value':'is not null'}, {'label':'==','value':'=='},{'label':'!=','value':'!='},{'label':'&lt;','value':'&lt;'},{'label':'&gt;','value':'&gt;'},{'label':'&lt;=','value':'&lt;='},{'label':'&gt;=','value':'&gt;='},{'label':'&gt;=&lt;=','value':'&gt;=&lt;='}]"/>
+    <aura:attribute name="filterDateOperators" type="Object[]" default="[{'label':'&lt;=','value':'&lt;='},{'label':'&gt;=','value':'&gt;='},{'label':'&gt;=&lt;=','value':'&gt;=&lt;='}]"/>
+    
+    <aura:attribute name="bolt_url" type="String" default=""/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.developerName}" action="{!c.selectDashboard}"/>
+    <aura:handler name="update" event="c:waveUpdateBolt" action="{!c.handleWaveUpdateBolt}"/>
+    
+	<aura:handler name="change" value="{!v.isFilter}" action="{!c.changeType}"/>
+
+	<aura:handler name="change" value="{!v.operator}" action="{!c.changeOperator}"/>
+    
+	<aura:handler name="change" value="{!v.selectedDate1}" action="{!c.changeDate}"/>
+	<aura:handler name="change" value="{!v.selectedDate2}" action="{!c.changeDate}"/>
+    
+	<aura:handler name="change" value="{!v.selectedNumber1}" action="{!c.changeNumber}"/>
+	<aura:handler name="change" value="{!v.selectedNumber2}" action="{!c.changeNumber}"/>
+
+	<aura:registerEvent name="update" type="c:waveUpdateBolt"/>
+    
+	<aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <section class="main-content" aura:id="main_content">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            <div class="slds-p-left--small slds-p-right--x-small slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--4-of-12">
+                <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-horizontal--medium">
+                    <img class="mascot einstein" src="{!$Resource.einstein_mascot_240x360}"/>
+                </div>
+                <div class="slds-grid slds-wrap slds-card slds-p-horizontal--x-small">
+                    <div class="slds-size_1-of-2 slds-p-horizontal--xx-small">
+                        <c:folderSelector folderId="{!v.folderId}"/>
+                        <c:dashboardSelector developerName="{!v.developerName}" folderId="{!v.folderId}"/>
+                    </div>
+                    <div class="slds-size_1-of-2 slds-p-around--xx-small">
+                        <lightning:select name="dataset_select" label="Select a Page" required="false" value="{!v.pageId}" onchange="{!c.selectPage}">
+                            <option value="">-- None --</option>
+                            <aura:iteration items="{!v.pages}" var="page">
+                                <option value="{!page.name}" text="{!page.label}"></option>
+                            </aura:iteration>
+                        </lightning:select>                
+                        <lightning:select name="dataset_select" label="Select a Dataset" required="false" value="{!v.datasetId}" onchange="{!c.selectDataset}">
+                            <option value="">-- None --</option>
+                            <aura:iteration items="{!v.datasets}" var="dataset">
+                                <option value="{!dataset.id}" text="{!dataset.label}"></option>
+                            </aura:iteration>
+                        </lightning:select>                
+                    </div>
+                </div>
+                
+                <article class="slds-card slds-p-horizontal--x-small">
+					<div class="slds-grid slds-grid--pull-padded slds-p-horizontal--medium">
+                        
+                        <div class="slds-size_1-of-2 slds-p-horizontal--xx-small">
+                            <lightning:select name="dimension_select" label="Select a Dimension" required="false" value="{!v.dimensionName}" onchange="{!c.selectDimension}">
+                                <option value="">-- None --</option>
+                                <aura:iteration items="{!v.dimensionsOptions}" var="dimension">
+                                    <option value="{!dimension.value}" text="{!dimension.label}"></option>
+                                </aura:iteration>
+                            </lightning:select>                
+                        </div>
+                        <div class="slds-size_1-of-2 slds-p-around--xx-small">
+                            <lightning:select name="measure_select" label="Select a Measure" required="false" value="{!v.measureName}" onchange="{!c.selectMeasure}">
+                                <option value="">-- None --</option>
+                                <aura:iteration items="{!v.measuresOptions}" var="measure">
+                                    <option value="{!measure.value}" text="{!measure.label}"></option>
+                                </aura:iteration>
+                            </lightning:select>                
+                        </div>
+                    </div>                    
+
+					<div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-horizontal--medium">
+                        
+                        <div class="slds-size_1-of-2 slds-p-horizontal--xx-small">
+                            <lightning:select name="date_select" label="Select a Date" required="false" value="{!v.dateName}" onchange="{!c.selectDate}">
+                                <option value="">-- None --</option>
+                                <aura:iteration items="{!v.datesOptions}" var="date">
+                                    <option value="{!date.value}" text="{!date.label}"></option>
+                                </aura:iteration>
+                            </lightning:select>                
+                        </div>
+                        <div class="slds-size_1-of-2 slds-p-horizontal--xx-small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="type">Toggle between Selection/Filter</label>
+                                <lightning:input type="checkbox" label="Filter" name="type" checked="{!v.isFilter}"/>
+                            </div>
+                        </div>
+                    </div>                    
+                </article>
+                
+                <article class="slds-card slds-p-horizontal--x-small hidden" aura:id="dimension_options">
+                    <lightning:dualListbox aura:id="selectFields" name="select_fields" label="{!v.selectedFieldName || '&nbsp;'}"
+                                           sourceLabel="Available" 
+                                           selectedLabel="Selected" 
+                                           options="{!v.selectedFieldOptions}"
+                                           value="{!v.selectedFieldValues}"
+                                           onchange="{!c.handleSelectedFieldValuesChange}"/>
+                    <lightning:button iconName="utility:right" class="dueling-list-button all-button" iconPosition="right" variant="neutral" onclick="{!c.addAllFieldOptions}" label="All" title="Add all field options."/>
+                    <lightning:button iconName="utility:left" class="dueling-list-button none-button" iconPosition="left" variant="neutral" onclick="{!c.removeAllFieldValues}" label="None" title="Remove all field values."/>
+                    
+					<lightning:input name="field_values" label="Values (Comma-delimited)" value="{!v.selectedFieldValues}"/>
+                    
+                    <aura:if isTrue="{!v.isFilter}">
+                        <lightning:select name="dimension_operator_select" label="Operator" required="false" value="{!v.operator}">
+                            <aura:iteration items="{!v.filterDimensionOperators}" var="operator">
+                                <option value="{!operator.value}" text="{!operator.label}"></option>
+                            </aura:iteration>
+                        </lightning:select>                
+                    </aura:if>
+                </article>
+
+                <article class="slds-card slds-p-around--x-small hidden" aura:id="measure_options">
+                    <label class="slds-form-element__label" for="measures">{!v.selectedFieldName}</label>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-horizontal--medium">
+                        <div class="slds-size_1-of-3 slds-p-around--xx-small">
+							<lightning:input type="number" name="number1" label="{!v.isFilter &amp;&amp; v.operator == '&gt;=&lt;=' ? 'Min Value' : 'Value'}" value="{!v.selectedNumber1}"/>
+                        </div>
+                        
+                        <div class="slds-size_1-of-3 slds-p-around--xx-small">
+                            <aura:if isTrue="{!v.isFilter}">
+                                <lightning:select name="measure_operator_select" label="Operator" required="false" value="{!v.operator}">
+                                    <aura:iteration items="{!v.filterMeasureOperators}" var="operator">
+                                        <option value="{!operator.value}" text="{!operator.label}"></option>
+                                    </aura:iteration>
+                                </lightning:select>                
+                            </aura:if>
+                        </div>
+                        
+                        <div class="slds-size_1-of-3 slds-p-around--xx-small">
+                            <aura:if isTrue="{!v.isFilter &amp;&amp; v.operator == '&gt;=&lt;='}">
+                                <lightning:input type="number" name="number2" label="Max Value" value="{!v.selectedNumber2}"/>
+                            </aura:if>
+                        </div>
+                    </div>
+                </article>                
+
+                
+                <article class="slds-card slds-p-around--x-small hidden" aura:id="date_options">
+                    <label class="slds-form-element__label" for="dates">{!v.selectedFieldName}</label>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-horizontal--medium">
+                        <div class="slds-size_1-of-3 slds-p-around--xx-small">
+                            <lightning:input type="date" label="{!v.isFilter &amp;&amp; v.operator == '&gt;=&lt;=' ? 'Min Date' : 'Date'}" name="date1" value="{!v.selectedDate1}"/>
+                        </div>
+                        
+                        <div class="slds-size_1-of-3 slds-p-around--xx-small">
+                            <aura:if isTrue="{!v.isFilter}">
+                                <lightning:select name="dimension_operator_select" label="Operator" required="false" value="{!v.operator}">
+                                    <aura:iteration items="{!v.filterDateOperators}" var="operator">
+                                        <option value="{!operator.value}" text="{!operator.label}"></option>
+                                    </aura:iteration>
+                                </lightning:select>                
+                            </aura:if>
+                        </div>
+                        
+                        <div class="slds-size_1-of-3 slds-p-around--xx-small">
+                            <aura:if isTrue="{!v.isFilter &amp;&amp; v.operator == '&gt;=&lt;='}">
+                                <lightning:input type="date" label="Max Date" name="date2" value="{!v.selectedDate2}"/>                    
+                            </aura:if>
+                        </div>
+                    </div>
+                </article>                
+                
+                <article class="slds-card slds-p-around--x-small">
+                    <c:selectionTest dashboardId="{!v.dashboardId}" developerName="{!v.developerName}" dataset="{!v.datasetName}" fields="{!v.selectedFieldName}" selection="{!v.selectedFieldValues}" isFilter="{!v.isFilter}" operator="{!v.operator}"/>
+                </article>
+                
+            </div>
+            <div class="slds-p-right--small slds-p-left--xx-small slds-size--1-of-2 slds-medium-size--4-of-6 slds-large-size--8-of-12">
+                <div class="dashboard-outer" aura:id="dashboard-outer">
+                    <!--
+                    <div aura:id="dashboard" class="dashboard-container">
+                    </div>
+					-->
+                    <div aura:id="dashboard2" class="dashboard-container">
+                        <aura:if isTrue="{!v.dashboardId != null}">
+                            <wave:waveDashboard developerName="{!v.developerName}"
+                                                height="{!v.height}"
+                                                openLinksInNewWindow="true"
+                                                showHeader="true"
+                                                showTitle="true"
+                                                showSharing="true"
+                                                />
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aura:component>

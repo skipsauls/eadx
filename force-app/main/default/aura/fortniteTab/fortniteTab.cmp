@@ -1,0 +1,52 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard"/>
+    <aura:attribute name="developerName" type="String" access="GLOBAL" description="The developer name of the dashboard" default="eadx__Fortnite1"/>
+    <aura:attribute name="pageId" type="String" access="GLOBAL" description="The id of the dashboard page"/>
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="1024"/>
+    
+    <aura:attribute name="backgrounds" type="Map" description="The loading screens to use as the background."/>
+    <aura:attribute name="backgroundName" type="String" description="The name of the current loading screen."/>
+    <aura:attribute name="background" type="String" description="The current loading screen."/>
+    
+    <aura:attribute name="loading" type="Boolean" default="false" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/> 
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="main">
+        <lightning:layout>
+            <lightning:layoutItem size="12" flexibility="no-shrink">
+                <aura:if isTrue="{!v.loading == true}">
+                    <div class="spinner-container">
+                        <lightning:spinner aura:id="spinner" alternativeText="Updating Dataset" size="large" variant="brand"/>                    
+                    </div>                        
+                </aura:if>
+                <div class="loading-screen" style="{!'background-image: url(' + v.background + ')'}">
+                    <lightning:card title="Fortnite Analytics" class="fortnite-analytics">
+                        <aura:set attribute="title">
+                            <img src="{!$Resource.fortnite_analytics_title}" class="title"/>
+                        </aura:set>
+                        <aura:set attribute="actions">
+                            <lightning:buttonIcon iconName="utility:rotate" variant="bare-inverse" onclick="{!c.changeBackground}" alternativeText="Change Background"/>
+                        </aura:set>
+                        <lightning:tabset class="page-tabs">
+                            <lightning:tab label="Players" id="players" class="tab">
+                                <c:dataLoaderTab loading="{!v.loading}"/>
+                            </lightning:tab>
+                            <lightning:tab label="Map" id="map" class="tab">
+                                <wave:waveDashboard developerName="{!v.developerName}" height="{!v.height}" showHeader="false" showTitle="false" showSharing="false"/>
+                            </lightning:tab>
+                            <lightning:tab label="Store" id="store" class="tab">
+                                <c:fortniteStore/>
+                            </lightning:tab>
+                        </lightning:tabset>
+                    </lightning:card>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

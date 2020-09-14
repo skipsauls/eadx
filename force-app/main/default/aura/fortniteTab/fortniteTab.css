@@ -1,0 +1,64 @@
+.THIS {
+}
+
+.THIS .spinner-container {
+}
+
+.THIS .fortnite-analytics {
+    background: transparent;
+}
+
+.THIS .fortnite-analytics.slds-card {
+    border: 0 none;
+}
+
+.THIS .slds-card__header.slds-grid {
+    border: 0 none;
+    background-color: rgb(9, 26, 62, 0.6);
+    margin: 0;
+}
+
+.THIS img.title {
+    height: 2rem;
+}
+
+.THIS .slds-tabs_default__nav, .THIS .slds-tabs--default__nav {
+    background-color: rgb(9, 26, 62, 0.3);
+    border-bottom: 1px solid #000000;
+}
+
+.THIS .slds-tabs_default__item.slds-active, .THIS .slds-tabs_default__item.slds-is-active, .THIS .slds-tabs--default__item.slds-active, .THIS .slds-tabs--default__item.slds-is-active {
+    color: #FFFFFF;
+	text-shadow:
+		-1px -1px 0 #222222,
+		1px -1px 0 #222222,
+		-1px 1px 0 #222222,
+		1px 1px 0 #222222;    
+}
+
+.THIS .slds-tabs_default__item, .THIS .slds-tabs--default__item {
+    color: #FFFFFF;
+	text-shadow:
+		-1px -1px 0 #222222,
+		1px -1px 0 #222222,
+		-1px 1px 0 #222222,
+		1px 1px 0 #222222;    
+}
+
+.THIS .loading-screen {
+    border: 1px solid #000000;
+	border-radius: .25rem;
+    background-color: rgb(9, 26, 62);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-clip: content-box;
+}
+
+.THIS .slds-tabs_default, .THIS .slds-tabs--default {
+    background: transparent;
+}
+
+.THIS .assetContainer.waveAsset {
+    opacity: 0.9;
+}

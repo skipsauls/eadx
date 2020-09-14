@@ -1,0 +1,6 @@
+<aura:component access="global">
+    <aura:method name="calculateTotal" action="{!c.doCalcTotals}" description="Calculate the totals"> 
+        <aura:attribute name="type" type="String" access="global" default="sum"/> 
+        <aura:attribute name="values" type="Double[]" access="global"/> 
+    </aura:method>	
+</aura:component>

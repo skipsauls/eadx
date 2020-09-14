@@ -1,0 +1,11 @@
+.THIS {
+}
+
+.THIS ul.list {
+    height: 500px;
+}
+
+.THIS .chatter-container {
+    height: 500px;
+    overflow: auto;
+}

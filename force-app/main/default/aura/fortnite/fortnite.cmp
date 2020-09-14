@@ -1,0 +1,60 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="FortniteAPIController" access="global" >
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard"/>
+    <aura:attribute name="developerName" type="String" access="GLOBAL" description="The developer name of the dashboard" default="eadx__Fortnite1"/>
+    <aura:attribute name="pageId" type="String" access="GLOBAL" description="The id of the dashboard page"/>
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="1024"/>
+
+    <aura:method name="getPlayers" action="{!c.handleGetPlayers}"  description="Returns the basic info for the players."> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="getPlayerInfo" action="{!c.handleGetPlayerInfo}"  description="Returns the basic info for the player, including the user ID."> 
+        <aura:attribute name="username" type="String" description="The username for the player"/>
+        <aura:attribute name="refresh" type="Boolean" default="false" description="Forces data to be refreshed"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getPlayerInfo2" action="{!c.handleGetPlayerInfo2}"  description="Returns the basic info for the player, including the user ID."> 
+        <aura:attribute name="username" type="String" description="The username for the player"/>
+        <aura:attribute name="refresh" type="Boolean" default="false" description="Forces data to be refreshed"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getPlayerInfo3" action="{!c.handleGetPlayerInfo3}"  description="Returns the basic info for the player, including the user ID."> 
+        <aura:attribute name="username" type="String" description="The username for the player"/>
+        <aura:attribute name="refresh" type="Boolean" default="false" description="Forces data to be refreshed"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="getPlayerData" action="{!c.handleGetPlayerData}"  description="Returns the details data/stats for the player."> 
+        <aura:attribute name="userId" type="String" description="The user ID for the player"/>
+        <aura:attribute name="platform" type="String" default="pc" description="The platform that the player is on (xbox1, ps4, pc)"/>
+        <aura:attribute name="window" type="String" default="alltime" description="The time window for the user"/>
+        <aura:attribute name="refresh" type="Boolean" default="false" description="Forces data to be refreshed"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getPlayerData2" action="{!c.handleGetPlayerData2}"  description="Returns the details data/stats for the player."> 
+        <aura:attribute name="username" type="String" description="The user ID for the player"/>
+        <aura:attribute name="platform" type="String" default="pc" description="The platform that the player is on (xbox1, ps4, pc)"/>
+        <aura:attribute name="window" type="String" default="alltime" description="The time window for the user"/>
+        <aura:attribute name="refresh" type="Boolean" default="false" description="Forces data to be refreshed"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+
+    <aura:method name="getPlayerData3" action="{!c.handleGetPlayerData3}"  description="Returns the details data/stats for the player."> 
+        <aura:attribute name="username" type="String" description="The user ID for the player"/>
+        <aura:attribute name="platform" type="String" default="pc" description="The platform that the player is on (xbox1, ps4, pc)"/>
+        <aura:attribute name="window" type="String" default="alltime" description="The time window for the user"/>
+        <aura:attribute name="refresh" type="Boolean" default="false" description="Forces data to be refreshed"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    
+    <aura:method name="getStore" action="{!c.handleGetStore}"  description="Returns the current store with weekly and daily items."> 
+        <aura:attribute name="refresh" type="Boolean" default="false" description="Forces data to be refreshed"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+</aura:component>

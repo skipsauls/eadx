@@ -1,0 +1,69 @@
+<aura:component implements="force:appHostable,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Demo_Dashboard_2"/>
+    
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    <aura:attribute name="hideOnError" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="height" type="Integer" access="global"/>
+    <aura:attribute name="showSharing" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="showTitle" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="showHeader" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="rendered" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="filter" type="String" access="global"/>
+    <aura:attribute name="openLinksInNewWindow" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="accessToken" type="String" access="global"/>
+
+    <aura:attribute name="eventName" type="String" access="global"/>
+    <aura:attribute name="eventParamsJson" type="String" access="global"/>
+
+    <aura:attribute name="eventSource" type="String" access="global"/>
+
+	<aura:registerEvent name="assetLoaded" type="wave:assetLoaded"/>
+	<aura:registerEvent name="discover" type="wave:discover"/>
+	<aura:registerEvent name="discoverResponse" type="wave:discoverResponse"/>
+	<aura:registerEvent name="pageChange" type="wave:pageChange"/>
+	<aura:registerEvent name="selectionChanged" type="wave:selectionChanged"/>
+    <aura:registerEvent name="update" type="wave:update"/>
+    
+    <aura:handler event="wave:assetLoaded" action="{!c.handleAssetLoaded}"/>
+    <aura:handler event="wave:discover" action="{!c.handleDiscover}"/>
+    <aura:handler event="wave:discoverResponse" action="{!c.handleDiscoverResponse}"/>
+    <aura:handler event="wave:pageChange" action="{!c.handlePageChange}"/>
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    <aura:handler event="wave:update" action="{!c.handleUpdate}"/>
+
+    <aura:handler event="c:eadlWaveUpdate" action="{!c.handleEadlWaveUpdate}"/>
+
+    <c:eadlAPI aura:id="eadl_api"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="12">
+            <lightning:button label="Update Selection Event" onclick="{!c.fireUpdateSelectionEvent}"/>
+            <lightning:button label="Update Filter Event" onclick="{!c.fireUpdateFilterEvent}"/>
+            <lightning:button label="Page Change Event" onclick="{!c.firePageChangeEvent}"/>
+            <lightning:button label="Selection Changed Event" onclick="{!c.fireSelectionChangedEvent}"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="12">
+            <lightning:button label="Update Selection Event" onclick="{!c.fireEadlUpdateSelectionEvent}"/>
+            <lightning:button label="Update Filter Event" onclick="{!c.fireEadlUpdateFilterEvent}"/>
+            <lightning:button label="Page Change Event" onclick="{!c.fireEadlPageChangeEvent}"/>
+            <lightning:button label="Selection Changed Event" onclick="{!c.fireEadlSelectionChangedEvent}"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout>
+		<lightning:layoutItem flexibility="auto" padding="around-small" size="12">
+            <lightning:card>
+                <aura:set attribute="title">
+                    <div>Event Name: {!v.eventName}</div>
+                    <div>Event Source: {!v.eventSource}</div>
+                </aura:set>
+	            <lightning:textarea aura:id="event_params_json_view" value="{!v.eventParamsJson}" class="json-view" title="Event Params"/>
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+                  
+</aura:component>

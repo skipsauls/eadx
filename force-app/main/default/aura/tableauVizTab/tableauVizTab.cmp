@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <div>
+        <c:tableauViz vizURL="https://10ax.online.tableau.com/t/dinosaursinc/views/Superstore/CommissionModel?:showAppBanner=false&amp;:display_count=n&amp;:showVizHome=n&amp;:origin=viz_share_link"
+                      height="600"
+                      hideTabs="false"
+                      hideToolbar="true"/>
+    </div>
+</aura:component>

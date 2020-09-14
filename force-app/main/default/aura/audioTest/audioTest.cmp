@@ -1,0 +1,37 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <aura:attribute name="instrument" type="String" access="global"/>
+    <aura:attribute name="note" type="String" access="global"/>
+    <aura:attribute name="octave" type="String" access="global"/>
+    <aura:attribute name="duration" type="String" access="global" default="2"/>    
+    <aura:attribute name="synth" type="Object" access="global"/>
+    <aura:attribute name="instrumentInstances" type="Object" access="global"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <ltng:require scripts="{!$Resource.audiosynth_js}" afterScriptsLoaded="{!c.scriptsLoaded}"/>
+    
+    <!--
+    <lightning:button label="Test" name="test" onclick="{!v.test}"/>
+    <lightning:button label="piano A 1" name="piano_A_1" onclick="{!c.playSound}"/>
+    <lightning:button label="piano B 2" name="piano_B_2" onclick="{!c.playSound}"/>
+    <lightning:button label="piano C 3" name="piano_C_3" onclick="{!c.playSound}"/>
+    <lightning:button label="piano D 4" name="piano_D_4" onclick="{!c.playSound}"/>
+
+    <lightning:button label="organ A 1" name="organ_A_1" onclick="{!c.playSound}"/>
+    <lightning:button label="organ B 2" name="organ_B_2" onclick="{!c.playSound}"/>
+    <lightning:button label="organ C 3" name="organ_C_3" onclick="{!c.playSound}"/>
+    <lightning:button label="organ D 4" name="organ_D_4" onclick="{!c.playSound}"/>
+    
+    <lightning:button label="acoustic A 1" name="acoustic_A_1" onclick="{!c.playSound}"/>
+    <lightning:button label="acoustic B 2" name="acoustic_B_2" onclick="{!c.playSound}"/>
+    <lightning:button label="acoustic C 3" name="acoustic_C_3" onclick="{!c.playSound}"/>
+    <lightning:button label="acoustic D 4" name="acoustic_D_4" onclick="{!c.playSound}"/>
+
+    <lightning:button label="edm A 1" name="edm_A_1" onclick="{!c.playSound}"/>
+    <lightning:button label="edm B 2" name="edm_B_2" onclick="{!c.playSound}"/>
+    <lightning:button label="edm C 3" name="edm_C_3" onclick="{!c.playSound}"/>
+    <lightning:button label="edm D 4" name="edm_D_4" onclick="{!c.playSound}"/>
+    -->
+    
+</aura:component>

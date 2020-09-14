@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveDataset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <application>eadx__Demo_App</application>
+    <masterLabel>fortnite_locations</masterLabel>
+</WaveDataset>

@@ -1,0 +1,30 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="height" type="String" access="global" default="8rem"/>
+    <aura:attribute name="logentries" type="Object[]" access="global"/>
+    <aura:attribute name="style_left" type="String" access="global" default="background-color: #E9EAED;"/>
+    <aura:attribute name="style_right" type="String" access="global" default="background-color: #00AAFB; color: #EFF7FD;"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:method name="log" action="{!c.log}" description="Logs the text for the specified user"> 
+        <aura:attribute name="user" type="Object" required="true"/> 
+        <aura:attribute name="text" type="String" required="true"/> 
+        <aura:attribute name="delay" type="Integer" required="false"/> 
+    </aura:method>    
+    <aura:method name="clear" action="{!c.clear}" description="Clears the log"> 
+    </aura:method>
+    <div>
+        <div class="outer">
+            <div aura:id="log" class="log" style="{!'height: ' + v.height}">
+                <aura:if isTrue="{!v.logentries != null}">
+                    <aura:iteration items="{!v.logentries}" var="entry">
+                        <div class="item-container">
+                            <lightning:avatar size="small" variant="circle" src="{!entry.user.avatarUrl}" initials="{!entry.user.initials}" fallbackIconName="{!entry.user.fallbackIconName || 'standard:user'}" alternativeText="{!entry.user.name + (entry.user.id ? ' (' + entry.user.id + ')' : '')}"/>
+                            <div class="{!'item ' + (entry.user.type == 'system' ? 'left' : 'right') + ' ' + entry.user.class}" style="{!entry.user.type == 'system' ? v.style_left : v.style_right}">
+                                {!entry.text}
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,65 @@
+{
+  "Overrides" : {
+    "label" : "Overrides",
+    "description" : "Internal configuration to allow asset creation overrides, not to be displayed in UI.",
+    "defaultValue" : {
+      "createAllDashboards" : true,
+      "createAllLenses" : true,
+      "createAllExternalFiles" : true,
+      "createDataflow" : true,
+      "createAllDatasetFiles" : true,
+      "createAllImages" : true
+    },
+    "required" : true,
+    "excludeSelected" : false,
+    "excludes" : [ ],
+    "variableType" : {
+      "required" : [ "createAllExternalFiles", "createAllDashboards", "createAllImages", "createAllDatasetFiles", "createAllLenses", "createDataflow" ],
+      "type" : "ObjectType",
+      "properties" : {
+        "createAllDashboards" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllLenses" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllExternalFiles" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createDataflow" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllDatasetFiles" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllImages" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        }
+      },
+      "strictValidation" : true
+    }
+  },
+  "Demo_Dashboard_state_widgets_chart_1_parameters_visualizationType": {
+    "label": "Chart 1 Type",
+    "description": "Sets the type for the Chart 1 widget",
+    "defaultValue": "combo",
+    "variableType": {
+      "type": "StringType",
+      "enums": ["combo","stackhbar","stackvbar","hbar","vbar","line","hdot"]
+    }
+  },
+  "Demo_Dashboard_state_gridLayouts0_style_backgroundColor": {
+    "label": "Chart 1 Background Color",
+    "description": "Sets the background color for the Chart 1 widget",
+    "defaultValue": "#FFFFFF",
+    "variableType": {
+      "type": "StringType"
+    }
+  }
+}

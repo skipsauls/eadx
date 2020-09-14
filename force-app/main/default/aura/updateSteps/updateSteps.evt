@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Update Steps Event" access="global">
+    <aura:attribute name="id" type="String" access="global"/>
+    <aura:attribute name="steps" type="Double" access="global"/>
+</aura:event>

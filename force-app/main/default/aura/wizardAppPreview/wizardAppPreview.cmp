@@ -1,0 +1,91 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global" controller="TemplateConfigController">	
+    <aura:attribute name="title" type="String" description="title for the wizard page" default="Getting Started"/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="nextStep" type="String" access="global" default="blank" description="What to do next."/>    
+    <aura:attribute name="templateId" type="String" access="global" default="blank" description="The selected template to preview, configure, etc.."/>    
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config object ID."/>
+    <aura:attribute name="selectedType" type="String" access="global" default="" description="The selected template type (app or dashboard)."/>
+
+    <aura:attribute name="template" type="Object" access="global" description="The selected template details."/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="outer">
+        <div class="slds-text-align_center slds-text-heading_medium slds-m-around_small">{!v.title}</div>
+        <lightning:layout class="controls" horizontalAlign="spread" verticalAlign="start">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="2">
+                <div class="overview slds-m-bottom_medium">
+                    <h2 class="slds-text-heading_medium">Overview</h2>
+                	{!v.template.description}
+                </div>
+                
+                <div class="tags slds-m-bottom_medium">
+                	<aura:iteration items="{!v.template.tags}" var="tag">
+	                    <lightning:badge class="tag" label="{!tag}" title="{!tag}" />
+                    </aura:iteration>
+                </div>
+
+                <div class="features slds-m-bottom_medium">
+                    <h2 class="slds-text-heading_small">Features:</h2>
+                	<aura:iteration items="{!v.template.features}" var="feature">
+                        <lightning:pill class="feature-pill slds-m-vertical_xx-small" label="{!feature.label}">
+                            <aura:set attribute="media">
+                                <lightning:icon iconName="{!feature.iconName}" alternativeText="{!feature.label}" size="small" class="pill-icon slds-text-title_caps"/>
+                            </aura:set>
+                        </lightning:pill>                        
+                    </aura:iteration>
+                </div>
+
+                <div class="contents slds-m-bottom_medium">
+                    <h2 class="slds-text-heading_small">Contents:</h2>
+                	<aura:iteration items="{!v.template.contents}" var="content">
+                        <h2 class="sds-text-heading_small">{!content.label}</h2>
+                    </aura:iteration>
+                </div>
+
+                <div class="contents slds-m-bottom_medium">
+                    <h2 class="slds-text-heading_small">Publisher:</h2>
+                    <h2 class="sds-text-heading_small">{!v.template.publisher}</h2>
+                </div>
+
+                <div class="contents slds-m-bottom_medium">
+                    <h2 class="slds-text-heading_small">Version:</h2>
+                    <h2 class="sds-text-heading_small">{!v.template.releaseInfo.templateVersion}</h2>
+                </div>
+
+                <div class="contents slds-m-bottom_medium">
+                    <h2 class="slds-text-heading_small">Updated:</h2>
+                    <h2 class="sds-text-heading_small">{!v.template.updated}</h2>
+                </div>
+                
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="10">
+                <lightning:carousel class="carousel" disableAutoScroll="true">
+                	<aura:iteration items="{!v.template.images}" var="image">
+                        <!--
+
+							header="{!image.label}"
+							description="{!image.description}"
+        					alternativeText="{!image.label}"
+
+-->
+                         <lightning:carouselImage src="{!image.url}" class="image">
+                        </lightning:carouselImage>
+                    </aura:iteration>
+                </lightning:carousel>
+            </lightning:layoutItem>
+            
+        </lightning:layout>
+            
+        <lightning:layout class="footer" horizontalAlign="end" verticalAlign="center" pullToBoundary="small" multipleRows="false">            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="2">
+                <lightning:button variant="neutral" label="Back" onclick="{!c.handleBack}"/>
+                <lightning:button variant="brand" label="Next" onclick="{!c.handleNext}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+            
+    </div>
+    
+</aura:component>

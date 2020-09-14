@@ -1,0 +1,39 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="sessionData" type="Object" access="private"/>
+    <aura:attribute name="sessionNames" type="List" access="private"/>
+    <aura:attribute name="selectedSession" type="String" 
+                    default="Sprint Review Preso" access="private"/>
+    <aura:attribute name="sessionUtterances" type="List" access="private"/>
+    <aura:attribute name="utterance" type="String" 
+                    default="" access="private"/>
+    <aura:registerEvent name="ExternalCommanderPhraseEvent" 
+                        type="c:ExternalCommanderPhraseEvent"
+                        access="GLOBAL"/>
+
+	<aura:handler name="init" value="{!this}" 
+                  action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{! v.selectedSession }"
+                  action="{! c.onSessionChange }"/>
+    
+    <lightning:utilityBarAPI aura:id="utilitybar"/>
+    <lightning:select name="sessionName" label="Choose a session" 
+                      aura:id="sessionName" value="{!v.selectedSession}">
+        <aura:iteration items="{!v.sessionNames}" var="name">
+            <option text="{!name}" value="{!name}" selected="{!v.selectedSession == name}"/>
+        </aura:iteration>
+    </lightning:select>
+
+    <lightning:select name="utterance" label="Choose a phrase" 
+                      aura:id="utterance" value="{!v.utterance}">
+        <aura:iteration items="{!v.sessionUtterances}" var="utterance">
+            <option text="{!utterance}" value="{!utterance}" 
+                    selected="{!v.utterance == utterance}"/>
+        </aura:iteration>
+    </lightning:select>
+
+	<lightning:button variant="brand" 
+                      label="Go" 
+                      title="Go" 
+                      onclick="{! c.handleFirePhrase }" />
+</aura:component>

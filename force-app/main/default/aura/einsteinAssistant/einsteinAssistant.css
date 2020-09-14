@@ -1,0 +1,77 @@
+.THIS {
+    /*
+    background-image: url(/_slds/images/themes/lightning_blue/lightning_blue_background.png),linear-gradient(to top, rgba(160, 180, 206, 0.0) 0, rgba(160, 180, 206, 1.0));
+    background-repeat: no-repeat;
+    background-position: top left;
+    */
+}
+
+.THIS:after {
+    background-image: linear-gradient(to bottom, rgba(176, 196, 223, 0.0) 60%, rgba(176, 196, 223, 1.0));
+}
+
+.THIS .expand-icon {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+}
+
+.THIS .utility-bar {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+}
+
+.THIS .utility-bar .utility-bar-buttons {
+    display: none;
+}
+
+.THIS .utility-bar:hover {
+    height: 40px;
+    border-top: 1px solid #C0C0C0;
+    background-color: #FFFFFF;
+}
+
+.THIS .utility-bar:hover .utility-bar-buttons {
+    display: block;
+}
+
+.THIS .utility-bar .utility-bar-button {
+    color: rgb(62, 62, 60);
+}
+
+.THIS .utility-bar .utility-bar-button:selected, .THIS .utility-bar .utility-bar-button:focus, .THIS .utility-bar .utility-bar-button:hover {
+    border: 0 none;
+    outline: 0 none;
+    box-shadow: 0 none;
+}
+
+.THIS .utility-bar-content {
+    display: block;
+    position: fixed;
+    bottom: 40px;
+    left: 0;
+    padding: 0 0.75rem;
+}
+
+.THIS .utility-bar-content .item {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 400px;
+    width: 480px;
+    overflow: hidden;
+}
+
+.THIS .utility-bar-content .card {
+    height: 100%;
+    display: block;
+    margin: 0 24px;
+}
+
+.THIS .utility-bar-content .card.hide {
+    display: none;
+}

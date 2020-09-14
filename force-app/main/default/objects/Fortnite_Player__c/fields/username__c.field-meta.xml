@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>username__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>The unique userrname for the player</description>
+    <externalId>true</externalId>
+    <label>username</label>
+    <length>255</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

@@ -1,0 +1,1 @@
+<aura:event type="APPLICATION" description="Event to inform commander to unsubscribe/disconnect from a streaming channel." />

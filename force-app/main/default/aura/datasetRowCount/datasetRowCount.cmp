@@ -1,0 +1,7 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="ApexSAQLController">
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <wave:sdk aura:id="sdk"/>
+    <div class="outer">
+        <lightning:button onclick="{!c.countDatasetRows}" label="Count Dataset Rows"/>
+    </div>         
+</aura:component>

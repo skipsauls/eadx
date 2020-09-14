@@ -1,0 +1,10 @@
+{
+  "orgName": "eadx",
+  "edition": "Developer",
+  "features": ["DevelopmentWave"],
+  "settings": {
+    "orgPreferenceSettings": {
+      "s1DesktopEnabled": true
+    }
+  }
+}

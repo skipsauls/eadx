@@ -1,0 +1,33 @@
+.THIS.outer {
+    overflow: hidden;
+    height: 24rem;
+}
+
+.THIS.outer .inner {
+    overflow: hidden;
+    height: 100%;
+}
+
+.THIS.outer .list-container {
+    overflow: hidden;
+    height: 100%;
+}
+
+.THIS.outer .list-container ul {
+    overflow: auto;
+    height: 100%;
+}
+
+.THIS .details .title {
+    height: 1.5rem;
+    line-height: 1.1rem;
+}
+
+.THIS .details .description {
+    height: 3rem;
+    line-height: 1.1rem;
+}
+
+.THIS .details img {
+    max-width: 80%;
+}

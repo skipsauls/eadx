@@ -1,0 +1,79 @@
+<aura:component >
+    <aura:attribute name="waveAutoInstallRequest" type="Object" 
+                    access="public" required="true"/>
+
+    <aura:attribute name="busy" type="Boolean" 
+                    access="public" required="true"/>
+    
+    <aura:attribute name="requestPermissions" type="Object" 
+                    access="public"/>
+
+    <aura:attribute name="internalWair" type="Object" 
+                    access="private"/>
+
+    <aura:attribute name="completedStatuses" type="List" 
+                    access="private" default="[]"/>
+
+
+    <aura:attribute name="progress" type="Map" 
+                    access="private" 
+                    default="{'requestInProgress': false,
+                        'visible': false,
+                        'nodes': [],
+                        'current': null,
+                        'hasError': false
+                    }"/>
+    
+    <aura:attribute name="currentProgress" type="String"/>
+
+    <aura:attribute name="statusMessage" type="String" 
+                    access="private" default="Please wait..."/>
+    
+    <wave:autoInstallRequest aura:id="wairApi"/>
+
+    <c:waveAutoInstallMonitorApi aura:id="monitorApi" 
+                                 requestPermissions="{! v.requestPermissions }"
+                                 waveAutoInstallRequest="{! v.internalWair }"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" 
+                  value="{! v.internalWair.requestStatus }" 
+                  action="{!c.handleWairUpdate}"/>
+
+    <div class="wizard-container">
+        <div class="inprogress-container">
+            <lightning:layout multipleRows="true" pullToBoundary="medium">
+                <lightning:layoutItem size="12" flexibility="auto" padding="horizontal-small">
+                    <div class="loading-image-container">
+                        <img class="loading-image" src="{!$Resource.cody_skipping}"
+                             alt="Working..."/>
+                        <!--
+                        <img class="loading-image" src="/analytics/wave/static/images/WaveCommon/static/images/skipping_1s_16c_30fps.gif"
+                             alt="Working..."/>
+						-->
+                        <div class="action-buttons">
+                            <aura:if isTrue="{! v.progress.requestInProgress }">
+                                <lightning:button label="Cancel" title="Cancel Request" variant="brand"
+                                                  onclick="{! c.cancelRequest }"
+                                                  disabled="{! not(v.requestPermissions.canCreate) }"/>
+                                <aura:set attribute="else">
+                                    <lightning:button label="Close" title="Close" variant="brand"
+                                                      onclick="{! c.closeWizard }"/>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" flexibility="auto">
+                    <div aura:id="status-message-port" class="status-box">
+                        <lightning:formattedText class="slds-text-heading_medium status-message" value="{! v.statusMessage }"/>
+                        <aura:if isTrue="{! v.progress.visible }">
+                            <c:waveAssetEventProgress aura:id="waeProgress" nodes="{! v.progress.nodes }"/>
+                        </aura:if>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,6 @@
+<apex:page >
+    <apex:variable var="loApp" value="c:loApp"/>
+    <h1>Make sure that you specify a stage parameter, e.g., ?stage=Needs+Analysis</h1>
+    <c:loDashboard loApp="{!loApp}" dashboardId="0FKB00000005vPgOAI" width="1000" height="800" filter="{'datasets':{'oppty_demo':[{'fields':['StageName'],'filter':{'operator':'in','values':['{!$CurrentPage.parameters.stage}']}}]}}"/>
+    <c:eventMonitor loApp="{!loApp}"/>
+</apex:page>

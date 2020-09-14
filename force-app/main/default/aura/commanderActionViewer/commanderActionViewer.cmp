@@ -1,0 +1,381 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="actions" type="Object[]" access="global"/>
+    <aura:attribute name="action" type="Object" access="GLOBAL" description="The action to display."/>
+    <aura:attribute name="actionDetails" type="Object" access="GLOBAL" description="The full details for the action."/>
+    <aura:attribute name="customApexActions" type="Object" access="GLOBAL" description="The custom inputs/outputs for Apex InvocableActions"/>
+    <aura:attribute name="parameters" type="Object" access="GLOBAL" description="The action to display."/>
+    <aura:attribute name="json" type="String" access="GLOBAL" description="The JSON resprsentation of the asset."/>
+    <aura:attribute name="actionColumns" type="List"/>    
+    <aura:attribute name="intentColumns" type="List"/>
+    <aura:attribute name="parameterColumns" type="List"/>
+    <aura:attribute name="customApexActionColumns" type="List"/>
+    <aura:attribute name="selectedIntent" type="Object"/>
+    <aura:attribute name="intentDetails" type="Object"/>
+    <aura:attribute name="generatedPhrase" type="String" />
+    <aura:attribute name="phraseReady" type="Boolean" default="false"/>
+    
+    <aura:attribute name="closeAction" type="String" access="global"/>
+    
+    <aura:attribute name="newIntent" type="String" default=""/>
+    
+    <aura:registerEvent name="commanderTreeRefresh" type="c:commanderTreeRefresh" access="global"/>
+    
+    <!--
+        <aura:attribute name="actionId" type="String" access="GLOBAL" description="The id of the action."/>
+        <aura:attribute name="actionType" type="String" access="GLOBAL" description="The type of the action."/>
+        <aura:attribute name="actionDetails" type="Object" access="global" description="The currently selected action object. May be null."/>    
+        -->
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!--
+    <aura:handler name="change" value="{!v.action}" action="{!c.handleActionSelect}"/>
+    -->
+    
+    <aura:method name="refresh" description="Force the view to refresh">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>    
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <einsteinconduit:commanderApi aura:id="commanderApi"/>
+    
+    <aura:dependency resource="c:commanderParameterEditor"/>
+    <aura:dependency resource="c:commanderParameterFooter"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+	<lightning:notificationsLibrary aura:id="notifyLib"/>
+
+    <lightning:card>
+		<lightning:spinner aura:id="spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide"/>
+        <aura:set attribute="title">
+            
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:topic" alternativeText="Action" size="medium" class="action-icon"/>
+                </div>
+                
+                <div class="slds-media__body">
+                    <p class="slds-card__header-title slds-text-title_caps">
+                        <lightning:formattedText value="{!v.actionDetails == null ? 'Actions' : 'Action'}"/>
+                    </p>
+                    <h1>
+                        <lightning:formattedText value="{!v.actionDetails == null ? 'All Actions' : v.actionDetails.label}"/>
+                    </h1>
+                </div>
+            </div>
+        </aura:set>
+        
+        <aura:set attribute="actions">
+            <div class="{!v.actionDetails == null ? '' : 'slds-hide'}">
+                <lightning:button label="New" variant="brand" onclick="{!c.handleCreateAction}"/>
+            </div>
+            <div class="{!v.actionDetails == null ? 'slds-hide' : ''}">
+                <lightning:button label="Back" variant="base" onclick="{!c.handleBack}"/>                
+            </div>
+        </aura:set>
+        
+        <div class="{!v.actionDetails == null ? '' : 'slds-hide'}">
+            
+            <lightning:datatable data="{!v.actions}"
+                                 columns="{!v.actionColumns}"
+                                 keyField="id"
+                                 class="actions-table slds-table_bordered"
+                                 maxRowSelection="0"
+                                 hideCheckboxColumn="true"
+                                 resizeColumnDisabled="true"
+                                 suppressBottomBar="true"
+                                 maxColumnWidth="2000"
+                                 onrowselection="{!c.handleSelectAction}"
+                                 onrowaction="{!c.handleActionRowAction}"
+                                 />
+            
+        </div>
+        
+        
+        <div class="{!v.actionDetails != null ? '' : 'slds-hide'}">
+            <div class="action-outer" aura:id="action-outer">
+                <lightning:tabset>
+                    
+                    <lightning:tab label="Details">
+                        <div class="panel details slds-m-horizontal_small">
+                            <div aura:id="details-container" class="details-container slds-box slds-p-around_none">
+                                
+                                <lightning:layout horizontalAlign="spread" verticalAlign="end" class="slds-p-around_small slds-card-input">
+                                    <lightning:layoutItem size="11">
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="1" class="">
+                                        <lightning:button label="Edit" variant="neutral" onclick="{!c.handleEditAction}"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                
+                            </div>
+                            
+                            <lightning:layout verticalAlign="start">
+                                <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Label</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.label}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Name</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.name}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Type</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.type}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Description</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.description}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">ID</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.id}</span>
+                                        </div>
+                                    </div>
+                                    
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+                                                                        
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Created</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-form-element__static">
+                                                <lightning:formattedDateTime value="{!v.actionDetails.createdDate}"
+                                                                             year="numeric"
+                                                                             month="numeric"
+                                                                             day="numeric"
+                                                                             hour="2-digit"                                 
+                                                                             minute="2-digit"
+                                                                             hour12="true"
+                                                                             />
+                                                by {!v.actionDetails.createdBy.name}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Last Modified</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-form-element__static">
+                                                <lightning:formattedDateTime value="{!v.actionDetails.lastModifiedDate}"
+                                                                             year="numeric"
+                                                                             month="numeric"
+                                                                             day="numeric"
+                                                                             hour="2-digit"                                 
+                                                                             minute="2-digit"
+                                                                             hour12="true"
+                                                                             />
+                                                by {!v.actionDetails.lastModifiedBy.name}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Intents</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.intents.length}</span>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">Command Target Name</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.commandTarget.name || 'N/A'}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <span class="slds-form-element__label uiOutputText">CommandTarget ID</span>
+                                        <div class="slds-form-element__control">
+                                            <span class="lds-form-element__static">{!v.actionDetails.commandTarget.id || 'N/A'}</span>
+                                        </div>
+                                    </div>                                    
+
+                                    
+                                    
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </lightning:tab>
+                    
+                    <lightning:tab label="Intents">
+                        <div class="panel intents slds-m-horizontal_small">
+                            <div aura:id="intents-table-container" class="intents-table-container slds-box slds-p-around_none">
+                                
+                                <lightning:layout horizontalAlign="center" verticalAlign="end" class="slds-p-around_small slds-card-input">
+                                    <lightning:layoutItem size="11">
+                                        <lightning:input type="text" aura:id="new_intent" value="{!v.newIntent}" placeholder="Please enter a new intent phrase" class="new-intent" variant="label-hidden"/>
+                                        
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="1" class="slds-p-horizontal_small">
+                                        <lightning:button label="Add" variant="neutral" onclick="{!c.handleAddIntent}" class="" disabled="{!v.newIntent == ''}"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>                                 
+                                
+                                
+                                <lightning:layout class="slds-m-vertical_small">
+                                    <lightning:layoutItem size="12">
+                                        <lightning:datatable data="{!v.actionDetails.intents}"
+                                                             columns="{!v.intentColumns}"
+                                                             keyField="id"
+                                                             class="intents-table"
+                                                             maxRowSelection="0"
+                                                             hideCheckboxColumn="true"
+                                                             resizeColumnDisabled="true"
+                                                             suppressBottomBar="true"
+                                                             maxColumnWidth="2000"
+                                                             showRowNumberColumn="false"
+                                                             onrowselection="{!c.handleSelectIntent}"
+                                                             onrowaction="{!c.handleIntentAction}"
+                                                             oncellchange="{!c.handleIntentChanged}"
+                                                             oncancel="{!c.handleCancelSaveIntents}"
+                                                             />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                            
+                        </div>
+
+                    </lightning:tab>
+
+                    <lightning:tab label="Parameters">
+
+                        <div class="panel parameters slds-m-horizontal_small">
+                            <div aura:id="intents-table-container" class="intents-table-container slds-box slds-p-around_none">
+                                
+                                <lightning:layout horizontalAlign="center" verticalAlign="end" class="slds-p-around_small slds-card-input">
+                                    <lightning:layoutItem size="11">
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="1" class="slds-p-horizontal_small">
+                                        <lightning:button label="New" variant="neutral" onclick="{!c.handleNewParameter}" class=""/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>                                 
+                                
+                                
+                                <lightning:layout class="slds-m-vertical_small">
+                                    <lightning:layoutItem size="12">
+                                        <lightning:datatable data="{!v.parameters}"
+                                                             columns="{!v.parameterColumns}"
+                                                             keyField="id"
+                                                             class="parameters-table"
+                                                             maxRowSelection="0"
+                                                             hideCheckboxColumn="true"
+                                                             resizeColumnDisabled="true"
+                                                             suppressBottomBar="true"
+                                                             maxColumnWidth="2000"
+                                                             showRowNumberColumn="false"
+                                                             onrowselection="{!c.handleSelectParameter}"
+                                                             onrowaction="{!c.handleParameterAction}"
+                                                             />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </lightning:tab>
+
+                    <aura:if isTrue="{!v.customApexActions != null}">
+                        <lightning:tab label="Inputs">
+                            
+                            <div class="panel parameters slds-m-horizontal_small">
+                                <div aura:id="intents-table-container" class="intents-table-container slds-box slds-p-around_none">
+                                    
+                                    <lightning:layout horizontalAlign="center" verticalAlign="end" class="slds-p-around_small slds-card-input">
+                                        <lightning:layoutItem size="11">
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="1" class="slds-p-horizontal_small">
+                                            <lightning:button label="New" variant="neutral" onclick="{!c.handleNewParameter}" class=""/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>                                 
+                                    
+                                    <lightning:layout class="slds-m-vertical_small">
+                                        <lightning:layoutItem size="12">
+                                            <lightning:datatable data="{!v.customApexActions.inputs}"
+                                                                 columns="{!v.customApexActionColumns}"
+                                                                 keyField="id"
+                                                                 class="parameters-table"
+                                                                 maxRowSelection="0"
+                                                                 hideCheckboxColumn="true"
+                                                                 resizeColumnDisabled="true"
+                                                                 suppressBottomBar="true"
+                                                                 maxColumnWidth="2000"
+                                                                 showRowNumberColumn="false"
+                                                                 onrowselection="{!c.handleSelectCustomApexActionInput}"
+                                                                 onrowaction="{!c.handleCustomApexActionInputAction}"
+                                                                 />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                                
+                            </div>
+                            
+                        </lightning:tab>
+                        
+                        <lightning:tab label="Outputs">
+                            
+                            <div class="panel parameters slds-m-horizontal_small">
+                                <div aura:id="intents-table-container" class="intents-table-container slds-box slds-p-around_none">
+                                    
+                                    <lightning:layout horizontalAlign="center" verticalAlign="end" class="slds-p-around_small slds-card-input">
+                                        <lightning:layoutItem size="11">
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="1" class="slds-p-horizontal_small">
+                                            <lightning:button label="New" variant="neutral" onclick="{!c.handleNewParameter}" class=""/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>                                 
+                                    
+                                    <lightning:layout class="slds-m-vertical_small">
+                                        <lightning:layoutItem size="12">
+                                            <lightning:datatable data="{!v.customApexActions.outputs}"
+                                                                 columns="{!v.customApexActionColumns}"
+                                                                 keyField="id"
+                                                                 class="parameters-table"
+                                                                 maxRowSelection="0"
+                                                                 hideCheckboxColumn="true"
+                                                                 resizeColumnDisabled="true"
+                                                                 suppressBottomBar="true"
+                                                                 maxColumnWidth="2000"
+                                                                 showRowNumberColumn="false"
+                                                                 onrowselection="{!c.handleSelectCustomApexActionOutput}"
+                                                                 onrowaction="{!c.handleCustomApexActionOutputAction}"
+                                                                 />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                                
+                            </div>
+                            
+                        </lightning:tab>
+                    </aura:if>
+
+                </lightning:tabset>
+            </div>                
+            
+            
+        </div>
+        
+    </lightning:card>
+           
+</aura:component>

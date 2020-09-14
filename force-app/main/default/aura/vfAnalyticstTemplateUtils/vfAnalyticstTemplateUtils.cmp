@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+	<div>
+        <iframe aura:id="frame" src="https://adx-dev-ed--eadx.gus.visual.force.com/apex/atutils"/>
+    </div>
+</aura:component>

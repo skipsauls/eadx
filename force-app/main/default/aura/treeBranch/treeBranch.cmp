@@ -1,0 +1,32 @@
+<aura:component access="global">
+    <aura:attribute name="items" type="Object" access="global"/>
+    <aura:attribute name="itemMap" type="Object" access="global"/>
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="role" type="String" access="global" default="group"/>    
+    <aura:attribute name="level" type="Integer" default="1"/>    
+    <aura:attribute name="selectedItem" type="Object" access="global"/>
+    
+    <ul role="{!v.role}" class="{!v.role ? 'slds-tree' : ''}">
+        <aura:iteration items="{!v.items}" var="item" indexVar="idx">
+            <li aria-expanded="{!item.expanded}" aria-selected="{!item.selected}" aria-highlighted="{!item.highlighted}" aria-level="{!v.level}" role="treeitem" tabindex="0">
+                <div class="slds-tree__item" onclick="{!c.handleItemSelect}" data-item-index="{!idx}">
+                    <lightning:buttonIcon iconName="utility:chevronright"
+                                          size="small"
+                                          variant="bare"
+                                          class="{!'slds-m-right_x-small' + (item.items.length > 0 ? '' : ' slds-is-disabled')}"
+                                          alternativeText="{!item.expanded ? 'Collapse Tree Branch' : 'Expand Tree Branch'}"
+                                          name="{!item.name}"
+                                          onclick="{!c.toggleExpanded}"                                          
+                                          />
+                    <span class="slds-has-flexi-truncate">
+                        <span class="slds-tree__item-label slds-truncate" title="{!item.label}">{!item.label}</span>
+                    </span>
+                </div>
+                <aura:if isTrue="{!item.items.length > 0}">
+                    <c:treeBranch items="{!item.items}" itemMap="{!v.itemMap}" level="{!v.level + 1}" selectedItem="{!v.selectedItem}"/>
+                </aura:if>
+            </li>
+        </aura:iteration>
+    </ul>
+    
+</aura:component>

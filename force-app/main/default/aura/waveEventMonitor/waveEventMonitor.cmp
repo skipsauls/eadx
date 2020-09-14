@@ -1,0 +1,36 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global" >
+	<aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    <aura:attribute name="dashboardId" type="String"/> 
+    <aura:attribute name="step" type="String"/> 
+    <div class="container">
+        <section class="slds-clearfix">
+          <div class="slds-float--left">
+            <h2 class="slds-text-heading--small">Source: {!v.dashboardId}</h2>
+            <h2 class="slds-text-heading--small">Step: {!v.step}</h2>
+          </div>
+        </section>        
+        <div class="attr-table-container">
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer attr-table" style="max-height: 300px;">
+                <thead>
+                    <tr class="slds-text-title">
+                        <th scope="col" style="width: 4rem;">
+                            <div class="slds-truncate" title="Index">Index</div>
+                        </th>
+                        <th scope="col" style="width: 24rem;">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                        <th scope="col" style="width: 5rem;">
+                            <div class="slds-truncate" title="Type">Type</div>
+                        </th>
+                        <th scope="col" style="width: 18rem;">
+                            <div class="slds-truncate" title="Value">Value</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody aura:id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>	
+</aura:component>

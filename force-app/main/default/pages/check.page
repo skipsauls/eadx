@@ -1,0 +1,40 @@
+<apex:page controller="CheckController" action="{!checkLicense}">
+    <apex:includeLightning />
+    <apex:variable var="valid" value="{!hasEinsteinAnalytics}"/>
+
+    <h1>Can use Einstein Analytics? {!valid}</h1>
+    <apex:outputPanel rendered="{!hasEinsteinAnalytics == true}">
+        <div>
+            <h1>Einstein Analytics</h1>
+        </div>
+    </apex:outputPanel>
+
+    <wave:dashboard dashboardId="0FK1I000000Du0wWAC" width="1200" height="600" rendered="{!hasEinsteinAnalytics == true}"/>      
+
+    <apex:outputPanel rendered="{!hasEinsteinAnalytics == false}">
+        <div>
+            <h1>No Einstein Analytics</h1>        
+        </div>
+    </apex:outputPanel>
+    <div id="dashboard"/>
+    <script>
+        /*
+        if ({!valid} === true) {
+            $Lightning.use('c:loApp', function(evt) {
+                var config = {
+                    dashboardId: '0FK1I000000Du0wWAC',
+                    width: '1200px',
+                    height: '600px',
+                    filter: ''
+                };
+                $Lightning.createComponent('wave:waveDashboard', config, 'dashboard', function(cmp, msg, err) {
+                });
+            });    
+    
+
+        } else {
+            console.warn('no');
+        }
+        */
+    </script> 
+</apex:page>

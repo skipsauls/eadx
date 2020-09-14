@@ -1,0 +1,8 @@
+.THIS {
+}
+.THIS .slds-tabs_default__content{
+    padding: 0px;
+}
+.THIS .slds-tabs_default__content .slds-card .slds-card__header{
+    padding: 0px;
+}

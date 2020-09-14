@@ -1,0 +1,86 @@
+{
+  "name" : "Simple_Dashboard_tp",
+  "label" : "Simple Dashboard",
+  "folder" : {
+    "id" : "${App.Folder.Id}"
+  },
+  "state" : {
+    "dataSourceLinks" : [ ],
+    "gridLayouts" : [
+      {
+        "name" : "Default",
+        "numColumns" : 12,
+        "pages" : [
+          {
+            "widgets" : [
+              {
+                "colspan" : 3,
+                "column" : 2,
+                "name" : "text_1",
+                "row" : 2,
+                "rowspan" : 1,
+                "widgetStyle" : {
+                  "borderEdges" : [ ]
+                }
+              },
+              {
+                "colspan" : 5,
+                "column" : 1,
+                "name" : "container_1",
+                "row" : 0,
+                "rowspan" : 5,
+                "widgetStyle" : {
+                  "backgroundColor" : "#2EC2BA",
+                  "borderColor" : "#E6ECF2",
+                  "borderEdges" : [ ],
+                  "borderRadius" : 0,
+                  "borderWidth" : 1
+                }
+              }
+            ]
+          }
+        ],
+        "rowHeight" : "normal",
+        "selectors" : [ ],
+        "style" : {
+          "alignmentX" : "left",
+          "alignmentY" : "top",
+          "backgroundColor" : "#F2F6FA",
+          "cellSpacingX" : 8,
+          "cellSpacingY" : 8,
+          "fit" : "original",
+          "gutterColor" : "#C5D3E0"
+        },
+        "version" : 1.0
+      }
+    ],
+    "layouts" : [ ],
+    "steps" : { },
+    "widgetStyle" : {
+      "backgroundColor" : "#FFFFFF",
+      "borderColor" : "#E6ECF2",
+      "borderEdges" : [ ],
+      "borderRadius" : 0,
+      "borderWidth" : 1
+    },
+    "widgets" : {
+      "container_1" : {
+        "parameters" : {
+          "alignmentX" : "left",
+          "alignmentY" : "top",
+          "fit" : "original"
+        },
+        "type" : "container"
+      },
+      "text_1" : {
+        "parameters" : {
+          "fontSize" : 20,
+          "text" : "Demo Text",
+          "textAlignment" : "center",
+          "textColor" : "#091A3E"
+        },
+        "type" : "text"
+      }
+    }
+  }
+}

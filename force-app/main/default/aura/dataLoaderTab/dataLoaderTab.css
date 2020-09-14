@@ -1,0 +1,16 @@
+.THIS {
+}
+
+.THIS .container {
+    border: 1px solid #000000;
+    border-radius: .25rem;
+    overflow: hidden;
+    padding: 0
+}
+
+.THIS .spinner {
+}
+
+.THIS .spinner.hide {
+    display: none;
+}

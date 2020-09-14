@@ -1,0 +1,17 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="interval" type="Object"/>
+    <aura:attribute name="isLoaded" type="Boolean" default="false" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:registerevent name="discover" type="wave:discover"/>
+    
+    <aura:handler event="wave:discoverResponse" action="{!c.handleDiscoverResponse}"/>
+    
+    <div>
+  		<div style="{!'padding: 10px; color: white; background-color: ' + (v.isLoaded == true ? 'green' : 'red')}">
+        	<h1>{!v.isLoaded == true ? 'Loaded' : 'Not Loaded'}</h1>
+        </div>
+    </div>
+    <wave:waveDashboard developerName="eadx__Demo_Dashboard_2" height="700"/>	
+</aura:component>

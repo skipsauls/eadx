@@ -1,0 +1,27 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,lightning:hasPageReference,lightning:isUrlAddressable" controller="WelcomeController" access="global" >
+    <aura:attribute name="items" type="object[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<lightning:navigation aura:id="navService"/>
+    
+    <section class="main-content" aura:id="main_content">
+        <div class="slds-m-around--x-large">
+            <lightning:layout class="launch" horizontalAlign="center" verticalAlign="center" pullToBoundary="small" multipleRows="true">
+
+                <aura:iteration items="{!v.items}" var="item">
+                    
+                    <lightning:layoutItem flexibility="auto, no-grow" padding="around-large">
+                        <div onclick="{!c.handleItemClick}" data-developer-name="{!item.developerName}" data-page-type="{!item.pageType}" data-object-type="{!item.objectType}">
+                        <div class="{!'item ' + item.name}" title="{!item.label}" style="{! 'background-image: url(\'' + item.imageUrl + '\')' }">
+                            
+                        </div>                    
+                        <div class="slds-text-heading_medium slds-align--absolute-center slds-m-vertical--small title">{!item.label}</div>
+                        </div>
+                    </lightning:layoutItem>
+                
+                </aura:iteration>
+
+            </lightning:layout>
+        </div>
+    </section>
+</aura:component>

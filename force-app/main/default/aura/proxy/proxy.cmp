@@ -1,0 +1,53 @@
+<aura:component access="global">
+    <aura:attribute name="ready" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="ltngUrl" type="String" access="global" description="Base URL necessary for use with Lightning Out"/>
+    <aura:attribute name="vf_proxy_url" type="String"/>
+    <aura:attribute name="vf_origin_url" type="String"/>
+    <aura:attribute name="uid" type="String"/>
+    <aura:method name="exec" action="{!c.exec}"  description="Executes the specified call" access="global"> 
+        <aura:attribute name="url" type="String"/>
+        <aura:attribute name="method" type="String" default="GET"/>
+        <aura:attribute name="body" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="listAssets" action="{!c.listAssets}"  description="Lists the specified Analytics asset type"> 
+        <aura:attribute name="type" type="String" default="dashboards"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="getAsset" action="{!c.getAsset}"  description="Gets the specified Wave asset"> 
+        <aura:attribute name="type" type="String" default="dashboards"/>
+        <aura:attribute name="id" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="getAssetHistory" action="{!c.getAssetHistory}"  description="Gets the specified asset history"> 
+        <aura:attribute name="historyUrl" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="deleteAssetHistory" action="{!c.deleteAssetHistory}"  description="Deletes the specified asset history"> 
+        <aura:attribute name="historyUrl" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="revertAssetHistory" action="{!c.revertAssetHistory}"  description="Reverts the specified asset history"> 
+        <aura:attribute name="revertUrl" type="String"/>
+        <aura:attribute name="historyId" type="String"/>
+        <aura:attribute name="historyLabel" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="getRelativeUrl" action="{!c.getRelativeUrl}"  description="Gets the specified relative URL"> 
+        <aura:attribute name="url" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="handshake" action="{!c.handshake}"  description="Performs handshake to setup cometd">
+        <aura:attribute name="logLevel" type="String" description="Can be 'warn', 'info', or 'debug'."/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="subscribe" action="{!c.subscribe}"  description="Subscribes to specified topic"> 
+        <aura:attribute name="topic" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="unsubscribe" action="{!c.unsubscribe}"  description="Unsubscribes from specified topic"> 
+        <aura:attribute name="topic" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <iframe aura:id="vf_proxy_frame" src="{!v.vf_proxy_url}"></iframe>
+</aura:component>

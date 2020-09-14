@@ -1,0 +1,40 @@
+{
+  "rules" : [ 
+	{
+	  "name": "Demo_Dashboard_state_widgets_chart_1_parameters_visualizationType",
+	  "appliesTo": [
+	    {
+	      "type": "dashboard",
+	      "name": "Demo_Dashboard10_tp"
+	    }
+	  ],
+	  "actions": [
+	    {
+	      "action": "set",
+	      "description": "Set the value for state.widgets.chart_1.parameters.visualizationType in Demo_Dashboard.",
+	      "path": "$.state.widgets.chart_1.parameters.visualizationType",
+	      "value": "${Variables.Demo_Dashboard_state_widgets_chart_1_parameters_visualizationType}"
+	    }
+	  ]
+	},
+	{
+	  "name": "Demo_Dashboard_state_gridLayouts0_style_backgroundColor",
+	  "appliesTo": [
+	    {
+	      "type": "dashboard",
+	      "name": "Demo_Dashboard10_tp"
+	    }
+	  ],
+	  "actions": [
+	    {
+	      "action": "set",
+	      "description": "Set the value for state.gridLayouts0.style.backgroundColor in Demo_Dashboard.",
+	      "path": "$.state.gridLayouts[0].style.backgroundColor",
+	      "value": "${Variables.Demo_Dashboard_state_gridLayouts0_style_backgroundColor}"
+	    }
+	  ]
+	}	
+  ],
+  "constants" : [ ],
+  "macros" : [ ]
+}

@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global" controller="TemplateConfigController">
+    <aura:attribute name="title" type="String" description="title for the wizard page" default="Choose an App Template"/>    
+    <aura:attribute name="startFrom" type="String" access="global" default="blank" description="Start from a template or blank app."/>
+    <aura:attribute name="nextStep" type="String" access="global" default="blank" description="What to do next."/>    
+    <aura:attribute name="templateId" type="String" access="global" default="blank" description="The selected template to preview, configure, etc.."/>    
+    <aura:attribute name="configId" type="String" access="global" default="" description="The template config object ID."/>
+    <aura:attribute name="selectedType" type="String" access="global" default="" description="The selected template type (app or dashboard)."/>
+	
+    <h1>Configure!</h1>
+    
+</aura:component>

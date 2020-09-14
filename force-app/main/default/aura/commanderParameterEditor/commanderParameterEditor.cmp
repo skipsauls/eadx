@@ -1,0 +1,27 @@
+<aura:component access="global">
+    <aura:attribute name="parameter" type="Object" access="global"/>
+    <aura:attribute name="parameterTypes" type="String[]" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <div class="parameter-editor details slds-p-horizontal_small">
+        <div class="slds-form" role="list">
+            
+            <div class="slds-form__row">                
+                <lightning:input type="text" label="Name" value="{!v.parameter.name}" class="slds-size_1-of-2"/>
+                <lightning:select label="Type" value="{!v.parameter.type}" class="slds-size_1-of-2">
+                    <aura:iteration items="{!v.parameterTypes}" var="type">
+                        <option value="{!type}">{!type}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <div class="slds-form__row">
+                <lightning:input type="checkbox" label="Required" checked="{!v.parameter.required}" class="slds-size_1-of-2"/>
+                <lightning:input type="text" label="Default Value" value="{!v.parameter.defaultValue}" class="slds-size_1-of-2"/>
+            </div>
+        </div>
+        
+    </div>
+</aura:component>

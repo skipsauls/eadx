@@ -1,0 +1,40 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="ApexMockController">
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" default="0FKB000000092VyOAI"/>
+    <aura:attribute name="datasetName" type="String" access="GLOBAL" default="eadx__oppty2" description="Dataset used for refresh"/>
+    <aura:attribute name="fieldName" type="String" access="GLOBAL" default="StageName" description="Field in the dataset used for refresh"/>
+    <aura:attribute name="fieldValue" type="String" access="GLOBAL" default="Needs Analysis" description="Value for the field in the dataset used for refresh"/>
+    <aura:attribute name="mockMap" type="Object"/>
+    <aura:attribute name="mocks" type="Object[]"/>
+    <aura:attribute name="mock" type="Object"/>
+    <aura:attribute name="selectedMockName" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.selectedMockName}" action="{!c.handleSelectMockName}"/>
+    
+    <aura:registerEvent name="update" type="wave:update"/>
+    
+    
+    <lightning:layout>
+        <lightning:layoutItem size="4">
+            <lightning:card title="Apex Step Editor" class="slds-p-horizontal_small">
+                selectedMockName: {!v.selectedMockName}
+                <lightning:select name="mocks" label="Mocks" value="{!v.selectedMockName}">
+                    <option text="" selected="{v.selecteMockName == null}"/>
+                    <aura:iteration items="{!v.mocks}" var="mock">
+                        <option text="{!mock.name}" selected="{!mock.name == v.selectedMockName}"/>
+                    </aura:iteration>
+                </lightning:select>
+                <lightning:input type="text" value="{!v.mock.name}" label="Name"/>
+                <lightning:textarea value="{!v.mock.body}" label="Body"/>
+                <lightning:button label="Update" variant="brand" onclick="{!c.updateMock}"/>
+                <lightning:button label="Delete" onclick="{!c.deleteMock}"/>
+            </lightning:card>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="8">
+            <div class="slds-m-left_small">
+                <wave:waveDashboard aura:id="dashboard" dashboardId="{!v.dashboardId}" height="750" showTitle="false" showHeader="false" showSharing="false"/>            
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+</aura:component>

@@ -1,0 +1,187 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="assetId" type="String" access="GLOBAL" description="The id of the asset."/>
+    <aura:attribute name="assetType" type="String" access="GLOBAL" description="The type of the asset."/>
+    <aura:attribute name="asset" type="Object" access="global" description="The currently selected asset object. May be null."/>
+    <aura:attribute name="assetDetails" type="Object" access="global" description="The currently selected asset object. May be null."/>    
+    <aura:attribute name="assetHistoryColumns" type="List" access="global" description="The columns to display for asset history. May be null."/>    
+    <aura:attribute name="assetHistory" type="Object" access="global" description="The currently selected asset history. May be null."/>    
+    <aura:attribute name="assetHistoryData" type="Object" access="global" description="The currently selected asset history for display in table (flattened). May be null."/>    
+    <aura:attribute name="selectedAssetHistoryId" type="String" access="global" description="The id of the currently selected asset history. May be null."/>    
+    <aura:attribute name="assetCamelType" type="String" access="GLOBAL" description="The camelcase type label of the asset."/>
+    <aura:attribute name="assetProductName" type="String" access="GLOBAL" description="The product name to display based on the type label of the asset." default="Tableau"/>
+    <aura:attribute name="json" type="String" access="GLOBAL" description="The JSON resprsentation of the asset."/>
+    
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard to show. May be null."/>
+    <aura:attribute name="datasetId" type="String" access="GLOBAL" description="The id of the dataset to show. May be null."/>
+    <aura:attribute name="dataflowId" type="String" access="GLOBAL" description="The id of the dataflow to show. May be null."/>
+    <aura:attribute name="lensId" type="String" access="GLOBAL" description="The id of the lens to show. May be null."/>
+    <aura:attribute name="folderId" type="String" access="GLOBAL" description="The id of the folder to show. May be null."/>
+    <aura:attribute name="templateId" type="String" access="GLOBAL" description="The id of the template to show. May be null."/>
+    <aura:attribute name="analysisId" type="String" access="GLOBAL" description="The id of the analysis to show. May be null."/>
+    <aura:attribute name="selectedTabId" type="String" access="GLOBAL" description="The id of the selectd tab. May be null."/>
+
+    <aura:attribute name="toolbarAction" type="String" access="GLOBAL" description="The action for views to handle."/>
+    
+    <aura:attribute name="proxyReady" type="Boolean" access="global" default="false"/>
+
+    <aura:handler name="change" value="{!v.asset}" action="{!c.handleAssetChange}"/>
+    <aura:handler name="change" value="{!v.proxyReady}" action="{!c.handleProxyReady}"/>
+    
+    <c:proxy aura:id="proxy" ready="{!v.proxyReady}"/>
+    
+    <lightning:card >
+        <aura:set attribute="title">
+            
+            
+            <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+					<div class="slds-media slds-media_center slds-has-flexi-truncate">                    
+                        <div class="slds-media__figure">
+                            <div class="slds-icon_container">
+                                <div lightning-primitiveicon_primitiveicon-host="">
+                                    <div class="slds-icon slds-icon_small">
+                                        <aura:if isTrue="{!v.assetType == 'workbook'}">
+                                            <img src="https://us-west-2b.online.tableau.com/img/spaces_medium_workbooks.svg"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.assetType == 'view'}">
+                                            <img src="https://us-west-2b.online.tableau.com/img/spaces_medium_views.svg"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.assetType == 'datasource'}">
+                                            <img src="https://us-west-2b.online.tableau.com/img/spaces_card_ds.svg"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.asset.type == 'table'}">
+                                            <img src="https://us-west-2b.online.tableau.com/img/Tableau_Logo_Mark.svg"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.assetType == null || v.assetType == ''}">
+                                            <img src="https://us-west-2b.online.tableau.com/img/Tableau_Logo_Mark.svg"/>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-media__body slds-truncate">
+                            <h2>
+                                <span class="slds-text-heading_small">
+                                    <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-grid_pull-padded">
+                                        <div class="slds-p-right_small slds-p-left_small slds-col">
+                                            <h1 class="{!v.assetCamelType == null ? 'slds-hide' : 'slds-show'}">{!v.assetProductName + ' ' + v.assetCamelType + ': ' + v.asset.name}</h1>
+                                        </div>
+                                    </div>
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                    <div class="{!v.assetType == 'view' ? 'slds-show' : 'slds-hide'}">
+	                    <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Upload" iconName="utility:upload" onclick="{!c.handleUpload}"/>
+                    </div>
+                </lightning:layoutItem>
+                
+            </lightning:layout>   
+<!--            
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="slds-icon_container">
+                        <div lightning-primitiveicon_primitiveicon-host="">
+                            <div class="slds-icon slds-icon_small">
+                                <aura:if isTrue="{!v.assetType == 'workbook'}">
+                                	<img src="https://us-west-2b.online.tableau.com/img/spaces_medium_workbooks.svg"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.assetType == 'view'}">
+                                    <img src="https://us-west-2b.online.tableau.com/img/spaces_medium_views.svg"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.assetType == 'datasource'}">
+                                	<img src="https://us-west-2b.online.tableau.com/img/spaces_card_ds.svg"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.type == 'table'}">
+                                	<img src="https://us-west-2b.online.tableau.com/img/Tableau_Logo_Mark.svg"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.assetType == null || v.assetType == ''}">
+                                	<img src="https://us-west-2b.online.tableau.com/img/Tableau_Logo_Mark.svg"/>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-media__body slds-truncate">
+                    <h2>
+                        <span class="slds-text-heading_small">
+                            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-grid_pull-padded">
+                                <div class="slds-p-right_small slds-p-left_small slds-col">
+                                    <h1 class="">{!v.assetProductName + ' ' + v.assetCamelType + ': ' + v.asset.name}</h1>
+                                </div>
+                            </div>
+                        </span>
+                    </h2>
+                </div>
+            </div>
+ -->           
+        </aura:set>
+        
+        <aura:set attribute="actions">
+
+        </aura:set>
+        
+        <div class="asset-outer" aura:id="asset-outer">
+            <lightning:tabset selectedTabId="{!v.selectedTabId}">                    
+                <lightning:tab label="Preview" id="Preview_Tab">
+                    <div class="panel viewer slds-m-horizontal_small">
+
+                        <div class="{!v.assetType == 'workbook' ? 'show' : 'hide'}">
+                            <c:tableauWorkbookViewer assetId="{!v.assetId}" asset="{!v.asset}" toolbarAction="{!v.toolbarAction}"/>
+                        </div>
+                        
+                        <div class="{!v.assetType == 'view' ? 'show' : 'hide'}">
+                            <c:tableauViewViewer assetId="{!v.assetId}" asset="{!v.asset}" toolbarAction="{!v.toolbarAction}"/>
+                        </div>              
+
+                        <div class="{!v.assetType == 'table' ? 'show' : 'hide'}">
+                            <c:tableauTableViewer assetId="{!v.assetId}" asset="{!v.asset}" toolbarAction="{!v.toolbarAction}"/>
+                        </div>              
+
+                        <!--
+                        <div class="{!v.assetType == 'dashboard' ? 'show' : 'hide'}">
+                            <c:analyticsDashboardViewer dashboardId="{!v.dashboardId}"/>
+                        </div>                          
+                        <div class="{!v.assetType == 'lens' ? 'show' : 'hide'}">
+                            <c:analyticsLensViewer lensId="{!v.lensId}"/>
+                        </div>                          
+                        <div class="{!v.assetType == 'dataset' ? 'show' : 'hide'}">
+                            <c:analyticsDatasetViewer datasetId="{!v.datasetId}"/>
+                        </div>              
+                        <div class="{!v.assetType == 'folder' ? 'show' : 'hide'}">
+                            <c:analyticsFolderViewer folderId="{!v.folderId}" folder="{!v.asset}"/>
+                        </div>              
+                        <div class="{!v.assetType == 'template' ? 'show' : 'hide'}">
+                            <c:analyticsTemplateViewer templateId="{!v.templateId}"/>
+                        </div>              
+                        <div class="{!v.assetType == 'analysis' ? 'show' : 'hide'}">
+                            <c:analyticsAnalysisViewer analysisId="{!v.analysisId}" analysis="{!v.asset}"/>
+                        </div>
+						-->
+                    </div>
+                </lightning:tab>
+                <lightning:tab label="Details" id="Details_Tab">
+                    <div class="panel details slds-m-horizontal_small">
+                        <lightning:layout>
+                            <lightning:layoutItem flexibility="auto" padding="around-small" size="4">  
+		                        <c:assetJsonTreeView aura:id="json_tree_view" json="{!v.json}" asset="{!v.asset}" assetDetails="{!v.assetDetails}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:layoutItem flexibility="auto" padding="around-small" size="8">  
+							Tools here
+                        </lightning:layoutItem>
+                    </div>
+                </lightning:tab>
+                <lightning:tab label="JSON" id="JSON_Tab">
+                    <div class="panel json slds-m-horizontal_small">
+                        <lightning:textarea aura:id="json_view" value="{!v.json}" class="json-view" label="{!v.asset.label}"/>
+                    </div>
+                </lightning:tab>
+
+            </lightning:tabset>                    
+        </div>
+    </lightning:card>            
+</aura:component>

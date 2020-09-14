@@ -1,0 +1,26 @@
+.THIS {
+}
+
+.THIS.wizard-modal {
+    min-width: 90%;
+    min-height: 54rem;
+}
+
+.THIS.wizard-modal .slds-modal__container {
+    width: 90rem;
+    min-width: 72rem;
+    max-width: 90rem;
+    height: 54rem;
+    min-height: 48rem;
+    max-height: 64rem;
+}
+
+.THIS.wizard-modal .modal-body.scrollable.slds-modal__content {
+    overflow: hidden;
+}
+
+.THIS.wizard-modal .modal-header.slds-modal__header {
+    font-weight: 300;
+    font-size: 1.25rem;
+    line-height: 1.25;    
+}

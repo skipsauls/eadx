@@ -1,0 +1,42 @@
+.THIS {
+}
+
+.THIS .icon {
+    height: 40px;
+    width: 40px;
+}
+
+.THIS .header-title {
+    color: #1a3d71;
+    font-size: 19px;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-bottom: 4px;
+}
+
+.THIS .header-icon {
+    width: 50px;
+}
+
+.THIS .item {
+    display: flex;
+    padding: 5px;
+    width: 100%;
+    padding: 8px 0;
+    border-bottom: 1px solid rgb(221, 219, 218);    
+}
+
+.THIS .item-subtitle {
+    color: #424c54;
+    font-size: 11.5px;
+    font-weight: lighter;
+    padding: .75rem;
+}
+
+.THIS .subtitle {
+    color: #004a8c;
+    font-size: 11.5px;
+    font-weight: lighter;
+    margin-left: 5px;
+    font-weight: 500;
+}

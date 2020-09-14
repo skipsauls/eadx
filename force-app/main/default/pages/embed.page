@@ -1,0 +1,39 @@
+<apex:page showHeader="false">
+
+	<apex:includeLightning />    
+    <script src="{!URLFOR($Resource.force_all)}"></script>
+    <!--
+    <script src="/lightning/lightning.out.js"></script>
+    -->
+    
+    <h1>Test</h1>
+    
+    <script>
+    var appId = '3MVG9SemV5D80oBcff3jWxxK32b.valGtNTj90WK4mj5IAn1LOmdrz1ObgypNEnd9JRtxfhKpuE.iX7vv0WSy';
+    var loginURL = "https://login.salesforce.com";
+    var oauthCallbackURL = window.location.origin + "/apex/oauthcallback";
+    console.warn('appId: ', appId);
+    console.warn('loginURL: ', loginURL);
+    console.warn('oauthCallbackURL: ', oauthCallbackURL);
+    
+    var oauth = force.OAuth.createInstance(appId, loginURL, oauthCallbackURL);
+    var loAppName = "c:loApp";
+    console.warn('calling oauth.login');
+    oauth.login().then(function(oauthResult) {
+        console.warn('oautResult: ', oauthResult);
+        var ltngURL = oauthResult.instanceURL.replace(/my.salesforce/, "lightning.force")
+        $Lightning.use(loAppName, function(evt) {
+            var config = {
+                developerName: "eadx__Demo1",
+                height: "700",
+                showTitle: false,
+                showHeader: false
+            };
+            $Lightning.createComponent("wave:waveDashboard", config, "dashboard", function(cmp, msg, err) {});
+        }, ltngURL, oauthResult.accessToken);        
+    }).finally(function() {
+        console.warn('finally');
+    });        
+    </script>
+    
+</apex:page>

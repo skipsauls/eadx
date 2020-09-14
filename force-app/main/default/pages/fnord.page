@@ -1,0 +1,7 @@
+<apex:page >
+
+  <script>
+      var voices = window.speechSynthesis.getVoices();
+      console.warn('voices: ', voices);
+  </script>
+</apex:page>

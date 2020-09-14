@@ -1,0 +1,62 @@
+<aura:component access="global" implements="flexipage:availableForAllPageTypes" >
+    
+    <aura:attribute access="private" name="messageToSend" type="String" default=""/>
+    <aura:attribute access="private" name="messageReceived" type="String" default=""/>
+    <aura:attribute access="private" name="error" type="String" default=""/>
+    
+    <aura:attribute name="chartType" type="String" default="bubble"/>
+    <aura:attribute name="chartTitle" type="String" default=""/>
+    <aura:attribute name="chartOptions" type="Object" default=""/>
+    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+	<aura:handler name="change" value="{!v.chartType}" action="{!c.setChartType}"/>
+	<aura:handler name="change" value="{!v.chartOptions}" action="{!c.setChartOptions}"/>
+    
+    <div class="container">
+        <!--
+        <lightning:textarea name="messageToSend" value="{!v.messageToSend}" label="Message to send to React app: "/>
+        <lightning:button label="Send" onclick="{!c.sendMessage}"/>
+        
+        <br/>
+        
+        <lightning:textarea value="{!v.messageReceived}" label="Message received from React app: "/>
+        
+        <br/>
+		-->
+		<lightning:select name="chartType" label="Chart Type:" value="{!v.chartType}">
+	        <option value="bubble">bubble</option>
+    	    <option value="scatter">scatter</option>
+        	<option value="line">line</option>
+        	<option value="pie">pie</option>
+        	<option value="doughnut">doughnut</option>
+	    </lightning:select>        
+        <br/>
+        
+        <h1>v.chartOptions.title.display: {!v.chartOptions.title.display}</h1>
+        <h1>v.chartOptions.title.text: {!v.chartOptions.title.text}</h1>
+        <lightning:input value="{!v.chartOptions.title.display}" type="checkbox" label="Display Title:"/>
+        <lightning:input value="{!v.chartOptions.title.text}" label="Text:"/>
+        
+        <br/>
+
+        <lightning:button label="Get Chart Options" onclick="{!c.getChartOptions}"/>
+        
+        <lightning:button label="Add Dataset" onclick="{!c.addDataset}"/>
+        
+        <aura:if isTrue="{! !empty(v.error)}">
+            <lightning:textarea name="errorTextArea" value="{!v.error}" label="Error: "/>
+        </aura:if>
+
+        <!--
+                             src="{!$Resource.SendReceiveMessages + '/index.html'}"
+		-->
+        <hr/>
+        <h1>The React App is Below</h1>
+        <lightning:container aura:id="ReactApp"
+                             src="/resource/1541798676315/eadx__SendReceiveMessages/index.html" 
+                             onmessage="{!c.handleMessage}"
+                             onerror="{!c.handleError}"/>
+    </div>
+    
+</aura:component>

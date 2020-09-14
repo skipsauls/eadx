@@ -1,0 +1,62 @@
+.THIS {
+}
+
+.THIS.outer {
+    height: 4000px;
+    position: fixed;
+    top: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.THIS.outer.hide {
+    display: none;
+}
+
+.THIS .tabset .slds-tabs_scoped__nav, .THIS .slds-tabs_default__nav {
+    display: none;
+}
+
+.THIS .tabs {
+    
+}
+
+.THIS .tabs .tab {
+    
+}
+
+.THIS .tabs .tab.hide {
+    display: none;
+}
+
+.THIS .details {
+    min-height: 300px;
+	font-family: 'Avenir', Helvetica, sans-serif;
+}
+
+.THIS .details.hide > * {
+    display: none;
+}
+
+.THIS .details .title {
+	font-family: Baskerville, "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
+	font-size: 23pt;
+    line-height: 1.1em;
+    font-weight: lighter;
+    max-height: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+}
+
+.THIS .details .variety {
+    color: #940619;
+}
+
+.THIS .details .image {
+    margin: 0px auto;
+    text-align: center;
+}
+
+.THIS .details .image img {
+    height: 338px;
+}

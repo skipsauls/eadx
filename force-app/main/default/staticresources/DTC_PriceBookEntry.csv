@@ -1,0 +1,18 @@
+Product2Id,UnitPrice,Pricebook2Id,IsActive
+Books,150,01sB0000000dOG7IAM,true
+Cables,50,01sB0000000dOG7IAM,true
+Cases,40,01sB0000000dOG7IAM,true
+Certifications,500,01sB0000000dOG7IAM,true
+Courses,300,01sB0000000dOG7IAM,true
+Keyboard,100,01sB0000000dOG7IAM,true
+Light laptop,1400,01sB0000000dOG7IAM,true
+Light tablet,800,01sB0000000dOG7IAM,true
+Light tablet 2,1000,01sB0000000dOG7IAM,true
+Mega laptop,2000,01sB0000000dOG7IAM,true
+Mini tablet,600,01sB0000000dOG7IAM,true
+Mini tablet 2,650,01sB0000000dOG7IAM,true
+Mouse,60,01sB0000000dOG7IAM,true
+Notebook,1200,01sB0000000dOG7IAM,true
+Pro laptop,1600,01sB0000000dOG7IAM,true
+Space phone 2,450,01sB0000000dOG7IAM,true
+Space phone 3,550,01sB0000000dOG7IAM,true

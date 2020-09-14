@@ -1,0 +1,52 @@
+.THIS {
+    background-color: #8ec1da;
+    border-bottom: transparent;
+    border-color: #8ec1da;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    height: 70px;
+    box-shadow: none;    
+}
+
+.THIS.banner-header.clouds-img {
+    background: url(/resource/eadx__background_tile) no-repeat;
+    background-size: 101% 112%;
+    background-position: center;
+    padding: .8rem;
+    overflow: inherit;
+}
+
+.THIS .slds-media {
+    display: inline-block;
+}
+
+.THIS .banner-header.einstein-icon {
+    background: url(/resource/eadx__ea_voice_icon) no-repeat;
+    background-size: 100%;
+    height: 45px;
+    width: 45px;
+}
+
+.THIS .slds-media__body {
+    bottom: 1.3rem;
+    display: inline-block;
+    padding-left: 12px;
+    position: absolute;
+}
+
+.THIS .banner-header.einstein-text {
+    background: url(/resource/eadx__ea_einstein_voice_text) no-repeat;
+    background-size: 100%;
+    width: 365px;
+    height: 26px;
+}
+
+.THIS .banner-header.einstein-img {
+    background: url(/resource/eadx__einstein_logo) no-repeat;
+    background-size: contain;
+    height: 65px;
+    left: 33%;
+    position: absolute;
+    top: 12%;
+    width: 60px;
+}

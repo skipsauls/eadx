@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template" access="global">
+    <aura:attribute name="threadId" type="String" access="global"/>
+    <aura:attribute name="tabId" type="String" access="global"/>
+</aura:event>

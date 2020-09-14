@@ -1,0 +1,75 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="assetType" type="String" access="global"/>
+    <aura:attribute name="asset" type="Object" access="global"/>    
+    <aura:attribute name="selectedItem" type="Object" access="global"/>
+
+    <lightning:layout>
+        
+        <lightning:layoutItem flexibility="auto" size="12">
+            <lightning:card title="Tableau Tools" class="slds-m-horizontal_xx-small">
+                <aura:set attribute="title">
+                    <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+	                        <img src="https://us-west-2b.online.tableau.com/img/Tableau_Logo_Mark.svg" class="icon"/>
+                            <span class="slds-m-left_small">Tableau Explorer</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            <lightning:buttonGroup class="slds-m-horizontal_small">
+                                <lightning:buttonIcon class="slds-m-horizontal_x_small" variant="border-filled" alternativeText="Show Dependencies" iconName="utility:strategy" onclick="{!c.handleShowDependencies}"/>
+                                <lightning:buttonIcon class="slds-m-horizontal_x_small" alternativeText="Fit" iconName="utility:contract" onclick="{!c.handleFitNetwork}"/>                                
+                            </lightning:buttonGroup>                           
+                            <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Edit the Selected Item in Analytics Studio" iconName="utility:edit" onclick="{!c.handleEditAsset}"/>                                
+                            <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Clear" iconName="utility:clear" onclick="{!c.handleClearNetwork}"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>                    
+                </aura:set>
+                
+                <lightning:layout class="slds-border_top">
+                    <lightning:layoutItem flexibility="auto" size="2">
+                        <div class="slds-p-vertical_small slds-border_right slds-border_bottom">
+
+                            
+                            <div class="asset-tree-container">
+                                <c:tableauTree aura:id="tableau_tree"
+                                               selectedItem="{!v.selectedItem}"
+                                               assetId="{!v.assetId}"
+                                               assetType="{!v.assetType}"
+                                               asset="{!v.asset}"
+                                               />
+                                
+
+<!--
+                                <c:assetTree aura:id="analytics_tree"
+                                             
+                                             assetId="{!v.selectedAssetId}"
+                                             assetType="{!v.assetType}"
+                                             asset="{!v.asset}"
+                                             items="{!v.items}"
+                                             itemMaps="{!v.itemMaps}"
+                                             itemMap="{!v.itemMap}"
+                                             assetItemMap="{!v.assetItemMap}"
+                                             assetTypes="folders,dashboards,datasets,lenses,analyses"
+                                             pageSize="200"
+                                             />
+-->
+                            </div>
+                        </div>
+                        
+                    </lightning:layoutItem>                    
+                    
+                    
+                    
+                    
+                    
+                    <lightning:layoutItem flexibility="auto" size="10">           
+                        <div class="{!'asset-viewer' + (v.asset == null ? ' hide' : ' show')}">
+                            <c:tableauAssetViewer assetId="{!v.assetId}" assetType="{!v.assetType}" asset="{!v.asset}"/>
+                        </div>                        
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

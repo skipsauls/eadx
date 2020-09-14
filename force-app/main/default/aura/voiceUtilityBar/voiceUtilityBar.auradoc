@@ -1,0 +1,7 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="eadx:voiceUtilityBar" label="Label">
+		Blah blah blah
+        <h1>Testing</h1>
+	</aura:example>
+</aura:documentation>

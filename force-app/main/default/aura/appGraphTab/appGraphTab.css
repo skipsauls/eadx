@@ -1,0 +1,40 @@
+.THIS {
+}
+
+.THIS .mynetwork {
+    width: 100%;
+    height: 700px;
+}
+
+.THIS .vis-network:focus {
+    outline: 0 none;
+}
+
+.THIS .asset-explorer-container {
+    height: 600px;
+    overflow: hidden;
+}
+
+.THIS .asset-tree-container {
+    height: 600px;
+    overflow: auto;
+}
+
+.THIS .inspector-container {
+    overflow: hidden;
+    padding: 0;
+}
+
+.THIS .inspector {
+    height: 600px;
+    max-height: 600px;
+    overflow: auto;
+}
+
+.THIS .slds-tabs_default__item {
+
+}
+
+.THIS .slds-tabs_default__item svg.slds-icon_small {
+
+}

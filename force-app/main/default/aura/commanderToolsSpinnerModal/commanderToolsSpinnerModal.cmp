@@ -1,0 +1,7 @@
+<aura:component access="global">
+    <aura:attribute name="alternativeText" type="String" access="global"/>
+    <aura:attribute name="variant" type="String" access="global" default="brand"/>
+    <aura:attribute name="size" type="String" access="global" default="large"/>
+    <aura:attribute name="class" type="String" access="global"/>
+	<lightning:spinner aura:id="spinner" alternativeText="{!v.alternativeText}" variant="{!v.variant}" size="{!v.size}" class="{!v.class}"/> 	
+</aura:component>

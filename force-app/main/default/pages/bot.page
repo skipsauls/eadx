@@ -1,0 +1,25 @@
+<apex:page >
+
+
+<h1>Foo</h1>
+
+<a id="liveagent_button_online_573B0000000180f" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('573B0000000180f')">Test</a>
+
+<div id="liveagent_button_offline_573B0000000180f" style="display: none;">Test</div>
+
+<h1>Bar</h1>
+
+
+<script type='text/javascript' src='https://c.gla3-phx.gus.salesforce.com/content/g/js/43.0/deployment.js'></script>
+<script type='text/javascript'>
+liveagent.init('https://d.gla3-phx.gus.salesforce.com/chat', '572B000000010Ae', '00DB0000000CXZM');
+</script>
+
+<script type="text/javascript">
+if (!window._laq) { window._laq = []; }
+window._laq.push(function(){liveagent.showWhenOnline('573B0000000180f', document.getElementById('liveagent_button_online_573B0000000180f'));
+liveagent.showWhenOffline('573B0000000180f', document.getElementById('liveagent_button_offline_573B0000000180f'));
+});</script>
+
+
+</apex:page>

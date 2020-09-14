@@ -1,0 +1,44 @@
+.THIS {
+}
+
+.THIS .card {
+    min-width: 24rem;
+    min-height: 4rem;
+}
+
+.THIS .hide {
+    display: none;
+}
+
+.THIS .card .content {
+}
+
+.THIS img.einstein {
+	height: 6rem;
+    margin: 0 15px 0 0;
+    float: left;
+}
+
+.THIS .item {
+    white-space: nowrap;
+}
+
+.THIS .item button {
+    position: absolute;
+    right: 0;
+}
+
+.THIS .item.datasets .slds-icon.slds-icon-text-default {
+    stroke: #6060AA;
+    fill: #8080CC;
+}
+
+.THIS .item.dashboards .slds-icon.slds-icon-text-default {
+    stroke: #60AA60;
+    fill: #80CC80;
+}
+
+.THIS .item.lenses .slds-icon.slds-icon-text-default {
+    stroke: #AA6060;
+    fill: #CC8080;
+}

@@ -1,0 +1,12 @@
+.THIS.container {
+    border: 1px solid rgb(216, 221, 230);
+    padding: 8px;
+    min-width: 25em;
+    width: 100%;
+    overflow: auto;
+    margin: 5px auto;
+}
+
+.THIS listview-table-container {
+
+}

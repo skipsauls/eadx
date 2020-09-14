@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+
+    
+    <aura:attribute name="responseValue" type="Object"/>
+    <aura:attribute name="outValue" type="List" default="[]"/>
+    <wave:sdk aura:id="cComp"/>
+    <aura:handler event="wave:discoverResponse" action="{!c.discoveryResponse}"/>
+    
+    <br></br>
+    <h1> ------------- Describe Dashboard ----------- </h1>
+    <br></br>
+    <ui:inputText label="Enter Dashboard Id" aura:id="idTextBox" value="0FKR00000004NzzOAE" placeholder="Dashboard ID" />
+    <ui:button label="Describe Dashboard" press="{!c.describeDashboard}"/>
+    <ui:button label="Display Results" press="{!c.displayResults}"/>
+    <ui:button label="Discover Dashboard" press="{!c.discoverDash}"/>
+    
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <h1> ---- API Results ----- </h1>
+    <br></br>
+    <ui:outputTextArea aura:id="oTextArea" value="" />
+
+</aura:component>

@@ -1,0 +1,755 @@
+<apex:page standardStylesheets="false" sidebar="false" lightningStylesheets="true" showHeader="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <apex:slds />
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head></head>
+        <body>
+            <div id="outer" class="slds-scope">
+                <div class="slds-hide">
+                    <input id="speech-input" label="Command" type="text" value="view dashboard mortgage calculator" class="speech-input"/>
+                </div>
+                <div>
+                    <button class="slds-button slds-button_neutral slds-align_absolute-center" onclick="hide();">
+                        <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#unmuted')}"></use>
+                        </svg>
+                        Enable Speech
+                    </button>
+                </div>
+            </div>
+        </body>
+        <script>
+        
+        /*
+         * VF-Lightning communication 
+         */
+        
+        let lexOrigin = null;
+        let vfToken = null;
+        const params = window.location.search.replace(/\?/g, '').split('&');
+        let tokens = null;
+        
+        params.forEach(function(param) {
+            tokens = param.split('=');
+            if (tokens[0] === 't') {
+                vfToken = decodeURIComponent(tokens[1]);
+            } else if (tokens[0] === 'lexOrigin') {
+                lexOrigin = decodeURIComponent(tokens[1]);
+            }
+        });
+        
+        let vfOrigin = window.location.origin; //'{!URLFOR("/")}';
+        
+        //const lexOrigin = vfOrigin.replace('my.salesforce', 'lightning.force');
+        //let r = new RegExp('--' + "(.*)" + 'visual');                
+        //let lexOrigin = vfOrigin.replace(r, '.lightning');
+        console.warn('VF lexOrigin: ', lexOrigin);
+
+        sendToLC({vfOrigin: vfOrigin});
+
+        window.addEventListener("message", function(event) {
+            if (event.origin !== lexOrigin) {
+                // Not the expected origin: reject message!
+                return;
+            }
+            
+            // Handle message
+            //console.warn('VF received event.data: ', event.data);
+            
+            let payload = event.data;
+            if (payload.action) {
+                let actionName = payload.action;
+                let actionParams = payload.params || null;
+                let actionCallback = payload.callback || null;
+                try {
+                    window[actionName](actionParams, function(err, resp) {
+                        //console.warn(actionName + ' returned: ', err, resp);                                 
+                        // Send results back to Lightning
+                        if (actionCallback) {
+                            let responsePayload = {
+                                callback: actionCallback,
+                                error: err,
+                                response: resp
+                            };
+                            sendToLC(responsePayload);
+                        }
+                    });
+                } catch (e) {
+                    console.error('Exception: ', e);
+                }
+            }        
+        }, false);
+        
+        function sendToLC(payload) {
+            payload.vfToken = vfToken;
+            parent.postMessage(payload, lexOrigin);
+        }
+        
+        function hide() {
+            sendToLC({type: 'hide_vf_frame'});
+        }
+        
+        /*
+     * SpeechSynthesis
+     */
+        window.speechSynthesis.getVoices();
+        
+        let _voiceMap = {};
+        let _defaultVoiceName = null;
+        
+        /*
+     * SpeechRecognition
+     */
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition    
+        //console.warn('SpeechRecognition: ', SpeechRecognition);
+        let recognition = null;
+        
+        // Object for holding various values, roughly matches the conversation in a dialogflow
+        let state = {
+            user: {
+                storage: {}
+            },
+            data: {
+                commanderState: ''
+            }
+        };
+        
+        let speechInput = document.getElementById('speech-input');
+        
+        let recognitionCallback = null;
+        
+        if (SpeechRecognition) {    
+            
+            var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+            var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+            
+            recognition = new SpeechRecognition();
+            var speechRecognitionList = new SpeechGrammarList();
+            //speechRecognitionList.addFromString(grammar, 1);
+            recognition.grammars = speechRecognitionList;
+            //recognition.continuous = false;
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            
+            let inputs = document.querySelectorAll('.speech-input');
+            
+            inputs.forEach(function(input, i) {
+                input.webkitSpeech = true;
+            });
+            
+            recognition.onresult = function(event) {
+                //console.warn('onresult - event: ', event);
+                var last = event.results.length - 1;
+                var text = event.results[last][0].transcript;
+                //console.warn('text: ', text);
+                speechInput.value = text;
+                let params = {
+                    text: text
+                };
+                
+
+                let data = {
+                    phase: 'onresult',
+                    text: text
+                };
+                
+                let err = null;
+                
+                if (typeof recognitionCallback === 'function') {
+                    recognitionCallback(err, data);
+                }
+                /*
+                callCommander(params, function(err, data) {
+                    data.phase = 'onresult';
+                    console.warn('callCommander returned: ', err, data);
+                    if (typeof recognitionCallback === 'function') {
+                        recognitionCallback(err, data);
+                    }
+                });
+                */
+            }
+            
+            recognition.onspeechend = function() {
+                //console.warn('onspeechend - event: ', event);        
+                recognition.stop();
+                if (typeof recognitionCallback === 'function') {
+                    let data = {phase: 'onspeechend'};
+                    recognitionCallback(null, data);
+                }
+            }
+            
+            recognition.onnomatch = function(event) {
+                //console.warn('onnomatch - event: ', event);
+                var last = event.results.length - 1;
+                var text = event.results[last][0].transcript;
+                //console.warn('onnomatch - text: ', text);
+                //console.warn('onnomatch: I did not recognise that command.');
+                if (typeof recognitionCallback === 'function') {
+                    let data = {phase: 'onnomatch'};
+                    recognitionCallback(null, data);
+                }
+            }
+            
+            recognition.onerror = function(event) {
+                //console.warn('onerror - event: ', event);
+                if (typeof recognitionCallback === 'function') {
+                    let data = {phase: 'onerror'};
+                    recognitionCallback(null, data);
+                }
+            }
+            
+        }
+        
+        
+        function submit() {
+            let speechInput = document.getElementById('speech-input');
+            let text = speechInput.value;
+            callCommander(text, function(err, data) {
+                //console.warn('callCommander returned: ', err, data);
+            });
+        }
+        
+        function test() {
+            //console.warn('test');
+            
+            getCommanderActions(function(err, actions) {
+                console.warn('commander actions: ', actions);    
+                
+            });
+            
+        }
+        
+        // Get some basic information
+        (function setup() {
+            getApiVersion(function(err, apiVersion) {
+                //console.warn('getApiVersion returned: ', err, apiVersion);
+                state.user.storage.apiVersion = apiVersion;
+                getNamespacePrefix(function(err, namespacePrefix) {
+                    //console.warn('getNamespacePrefix returned: ', err, namespacePrefix);
+                    state.user.storage.namespacePrefix = namespacePrefix;
+                    getUserInfo(function(err, userInfo) {
+                        //console.warn('getUserInfo returned: ', err, userInfo);
+                        state.user.storage.userInfo = userInfo;
+                        
+                        //sendToLC({vfOrigin: vfOrigin});
+                        
+                    });
+                });
+            });
+        })();
+        
+        function getUserInfo(callback) {
+            let uri = 'https://login.salesforce.com/services/oauth2/userinfo';
+            let config = {
+                url: uri,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Chatter-Entity-Encoding': false
+                }
+            };
+            sendRequest(config, function(err, response) {
+                let userInfo = response.body;
+                if (typeof callback === 'function') {
+                    callback(err, userInfo);
+                }
+            });        
+        }
+        
+        function getApiVersion(callback) {
+            let uri = '/services/data';
+            let config = {
+                url: uri,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Chatter-Entity-Encoding': false
+                }
+            };
+            sendRequest(config, function(err, response) {
+                let versions = response.body;
+                let currentVersion = {
+                    label: null,
+                    url: null,
+                    version: '0.0'
+                };
+                versions.forEach(function(version) {
+                    if (version.version >= currentVersion.version) {
+                        currentVersion = version;
+                    }
+                });
+                
+                if (typeof callback === 'function') {
+                    callback(err, currentVersion);
+                }
+            });        
+        }
+        
+        function getNamespacePrefix(callback) {
+            let version = state.user.storage.apiVersion.version;
+            let uri = '/services/data/v' + version + '/query?q=SELECT+NamespacePrefix+FROM+Organization';
+            let config = {
+                url: uri,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Chatter-Entity-Encoding': false
+                }
+            };
+            
+            sendRequest(config, function(err, response) {
+                let namespacePrefix;
+                if (response.body.records && response.body.records.length > 0) {
+                    namespacePrefix = response.body.records[0].NamespacePrefix;
+                }
+                if (typeof callback === 'function') {
+                    callback(null, namespacePrefix);
+                }
+            });
+        }
+        
+        function getCommanderActions(callback) {
+            let version = state.user.storage.apiVersion.version;
+            let uri = '/services/data/v' + version + '/einstein-conduit/actions';
+            let config = {
+                url: uri,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Chatter-Entity-Encoding': false
+                }
+            };
+            
+            sendRequest(config, function(err, response) {
+                let actions = response.body;
+                if (typeof callback === 'function') {
+                    callback(null, actions);
+                }
+            });
+        }    
+        
+        function createCommandPlatformEvent(eventName, payload, callback) {
+            
+            let version = state.user.storage.apiVersion.version;
+            let nsp = state.user.storage.namespacePrefix || null;
+            let namespacePrefix = nsp ? nsp + '__' : '';
+            let uri = '/services/data/v' + version + '/sobjects/' + namespacePrefix + eventName + '__e';
+            
+            let postData = {};
+            postData[namespacePrefix + 'payload__c'] = payload ? JSON.stringify(payload) : null;
+            
+            let config = {
+                url: uri,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Chatter-Entity-Encoding': false
+                },
+                body: postData //JSON.stringify(postData)
+            };
+            
+            sendRequest(config, function(err, response) {
+                let data = response.body;
+                if (typeof callback === 'function') {
+                    callback(null, data);
+                }
+            });    
+        }    
+        
+        function executeCommand(data, callback) {
+            //console.warn('executeCommand - data: ', data);
+            
+            if (data.actions && data.actions.length > 0) {
+                var action = data.actions[0];
+                //console.warn('action: ', action);
+                if ("Ready" != action.request.status){
+                    // Can't execute request.
+                    var reasons = action.request.reasons;
+                    
+                    // Handle errors
+                    for (var i in reasons){
+                        //console.error('reason: ' + reasons[i] + " - " + action.searchInfo.intent.phrase);
+                    }
+                } else {
+                    //var request = action.request;
+                    // No need to do replace when using 'X-Chatter-Entity-Encoding': false
+                    var payload = action.request.payload; //.replace(/\&quot\;/g, '"');
+                    //console.warn('payload: ', payload);
+                    var postData = {
+                        payload: payload,
+                        token: action.request.token,
+                        state: state.data.commanderState || ''
+                    };
+                    //console.warn('postData: ', postData);
+                    //console.warn('uri: ', action.request.uri);
+                    
+                    let config = {
+                        url: action.request.uri,
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Chatter-Entity-Encoding': false
+                        },
+                        body: postData //JSON.stringify(postData)
+                    };
+                    
+                    sendRequest(config, function(err, response) {
+                        
+                        //console.warn('sendRequest returned: ', err, response);
+                        
+                        if (err) {
+                            if (typeof callback === 'function') {
+                                callback(err, null);
+                            }
+                            
+                        } else {
+                            let data = response.body;
+                            if (data.response && data.response.items && data.response.items.length > 0) {
+                                let item = data.response.items[0];
+                                //console.warn('item: ', item);
+                                //console.warn('state: ', state);
+                                //console.warn('state.data: ', state.data);
+                                //console.warn('state.data.commanderState: ', state.data.commanderState);
+                                
+                                state.data.commanderState = item.state;
+                                //console.warn('state.data.commanderState: ', state.data.commanderState);
+                            }
+                            
+                            if (typeof callback === 'function') {
+                                callback(null, data);
+                            }                        
+                        }
+                    });  
+                    
+                }
+            }
+        }
+        
+        /*
+     * Actions (Available to Lightning)
+     */
+        
+        function getVoices(params, callback) {
+            try {
+                let voices = window.speechSynthesis.getVoices();
+                let voiceArray = [];
+                //let voiceMap = {}; // Use the global _voiceMap
+                let v = null;
+                voices.forEach(function(voice) {
+                    v = {
+                        default: voice.default,
+                        lang: voice.lang,
+                        localService: voice.localService,
+                        name: voice.name,
+                        voiceURI: voice.voiceURI 
+                    };
+                    
+                    voiceArray.push(v);
+                    
+                    _voiceMap[voice.name] = voice;
+                    if (voice.default === true) {
+                        _defaultVoiceName = voice.name;
+                    }
+                });
+                if (typeof callback === 'function') {
+                    callback(null, {voices: voiceArray});
+                }
+            } catch(e) {
+                console.error('getVoices Exception: ', e);
+                if (typeof callback === 'function') {
+                    callback(e, null);
+                }
+            }            
+        }
+
+        function speak(params, callback) {
+            //console.warn('speak: ', params);
+            let msg = new SpeechSynthesisUtterance();
+            msg.lang = params.lang || 'en-US';
+            msg.text = params.text;
+            msg.voice = _voiceMap[params.voice || _defaultVoiceName] 
+            msg.addEventListener('start', function(event) {
+                //console.warn('speak start - event: ', event);
+            });
+            msg.addEventListener('error', function(event) {
+                console.error('speak error - event: ', event);
+                if (typeof callback === 'function') {
+                    callback(event.error, null);
+                }
+            });
+            msg.addEventListener('end', function(event) {
+                //console.warn('speak end - event: ', event);
+                if (typeof callback === 'function') {
+                    callback(null, {text: event.utterance.text});
+                }
+            });
+            
+            window.speechSynthesis.speak(msg);
+            
+        }
+        
+        function listen(params, callback) {
+            //console.warn('listen: ', params);
+            recognitionCallback = callback;
+            recognition.start();
+        }    
+        
+        function stopListening(params, callback) {
+            //console.warn('stopListening: ', params);
+            recognitionCallback = callback;
+            recognition.stop();
+        }    
+        
+        function callCommander(params, callback) {
+            console.warn('callCommander');
+            console.warn('params: ', params);
+            
+            let text = params.text;
+            console.warn('text: ', text);
+            
+            let commanderState = state.data.commanderState || '';
+            
+            let version = state.user.storage.apiVersion.version;
+            let uri = '/services/data/v' + version + '/einstein-conduit/actions/?filterGroup=Supplemental&limit=1&state=' + commanderState + '&q=' + escape(text);
+            console.warn('uri: ', uri);
+            
+            let config = {
+                url: uri,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Chatter-Entity-Encoding': false
+                }
+            };
+            
+            sendRequest(config, function(err, response) {
+                let data = response.body;
+                console.warn('commander returned data: ', JSON.stringify(data, null, 2));
+                
+                if (err) {
+                    console.warn('error: ', err);
+                    // Say something
+                    if (typeof callback === 'function') {
+                        callback({msg: 'No match', details: err}, null);
+                    }
+                } else {
+                    executeCommand(data, function(err, resp) {                
+                        let payload = resp;
+                        console.warn('executeCommand returned payload: ', payload);
+                        let action = payload.actions ? payload.actions[0] : payload.action;        
+                        
+                        let actionType = action.type;
+                        
+                        if (payload.response && payload.response.items && payload.response.items.length > 0) {
+                            state.data.commanderState = payload.response.items[0].state;
+                        }
+                        
+                        state.data.actionType = actionType;
+                        
+                        state.data.action = {
+                            type: actionType,
+                            itemKey: null,
+                            itemType: null,
+                            itemLabel: null,
+                            itemId: null,
+                            itemCount: 0,
+                            itemDef: null
+                        };
+                        
+                        // Trying something new to track the target of the action
+                        state.data.actionTarget = state.data.actionTarget || {
+                            itemKey: null,
+                            itemType: null,
+                            itemLabel: null,
+                            itemId: null,
+                            itemDef: null
+                        };
+                        
+                        // Send the entire payload to Lightning
+                        state.data.payload = payload;
+                        
+                        switch (actionType) {
+                            case "ViewSobjectType":
+                                state.data.action.itemType = 'sobject';
+                                state.data.action.itemKey = 'sobjects';
+                                state.data.action.itemCount = payload.response.sobjects.length;
+                                if (state.data.action.itemCount > 0) {
+                                    state.data.action.itemLabel = payload.response.sobjects[0].name || null;
+                                    state.data.action.itemId = payload.response.sobjects[0].id || null;
+                                }
+                                
+                                // New - Only set for the actionable types like dashboards and sobject
+                                state.data.actionTarget.itemType = 'sobject';
+                                state.data.actionTarget.itemKey = 'sobjects';
+                                if (payload.response.sobjects.length > 0) {
+                                    state.data.actionTarget.itemLabel = payload.response.sobjects[0].label || null;
+                                    state.data.actionTarget.itemId = payload.response.sobjects[0].id || null;
+                                }
+                                
+                                break;
+                            case "ViewAnalyticsDashboard":
+                                state.data.action.itemType = 'dashboard';
+                                state.data.action.itemKey = 'dashboards';
+                                state.data.action.itemCount = payload.response.items.length;
+                                if (state.data.action.itemCount > 0) {
+                                    state.data.action.itemLabel = payload.response.items[0].label || null;
+                                    state.data.action.itemId = payload.response.items[0].id || null;
+                                }
+                                
+                                // New - Only set for the actionable types like dashboards and sobject
+                                state.data.actionTarget.itemType = 'dashboard';
+                                state.data.actionTarget.itemKey = 'dashboards';
+                                if (payload.response.items.length > 0) {
+                                    state.data.actionTarget.itemLabel = payload.response.items[0].label || null;
+                                    state.data.actionTarget.itemId = payload.response.items[0].id || null;
+                                }
+                                
+                                
+                                break;
+                            case "AnalyticsDashboardUpdatePage":
+                                state.data.action.itemType = 'page';
+                                state.data.action.itemKey = 'pages';
+                                state.data.action.itemCount = payload.response.items.length;
+                                if (state.data.action.itemCount > 0) {
+                                    state.data.action.itemLabel = payload.response.items[0].label || null;
+                                    state.data.action.itemId = payload.response.items[0].id || null;
+                                }
+                                break;
+                            case "InvocableActionApex":
+                                state.data.action.itemType = 'actionResult';
+                                state.data.action.itemKey = 'actionResults';
+                                state.data.action.target = payload.action.target;
+                                state.data.action.itemCount = payload.response.actionResults.length;
+                                if (state.data.action.itemCount > 0) {
+                                    state.data.action.itemLabel = payload.response.actionResults[0].label || null;
+                                    state.data.action.itemId = payload.response.actionResults[0].id || null;
+                                }
+                                break;
+                        }
+                        
+                        console.warn('state.data: ', state.data);
+                        
+                        createCommandPlatformEvent('Command', resp, function(err, peResp) {
+                            console.warn('createCommandPlatformEvent returned: ', err, peResp);
+                            if (err) {
+                                console.error('createCommandPlatformEvent error: ', err);
+                                if (typeof callback === 'function') {
+                                    callback(err, {msg: 'Error', text: text});
+                                }
+                            } else {
+                                if (typeof callback === 'function') {
+                                    callback(null, {msg: 'Success', text: text, action: state.data.action, payload: state.data.payload});
+                                }
+                            }
+                        });            
+                    });
+                }
+            });
+        }    
+        
+        function createRequest() {
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            return xhr;
+        }            
+        
+        function sendRequest(config, callback) {
+            //console.warn('sendRequest: ', config);
+            var req = createRequest();
+            
+            req.onreadystatechange = function() {
+                if (req.readyState != 4) {
+                    return;
+                }
+                
+                var response = {};
+                
+                if (req.status < 200 || req.status > 299) {
+                    response = {
+                        status: req.status,
+                        statusText: req.statusText,
+                        body: req.response,
+                        type: req.responseType,                    
+                        headers: req.getAllResponseHeaders(),
+                        config: config
+                    };
+                } else {                
+                    response = {
+                        status: req.status,
+                        statusText: req.statusText,
+                        body: req.response,
+                        type: req.responseType,
+                        headers: req.getAllResponseHeaders(),
+                        config: config
+                    };
+                }
+                
+                if (req.responseType === "xml") {
+                    response.xml = req.responseXML;
+                }
+                
+                if (typeof callback === 'function') {
+                    callback(null, response);
+                }
+            }
+            
+            //console.warn('config.url: ', config.url);
+            
+            if (config.url.indexOf("http") < 0) {
+                req.open(config.method, config.url, true);
+                // Set the Authorization header for local calls
+                req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+                
+            } else {
+                // Use the proxy
+                req.open(config.method, UserContext.siteUrlPrefix + "/services/proxy", true);
+                
+                //req.open(config.method, "https://adx-dev-ed.my.salesforce.com/services/proxy", true);
+                
+                // Set the endpoint accordingly for using the proxy
+                req.setRequestHeader("SalesforceProxy-Endpoint", config.url);
+                
+                req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+                
+            }
+            
+            
+            if (config.headers) {
+                for (var key in config.headers) {
+                    req.setRequestHeader(key, config.headers[key]);
+                }
+            }
+            
+            // Not necessary when using proxy?
+            //req.setRequestHeader("Access-Control-Allow-Origin", "*");
+            
+            /*        
+        req.setRequestHeader("Content-Type", "application/json");
+        
+        req.setRequestHeader("Accept", config.responseType || "application/json");
+        */
+        
+        if (config.method !== "POST") {
+            req.responseType = config.responseType || "json";
+        }
+        req.responseType = config.responseType || "json";
+        
+        if (config.method === "POST") {
+            //console.warn('POSTING config.body: ', config.body);
+            //console.warn('POSTING config.body: ', JSON.stringify(config.body, null, 2));
+            req.send(JSON.stringify(config.body));
+        } else {
+            req.send();
+        }        
+    }
+        
+        
+        </script>
+        
+    </html>    
+    
+</apex:page>

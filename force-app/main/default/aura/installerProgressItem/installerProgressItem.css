@@ -1,0 +1,14 @@
+.THIS {
+}
+
+.THIS .incomplete svg {
+    fill: #A0A0A0;
+}
+
+.THIS .complete svg {
+    fill: #006fd2;    
+}
+
+.THIS .failed svg {
+    fill: #FF0000;    
+}

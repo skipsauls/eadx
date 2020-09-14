@@ -1,0 +1,258 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="eadlMonitorController">
+	
+    <aura:attribute name="timeout" type="Integer" access="global" default="3000"/>
+    <aura:attribute name="timer" type="Object"/>
+    
+    <aura:attribute name="previousStatusJson" type="String" access="global" default=""/>    
+
+    <aura:attribute name="requestKeyField" type="String" access="global" default="Id"/>
+    <aura:attribute name="requestColumns" type="List" access="global"/>    
+    <aura:attribute name="requestData" type="Object[]" access="global"/>
+    <aura:attribute name="requestSelectedRows" type="List" access="global"/>
+
+    <aura:attribute name="templateKeyField" type="String" access="global" default="Id"/>
+    <aura:attribute name="templateColumns" type="List" access="global"/>    
+    <aura:attribute name="templateData" type="Object[]" access="global"/>
+    <aura:attribute name="templateSelectedRows" type="List" access="global"/>
+
+    <aura:attribute name="appKeyField" type="String" access="global" default="Id"/>
+    <aura:attribute name="appColumns" type="List" access="global"/>    
+    <aura:attribute name="appData" type="Object[]" access="global"/>
+    <aura:attribute name="appSelectedRows" type="List" access="global"/>
+
+    <aura:attribute name="requestAutoUpdate" type="Boolean" access="global" default="false"/>
+    
+    <aura:attribute name="selectedTabId" type="String" access="GLOBAL" description="The id of the selectd tab. May be null."/>
+    
+    <aura:attribute name="selectedAsset" type="Object" access="global"/>
+    <aura:attribute name="selectedAssetJson" type="String" access="global"/>
+    <aura:attribute name="selectedAssetDashboards" type="Object[]" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+	<aura:handler name="change" value="{!v.requestAutoUpdate}" action="{!c.handleRequestAutoUpdateChange}"/>
+    
+    <lightning:empApi aura:id="empApi"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <lightning:layout>
+        
+        <lightning:layoutItem flexibility="auto" size="8">
+            <lightning:tabset selectedTabId="{!v.selectedTabId}">
+                
+                <lightning:tab label="Apps" id="Apps_Tab" class="slds-p-top_none">
+
+                    <lightning:layout horizontalAlign="spread" verticalAlign="start" pullToBoundary="small">
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                            <lightning:buttonGroup class="">
+                                <lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{!c.handleRefreshApps}" alternativeText="Refresh Apps" title="Refresh Apps"/>
+                            </lightning:buttonGroup>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    
+                    <lightning:layout horizontalAlign="spread" verticalAlign="start">
+                        <lightning:layoutItem size="12">                    
+                            <lightning:datatable aura:id="datatable"
+                                                 class="slds-m-around_x-small"
+                                                 columns="{!v.appColumns}" 
+                                                 data="{!v.appData}" 
+                                                 keyField="{!v.appKeyField}"
+                                                 selectedRows="{!v.appSelectedRows}"
+                                                 onrowselection="{!c.handleAppRowSelection}"
+                                                 onrowaction="{!c.handleAppRowAction}"
+                                                 hideCheckboxColumn="false"
+                                                 maxRowSelection="1"                                                 
+                                                 />
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                </lightning:tab>
+                
+                <lightning:tab label="Templates" id="Templates_Tab" class="slds-p-top_none">
+                    
+                    <lightning:layout horizontalAlign="spread" verticalAlign="start" pullToBoundary="small">
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                            <lightning:buttonGroup class="">
+                                <lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{!c.handleRefreshTemplates}" alternativeText="Refresh Templates" title="Refresh Templates"/>
+                            </lightning:buttonGroup>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    
+                    <lightning:layout horizontalAlign="spread" verticalAlign="start">
+                        <lightning:layoutItem size="12">
+                            
+                            <lightning:datatable aura:id="datatable"
+                                                 class="slds-m-around_xx-small"
+                                                 columns="{!v.templateColumns}" 
+                                                 data="{!v.templateData}" 
+                                                 keyField="{!v.templateKeyField}"
+                                                 selectedRows="{!v.templateSelectedRows}"
+                                                 onrowselection="{!c.handleTemplateRowSelection}"
+                                                 onrowaction="{!c.handleTemplateRowAction}"
+                                                 hideCheckboxColumn="false"
+                                                 maxRowSelection="1"
+                                                 />
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:tab>
+                
+                <lightning:tab label="Requests" id="Requests_Tab"  class="slds-p-top_xx-small">
+                    
+                    <lightning:layout horizontalAlign="spread" verticalAlign="start" pullToBoundary="small">
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                            <lightning:buttonGroup class="">
+                                <lightning:input type="toggle"
+                                                 label="Auto Update"
+                                                 name="request_auto_update"
+                                                 checked="{!v.requestAutoUpdate}"
+                                                 messageToggleActive=""
+                                                 messageToggleInactive=""
+                                                 class="slds-p-horizontal_x-small"
+                                                 />
+                                <lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{!c.handleRefreshRequests}" alternativeText="Refresh Requests" title="Refresh Requests"/>
+                            </lightning:buttonGroup>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    
+                    <lightning:layout horizontalAlign="spread" verticalAlign="start">
+                        <lightning:layoutItem size="12">
+                            
+                            <lightning:datatable aura:id="datatable"
+                                                 class="slds-m-around_x-small"
+                                                 columns="{!v.requestColumns}" 
+                                                 data="{!v.requestData}" 
+                                                 keyField="{!v.requestKeyField}"
+                                                 selectedRows="{!v.requestSelectedRows}"
+                                                 onrowselection="{!c.handleRequestRowSelection}"
+                                                 onrowaction="{!c.handleRequestRowAction}"
+                                                 hideCheckboxColumn="false"
+                                                 maxRowSelection="1"                                                 
+                                                 />
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    
+                </lightning:tab>
+            </lightning:tabset>
+            
+        </lightning:layoutItem>
+        
+        
+        <lightning:layoutItem flexibility="auto" size="4">
+            <aura:if isTrue="{!v.selectedAsset != null}">
+                <lightning:card title="{!v.selectedAsset.Name || v.selectedAsset.MasterLabel}" class="slds-m-left_x-small">
+                    <lightning:tabset>
+                
+                        <lightning:tab label="Info" id="Info_Tab" class="slds-p-top_none">
+
+                            <lightning:tile label="{!v.selectedAsset.Name || v.selectedAsset.MasterLabel}" class="slds-m-around_x-small" href="/path/to/somewhere">
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="{!'standard:' + v.selectedAsset.Icon}"/>
+                                </aura:set>
+                                <dl class="slds-dl_horizontal">
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Master Label">Master Label:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!v.selectedAsset.Name || v.selectedAsset.MasterLabel}">{!v.selectedAsset.Name || v.selectedAsset.MasterLabel}</p>
+                                    </dd>
+                                    
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Namespace Prefix">Namespace Prefix:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!v.selectedAsset.NamespacePrefix}">{!v.selectedAsset.NamespacePrefix}</p>
+                                    </dd>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Developer Name">Developer Name:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!v.selectedAsset.DeveloperName}">{!v.selectedAsset.DeveloperName}</p>
+                                    </dd>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="ID">ID:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!v.selectedAsset.Id}">{!v.selectedAsset.Id}</p>
+                                    </dd>
+                                </dl>
+                                
+                            </lightning:tile>
+                            
+                        </lightning:tab>
+
+                        <aura:if isTrue="{!v.selectedAssetDashboards != null}">
+                            <lightning:tab label="Dashboards" id="Dashboards_Tab" class="slds-p-top_none">
+                                <ul class="slds-has-dividers_bottom-space">
+                                    <aura:iteration items="{!v.selectedAssetDashboards}" var="dashboard" indexVar="idx">
+                                        <li class="slds-item">
+
+                                            <lightning:tile label="{!'Dashboard: ' + dashboard.MasterLabel}">
+                                                <aura:set attribute="media">
+                                                    <lightning:icon iconName="standard:dashboard_ea"/>
+                                                </aura:set>
+                                                <dl class="slds-dl_horizontal">
+                                                    <dt class="slds-dl_horizontal__label">
+                                                        <p class="slds-truncate" title="Master Label">Master Label:</p>
+                                                    </dt>
+                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                        <p class="slds-truncate" title="{!dashboard.MasterLabel}">{!dashboard.MasterLabel}</p>
+                                                    </dd>
+                                                    <dt class="slds-dl_horizontal__label">
+                                                        <p class="slds-truncate" title="Namespace Prefix">Namespace Prefix:</p>
+                                                    </dt>
+                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                        <p class="slds-truncate" title="{!dashboard.NamespacePrefix}">{!dashboard.NamespacePrefix}</p>
+                                                    </dd>
+                                                    <dt class="slds-dl_horizontal__label">
+                                                        <p class="slds-truncate" title="Developer Name">Developer Name:</p>
+                                                    </dt>
+                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                        <p class="slds-truncate" title="{!dashboard.DeveloperName}">{!dashboard.DeveloperName}</p>
+                                                    </dd>
+                                                    <dt class="slds-dl_horizontal__label">
+                                                        <p class="slds-truncate" title="ID">ID:</p>
+                                                    </dt>
+                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                        <p class="slds-truncate" title="{!dashboard.Id}">{!dashboard.Id}</p>
+                                                    </dd>
+                                                    <dt class="slds-m-vertical_small slds-align_absolute-center">
+                                                        <lightning:button label="Test Dashboard" onclick="{!c.handleDashboardTest}" value="{!idx}"/>
+                                                    </dt>
+                                                </dl>
+                                            </lightning:tile>                                        
+                                        
+                                        </li>
+                                    </aura:iteration>
+                                </ul>                                                      
+                            </lightning:tab>
+                        </aura:if>
+
+                        <lightning:tab label="JSON" id="Json_Tab" class="slds-p-top_none">
+
+                            <lightning:textarea aura:id="selected_asset_json" value="{!v.selectedAssetJson}" class="json-view"/>
+                            
+                        </lightning:tab>
+                        
+                    </lightning:tabset>
+<!--
+                    <lightning:button label="Get Auto-Install Requests" onclick="{!c.getAutoInstallRequests}"/>
+                
+                    <lightning:button label="Get Embedded App Templates" onclick="{!c.getEmbeddedAppTemplates}"/>
+-->                
+                </lightning:card>            
+            </aura:if>
+        </lightning:layoutItem>
+        
+    </lightning:layout>
+    
+</aura:component>

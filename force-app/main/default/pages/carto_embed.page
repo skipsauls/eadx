@@ -1,0 +1,13 @@
+<apex:page >
+<style>
+    iframe {
+        width: 100%;
+        height: 700px;
+    }
+    
+</style>
+
+<iframe src="https://carto-dev-ed--c.eu9.visual.force.com/apex/carto_demo"/>
+
+
+</apex:page>

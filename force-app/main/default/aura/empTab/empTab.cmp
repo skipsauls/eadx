@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="topic" type="String" access="global"/>
+    <aura:attribute name="subscription" type="Object" access="global"/>
+    
+    <lightning:empApi aura:id="empApi"/>
+    
+    <lightning:input type="text" label="Channel" value="{!v.topic}"/>
+    <lightning:button label="Subscribe" onclick="{!c.handleSubscribe}"/>	
+</aura:component>

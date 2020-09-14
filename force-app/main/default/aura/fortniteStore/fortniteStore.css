@@ -1,0 +1,117 @@
+.THIS {
+}
+
+.THIS.main {
+    background: transparent;
+}
+
+.THIS .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    color: #FFFFFF;
+	text-shadow:
+		-1px -1px 0 #222222,
+		1px -1px 0 #222222,
+		-1px 1px 0 #222222,
+		1px 1px 0 #222222;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    border-image-slice: 20;
+	background-image: linear-gradient(to bottom, rgba(240, 240, 255, 0.5) 0%, rgba(240, 240, 255, 0.5) 49%, rgba(240, 240, 255, 0.5) 100%);    
+}
+
+.THIS .store-item {
+    background: green;
+    width: 100%;
+    min-height: 200px;
+    height: 100%;
+    line-height: 1rem;
+    vertical-align: middle;
+    text-align: center;
+	display: table-cell;
+    position: relative;
+    border: 3px solid yellow;
+    border-radius: 5px;
+	border-width: 4px;
+    border-style: solid;
+    border-image-slice: 20;
+    border-image-source: linear-gradient(25deg,#008a09 15%,#9eef00);    
+}
+
+.THIS .store-item img {
+    margin: auto;
+    display: block;
+}
+
+.THIS .store-item .name {
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    color: #FFFFFF;
+	text-shadow:
+		-1px -1px 0 #222222,
+		1px -1px 0 #222222,
+		-1px 1px 0 #222222,
+		1px 1px 0 #222222;
+    position: absolute;
+    bottom: 1.8rem;
+    width: 100%;
+    font-size: 1.6rem;
+    height: 3.0rem;
+    line-height: 3.0rem;
+    vertical-align: middle;    
+    background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.4), rgba(60, 60, 60, 0.4) 100%);
+}
+
+.THIS .store-item .vBucks {
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #FFFFFF;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background: #000000;
+    font-size: 1.2rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    vertical-align: middle;
+}
+
+.THIS .store-item .vBucks img {
+    height: 1.4rem;
+    line-height: 1.4rem;
+    display: inline-block;
+    margin-right: 3px;
+    vertical-align: middle;
+}
+
+.THIS .store-item.uncommon {
+    border-image-source: linear-gradient(25deg,#008a09 15%,#9eef00);
+    background-image: radial-gradient(#5bad03 0%,#01700a 100%);
+}
+
+.THIS .store-item.rare {
+    border-image-source: linear-gradient(25deg,#0063c5 15%,#00efec);
+    background-image: radial-gradient(#3dc7ff 0%,#0059a1 100%);
+    
+}
+
+.THIS .store-item.epic {
+    border-image-source: linear-gradient(25deg,#8037d7 15%,#df2cef);
+    background-image: radial-gradient(#d27bf4 0%,#7907a5 100%);
+}
+
+.THIS .store-item.legendary {
+    border-image-source: linear-gradient(25deg,#df7241 15%,#f6c87c);
+    background-image: radial-gradient(#fb9625 0%,#875134 100%);
+}
+
+.THIS .store-item.Quality {
+    border-image-source: linear-gradient(25deg,#8037d7 15%,#df2cef);
+    background-image: radial-gradient(#d27bf4 0%,#7907a5 100%);
+}
+
+.THIS .store-item.Fine {
+    border-image-source: linear-gradient(25deg,#df7241 15%,#f6c87c);
+    background-image: radial-gradient(#fb9625 0%,#875134 100%);
+}

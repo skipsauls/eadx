@@ -1,0 +1,35 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" >
+    <aura:attribute name="analysisId" type="String" access="GLOBAL" description="The id of the analysis"/>
+    <aura:attribute name="analysis" type="Object" access="GLOBAL" description="The analysis object"/>
+    <aura:attribute name="analysisDetails" type="Object" access="GLOBAL" description="The analysis details object"/>
+    <aura:attribute name="inputProfile" type="Object" access="GLOBAL" description="The input profile object returned from API call"/>
+    <aura:attribute name="story" type="Object" access="GLOBAL" description="The story generated from API call"/>
+    <aura:attribute name="items" type="Object" access="global"/>
+    <aura:attribute name="itemMap" type="Object" access="global"/>
+    
+    <aura:attribute name="insight" type="Object" access="global"/>
+    
+    <aura:handler name="change" value="{!v.analysisId}" action="{!c.handleAnalysisIdChange}"/>
+    <aura:handler name="change" value="{!v.analysis}" action="{!c.handleAnalysisChange}"/>
+    <aura:handler name="change" value="{!v.analysisDetails}" action="{!c.handleAnalysisDetailsChange}"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="main">
+        <div class="container">
+            <div aura:id="analysis" class="analysis-container"></div>
+            
+            <lightning:layout>
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="3">  
+                    <lightning:tree items="{!v.items}" onselect="{!c.handleTreeItemSelect}" class="analytics-resource-tree"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="8">
+                    
+                    <c:analyticsNarrative insight="{!v.insight}"/>
+
+                </lightning:layoutItem>
+            </lightning:layout>            
+        </div>
+    </div>    
+    
+</aura:component>

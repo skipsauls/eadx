@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global" >
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="title" type="String" access="global" default="Analytics Magic"/>
+    <aura:attribute name="iconName" type="String" access="global" default="utility:magicwand"/>        
+    <aura:attribute name="config" type="String" access="global"/>
+    <aura:attribute name="configId" type="String" access="global" default=""/>
+    <aura:attribute name="configName" type="String" access="global" required="true" default=""/>
+    <aura:attribute name="layoutType" type="String" default="FULL" access="global"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>    
+    <aura:attribute name="recordError" type="String"/>    
+    <aura:attribute name="sObjectName" type="String" access="global"/>
+    <aura:attribute name="isList" type="Boolean" access="global" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.handleRecordIdChange}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="outer slds-clearfix slds-card">
+        <!--
+        <h1>Analytics Magic</h1>
+        <h1>config: {!v.config}</h1>
+        <h1>configId: {!v.configId}</h1>
+        <h1>configName: {!v.configName}</h1>
+		-->
+        
+	    <lightning:flow aura:id="flowData" onstatuschange="{!c.handleFlowStatusChange}"/>
+        <!--
+        <c:analyticsMagicConfigureDashboard/>
+		-->
+    </div>    
+    
+</aura:component>

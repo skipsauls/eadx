@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="dashboards" type="Object[]" access="global"/>
+    <aura:attribute name="foo" type="String[]" access="global" default="a,b,c,d"/>
+    <aura:attribute name="bar" type="String" access="global" default="BAR"/>
+    <aura:attribute name="baz" type="String" access="private" default="BAZ"/>
+    
+    <h1>{!v.bar}</h1>
+    <h1>{!v.baz}</h1>
+    <lightning:button label="Test" onclick="{!c.doTest}"/>
+    <wave:sdk aura:id="sdk"/>
+    <ul>
+        <aura:iteration items="{!v.foo}" var="item">
+            <li>{!item}</li>
+        </aura:iteration>
+    </ul>
+    <ul>
+        <aura:iteration items="{!v.dashboards}" var="dashboard">
+            <li>{!dashboard.name}</li>
+        </aura:iteration>
+    </ul>
+    
+</aura:component>

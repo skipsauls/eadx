@@ -1,0 +1,25 @@
+.THIS {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    height: 1080px;
+}
+
+.THIS .dashboard-outer {
+    opacity: 1;
+	transition: opacity 3s ease;    
+}
+
+.THIS .dashboard-outer.fadeout {
+	transition-duration: 0.5s;    
+    opacity: 0;
+}
+
+.THIS .dashboard-outer.fadein {
+	transition-duration: 4s;
+    opacity: 1;
+}
+
+.THIS .dashboard-outer.hidden {
+    display: none;
+}

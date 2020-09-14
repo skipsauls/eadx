@@ -1,0 +1,24 @@
+.THIS {
+    overflow: hidden;    
+}
+
+.THIS.outer {
+    height: 45rem;
+    overflow: hidden;
+}
+
+.THIS .card.start {
+	text-align: center;    
+}
+
+.THIS .image img {
+    height: 105px;
+}
+
+.THIS .label {
+    font-weight: bold;
+}
+
+.THIS .main {
+    height: 34rem;
+}

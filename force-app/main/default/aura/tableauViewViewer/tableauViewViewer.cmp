@@ -1,0 +1,82 @@
+<aura:component access="global">
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="asset" type="Object" access="global"/>
+    
+    <aura:attribute name="fields" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="results" type="Object[]"/>
+    <aura:attribute name="resultColumns" type="List"/>
+    <aura:attribute name="resultSortedBy" type="String"/>
+    <aura:attribute name="resultSortedDirection" type="String"/>    
+    <aura:attribute name="resultDefaultSortDirection" type="String" default="asc"/>
+
+    <aura:attribute name="closeAction" type="String" access="global"/>
+    <aura:attribute name="datasetName" type="String" access="global"/>
+    <aura:attribute name="folderDeveloperName" type="String" access="global"/>
+    
+    <aura:attribute name="toolbarAction" type="String" access="GLOBAL" description="The action for views to handle."/>
+
+
+    <aura:attribute name="vizUrl" type="String" access="global" default="https://us-west-2b.online.tableau.com/t/eadx/views/lo_demo/Product?:retry=yes&amp;:showAppBanner=false&amp;:display_count=n&amp;:showVizHome=n&amp;:origin=viz_share_link"/>
+
+    <aura:attribute name="marks" type="Object" access="global"/>
+    <aura:attribute name="objectApiName" type="String" access="global"/>
+    
+    <aura:handler name="change" value="{!v.asset}" action="{!c.handleViewChange}"/>
+    <aura:handler name="change" value="{!v.toolbarAction}" action="{!c.handleToolbarAction}"/>
+    <aura:handler name="change" value="{!v.marks}" action="{!c.handleMarksChange}"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <div class="outer">
+
+        <div class="">
+            <lightning:spinner aura:id="result_spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide"/>
+            
+            <c:tableauViz aura:id="viz"
+                          vizURL="{!v.vizUrl}"
+                          height="600"
+                          hideTabs="false"
+                          hideToolbar="true"
+                          marks="{!v.marks}"
+                          onmarks_selection="{!c.handleOnMarksSelection}"
+                          onfilter_change="{!c.handleOnFilterChange}"
+                          onparameter_value_change="{!c.handleOnParameterValueChange}"
+                          />
+
+
+<!--           
+            <lightning:tabset>                    
+                <lightning:tab label="Viz" id="Viz_Tab">
+                    <div class="panel viewer slds-m-horizontal_small">
+                        <c:tableauViz aura:id="viz"
+                                      vizURL="{!v.vizUrl}"
+                                      height="600"
+                                      hideTabs="false"
+                                      hideToolbar="true"
+                                      marks="{!v.marks}"/>
+                    </div>
+                </lightning:tab>
+                <lightning:tab label="Table" id="Table_Tab">
+                    <div class="panel viewer slds-m-horizontal_small">
+                        <c:tableauDatatable data="{!v.results}" 
+                                            columns="{!v.resultColumns}" 
+                                            keyField="id"
+                                            sortedBy="{!v.resultSortedBy}"
+                                            sortedDirection="{!v.resultSortedDirection}"
+                                            defaultSortDirection="{!v.resultDefaultSortDirection}"
+                                            showRowNumberColumn="false"
+                                            hideCheckboxColumn="true"
+                                            view="{!v.asset}"
+                                            />
+                    </div>
+                </lightning:tab>
+            </lightning:tabset>
+--> 
+
+
+        </div>
+    </div>
+</aura:component>

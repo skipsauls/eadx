@@ -1,0 +1,112 @@
+{
+  "constants":[
+    {"name": "LoanTermYears", "value": "10"},
+    {"name": "AnnualPercentageRate", "value": "3.5"},
+    {"name": "FinancingAmount", "value": "100000"},
+    {"name": "InteractiveMode", "value": "false"}
+  ],
+  "rules": [
+    {
+      "name": "GeneratePaymentScheduleStep",
+      "appliesTo": [
+        {
+          "type": "dashboard"
+        }
+      ],
+      "actions": [
+        {
+          "action": "eval",
+          "key": "LoanTermsInMonths",
+          "value": "${Constants.LoanTermYears*12}"
+        },
+        {
+          "action": "eval",
+          "key": "MPR",
+          "value": "${(Constants.AnnualPercentageRate/100)/12}"
+        },
+        {
+          "description": "Calculate the monthly payment for the loan.",
+          "action": "eval",
+          "key": "MonthlyPayment",
+          "value": "${math:round(Constants.FinancingAmount * Rules.Eval.MPR/(1-1/math:pow(1+Rules.Eval.MPR, Rules.Eval.LoanTermsInMonths)), 2)}"
+        },
+        {
+          "action": "delete",
+          "description": "Delete static payment schedule step, if it exists.",
+          "path": "$.state.steps.Monthly_Payments"
+        },
+        {
+          "action": "put",
+          "description": "Add the payment schedule back in.",
+          "path": "$.state.steps",
+          "key": "Monthly_Payments",
+          "value": {
+            "broadcastFacet": true,
+            "label": "Monthly Payments",
+            "selectMode": "single",
+            "type": "staticflex",
+            "values": []
+          }
+        },
+        {
+          "action": "put",
+          "description": "Add the payment schedule back in.",
+          "path": "$.state.steps",
+          "key": "Loan_Summary",
+          "value": {
+            "broadcastFacet": true,
+            "label": "Loan Summary",
+            "selectMode": "single",
+            "type": "staticflex",
+            "values": [
+              {
+                "Loan Amount": "${Constants.FinancingAmount}",
+                "Number of Years": "${Constants.LoanTermYears}",
+                "APR": "${Constants.AnnualPercentageRate}",
+                "Total Interest Paid": 0,
+                "Total Principal Paid": 0
+              }
+            ]
+          }
+        },
+        { 
+        		"action": "eval", 
+        		"value": "${array:forEachIndex(1,Constants.LoanTermYears*12, '${mort_calc:constructAmortizedScheduleItem(index, Rules.Eval.MonthlyPayment, Constants.FinancingAmount, Rules.Eval.MPR, Rules.Eval.LoanTermsInMonths)}')}"
+    		},
+        {
+            "action": "put",
+            "path": "$.state.steps.Monthly_Payments",
+            "key": "strings",
+            "value" : ["Payment","Balance"] 
+    		},
+        {
+            "action": "put",
+            "path": "$.state.steps.Monthly_Payments",
+            "key": "numbers",
+            "value" : ["Interest","Principal", "Total"] 
+    		},
+        {
+            "action": "put",
+            "path": "$.state.steps.Monthly_Payments",
+            "key": "groups",
+            "value" : ["Payment"] 
+    		},
+        {
+          "action": "set",
+          "path": "$.state..loan_amount_param.parameters.content.displayTemplate",
+          "value" : "${Constants.FinancingAmount}"
+        },
+        {
+          "action": "set",
+          "path": "$.state..annual_percentage_rate.parameters.content.displayTemplate",
+          "value" : "${Constants.AnnualPercentageRate}"
+        },
+        {
+          "action": "set",
+          "path": "$.state..loan_term.parameters.content.displayTemplate",
+          "value" : "${Constants.LoanTermYears}"
+        }
+      ]
+    }
+  ]
+}

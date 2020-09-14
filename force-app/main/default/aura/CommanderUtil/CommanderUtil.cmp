@@ -1,0 +1,27 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="CommanderUtilController">
+    
+    <lightning:button label="List Command Intents" onclick="{!c.refreshCommandActionIntents}"/>
+    
+    
+    <lightning:tabset>
+        <lightning:tab label="Command Actions">
+           <c:CommanderUtilListview sObjectName="CommandAction"/>
+        </lightning:tab>
+        <lightning:tab label="Command Action Intents">
+            <c:CommanderUtilListview sObjectName="CommandActionIntent"/>
+        </lightning:tab>
+        <lightning:tab label="Command Action Params">
+            <c:CommanderUtilListview sObjectName="CommandActionParam"/>
+        </lightning:tab>
+        <lightning:tab label="Command Intent Params">
+            <c:CommanderUtilListview sObjectName="CommandIntentParam"/>
+        </lightning:tab>
+        <lightning:tab label="Command Intent Fragments">
+            <c:CommanderUtilListview sObjectName="CommandIntentFragment"/>
+        </lightning:tab>
+        <lightning:tab label="Command Word Fragments">
+            <c:CommanderUtilListview sObjectName="CommandWordFragment"/>
+        </lightning:tab>
+    </lightning:tabset>
+
+</aura:component>

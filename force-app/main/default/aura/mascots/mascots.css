@@ -1,0 +1,17 @@
+.THIS {
+}
+
+.THIS.main-content {
+	background-repeat: no-repeat;
+	background-size: 75px;
+	background-position: 22px 48px;
+	transition: background-position 1s ease;
+}
+
+.THIS.main-content.animate {
+	background-position: 800px 48px;
+}
+
+.THIS img.einstein {
+    height: 80px;
+}

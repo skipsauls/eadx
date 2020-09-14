@@ -1,0 +1,45 @@
+<aura:component controller="AnalyticsDatatableController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="saql" type="String" access="global"/>
+    <aura:attribute name="kpiName" type="String" access="global"/>
+    <aura:attribute name="kpiStyle" type="String" access="global"/>
+    <aura:attribute name="kpiFormat" type="String" access="global"/>
+    <aura:attribute name="kpiDecimalDigits" type="String" access="global"/>
+    <aura:attribute name="lensDevName" type="String" access="global"/>
+    <aura:attribute name="index" type="Integer" default="0" access="global"/>
+    <aura:attribute name="records" type="Object[]"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="count" type="Integer"/>
+    
+    <aura:attribute name="value" type="Decimal" access="global"/>
+    <aura:attribute name="style" type="String" access="global"/>
+    <aura:attribute name="title" type="String" access="global"/>
+    
+    <aura:handler name="change" value="{!v.saql}" action="{!c.handleSAQLChange}"/>
+    
+    <aura:handler name="change" value="{!v.kpiName}" action="{!c.handleKPIChange}"/>
+    <aura:handler name="change" value="{!v.index}" action="{!c.handleKPIChange}"/>
+    
+    <!--
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    -->
+    
+	<ltng:require scripts="{!$Resource.format}" afterScriptsLoaded="{!c.init}" />  
+    
+    <div class="outer">
+        <div class="kpi slds-text-align_center">
+            <div class="{!'wrapper ' + (and(v.value != null, v.kpiName != null) ? '' : 'hide')}">
+	        	<h1 class="name slds-text-heading_medium slds-m-around_small">{!v.kpiName}</h1>
+    	        <h1 class="value slds-text-heading_large slds-m-around_small">{!v.value}</h1>
+            </div>
+        </div>
+        <!--
+        <h1>kpiName: {!v.kpiName}</h1>
+        <h1>value: {!v.value}</h1>
+        <h1>kpiStyle: {!v.kpiStyle}</h1>
+        <h1>kpiFormat: {!v.kpiFormat}</h1>
+        <h1>kpiDecimalDigits: {!v.kpiDecimalDigits}</h1>
+		-->
+    </div>
+    
+</aura:component>

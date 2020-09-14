@@ -1,0 +1,42 @@
+<aura:component controller="GenericAirInvocable">
+    <aura:attribute name="autoInstallRequestId" type="String" access="global"/>
+    <aura:attribute name="maxAttempts" type="Integer"  default="60" access="global"/>
+    <aura:attribute name="pollDelay" type="Integer"  default="3000" access="global"/>
+    <aura:attribute name="started" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="callback" type="Aura.Action" access="global"/>
+    <aura:attribute name="attempt" type="Integer" default="0" access="global"/>
+    
+    <aura:attribute name="inProgressStatuses" 
+                    type="List" 
+                    access="private" 
+                    default="['Enqueued', 'InProgress', 'AppInProgress']"/>
+
+    <aura:attribute name="autoInstallRequest" 
+                    type="Object" 
+                    access="private"/>
+    
+    <aura:attribute name="intervalTimerId" 
+                    type="Integer" 
+                    access="private"/>
+    
+    <aura:handler name="change" 
+                  value="{! v.started }" 
+                  action="{! c.checkStartedState }"/>
+
+    <aura:handler name="change" 
+                  value="{! v.attempt }" 
+                  action="{! c.checkAttempts }"/>
+
+    <aura:handler name="change" 
+                  value="{! v.autoInstallRequest }" 
+                  action="{! c.checkAutoInstallRequestState }"/>
+
+    <div class="spinnerContainer">
+        <div>{! v.autoInstallRequest.Name }</div>
+        <lightning:spinner size="large" variant="brand"/>
+        <lightning:button variant="brand" 
+                          label="Cancel" 
+                          title="Cancel" 
+                          onclick="{! c.cancelAutoInstallRequest }" />
+    </div>
+</aura:component>

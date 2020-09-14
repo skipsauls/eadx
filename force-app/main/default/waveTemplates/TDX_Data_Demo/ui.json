@@ -1,0 +1,50 @@
+{
+  "pages" : [
+    {
+      "title": "Which sObjects to Use?",
+      "variables": [
+        {"name": "UseAccountSObject"},
+        {"name": "UseOpptySObject"}
+      ]
+    },
+    {
+      "title": "Pick Account Dashboards",
+      "condition": "{{Variables.UseAccountSObject}}",
+      "variables": [
+        {"name": "LoadAcctDB1"},
+        {"name": "LoadAcctDB2"},
+        {"name": "Account_Fields", "visibility": "{{Variables.LoadAcctDB1 ? 'Visible' : 'Hidden'}}"}
+      ]
+    },
+    {
+      "title": "Pick Opportunity Dashboards",
+      "condition": "{{Variables.UseOpptySObject}}",
+      "variables": [
+        {"name": "LoadOpptyDB1"},
+        {"name": "LoadOpptyDB2"},
+        {"name": "Oppty_Fields", "visibility": "{{Variables.LoadOpptyDB1 ? 'Visible' : 'Hidden'}}"}
+      ]
+    }, {
+    	"title": "Customize this Wizard UI with VisualForce - Select Chart",
+        "condition": "{{Variables.UseOpptySObject}}",
+        "variables": [
+	      {"name": "Demo_VFDashboard_state_widgets_chart_1_parameters_visualizationType"}
+	    ],
+    	"vfPage" : {
+    	 	"namespace": "eadx",
+    	 	"name": "typeTest"
+    	}
+    }, {
+    	"title": "Customize this Wizard UI with VisualForce - Select Color",
+        "condition": "{{Variables.UseOpptySObject}}",
+        "variables": [
+	      {"name": "Demo_VFDashboard_state_gridLayouts0_style_backgroundColor"}
+	    ],
+    	"vfPage" : {
+    	 	"namespace": "eadx",
+    	 	"name": "colorTest"
+    	}
+    }
+  ],
+  "displayMessages" : [ ]
+}

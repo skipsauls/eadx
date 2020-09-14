@@ -1,0 +1,187 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global">
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="title" type="String" access="global" default="Analytics Magic"/>    
+    <aura:attribute name="iconName" type="String" access="global" default="utility:magicwand"/>    
+    <aura:attribute name="config" type="String" access="global"/>
+    <aura:attribute name="configId" type="String" access="global" default=""/>
+    <aura:attribute name="configName" type="String" access="global"/>     
+    <aura:attribute name="assetType" type="String" access="global"/>    
+    <aura:attribute name="layoutType" type="String" default="FULL" access="global"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>    
+    <aura:attribute name="recordError" type="String"/>    
+    <aura:attribute name="isList" type="Boolean" access="global" default="false"/>
+    
+    <aura:attribute name="messages" type="String[]"/>
+    
+    <aura:attribute name="steps" type="Object[]"/>
+    <aura:attribute name="step" type="String" default="initial"/>
+    
+    <aura:attribute name="datasets" type="Object[]"/>
+    <aura:attribute name="matchedDatasets" type="Object[]"/>
+    
+    <aura:attribute name="dashboards" type="Object[]"/>
+    <aura:attribute name="matchedDashboards" type="Object[]"/>
+    
+    <aura:attribute name="lenses" type="Object[]"/>
+    <aura:attribute name="matchedLenses" type="Object[]"/>
+    
+    <aura:attribute name="datasetIds" type="String" access="global"/>
+    <aura:attribute name="matchedDatasetIds" type="String" access="global"/>
+    <aura:attribute name="dashboardIds" type="String" access="global"/>
+    <aura:attribute name="matchedDashboardIds" type="String" access="global"/>
+    <aura:attribute name="lensIds" type="String" access="global"/>
+    <aura:attribute name="matchedLensIds" type="String" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      layoutType="{!v.layoutType}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    
+    
+    <div class="outer">
+        <!--
+        <h1>recordId: {!v.recordId}</h1>
+        <h1>apiName: {!v.record.apiName}</h1>
+        <h1>Name: {!v.simpleRecord.Name}</h1>
+        <hr/>
+        -->
+        
+        <lightning:card aura:id="main-card" title="{!v.title}" class="" iconName="{!v.iconName}">
+            <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:back" alternativeText="Back" onclick="{!c.handleBack}"/>
+                <lightning:buttonIcon iconName="utility:forward" alternativeText="Next" onclick="{!c.handleNext}" disabled="true"/>
+            </aura:set>
+            
+            <!--                
+            <lightning:layout class="main" horizontalAlign="spread" verticalAlign="stretch" pullToBoundary="small" multipleRows="true">
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="12" >
+                    
+                    <lightning:tile aura:id="einstein-tile" label="" class="slds-box card slds-m-around_small slds-p-around_small" >
+                        <aura:set attribute="media">
+                            <lightning:avatar src="https://c1.sfdcstatic.com/content/dam/web/en_us/www/images/campaign/lightning/lightning-einstein.png"
+                                              alternativeText="Einstein"
+                                              variant="square"
+                                              size="large"/>
+                        </aura:set>
+                        <h1 class="slds-text-heading_small">Einstein is checking for analytics assets that relate to the {!v.record.apiName} object</h1>
+                        
+                        
+                        <lightning:progressIndicator currentStep="{!v.step}">
+                            <lightning:progressStep label="initial" value="initial"/>
+                            <lightning:progressStep label="datasets" value="datasets"/>
+                            <lightning:progressStep label="matchedDatasets" value="matchedDatasets"/>
+                            <lightning:progressStep label="dashboards" value="dashboards"/>
+                            <lightning:progressStep label="matchedDashboards" value="matchedDashboards"/>
+                            <lightning:progressStep label="lenses" value="lenses"/>
+                            <lightning:progressStep label="matchedLenses" value="matchedLenses"/>
+                            <lightning:progressStep label="complete" value="complete"/>
+                        </lightning:progressIndicator>
+                        
+                        
+                    </lightning:tile>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+            <lightning:layout horizontalAlign="spread" verticalAlign="stretch">
+                
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="12" >
+                    
+                    <lightning:progressIndicator currentStep="{!v.step}">
+                        <lightning:progressStep label="initial" value="initial"/>
+                        <lightning:progressStep label="datasets" value="datasets"/>
+                        <lightning:progressStep label="matchedDatasets" value="matchedDatasets"/>
+                        <lightning:progressStep label="dashboards" value="dashboards"/>
+                        <lightning:progressStep label="matchedDashboards" value="matchedDashboards"/>
+                        <lightning:progressStep label="lenses" value="lenses"/>
+                        <lightning:progressStep label="matchedLenses" value="matchedLenses"/>
+                        <lightning:progressStep label="complete" value="complete"/>
+                    </lightning:progressIndicator>
+                    
+                </lightning:layoutItem>
+            </lightning:layout> 
+-->            
+            
+            <lightning:layout class="main" horizontalAlign="spread" verticalAlign="stretch" pullToBoundary="small" multipleRows="true">
+                <lightning:layoutItem flexibility="auto" padding="around-x_small" size="12" >
+                    <lightning:tile aura:id="outer-tile" label="" class="slds-box card slds-p-around_x_small slds-clearfix">
+                        <ul>
+                            <li aura:id="einstein-tile" class="slds-clearfix">                                    
+                                <img src="https://c1.sfdcstatic.com/content/dam/web/en_us/www/images/campaign/lightning/lightning-einstein.png"
+                                     class="einstein"
+                                     title="Einstein"/>
+                                <h1 class="heading slds-text-heading_medium">Einstein is checking for Analytics Assets that relate to the {!v.record.apiName} object</h1>
+                            </li>
+                            <li aura:id="progress-tile" class="slds-clearfix slds-m-vertical_small">
+                                <lightning:progressIndicator currentStep="{!v.step}">
+                                    <lightning:progressStep label="initial" value="initial"/>
+                                    <lightning:progressStep label="datasets" value="datasets"/>
+                                    <lightning:progressStep label="matchedDatasets" value="matchedDatasets"/>
+                                    <lightning:progressStep label="dashboards" value="dashboards"/>
+                                    <lightning:progressStep label="matchedDashboards" value="matchedDashboards"/>
+                                    <lightning:progressStep label="lenses" value="lenses"/>
+                                    <lightning:progressStep label="matchedLenses" value="matchedLenses"/>
+                                    <lightning:progressStep label="complete" value="complete"/>
+                                </lightning:progressIndicator>                            
+                            </li>
+                            <li aura:id="datasets-tile" class="hide">
+                                <div class="slds-clearfix item datasets">
+                                    <lightning:icon class="slds-float_left slds-clearfix slds-m-around_x-small" iconName="utility:database" alternativeText="Datasets"/>
+                                    <h1 class="slds-text-heading_small slds-float_left slds-m-around_small">Einstein found {!v.matchedDatasets.length} matching datasets out of {!v.datasets.length}</h1>
+                                    <lightning:button class="slds-float_right slds-m-around_x-small" label="Select" onclick="{!c.selectDataset}"/>
+                                </div>
+                            </li>
+                            <li aura:id="dashboards-tile" class="slds-clearfix hide">
+                                <div class="slds-clearfix item dashboards">
+                                    <lightning:icon class="slds-float_left slds-clearfix slds-m-around_x-small" iconName="utility:chart" alternativeText="Dashboards"/>
+                                    <h1 class="slds-text-heading_small slds-float_left slds-m-around_small">Einstein found {!v.matchedDashboards.length} matching dashboards out of {!v.dashboards.length}</h1>
+                                    <lightning:button class="slds-float_right slds-m-around_x-small" label="Select" onclick="{!c.selectDashboard}"/>
+                                </div>
+                            </li>
+                            <li aura:id="lenses-tile" class="slds-clearfix hide">
+                                <div class="slds-clearfix item lenses">                                
+                                    <lightning:icon class="slds-float_left slds-clearfix slds-m-around_x-small" iconName="utility:search" alternativeText="Lenses"/>
+                                    <h1 class="slds-text-heading_small slds-float_left slds-m-around_small">Einstein found {!v.matchedLenses.length} matching lenses out of {!v.lenses.length}</h1>
+                                    <lightning:button class="slds-float_right slds-m-around_x-small" label="Select" onclick="{!c.selectLens}"/>
+                                </div>
+                            </li>
+                        </ul>
+                    </lightning:tile>
+                    <!--                    
+                    <lightning:tile aura:id="datasets-tile" label="" class="slds-box card hide slds-m-around_x_small slds-p-around_x_small slds-clearfix">
+                        <aura:set attribute="media">
+                            <lightning:icon iconName="utility:database" alternativeText="Datasets"/>
+                        </aura:set>
+                        <h1 class="slds-text-heading_small slds-float_left">Einstein found {!v.matchedDatasets.length} matching datasets out of {!v.datasets.length}</h1>
+                        <lightning:button class="slds-float_right" label="Select" onclick="{!c.selectDataset}"/>
+                    </lightning:tile>
+                    
+                    <lightning:tile aura:id="dashboards-tile" label="" class="slds-box card hide slds-m-around_small slds-p-around_small" >
+                        <aura:set attribute="media">
+                            <lightning:icon iconName="utility:chart" alternativeText="Dashboards"/>
+                        </aura:set>
+                        <h1 class="slds-text-heading_small">Einstein found {!v.matchedDashboards.length} matching dashboards out of {!v.dashboards.length}</h1>
+                        <lightning:button label="Select" onclick="{!c.selectDashboard}"/>
+                    </lightning:tile>
+                    
+                    <lightning:tile aura:id="lenses-tile" label="" class="slds-box card hide slds-m-around_small slds-p-around_small">
+                        <aura:set attribute="media">
+                            <lightning:icon iconName="utility:search" alternativeText="Lenses"/>
+                        </aura:set>
+                        <h1 class="slds-text-heading_small">Einstein found {!v.matchedLenses.length} matching lenses out of {!v.lenses.length}</h1>
+                        <lightning:button label="Select" onclick="{!c.selectLens}"/>
+                    </lightning:tile>
+-->                    
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:card>
+    </div>    
+</aura:component>

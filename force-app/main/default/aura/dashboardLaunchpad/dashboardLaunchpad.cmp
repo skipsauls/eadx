@@ -1,0 +1,30 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<aura:attribute name="dashboards" type="Object[]" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <wave:sdk aura:id="sdk"/>
+    
+	<!--
+    allowPreview,assetSharingUrl,createdBy,createdDate,datasets,files,folder,id,label,lastAccessedDate,lastModifiedBy,lastModifiedDate,mobileDisabled,name,namespace,permissions,refreshDate,type,url
+	-->
+    
+    <section class="main-content" aura:id="main_content">
+        <div class="slds-m-around--x-large">
+            <lightning:layout class="launch" horizontalAlign="center" verticalAlign="center" pullToBoundary="small" multipleRows="true">
+
+				<aura:iteration items="{!v.dashboards}" var="dashboard">
+                    <lightning:layoutItem flexibility="no-flex" padding="around-large" size="3">
+                        <a href="{!dashboard.assetSharingUrl}" target="_blank">
+                            <div class="item" title="{!dashboard.label}">
+                            
+                            </div>
+                            <div class="slds-text-heading_large slds-align--absolute-center slds-m-vertical--small slds-truncate title">{!dashboard.label}</div>                                                
+                        </a>
+                    </lightning:layoutItem>
+                </aura:iteration>
+            </lightning:layout>
+        </div>
+    </section>
+    
+</aura:component>

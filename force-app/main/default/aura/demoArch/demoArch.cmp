@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="tabId" type="String" access="GLOBAL" description="The tab ID set by the Lightning Console"/>    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <article class="slds-card slds-p-around--xx-small">
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-m-bottom_xx-small">
+                <img src="https://analytics-ltngout-playground.herokuapp.com/assets/images/SFDC_reInvent_Demo_Architecture_1920x1080.png"/>
+            </div>
+        </div>
+    </article>	
+</aura:component>

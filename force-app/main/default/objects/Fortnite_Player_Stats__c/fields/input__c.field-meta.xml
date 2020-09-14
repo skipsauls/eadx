@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>input__c</fullName>
+    <description>The input type</description>
+    <externalId>false</externalId>
+    <label>input</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>touch</fullName>
+                <default>false</default>
+                <label>touch</label>
+            </value>
+            <value>
+                <fullName>gamepad</fullName>
+                <default>false</default>
+                <label>gamepad</label>
+            </value>
+            <value>
+                <fullName>keyboardmouse</fullName>
+                <default>false</default>
+                <label>keyboardmouse</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,54 @@
+{
+  "isDeletable": true,
+  "notificationLevel": "",
+  "workflowDefinition": {
+    "Extract_Account": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "Type"}
+        ],
+        "object": "Account"
+      }
+    },
+    "Register_Account": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "AcctDS",
+        "alias": "${App.Datasets.AcctDS.Alias}",
+        "source": "Extract_Account"
+      }
+    },
+    "Extract_Opportunity": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "Name"},
+          {"name": "StageName"},
+          {"name": "Type"},
+          {"name": "Amount"}
+        ],
+        "object": "Opportunity"
+      }
+    },
+    "Register_Opportunity": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "OpptyDS",
+        "alias": "${App.Datasets.OpptyDS.Alias}",
+        "source": "Extract_Opportunity"
+      }
+    }
+  },
+  "DataflowType": "USER",
+  "_type": "dataflow",
+  "name": "eadx__TDX_Data_DemoDataflow",
+  "description": "This is the default Salesforce dataflow.",
+  "MasterLabel": "TDX Data Demo Dataflow",
+  "_url": "/insights/internal_api/v1.0/esObject/workflow//json",
+  "_uid": "",
+  "nextRun": "",
+  "WorkflowStatus": "Inactive"
+}

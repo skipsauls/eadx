@@ -1,0 +1,29 @@
+{
+  "pages" : [
+	{
+	  "title": "Chart Customization",
+	  "variables": [
+	    {
+	      "name": "Demo_Dashboard_state_widgets_chart_1_parameters_visualizationType"
+	    }
+	  ],
+	  "vfPage":{
+			"namespace": "c",
+			"name": "typeTest"
+	  }	  
+	},
+	{
+	  "title": "Chart Background",
+	  "variables": [
+	    {
+	      "name": "Demo_Dashboard_state_gridLayouts0_style_backgroundColor"
+	    }
+	  ],
+	  "vfPage":{
+			"namespace": "c",
+			"name": "colorTest"
+	  }	  
+	}	
+  ],
+  "displayMessages" : [ ]
+}

@@ -1,0 +1,13 @@
+<aura:component access="global">
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="asset" type="Object" access="global"/>
+    <aura:attribute name="toolbarAction" type="String" access="GLOBAL" description="The action for views to handle."/>
+    
+    <aura:handler name="change" value="{!v.asset}" action="{!c.handleTableChange}"/>
+    <aura:handler name="change" value="{!v.toolbarAction}" action="{!c.handleToolbarAction}"/>
+    
+	<c:proxy aura:id="proxy"/>
+    
+  	<h1>Tableau Table Viewer</h1>
+    
+</aura:component>

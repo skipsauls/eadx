@@ -1,0 +1,37 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="action" type="String" access="global"/>
+    
+    <div class="outer">
+        <c:commanderToolsHeader/>
+        <lightning:tabset class="main-tabset" onselect="{!c.handleSelectTab}">
+            <lightning:tab label="Actions" id="actions">
+                <div class="tab-container">
+                    <lightning:layout>
+                        <lightning:layoutItem size="8" class="main-container">
+                            <c:commanderActionViewer aura:id="commander-action-viewer"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" class="right-container">
+                            <div class="right-panel-container">
+                                <c:commanderToolsSidebar topic="actions"/>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>                
+            </lightning:tab>
+            <lightning:tab label="Channels" id="channels">
+                <div class="tab-container">
+                    <lightning:layout>
+                        <lightning:layoutItem size="8" class="main-container">
+                            <c:commanderChannelViewer aura:id="commander-channel-viewer"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" class="right-container">
+                            <div class="right-panel-container">
+                                <c:commanderToolsSidebar topic="channels"/>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>                
+            </lightning:tab>
+        </lightning:tabset>
+    </div>    
+</aura:component>

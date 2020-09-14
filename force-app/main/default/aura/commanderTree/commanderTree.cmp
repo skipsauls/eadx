@@ -1,0 +1,56 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="actionId" type="String" access="global" description="The ID of the currently selected action. May be null"/>
+    <aura:attribute name="actionType" type="String" access="global" description="The type of the currently selected action. May be null"/>
+    <aura:attribute name="action" type="Object" access="global" description="The currently selected action object. May be null"/>
+    <aura:attribute name="selectedActionName" type="String" access="global" description="The name of the currently selected action object. May be null"/>
+
+    <aura:attribute name="channelId" type="String" access="global" description="The ID of the currently selected channel. May be null"/>
+    <aura:attribute name="channel" type="Object" access="global" description="The currently selected channel object. May be null"/>
+    <aura:attribute name="selectedChannelName" type="String" access="global" description="The name of the currently selected channel object. May be null"/>
+    
+    <aura:attribute name="items" type="Object" access="global"/>
+    <aura:attribute name="itemMaps" type="Object" access="global"/>
+
+    <aura:attribute name="actions" type="Object[]" access="global"/>
+    <aura:attribute name="actionItems" type="Object" access="global"/>
+    <aura:attribute name="channels" type="Object[]" access="global"/>
+    <aura:attribute name="channelItems" type="Object" access="global"/>
+    
+    <!--
+    <aura:registerEvent name="analyticsTreeSelection" type="c:analyticsTreeSelection"/>
+        -->
+    
+    <aura:registerEvent name="commanderTreeRefresh" type="c:commanderTreeRefresh" access="global"/>
+    
+    <aura:handler event="c:commanderTreeRefresh" action="{!c.handleCommanderTreeRefresh}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <aura:method name="refresh" description="Force the tree to refresh">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <einsteinconduit:commanderApi aura:id="commanderApi"/>
+    
+    <aura:dependency resource="c:commanderActionEditor"/>
+    <aura:dependency resource="c:commanderChannelEditor"/>
+    <aura:dependency resource="c:commanderParameterEditor"/>
+    <aura:dependency resource="c:commanderParameterFooter"/>
+    
+	<lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <div class="tree">
+        <lightning:card title="Einstein Voice for Analytics" iconName="utility:einstein">
+            <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:refresh" onclick="{!c.handleRefresh}" alternativeText="Refresh"/>
+            </aura:set>
+            
+            <lightning:tree items="{!v.items}" onselect="{!c.handleSelect}" class="analytics-resource-tree"/>
+        </lightning:card>
+        
+    </div>
+</aura:component>

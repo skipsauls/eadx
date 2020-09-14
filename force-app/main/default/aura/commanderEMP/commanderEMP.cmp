@@ -1,0 +1,32 @@
+<aura:component access="global">
+    <aura:attribute name="subscribed" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="sub" type="Object"/>
+    <aura:attribute name="commanderState" type="String" access="global"/>    
+    
+    <aura:handler name="init" 
+                  value="{!this}" 
+                  action="{!c.init}"/>
+    
+    <aura:registerEvent name="ViewSobjectType" 
+                        type="c:ViewSobjectTypeEvent"
+                        access="GLOBAL"/>
+    
+	<aura:registerEvent name="ViewAnalyticsDashboard" 
+                        type="c:ViewAnalyticsDashboardEvent"
+                        access="GLOBAL"/>
+
+    <aura:registerEvent name="AnalyticsDashboardUpdatePage" 
+                        type="c:AnalyticsDashboardUpdatePageEvent"
+                        access="GLOBAL"/>
+
+	<aura:registerEvent name="InvocableActionApex" 
+                        type="c:InvocableActionApexEvent"
+                        access="GLOBAL"/>
+    
+    <lightning:empApi aura:id="empApi"/>
+
+    <aura:handler name="change" value="{!v.subscribed}" action="{!c.handleSubscribedChange}"/>
+    
+    <lightning:input type="checkbox" checked="{!v.subscribed}" label="Subscribed"/>
+    
+</aura:component>

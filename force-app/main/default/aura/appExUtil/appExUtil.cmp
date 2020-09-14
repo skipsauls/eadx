@@ -1,0 +1,14 @@
+<aura:component access="global" controller="AppExController">
+    <aura:attribute name="listings" type="Object[]"/>
+
+    <c:proxy aura:id="proxy"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <lightning:button label="Launch" onclick="{!c.openAppexchangeModal}"/>    
+    <ul>
+    <aura:iteration items="{!v.listings}" var="listing">
+    	<li>{!listing.name}</li>
+    
+    </aura:iteration>
+    </ul>
+</aura:component>

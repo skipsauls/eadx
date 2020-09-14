@@ -1,0 +1,46 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "c/lwcSDKTest": [
+                "lwcSDKTest/lwcSDKTest.js"
+            ],
+            "c/lwcSelect": [
+                "lwcSelect/lwcSelect.js"
+            ],
+            "c/lwcTest": [
+                "lwcTest/lwcTest.js"
+            ],
+            "c/tableauViz": [
+                "tableauViz/tableauViz.js"
+            ],
+            "c/audiosynth": [
+                "../staticresources/audiosynth/audiosynth.js"
+            ],
+            "c/cometd": [
+                "../staticresources/cometd/cometd.js"
+            ],
+            "c/leaflet": [
+                "../staticresources/leaflet/leaflet.js"
+            ],
+            "c/nouislider": [
+                "../staticresources/nouislider/nouislider.js"
+            ]
+        }
+    },
+    "include": [
+        "**/*",
+        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    },
+    "paths": {
+        "c/*": [
+            "*"
+        ]
+    }
+}

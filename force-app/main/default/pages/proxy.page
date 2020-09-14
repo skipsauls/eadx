@@ -1,0 +1,143 @@
+<apex:page applyBodyTag="false" applyHtmlTag="false" showHeader="false" standardStylesheets="false" docType="html-5.0">
+    <script type="text/javascript">
+    
+    var ltng_origin = "{!$CurrentPage.Parameters.ltng_origin}";
+    var ltng_url = "{!$CurrentPage.Parameters.ltng_url}";
+    var _uid = "{!$CurrentPage.Parameters.ltng_uid}";
+    
+    window.addEventListener("message", messageHandler, true);
+    var json = JSON.stringify({type: "ready", uid: _uid});
+    window.parent.postMessage(json, "{!$CurrentPage.Parameters.ltng_origin}");
+    
+    function messageHandler(event) {
+        if (event.origin === "{!$CurrentPage.Parameters.ltng_origin}") {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            var data = JSON.parse(event.data);
+            var type = data.type;
+            var uid = data.uid;
+            
+            //console.warn('vf proxy - data: ', data);
+            //console.warn('vf type - type: ', type);
+            //console.warn('vf uid - uid: ', uid);
+            
+            if (type === "request" && _uid === uid) {
+                sendRequest(data.config);
+            } else if (type === "handshake") {
+                handshake(data.config);    
+            } else if (type === "subscribe") {
+                subscribe(data.config);    
+            } else if (type === "unsubscribe") {
+                unsubscribe(data.config);
+            }
+        }
+    }
+    
+    function createRequest() {
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return xhr;
+    }            
+    
+    function sendRequest(config) {
+        //console.warn('vf proxy sendRequest - config: ', config);
+        var req = createRequest();
+        
+        req.onreadystatechange = function() {
+            if (req.readyState != 4) {
+                return;
+            }
+            
+            var response = {};
+            
+            if (req.status < 200 || req.status > 299) {
+                response = {
+                    status: req.status,
+                    statusText: req.statusText,
+                    body: req.response,
+                    type: req.responseType,                    
+                    headers: req.getAllResponseHeaders(),
+                    config: config
+                };
+            } else {                
+                response = {
+                    status: req.status,
+                    statusText: req.statusText,
+                    body: req.response,
+                    type: req.responseType,
+                    headers: req.getAllResponseHeaders(),
+                    config: config
+                };
+            }
+            
+            if (req.responseType === "xml") {
+                response.xml = req.responseXML;
+            }
+            
+            var json = JSON.stringify({type: "response", uid: _uid, response: response});
+            //console.warn('vf proxy sendRequest json - ', json);
+            window.parent.postMessage(json, ltng_origin);
+        }
+        
+        //console.warn('proxy - config.url: ', config.url);
+        
+        if (config.url.indexOf("http") < 0) {
+            //console.warn('NOT USING PROXY');
+            req.open(config.method, config.url, true);
+            // Set the Authorization header for local calls
+            req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+            
+        } else {
+            //console.warn('USING PROXY');
+            // Use the proxy
+            req.open(config.method, UserContext.siteUrlPrefix + "/services/proxy", true);
+            
+            //req.open(config.method, "https://adx-dev-ed.my.salesforce.com/services/proxy", true);
+            
+            // Set the endpoint accordingly for using the proxy
+            req.setRequestHeader("SalesforceProxy-Endpoint", config.url);
+
+            req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+            
+        }
+
+
+        if (config.headers) {
+            for (var key in config.headers) {
+                req.setRequestHeader(key, config.headers[key]);
+            }
+        }
+        
+        // Not necessary when using proxy?
+        //req.setRequestHeader("Access-Control-Allow-Origin", "*");
+        
+
+        req.setRequestHeader("Content-Type", "application/json");
+
+        req.setRequestHeader("Accept", config.responseType || "application/json");
+        
+        if (config.method !== "POST") {
+            req.responseType = config.responseType || "json";
+        }
+        
+        req.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
+        req.setRequestHeader('cache-control', 'max-age=0');
+        req.setRequestHeader('expires', '0');
+        req.setRequestHeader('expires', 'Tue, 01 Jan 1980 1:00:00 GMT');
+        req.setRequestHeader('pragma', 'no-cache');
+        
+        if (config.body ) {
+            req.send(config.body);
+        } else {
+            req.send();
+        }
+        
+
+    }
+    </script>
+</apex:page>

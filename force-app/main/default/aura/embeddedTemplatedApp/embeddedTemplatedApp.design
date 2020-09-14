@@ -1,0 +1,13 @@
+<design:component label="Einstein Analytics Embedded App">
+	<design:attribute name="templateApiName" label="Einstein Analytics Template" required="true"/>	
+	<design:attribute name="dashboardTemplates" label="Dashboard Template Filter"/>	
+	<design:attribute name="dashboardHeight" label="Dashboard Height"/>	
+	<design:attribute name="title" 
+                      label="Embedded Dashboard Title" default="Change Title"/>	
+	<design:attribute name="header" 
+                      label="Embedded Dashboard Header" 
+                      description="The header for this embedded asset."/>	
+	<design:attribute name="canManageDataflow" 
+                      label="Allow Manual Dataflow Start" default="Change Header"
+                      description="Set to true if the application template has a dataflow. If true, the component will allow the user to manually start the dataflow."/>	
+</design:component>

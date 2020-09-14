@@ -1,0 +1,41 @@
+.THIS {
+}
+
+.THIS .datatable {
+    min-height: 100px;
+}
+
+.THIS .datatable tr[is="lightning-primitive-datatable-row"] {
+
+}
+
+.THIS td.cell.opportunity_stagename {
+
+}
+
+.THIS td.cell.opportunity_account_type, .THIS td.cell.opportunity_amount {
+
+}
+
+.THIS td.cell.opportunity_amount {
+
+}
+
+.THIS .datatable.results tr:nth-child(even) {
+
+}
+
+.THIS .datatable.results tr:nth-child(odd) {
+
+}
+
+/* To fix a bug caused by conflict with ".forceStyle.desktop .stage" */
+.THIS table.slds-table th {
+    position: inherit !important;
+    overflow: inherit !important;
+    width: inherit !important;
+    z-index: inherit !important;
+    flex-flow: inherit !important;
+    width: auto !important;
+    height: auto !important;
+}

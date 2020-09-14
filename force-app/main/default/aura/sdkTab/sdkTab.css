@@ -1,0 +1,90 @@
+.THIS {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    height: 1080px;
+}
+.THIS .slds-card+.slds-card {
+    margin-top: 0.5rem;
+}
+
+.THIS .dashboard-outer {
+    opacity: 1;
+	transition: opacity 3s ease;    
+}
+
+.THIS .dashboard-outer.fadeout {
+	transition-duration: 0.5s;    
+    opacity: 0;
+}
+
+.THIS .dashboard-outer.fadein {
+	transition-duration: 4s;
+    opacity: 1;
+}
+
+.THIS .dashboard-outer.hidden {
+    display: none;
+}
+
+.THIS .slds-card.hidden {
+    display: none;
+}
+
+.THIS .dashboard.hidden {
+    display: none;
+}
+
+.THIS.main-content {
+	background-repeat: no-repeat;
+	background-size: 80px;
+	background-position: 15px 10px;
+	transition: background-position 0.7s ease;
+    position: absolute;
+    top: 0;
+}
+
+.THIS.main-content.animate {
+	background-position: 800px 10px;
+}
+
+.THIS img.einstein {
+    height: 50px;
+}
+
+.THIS.main-content .slds-dueling-list {
+	overflow: hidden;    
+}
+
+.THIS.main-content .slds-dueling-list__options, .THIS.main-content .slds-picklist__options {
+	width: 12rem;
+    height: 8rem;
+}
+
+.THIS.main-content .dueling-list-button {
+	color: rgb(112, 110, 107);    
+ 	width: 12rem;
+    border: 0px none;
+    transition: unset;
+    background: transparent;
+}
+
+.THIS.main-content .dueling-list-button:hover {
+    color: rgb(0, 112, 210);
+}
+
+.THIS.main-content .dueling-list-button.all-button {
+}
+
+.THIS.main-content .dueling-list-button.none-button {
+    margin-left: 40px;
+}
+
+.THIS .waveAsset {
+	position: relative;
+    overflow: hidden;
+	background: rgb(255, 255, 255);
+    border-radius: .25rem;
+    background-clip: padding-box;
+    background-color: transparent;
+}

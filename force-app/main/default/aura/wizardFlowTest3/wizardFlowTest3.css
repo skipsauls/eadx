@@ -1,0 +1,75 @@
+.THIS {
+    overflow: hidden;    
+}
+
+.THIS.outer {
+    height: 45rem;
+    overflow: hidden;
+}
+
+.THIS .card-outer {
+    cursor: pointer;
+}
+
+.THIS .card {
+	min-width: 16rem;
+    overflow: hidden;
+    white-space: no-wrap;
+	background: rgb(255, 255, 255);
+    border: 1px solid rgb(221, 219, 218);
+    border-radius: .25rem;
+    background-clip: padding-box;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);    
+}
+
+.THIS .card:hover {
+    background-color: rgb(243, 242, 242);
+	border: 1px solid rgb(221, 219, 218);
+}
+
+.THIS .card.featured {
+}
+
+.THIS .card .slds-card__header {
+    padding: 0 0 .5rem;
+    margin: .5rem .5rem 0;
+}
+
+.THIS .card .slds-card__body p {
+    border-top: 1px solid rgb(221, 219, 218);    
+    height: 8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+}
+
+.THIS .card.featured .slds-card__body p {
+	height: 16rem;
+}
+
+.THIS img.detail {
+    display: none;
+}
+
+.THIS img.detail.featured {
+    display: inherit;
+}
+
+.THIS div.description {
+    display: inherit;    
+}
+
+.THIS div.description.featured {
+    display: none;
+}
+
+.THIS img.dashboard {
+    width: 137px;
+}
+
+.THIS .main {
+    height: 34rem;
+    overflow-y: auto;
+}
+
+.THIS .footer {
+}

@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Starbucks_Locations"/>
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FK1I00000072iNWAQ"/>
+    <aura:attribute name="datasetName" type="String" access="global" default="df17eadx__Countries_USStates"/>
+    
+    <lightning:layout horizontalAlign="space" verticalAlign="start">
+        <lightning:layoutItem flexibility="auto" size="3">
+            <!--
+            <c:audioTest />
+			-->
+            <lightning:layout verticalAlign="start" multipleRows="true">
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="12" > 
+                    <c:analyticsLocationTree iconName="standard:account"
+                                             developerName="{!v.developerName}"
+                                             dashboardId="{!v.dashboardId}"
+                                             height="450"
+                                             />
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="12"> 
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="9">
+            <wave:waveDashboard developerName="{!v.developerName}"
+                                height="650"
+                                openLinksInNewWindow="false"
+                                showHeader="false"
+                                showTitle="false"
+                                showSharing="false"
+                                />
+        </lightning:layoutItem>
+    </lightning:layout>	
+</aura:component>

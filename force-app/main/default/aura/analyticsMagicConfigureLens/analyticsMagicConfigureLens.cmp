@@ -1,0 +1,67 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global">
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="title" type="String" access="global" default="Analytics Magic"/>    
+    <aura:attribute name="iconName" type="String" access="global" default="utility:magicwand"/>        
+    <aura:attribute name="config" type="String" access="global"/>
+    <aura:attribute name="configId" type="String" access="global" default=""/>
+    <aura:attribute name="configName" type="String" access="global"/>
+    <aura:attribute name="lensIds" type="String" access="global"/>
+    <aura:attribute name="matchedLensIds" type="String" access="global"/>
+    <aura:attribute name="lenses" type="Object[]"/>
+    <aura:attribute name="matchedLenses" type="Object[]"/>
+    <aura:attribute name="lensId" type="String" access="global"/>
+    <aura:attribute name="showAll" type="Boolean" access="global" default="false"/>
+    
+    <aura:attribute name="saql" type="String" access="global"/>
+    <aura:attribute name="lensDevName" type="String" access="global"/>
+
+    <aura:attribute name="kpiName" type="String"/>
+    <aura:attribute name="kpiValue" type="String"/>
+    <aura:attribute name="kpiStyle" type="String"/>
+    <aura:attribute name="kpiFormat" type="String"/>
+    <aura:attribute name="kpiDecimalDigits" type="Integer" default="0"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{!v.kpiName}" action="{!c.handleUpdateKPI}"/>
+    <aura:handler name="change" value="{!v.kpiStyle}" action="{!c.handleUpdateKPI}"/>
+    <aura:handler name="change" value="{!v.kpiFormat}" action="{!c.handleUpdateKPI}"/>
+    <aura:handler name="change" value="{!v.kpiDecimalDigits}" action="{!c.handleUpdateKPI}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="outer">
+        
+        <lightning:card aura:id="main-card" title="{!v.title}" class="" iconName="{!v.iconName}">
+            <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:back" alternativeText="Back" onclick="{!c.handleBack}"/>
+                <lightning:buttonIcon iconName="utility:forward" alternativeText="Next" onclick="{!c.handleNext}"/>
+            </aura:set>
+            
+            <lightning:layout horizontalAlign="spread" verticalAlign="stretch">
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="4" class="column">
+                    
+                    <lightning:input type="checkbox" label="All" checked="{!v.showAll}"/>
+                    <lightning:select name="selectLens" label="Lens" value="{!v.lensDevName}">
+                        <option value="">choose one...</option>
+                        <aura:iteration items="{!v.showAll == true ? v.lenses : v.matchedLenses}" var="lens">
+                            <option value="{!(lens.namespace ? lens.namespace + '__' : '') + lens.name}">{!lens.label}</option>
+                        </aura:iteration>
+                    </lightning:select>        
+                    <c:analyticsKPI saql="{!v.saql}" lensDevName="{!v.lensDevName}" kpi="{!v.kpiName}" value="{!v.kpiValue}" style="{!v.kpiStyle}" format="{!v.kpiFormat}" decimalDigits="{!v.kpiDecimalDigits}"/>
+                    
+                    
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem class="column slds-grid_vertical-align-end" flexibility="auto" padding="around-small" size="8">
+                    <div class="kpi-outer" aura:id="kpi-outer">
+                        <div aura:id="kpi" class="kpi-container">        
+                        </div>
+                    </div>                    
+                    
+                </lightning:layoutItem>
+            </lightning:layout>        
+        </lightning:card>
+    </div>
+    
+</aura:component>

@@ -1,0 +1,10 @@
+<design:component label="Details View">
+    <design:attribute name="recordType" label="Record Type" description="The (SObject) type to display (account, opportunity, etc.)"/>
+    <design:attribute name="recordTitle" label="Record Title" description="The title to display at the top of the list"/>
+    <design:attribute name="fields" label="Fields" description="The fields to query (Name, StageName, Account.Name, etc.)"/>
+    <design:attribute name="labels" label="Labels" description="The labels to display (Name, Stage Name, Account Name, etc.)"/>
+    <design:attribute name="height" label="Height" description="The height of the list - not including the header"/>
+    <design:attribute name="limit" label="Limit" description="The maximum number of records to retrieve"/>
+    <design:attribute name="dashboardId" label="Dashboard ID" description="The ID of the dashboard to target"/>
+    <design:attribute name="dataset" label="Dataset" description="The name of the dataset to target"/>
+</design:component>

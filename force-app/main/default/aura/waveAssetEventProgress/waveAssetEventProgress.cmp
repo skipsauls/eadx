@@ -1,0 +1,48 @@
+<aura:component >
+    <aura:attribute name="nodes" type="List" access="public"/>
+    
+    <aura:attribute name="current" type="String"/>
+    <aura:attribute name="hasError" type="Boolean"
+                    default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:attribute name="eventData" type="Map"/>
+    <aura:attribute name="eventArray" type="Map"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <aura:method name="updateProgress" action="{!c.updateProgress}" access="PUBLIC"> 
+        <aura:attribute name="eventType" type="String"/>
+        <aura:attribute name="itemId" type="String"/>
+        <aura:attribute name="itemName" type="String"/>
+        <aura:attribute name="itemLabel" type="String"/>
+        <aura:attribute name="index" type="Integer"/>
+        <aura:attribute name="total" type="Integer"/>
+        <aura:attribute name="status" type="Integer"/>
+        <aura:attribute name="message" type="Integer"/>
+    </aura:method>    
+    
+    
+    <div class="progress-container">
+        <lightning:progressIndicator currentStep="{! v.current }" hasError="{! v.hasError }" type="base" variant="base">
+            <aura:iteration items="{! v.nodes }" var="node">
+                <lightning:progressStep aura:id="{! node.value + '-progress-step'}" label="{! node.label }" value="{! node.value }"/>
+            </aura:iteration>
+        </lightning:progressIndicator>                    
+        <div class="node_container" aura:id="node-container">
+            <lightning:layout multipleRows="true" horizontalAlign="spread" verticalAlign="start">
+                <aura:iteration items="{! v.nodes }" var="node">
+                    <lightning:layoutItem size="3" padding="around-small">
+                        <div class="node_step">
+                            <lightning:button variant="base" label="{! node.label }" title="{! node.label }"
+                                              disabled="true" aura:id="event_type_node_button" onclick="{! c.viewEventDetails }"
+                                              value="{! node.value }" name="{! node.value }"
+                                              class="slds-text-title_caps slds-text-title_bold"/>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:iteration>
+            </lightning:layout>
+        </div>
+    </div>
+</aura:component>

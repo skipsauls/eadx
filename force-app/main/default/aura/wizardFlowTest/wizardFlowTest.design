@@ -1,0 +1,6 @@
+<design:component label="Wizard Flow Test 1">
+    <design:attribute name="configId" label="Config ID" description="The template config object ID"/>        
+    <design:attribute label="Start From" name="startFrom"/>
+    <design:attribute label="Stages" name="stages"/>
+    <design:attribute label="Current Stage" name="currentStage"/>
+</design:component>

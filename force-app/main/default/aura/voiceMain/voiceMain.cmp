@@ -1,0 +1,23 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global">
+	
+    <aura:attribute name="config" type="String" access="global"/>
+    <aura:attribute name="configId" type="String" access="global" default=""/>
+    <aura:attribute name="configName" type="String" access="global"/>
+    <aura:attribute name="currentState" type="String" access="global"/>
+    
+    
+    <div class="outer">
+        <lightning:layout class="main" horizontalAlign="spread" verticalAlign="stretch" pullToBoundary="small" multipleRows="true">
+            <lightning:layoutItem flexibility="auto" padding="around-x_small" size="12" >
+                <h1>Main</h1>
+                <h2>currentState: {!v.currentState}</h2>
+                <h2>configName: {!v.configName}</h2>
+                <h2>configId: {!v.configId}</h2>
+                <h2>config: {!v.config}</h2>
+                <lightning:button label="Suggest" onclick="{!c.doSuggest}"/>
+                <lightning:button label="Dictate" onclick="{!c.doDictate}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

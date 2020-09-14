@@ -1,0 +1,71 @@
+.THIS {
+}
+
+.THIS .slds-card.transparent {
+    background: transparent;
+}
+
+.THIS .slds-card_boundary {
+    border: 0 none;
+}
+
+.THIS .slds-icon-text-default {
+    fill: #FFFFFF;
+    stroke: #222222;
+}
+
+.THIS .slds-form-element__label {
+    font-size: 1.1rem;
+    line-height: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #FFFFFF;
+    text-shadow:
+        -1px -1px 0 #222222,
+        1px -1px 0 #222222,
+        -1px 1px 0 #222222,
+        1px 1px 0 #222222; 
+}
+
+.THIS .slds-card__header.slds-grid {
+    border: 0 none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0 0 10px 0;   
+}
+
+.THIS .slds-card__header.slds-grid h2 .slds-text-heading_small {
+    font-size: 1.5rem;
+    overflow: hidden;
+    color: #FFFFFF;
+    text-shadow:
+        -1px -1px 0 #222222,
+        1px -1px 0 #222222,
+        -1px 1px 0 #222222,
+        1px 1px 0 #222222; 
+}
+
+.THIS .lightning-tree-item {
+
+
+}
+
+.THIS .slds-tree__item a {
+    color: #FFFFFF;
+    text-shadow:
+        -1px -1px 0 #222222,
+        1px -1px 0 #222222,
+        -1px 1px 0 #222222,
+        1px 1px 0 #222222; 
+    
+}
+
+.THIS .slds-button_icon, .THIS .slds-button--icon {
+    color: #FFFFFF;
+    text-shadow:
+        -1px -1px 0 #222222,
+        1px -1px 0 #222222,
+        -1px 1px 0 #222222,
+        1px 1px 0 #222222; 
+    
+}

@@ -1,0 +1,72 @@
+.THIS {
+    overflow: hidden;    
+}
+
+.THIS.outer {
+    height: 45rem;
+    overflow: hidden;
+}
+
+.THIS .feature-pill {
+	width: 12rem;    
+}
+
+.THIS .feature-pill button.slds-button.slds-pill__remove.slds-button--icon-bare {
+    display: none;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.THIS .pill-icon {
+    stroke: #00CC00;
+    fill: #00CC00;
+    stroke-width: 3px;
+}
+
+.THIS .tag {
+	display: inline-block;
+    background-color: #ffffff;
+    margin: 0 5px 5px 0;
+    padding: 3px 15px;
+	border: 1px solid rgb(221, 219, 218);
+}
+
+.THIS .tag:first-child {
+
+}
+
+.THIS .carousel {
+    max-width: 80rem;
+    min-width: 50rem;
+    height: 34rem;
+    margin: 0px auto;
+    overflow: hidden;
+}
+
+.THIS .carousel .image img {
+    width: auto;
+    max-height: 30rem;
+    overflow: hidden;
+}
+
+.THIS .carousel .slds-carousel__panel {
+	text-align: center;
+}
+
+.THIS .slds-carousel__panel-action {
+    border: 0 none;
+}
+
+.THIS .carousel .slds-carousel__image {
+    max-height: 30rem;
+}
+
+.THIS .carousel .slds-carousel__image>img {
+    width: auto;
+}
+
+.THIS .carousel .slds-carousel__content {
+    display: none;
+}

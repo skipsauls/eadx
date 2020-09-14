@@ -1,0 +1,8 @@
+<apex:page sidebar="​false">
+<h1>Sales Wave Manager Overview Dashboard</h1> 
+<wave:dashboard dashboardId="0FK1I000000Dh6kGA0" 
+                 showTitle="true" 
+                 height="475px" 
+                 openLinksInNewWindow="true"
+/>
+</apex:page>

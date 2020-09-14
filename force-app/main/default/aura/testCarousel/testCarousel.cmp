@@ -1,0 +1,29 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="items" type="List" access="private"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+	<aura:handler name="change" value="{!v.items}" action="{!c.handleItemsChange}"/>
+    
+    <div class="outer">
+        <aura:iteration items="{!v.items}" var="item">
+            <lightning:avatar src="{!item.imageUrl}" title="{!item.title}" alternativeText="{!item.altText}" size="large"/>
+            <lightning:badge label="{!item.title}"/>
+        </aura:iteration>
+        
+        <lightning:carousel class="carousel">
+            <aura:iteration items="{!v.items}" var="item">
+                <lightning:carouselImage src="{!item.imageUrl}"
+                                         header="{!item.header}"
+                                         description="{!item.description}"
+                                         alternativeText="{!item.altText}">
+                </lightning:carouselImage>
+            </aura:iteration>
+        </lightning:carousel>
+    </div>    
+    
+    
+</aura:component>

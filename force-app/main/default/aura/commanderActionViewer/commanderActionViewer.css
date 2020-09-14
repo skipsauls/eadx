@@ -1,0 +1,79 @@
+.THIS {
+}
+
+.THIS span:empty:before {
+  content: "\200b";
+}
+
+.THIS .action-icon {
+    background-color: #2A739E;
+}
+.THIS .asset-outer {
+}
+
+.THIS .panel {
+    height: 800px;
+    overflow: auto
+}
+
+.THIS .viewer .hide {
+    display: none;
+}
+
+.THIS .viewer .show {
+    display: block;
+}
+
+.THIS .json-view  textarea {
+    height: 670px;
+    overflow: auto;
+    resize: none;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 10pt;
+    line-height: 1.1rem;
+    font-weight: normal;
+    font-style: normal;
+    padding: 2px;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.THIS .intents-table thead {
+    visibility: hidden;
+    height: 0;
+}
+
+.THIS .intents .intents-table-container, .THIS .intents .parameters-table-container  {
+    height: 20rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.THIS .intents-table .slds-table {
+    border: 0;
+}
+
+.THIS .intents-table .slds-table_header-fixed_container, .THIS .intents-table .slds-table--header-fixed_container {
+    padding-top: 0;
+}
+
+.THIS .intents-table .slds-table_header-fixed_container:before,  .THIS .intents-table .slds-table--header-fixed_container:before {
+    border: 0;
+}
+
+.THIS .details-container .slds-card-input, .THIS .intents-table-container .slds-card-input, .THIS .parameters-table-container .slds-card-input {
+    background-color: #F0F0F0;
+}
+
+.THIS .parameters-table .slds-table {
+    border: 0;
+}
+
+.THIS .parameters-table .slds-table_header-fixed_container:before,  .THIS .parameters-table .slds-table--header-fixed_container:before {
+    border: 0;
+}
+
+.THIS .slds-table .slds-cell-edit.slds-is-edited, .THIS .slds-table .slds-cell-edit.slds-is-edited:hover {
+    background-color: inherit !important;
+}

@@ -1,0 +1,9 @@
+<aura:component access="global">
+    <aura:attribute name="parent" type="Aura.Component" access="global"/>
+    <aura:attribute name="callback" type="Aura.Action" access="global"/>
+    <aura:method name="setCallback" description="Sets the callback function">
+        <aura:attribute name="parent" type="Aura.Component"/>
+        <aura:attribute name="callback" type="Aura.Action"/>
+    </aura:method>
+    <lightning:button label="Call Parent" onclick="{!c.callParent}"/>
+</aura:component>

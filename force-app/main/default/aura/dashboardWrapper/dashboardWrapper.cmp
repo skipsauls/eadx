@@ -1,0 +1,29 @@
+<aura:component implements="force:appHostable,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="developerName" type="String" access="global"/>
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    <aura:attribute name="hideOnError" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="height" type="Integer" access="global"/>
+    <aura:attribute name="showSharing" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="showTitle" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="showHeader" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="rendered" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="filter" type="String" access="global"/>
+    <aura:attribute name="openLinksInNewWindow" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="accessToken" type="String" access="global"/>
+
+    <lightning:button label="Check" onclick="{!c.check}"/>
+    
+    <wave:waveDashboard developerName="{!v.developerName}"
+                        dashboardId="{!v.dashboardId}"
+                        hideOnError="{!v.hideOnError}"
+                        height="{!v.height}"
+                        showSharing="{!v.showSharing}"
+                        showTitle="{!v.showTitle}"
+                        showHeader="{!v.showHeader}"
+                        rendered="{!v.rendered}"
+                        filter="{!v.filter}"
+                        openLinksInNewWindow="{!v.openLinksInNewWindow}"
+                        accessToken="{!v.accessToken}"
+                        />
+                  
+</aura:component>

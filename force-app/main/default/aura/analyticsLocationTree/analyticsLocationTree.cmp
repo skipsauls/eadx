@@ -1,0 +1,25 @@
+<aura:component controller="ApexSAQLController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+    <aura:attribute name="title" type="String" access="global" default="Locations"/>
+    <aura:attribute name="iconName" type="String" access="global" default="standard:location"/>
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    <aura:attribute name="developerName" type="String" access="global"/>
+    <aura:attribute name="datasetName" type="String" access="global"/>
+    <aura:attribute name="height" type="String" access="global" default="200px"/>
+    
+    <aura:attribute name="items" type="Object" access="private"/>
+    <aura:attribute name="itemMap" type="Object" access="private"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <div class="tree">
+        <lightning:card title="{!v.title}" iconName="{!v.iconName}">
+            <div class="outer" style="{!'height: ' + v.height + 'px'}">
+	            <lightning:tree items="{!v.items}" onselect="{!c.handleSelect}"/>
+            </div>
+        </lightning:card>
+    </div>    
+    
+</aura:component>

@@ -1,0 +1,11 @@
+<apex:component access="global">
+    <apex:includeLightning />
+    <apex:attribute name="loApp" type="String" required="true" access="global" description="The Lightning Out app"/>    
+    <div id="monitor"/>
+    <script>        
+        $Lightning.use('{!loApp}', function(evt) {
+            $Lightning.createComponent('c:waveEventMonitor', {}, 'monitor', function(cmp, msg, err) {
+            });
+        });    
+   </script>    
+</apex:component>

@@ -1,0 +1,12 @@
+<aura:component access="global">
+    <aura:attribute name="dashboards" type="Object[]" access="global"/>
+    <div class="outer slds-p-around-x_small">
+        
+        <h1 class="slds-text-heading_small">Do you want to cleanup the following dashboards?</h1>
+        <ul class="slds-p-around_x-small">
+            <aura:iteration items="{!v.dashboards}" var="dashboard">
+                <lightning:input class="slds-p-around_x-small" type="checkbox" name="{!dashboard.namespace + '__' + dashboard.name}" label="{!dashboard.label}" checked="true"/>
+            </aura:iteration>
+        </ul>	
+    </div>
+</aura:component>

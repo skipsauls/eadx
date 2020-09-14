@@ -1,0 +1,395 @@
+<aura:component controller="VoiceUtilityBarController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,lightning:isUrlAddressable" access="global">
+    <aura:attribute name="tabId" type="String" access="GLOBAL" description="The tab ID set by the Lightning Console"/>
+    <aura:attribute name="objectType" type="String" access="GLOBAL" description="The type of the target object"/>    
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the Analytics dashboard to show, etc." default="0FKB00000003fBpOAI"/>
+    <aura:attribute name="recordId" type="String" access="GLOBAL" description="The id of the record to show, etc."/>
+    <aura:attribute name="threadId" type="String" access="GLOBAL" description="The id of the Quip thread to show, etc."/>
+    <aura:attribute name="datasetName" type="String" access="GLOBAL" default="opportunity" description="Dataset used for refresh"/>
+    <aura:attribute name="fieldName" type="String" access="GLOBAL" default="StageName" description="Field in the dataset used for refresh"/>
+    <aura:attribute name="fieldValue" type="String" access="GLOBAL" default="Needs Analysis" description="Value for the field in the dataset used for refresh"/>
+    <aura:attribute name="selectedCommanderChannel" type="Object" default="{}"/>    
+
+    <aura:attribute name="assetCache" type="Object" description="Caches list of object, may need to have expire functionality added!"/>
+
+    <aura:attribute name="dashboardDiscoverList" type="Object[]" description="List of dashboard discover responses received from wave:discoverResponse"/>
+    <aura:attribute name="dashboardDiscoverMap" type="Object" description="Map of dashboard discover responses received from wave:discoverResponse"/>
+    
+    <aura:attribute name="dashboardMap" type="Object" description="Cache the dashboards"/>
+    <aura:attribute name="datasetMap" type="Object" description="Cache the datasets"/>
+    <aura:attribute name="datasetFieldsMap" type="Object" description="Cache the datasets, xmds, etc."/>
+    
+    <aura:attribute name="dashboardsByLabel" type="Map"/>
+    <aura:attribute name="dashboardsByName" type="Map"/>
+    <aura:attribute name="dashboards" type="Object[]"/>
+    
+    <aura:attribute name="voiceProxyReady" type="Boolean" default="false" description="Enables tracking via change event"/>
+    
+    <aura:attribute name="showTools" type="Boolean" default="false" description="Toggles the tools (for developers)"/>
+    
+    <aura:attribute name="typeAhead" type="Boolean" access="GLOBAL" default="false" description="Toggles typeahead feature for text input"/>
+    
+    <aura:attribute name="listening" type="Boolean" access="GLOBAL" default="true" description="Toggles listening"/>
+
+    <aura:attribute name="showVisualization" type="Boolean" access="GLOBAL" default="false" description="Toggles visualization"/>
+    
+    <aura:attribute name="config" type="Object" description="Stores the config object for sync with server"/>
+    <aura:attribute name="configName" type="String" description="The name associaed with the configuration" default="Default"/>
+    
+    <aura:attribute name="results" type="Object[]"/>
+    <aura:attribute name="segments" type="Object"/>
+    <aura:attribute name="commandReference" type="Object"/>
+    <aura:attribute name="commands" type="Object[]"/>
+    <aura:attribute name="suggestedCommands" type="Object[]"/>
+    <aura:attribute name="suggestionLimit" type="Integer" description="The maximum number of suggestions to display" default="3"/>
+    <aura:attribute name="commandMap" type="Object"/>
+    <aura:attribute name="baseCommandMap" type="Object"/>
+    <aura:attribute name="useCommands" type="Boolean" default="false"/>
+    <aura:attribute name="inputText" type="String" default=""/>
+    <aura:attribute name="inputTextChanging" type="Boolean" default="false"/>
+    <aura:attribute name="inputPlaceholder" type="String" default="Ask Analytics questions about your data..."/>
+    
+    <aura:attribute name="message" type="Object" default="{'title':'Try asking things like...','subtitle':'Speak or click the action'}"/>
+    
+    <aura:attribute name="stateList" type="Object[]"/>
+    <aura:attribute name="stateMap" type="Object"/>
+    <aura:attribute name="currentState" type="String" default="asleep"/>
+
+    <aura:attribute name="transcript" type="String"/>    
+    
+    <!-- For voice input -->
+    <aura:attribute name="recurring" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="continuous" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="interimResults" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="maxAlternatives" type="Integer" access="global" default="1"/>
+    <aura:attribute name="voiceTranscripts" type="Object[]"/>
+    <aura:attribute name="voiceResults" type="Object[]"/>
+    
+    <aura:attribute name="awake" type="Boolean" default="false"/>
+    <aura:attribute name="wakeWords" type="String" default="Einstein"/>
+    <aura:attribute name="wakeTimeout" type="Integer" default="10"/>
+    <aura:attribute name="wakeTimeRemaining" type="Integer" default="0"/>
+    
+    <aura:attribute name="phase" type="String" default="stopped"/>
+    
+    <!-- For NLQ -->
+    <aura:attribute name="nlqDashboardId" type="String"/>
+    <aura:attribute name="nlqQueryName" type="String" default="test"/>
+    <aura:attribute name="nlqSAQL" type="String"/>
+    
+    <!-- For wave animation -->
+    <aura:attribute name="paused" type="Boolean" default="false"/>
+    
+    <!-- For voice visualization -->
+
+    
+    <!-- For voice output -->
+    <aura:attribute name="speakOutput" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="outputText" type="String" default="This is a test of voice output"/>
+    <aura:attribute name="voices" type="Object[]"/>
+    <aura:attribute name="voiceName" type="String"/>
+    <aura:attribute name="volume" type="Double" default="1.0"/>
+    <aura:attribute name="rate" type="Double" default="1.0"/>
+    <aura:attribute name="pitch" type="Double" default="1.0"/>
+    
+    <!-- For SFX (sound effects) -->
+    <aura:attribute name="resourceName" type="String" description="The name of the static resource" access="global" default="voiceSFX"/>
+    <aura:attribute name="soundResources" type="Object[]" description="Array of named resources to load"/>
+    
+    <!-- For Hot Keys -->
+    <aura:attribute name="hotKeys" type="Object[]"/> 
+    <aura:attribute name="useHotKeys" type="Boolean" default="false"/>
+    
+    
+    <aura:attribute name="executeFirstMatchingCommand" type="Boolean" default="true"/>
+    <aura:attribute name="useModal" type="Boolean" default="false"/>
+
+
+    <aura:attribute name="standaloneApp" type="Boolean" default="false"/>
+    
+    
+    <aura:handler name="change" value="{!v.awake}" action="{!c.handleAwakeChange}"/>    
+    <aura:handler name="change" value="{!v.state}" action="{!c.handleStateChange}"/>    
+    <aura:handler name="change" value="{!v.listening}" action="{!c.handleListeningChange}"/>    
+    
+    <aura:handler name="change" value="{!v.voiceResults}" action="{!c.handleVoiceResultsChange}"/>    
+    <aura:handler name="change" value="{!v.voiceProxyReady}" action="{!c.voiceProxyReady}"/>
+    <aura:handler name="change" value="{!v.currentState}" action="{!c.handleStateChange}"/>
+    
+    <aura:handler event="c:voiceConfigUpdate" action="{!c.voiceConfigChanged}"/>
+    
+    <aura:dependency resource="wave:discover" type="EVENT"/>
+    
+    <!-- Handlers for various events -->
+    <!-- tabs -->
+	<aura:handler event="lightning:tabClosed" action="{!c.onTabClosed}"/>
+	<aura:handler event="lightning:tabCreated" action="{!c.onTabCreated}"/>
+	<aura:handler event="lightning:tabFocused" action="{!c.onTabFocused}"/>
+	<aura:handler event="lightning:tabRefreshed" action="{!c.onTabRefreshed}"/>
+	<aura:handler event="lightning:tabReplaced" action="{!c.onTabReplaced}"/>
+	<aura:handler event="lightning:tabUpdated" action="{!c.onTabUpdated}"/>
+    
+    <!-- tabs -->
+    <!--
+	<aura:handler event="force:createRecord" action="{!c.onCreateRecord}"/>
+	<aura:handler event="force:editRecord" action="{!c.onEditRecord}"/>
+	<aura:handler event="force:navigateToList" action="{!c.onNavigateToList}"/>
+	<aura:handler event="force:navigateToObjectHome" action="{!c.onNavigateToObjectHome}"/>
+	<aura:handler event="force:navigateToReactNativeApp" action="{!c.onNavigateToReactNativeApp}"/>
+	<aura:handler event="force:navigateToRelatedList" action="{!c.onNavigateToRelatedList}"/>
+	<aura:handler event="force:navigateToSObject" action="{!c.onNavigateToSObject}"/>
+	<aura:handler event="force:navigateToURL" action="{!c.onNavigateToURL}"/>
+	<aura:handler event="force:refreshView" action="{!c.onRefreshView}"/>
+	<aura:handler event="force:showToast" action="{!c.onShowToast}"/>
+	-->
+    
+	<!-- chatter -->
+	<aura:handler event="forceChatter:postCreated" action="{!c.onChatterPostCreated}"/>
+
+    <!-- wave -->
+	<aura:handler event="wave:discoverResponse" action="{!c.onWaveDiscoverResponse}"/>
+	<aura:handler event="wave:selectionChanged" action="{!c.onWaveSelectionChanged}"/>
+
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!--
+ <aura:handler name="change" value="{!v.inputText}" action="{!c.handleInputTextChange}"/>
+    -->
+    
+    
+    
+    <aura:handler event="lightning:tabCreated" action="{!c.onTabCreated}"/>
+    <aura:handler event="lightning:tabFocused" action="{!c.onTabFocused}"/>
+    <aura:handler event="lightning:tabRefreshed" action="{!c.onTabRefreshed}"/>
+    <aura:handler event="lightning:tabUpdated" action="{!c.onTabUpdated}"/>
+    
+    <aura:registerEvent name="update" type="wave:update"/>
+    
+    <aura:registerEvent name="showDashboard" type="c:showDashboard"/>
+    <aura:registerEvent name="showQuipThread" type="c:showQuipThread"/>
+
+<!--    
+    <c:streaming channel="/event/EinsteinAnalyticsEvent__e" onMessage="{!c.handlePlatformEvent}"/>
+    <c:streaming channel="/event/WaveAssetEvent" onMessage="{!c.handlePlatformEvent}"/>
+-->    
+    
+	<lightning:empApi aura:id="empApi"/>
+    <aura:attribute name="sub" type="Object"/>    
+    
+    
+    <aura:if isTrue="{!v.standaloneApp == false}">
+	    <lightning:utilityBarAPI aura:id="utilitybar"/>
+    	<lightning:workspaceAPI aura:id="workspace"/>
+    </aura:if>
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+	    
+    <c:proxy aura:id="proxy"/>
+
+    
+    <c:voiceProxy aura:id="voiceProxy"
+                  baseUrl="https://analytics-ltngout-playground.herokuapp.com/voiceproxy"
+                  vf_voice_proxy_id="vf_voice_proxy_frame"
+                  ready="{!v.voiceProxyReady}"
+                  />
+    
+	<c:voiceSFX aura:id="sfx" resourceName="{!v.resourceName}" soundResources="{!v.soundResources}"/>
+    
+    <div class="outer">
+        <lightning:layout aura:id="tools-layout" class="{!'tools  ' + (v.showTools ? '' : 'hide')}">
+            <lightning:layoutItem class="slds-p-around_small" size="12">
+                <lightning:buttonIconStateful
+                                              iconName="{!v.listening ? 'utility:unmuted' : 'utility:muted'}"
+                                              alternativeText="{!v.listening ? 'Stop Listening' : 'Start Listening'}"
+                                              selected="{!v.listening}"
+                                              onclick="{!c.toggleListening}"
+                                              variant="border-filled"
+                                              />
+                <lightning:buttonIconStateful
+                                              iconName="{!v.speakOutput ? 'utility:volume_high' : 'utility:volume_off'}"
+                                              alternativeText="{!v.speakOutput ? 'Stop Speaking' : 'Start Speaking'}"
+                                              selected="{!v.speakOutput}"
+                                              onclick="{!c.toggleSpeakOutput}"
+                                              variant="border-filled"
+                                              class="slds-p-left_x-small"                                          
+                                              />
+                <lightning:buttonIconStateful
+                                              iconName="{!v.executeFirstMatchingCommand ? 'utility:einstein' : 'utility:einstein'}"
+                                              alternativeText="{!v.executeFirstMatchingCommand ? 'Do Not Execute First Matching Command' : 'Execute First Matching Command'}"
+                                              selected="{!v.executeFirstMatchingCommand}"
+                                              onclick="{!c.toggleExecuteFirstMatchingCommand}"
+                                              variant="border-filled"
+                                              class="slds-p-left_x-small"
+                                              />
+                <lightning:buttonIconStateful
+                                              iconName="{!v.typeAhead ? 'utility:type' : 'utility:type'}"
+                                              alternativeText="{!v.typeAhead ? 'Disable Type Ahead' : 'Enable Type Ahead'}"
+                                              selected="{!v.typeAhead}"
+                                              onclick="{!c.toggleTypeAhead}"
+                                              variant="border-filled"
+                                              class="slds-p-left_x-small"
+                                              />
+                <lightning:buttonIconStateful
+                                              iconName="{!v.interimResults ? 'utility:topic' : 'utility:topic'}"
+                                              alternativeText="{!v.interimResults ? 'Disable Interim Results' : 'Enable Interim Results'}"
+                                              selected="{!v.interimResults}"
+                                              onclick="{!c.toggleInterimResults}"
+                                              variant="border-filled"
+                                              class="slds-p-left_x-small"
+                                              />
+                <lightning:buttonIconStateful
+                                              iconName="{!v.awake ? 'utility:stop' : 'utility:record'}"
+                                              alternativeText="{!v.awake ? 'Wake up Einstein' : 'Put Einstein to Sleep'}"
+                                              selected="{!v.awake}"
+                                              onclick="{!c.toggleAwake}"
+                                              variant="border-filled"
+                                              class="slds-p-left_x-small"
+                                              />
+                
+                <lightning:buttonIconStateful
+                                              iconName="{!v.useModal ? 'utility:dock_panel' : 'utility:expand_alt'}"
+                                              alternativeText="{!v.useModal ? 'Dock' : 'Undock'}"
+                                              selected="{!v.useModal}"
+                                              onclick="{!c.toggleUseModal}"
+                                              variant="border-filled"
+                                              class="slds-p-left_x-small"
+                                              />
+                
+                <ul>
+                    <li>
+                        <lightning:icon iconName="{!'utility:' + (v.voiceProxyReady ? 'check' : 'error')}" alternativeText="{!'Voice Proxy' + (v.voiceProxyReady ? 'Ready' : 'Mot Ready')}" variant="{!v.voiceProxyReady ? '' : 'error'}" size="x-small"/>
+                        Voice Proxy
+                    </li>
+                    <li>
+                        <!--
+                        <lightning:icon iconName="{!'utility:' + (v.voiceAnalysisProxyReady ? 'check' : 'error')}" alternativeText="{!'Voice Analysis Proxy' + (v.voiceAnalysisProxyReady ? 'Ready' : 'Mot Ready')}" variant="{!v.voiceAnalysisProxyReady ? '' : 'error'}" size="x-small"/>
+                        Voice Analysis Proxy
+-->
+                    </li>
+                </ul>
+                
+                <lightning:button label="Start Analyzer" onclick="{!c.startAnalyzer}"/>
+                <lightning:button label="Stop Analyzer" onclick="{!c.stopAnalyzer}"/>
+
+                <lightning:input type="number" name="wakeTimeout" label="Wake Timeout" value="{!v.wakeTimeout}" min="3" max="60" step="1"/>
+                
+                <div class="{!'awake ' + v.awake}">Awake: {!v.awake}</div>
+                <div>Wake Time Remaining: {!v.wakeTimeRemaining}</div>
+                <div class="{!'phase ' + v.phase}">Phase: {!v.phase}</div>
+                <div>Listening Toggled: {!v.listening}</div>
+                <lightning:input type="text" label="Wake Word(s)" value="{!v.wakeWords}" class="slds-p-vertical_small"/>
+                
+                <div>Voice Name: {!v.voiceName}</div>
+                <lightning:select value="{!v.voiceName}" label="Voices">
+                    <aura:iteration items="{!v.voices}" var="voice">
+                        <option value="{!voice.name}" title="{!voice.name + ' (' + voice.lang + ')'}">{!voice.name + ' (' + voice.lang + ')'}</option>
+                    </aura:iteration>
+                </lightning:select>
+
+                <lightning:select value="{!v.currentState}" label="State">
+                    <aura:iteration items="{!v.stateList}" var="state">
+                        <option value="{!state.name}" title="{!state.name}">{!state.label}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <h1>v.currentState: {!v.currentState}</h1>
+                <div class="{!'awake ' + v.awake}">Awake: {!v.awake}</div>
+                
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <lightning:layout class="header">
+            <lightning:layoutItem class="message slds-clearfix slds-p-horizontal_small slds-p-top_small" size="12">
+                <div class="slds-text-heading_small transcript slds-p-bottom_x_small">{!v.transcript != null ? v.transcript : ''}</div>
+                <div class="{!v.currentState == 'analytics_query' ? 'hide' : ''}">
+                    <div class="slds-text-heading_small title slds-p-vertical_x_small">{!v.message != null ? v.message.title : ''}</div>
+                    <div class="slds-text-heading_small subtitle slds-p-bottom_x_small">{!v.message != null ? v.message.subtitle : ''}</div>
+                </div>
+            </lightning:layoutItem>            
+            <div class="toolbar">
+                <div class="buttons slds-float_right">
+                    <lightning:buttonIconStateful
+                                                  iconName="{!v.showTools ? 'utility:settings' : 'utility:settings'}"
+                                                  alternativeText="{!v.showTools ? 'Hide Tools' : 'Show Tools'}"
+                                                  selected="{!v.showTools}"
+                                                  onclick="{!c.toggleShowTools}"
+                                                  variant="bare"
+                                                  size="x-small"
+                                                  class="slds-p-right_x-small"
+                                                  />
+                    <lightning:buttonIconStateful
+                                                  iconName="{!v.useHotKeys ? 'utility:keyboard_dismiss' : 'utility:keyboard_dismiss'}"
+                                                  alternativeText="{!v.useHotKeys ? 'Disable Hot Keys' : 'Use Hot Keys'}"
+                                                  selected="{!v.useHotKeys}"
+                                                  onclick="{!c.toggleUseHotKeys}"
+                                                  variant="bare"
+                                                  size="x-small"
+                                                  class="slds-p-right_x-small"
+                                                  />
+                </div>                    
+            </div>
+            
+        </lightning:layout>
+        <lightning:layout class="{!'main ' + (v.awake == true ? '' : 'hide')}">
+            <lightning:layoutItem class="slds-p-horizontal_small" size="12">
+                
+                <div aura:id="nlqContainer" class="{!'nlq ' + (v.currentState == 'analytics_query' ? '' : 'hide')}">
+					<c:nlqDashboard aura:id="nlqDashboard" queryName="{!v.nlqQueryName}" saql="{!v.nlqSAQL}" dashboardIdReference="{!v.nlqDashboardId}"/>
+                </div>
+                
+                <div class="suggested-commands slds-p-top_small">
+                    <aura:if isTrue="{!v.suggestedCommands.length > 0}">
+                        <ul class="list slds-has-inline-block-links">
+                            <aura:iteration items="{!v.suggestedCommands}" var="command" indexVar="idx">
+                                <li class="command slds-m-around_small">
+                                    <a class="label" href="javascript:void(0);" title="{!command.text}" data-command="{!command.text}" onclick="{! c.handleCommandClick }">
+	                                    <img class="icon slds-m-right_small" src="{!$Resource.blue_mic}" data-command="{!command.text}" title="{!command.text}" onclick="{!c.handleCommandClick}"/>                                    
+                                        <div class="title" data-command="{!command.text}">{!command.text}</div>
+                                    </a>
+                                </li>
+                            </aura:iteration>
+                        </ul>
+                    </aura:if>
+                </div>
+                
+<!--                
+                <p class="slds-p-top_small">
+                    <lightning:input type="text" label="&nbsp;" value="{!v.inputText}" placeholder="{!v.inputPlaceholder}" onchange="{!c.handleInputTextChange}" onfocus="{!c.handleInputTextFocus}"/>
+                    <lightning:buttonIcon iconName="utility:play" variant="container" alternativeText="Submit" onclick="{!c.submitInputText}"/>
+                </p>
+                
+                <lightning:card iconName="utility:quick_text" title="Voice Transcripts">
+                    <ul class="list slds-p-around_small">
+                        <aura:iteration items="{!v.voiceTranscripts}" var="result">
+                            <li>{!result.transcript} - {!result.confidence}</li>
+                        </aura:iteration>
+                    </ul>
+                </lightning:card>
+                
+                <lightning:card iconName="utility:quick_text" title="Voice Results">
+                    <ul class="list slds-p-around_small">
+                        <aura:iteration items="{!v.voiceResults}" var="result">
+                            <li>{!result.transcript} - {!result.confidence}</li>
+                        </aura:iteration>
+                    </ul>
+                </lightning:card>
+-->
+                
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <c:voiceVisualizer awake="{!v.awake}" listening="{!v.listening}" showVisualization="{!v.showVisualization}" interimResults="{!v.interimResults}"/>
+        
+    
+        <!-- Move this to a component? -->
+        <div class="{!'fixed-input-container ' + (v.awake == true ? '' : 'hide')}">
+            <div class="fixed-input">
+                <input class="slds-input" type="text" value="{!v.inputText}" placeholder="{!v.inputPlaceholder}" onchange="{!c.handleInputTextChange}" onfocus="{!c.handleInputTextFocus}"/>
+            </div>
+        </div>
+        
+    </div>
+    
+</aura:component>

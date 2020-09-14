@@ -1,0 +1,26 @@
+<aura:component>
+	<aura:attribute name="waveAutoInstallRequest" type="Map" access="public" required="true" />
+
+	<aura:attribute name="messages" type="String[]" access="private" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+	<article class="slds-card">
+	<div class="slds-illustration slds-illustration_large">
+		<img aura:id="desert-image" class="slds-illustration__svg" src="{!$Resource.page_not_available}" alt="" />
+		<div class="slds-text-longform">
+			<h3 class="slds-text-heading_medium"><lightning:formattedText value="Aw Snap! - We couldn't initialize the app."/></h3>
+			<h3 class="slds-text-heading_small"><lightning:formattedText value="Log Information"/></h3>
+			<div class="text-box">
+				<ul class="slds-has-dividers_top-space no-list">
+					<aura:iteration items="{!v.messages}" var="message">
+						<li class="slds-item">
+				 			<div class="slds-text-align_left">{!message}</div>
+						</li>
+					</aura:iteration>
+				</ul>
+			</div>
+		</div>
+	</div>
+	</article>
+</aura:component>

@@ -1,0 +1,45 @@
+{
+  "notificationLevel": "",
+  "workflowDefinition": {
+    "register_Opportunity": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "Opportunity",
+        "alias": "${App.Datasets.Opportunity_tp.FullyQualifiedName}",
+        "source": "sfdcDigest_Opportunity"
+      }
+    },
+    "sfdcDigest_Opportunity": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Amount"},
+          {"name": "CloseDate"},
+          {"name": "IsClosed"},
+          {"name": "ExpectedRevenue"},
+          {"name": "Fiscal"},
+          {"name": "FiscalQuarter"},
+          {"name": "FiscalYear"},
+          {"name": "ForecastCategoryName"},
+          {"name": "LeadSource"},
+          {"name": "Type"},
+          {"name": "TotalOpportunityQuantity"},
+          {"name": "StageName"},
+          {"name": "IsWon"}
+        ],
+        "object": "Opportunity"
+      }
+    }
+  },
+  "_type": "dataflow",
+  "description": "Extract, load, and transform for application [Dataflow_App_Dataflow_App].",
+  "MasterLabel": "Dataflow App",
+  "nextRun": "",
+  "WorkflowStatus": "Inactive",
+  "isDeletable": true,
+  "longRunningAlertInMins": "",
+  "DataflowType": "USER",
+  "name": "eadx__Dataflow_App",
+  "_url": "/insights/internal_api/v1.0/esObject/workflow//json",
+  "_uid": ""
+}

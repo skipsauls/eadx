@@ -1,0 +1,351 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+        <apex:slds />
+        <title>Template Events</title>
+        <style>
+            .scroll-table {
+
+            }
+            
+            #perfContainer {
+                display: none;
+            }
+            
+            .main {
+                min-height: 500px;
+            }
+            
+            #astro_skipping #flying {
+                display: none;
+            }
+            
+        </style>
+    </head>
+    
+    <body class="slds-scope">    
+            
+        <div class="container">
+            <div class="slds-page-header slds-page-header_object-home">
+              <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                  <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__figure">
+                      <span class="slds-icon_container slds-icon-standard-apps">
+                        <svg class="slds-icon" aria-hidden="true">
+                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#apps')}"></use>
+                        </svg>
+                      </span>
+                    </div>
+                    <div class="slds-media__body">
+                      <p class="slds-text-title_caps slds-line-height_reset">Wave Analytics</p>
+                      <h1 class="slds-page-header__title slds-p-right_x-small">
+                        <button class="slds-button slds-button_reset slds-type-focus slds-truncate" aria-haspopup="true" title="">
+                          <span class="slds-grid slds-has-flexi-truncate slds-grid_vertical-align-center">
+                            <span class="slds-truncate" title="Wave Apps">Apps</span>
+                            <svg class="slds-button__icon slds-button__icon_right slds-no-flex" aria-hidden="true">
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#down')}"></use>
+                            </svg>
+                          </span>
+                        </button>
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+                        
+    
+              <div class="slds-grid">
+                <div class="slds-col slds-align-bottom">
+                </div>
+                
+                <div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+    
+                  <button class="slds-button slds-button_icon slds-m-left_xx-small slds-button_icon-border" title="Refresh" onclick="refresh();">
+                    <svg class="slds-button__icon" aria-hidden="true">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#refresh')}"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Refresh</span>
+                  </button>
+                  <div class="slds-button-group" role="group">
+                    <button class="slds-button slds-button_icon slds-button_icon-border" title="Charts">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#chart')}"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Charts</span>
+                    </button>
+                    <button class="slds-button slds-button_icon slds-button_icon-border" title="Filters">
+                      <svg class="slds-button__icon" aria-hidden="true">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#filterList')}"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Filters</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="slds-grid slds-wrap slds-grid_pull-padded slds-border_bottom main">
+              <div class="slds-p-horizontal_small slds-size_1-of-2 slds-medium-size_4-of-6 slds-large-size_6-of-12 slds-border_right">
+              
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer scroll-table" id="progress_table">
+                </table>            
+                  
+              </div>
+              
+              <div class="slds-p-horizontal_small slds-size_1-of-2 slds-medium-size_2-of-6 slds-large-size_6-of-12">
+              
+                <div id="details" style="display: none">
+                    <div id="astro_skipping" class="slds-align_absolute-center slds-m-vertical_x-large">                
+                        <img id="skipping" src="/analytics/wave/web/proto/images/skipping_1s_16c_30fps.gif" width="300"></img>
+                        <img id="flying" src="https://c2.sfdcstatic.com/content/dam/web/en_us/www/images/gif/astro-eagle-7acef4.gif" width="250"></img>
+                    </div>
+    
+                    <h1 class="slds-page-header__title slds-align_absolute-center slds-m-vertical_small">
+                        <span id="message">&nbsp;</span>
+                    </h1>
+                </div>    
+                            
+              </div>
+            </div>  
+                        
+                       
+        </div>
+    
+
+        <apex:includeScript value="{!URLFOR($Resource.cometd_zip, 'cometd/cometd.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.cometd_zip, 'cometd/AckExtension.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.cometd_zip, 'cometd/ReloadExtension.js')}"/>
+            
+                
+        <script>
+        
+        var _cometd = new org.cometd.CometD();
+        
+        function handshake() {
+            
+            console.warn('handshake');
+            
+            var cometdURL = location.protocol + "//" + location.host + "/cometd/40.0";
+            
+            _cometd.configure({
+                url: cometdURL,
+                logLevel: 'debug',
+                appendMessageTypeToURL: false,
+                requestHeaders: { 'Authorization': 'Bearer {!$Api.Session_ID}' } 
+            });
+            _cometd.websocketEnabled = false;
+            //_cometd.unregisterTransport('long-polling');
+            _cometd.handshake();
+        
+        }
+        
+        function subscribe(topic) {
+            console.warn("subscribe: ", topic);
+            topic = topic || document.getElementById('topic').value;
+            console.warn('subscribe: ', topic);
+            _cometd.subscribe('/event/' + topic, receive);
+        }
+        
+        function unsubscribe(topic) {
+            topic = topic || document.getElementById('topic').value;
+            console.warn('unsubscribe: ', topic);
+            _cometd.unsubscribe('/event/' + topic, receive);
+        }
+        
+        
+        
+        function receive(message) {
+            console.warn('receive: ', message);
+            var data = message.data;
+            var payload = data.payload;
+            
+            console.warn(payload.EventType, payload.ItemName, " success: ", payload.IsSuccessful, (payload.Message ? " - Message: " + payload.Message : ""));
+            
+            createTableRow(payload);
+            
+
+            
+            
+            if (payload.IsSuccessful) {
+
+
+                if (document.querySelector("#details").style.display === "none") {
+                    setMessage("We're working on your app!");
+                    document.querySelector("#details").style.display = "";
+                                     
+                    setTimeout(function() {
+                        setMessage(payload.EventType + " " + (payload.ItemName || "") + " is done!");
+                    }, 2000);
+                } else {
+    
+                    setMessage(payload.EventType + " " + (payload.ItemName || "") + " is done!");
+                }
+                            
+                if (payload.EventType === "Application") {
+                    setTimeout(function() {
+                        document.querySelector("#astro_skipping #skipping").style.display = "none";
+                        document.querySelector("#astro_skipping #flying").style.display = "block";
+                        setMessage("We're launching the " + payload.ItemName + " app now!");
+
+                        setTimeout(function() {
+    
+                            launchApp(payload.ItemId);
+                        
+                        }, 3000);
+                        
+                    }, 1000);
+                }
+            }
+        }
+
+        function launchApp(id) {
+            var url = "/analytics/wave/wave.apexp#application/" + id + "/edit";
+            window.open(url,'_blank');
+        }
+        
+        var columns = [
+            {label: "Type", name: "EventType"},
+            {label: "Name", name: "ItemName"},
+            {label: "Id", name: "ItemId"},
+            {label: "Success", name: "IsSuccessful"},
+            {label: "Message", name: "Message"}
+        ];
+
+        function setMessage(message) {
+            document.querySelector("#message").innerHTML = message;
+        }        
+        
+        function setPieChartPercentage(percent) {
+            var slice = document.querySelector("#pie_chart #slice");
+            slice.setAttribute("data-value", percent);
+        }
+        
+        function setItemCount(count) {
+            document.querySelector("#item_count").innerHTML = count;
+        }
+
+        function setSortedBy(val) {
+            document.querySelector("#sorted_by").innerHTML = val;
+        }
+        
+        function setupTable() {
+            var table = document.querySelector("#progress_table");
+            var head = document.createElement("thead");
+            var row = document.createElement("tr");
+            row.classList.add("slds-text-title_caps");
+            head.appendChild(row);
+            var cell = null;
+            var div = null;
+            var item = null;
+            for (var i = 0; i < columns.length; i++) {
+                item = columns[i];
+                cell = document.createElement("th");
+                cell.setAttribute("scope", "col");
+                div = document.createElement("div");
+                div.classList.add("slds-truncate");
+                div.setAttribute("title", item.label);
+                div.setAttribute("name", item.name);
+                div.innerHTML = item.label;
+                cell.appendChild(div);
+                row.appendChild(cell);
+            }
+            
+            var body = document.createElement("tbody");
+            
+            table.innerHTML = null;
+            table.appendChild(head);
+            table.appendChild(body);
+        }
+        
+        
+        function createTableRow(data) {
+            var id = data.ItemId;
+            var row = document.querySelector('#progress_table [data-item-id="' + id + '"]');
+            var append = false;
+            if (id === null || typeof row === "undefined" || row === null) {
+                append = true;
+                row = document.createElement("tr");
+                row.setAttribute("data-item-id", id);
+            } else {
+                row.innerHMTL = "";
+            }
+            
+            var cell = null;
+            var div = null;
+            var val = null;
+            for (var i = 0; i < columns.length; i++) {
+                val = data[columns[i].name];
+                console.warn("item: ", columns[i].name, val);
+                cell = document.createElement("td");
+                cell.setAttribute("data-label", val);
+                div = document.createElement("div");
+                div.classList.add("slds-truncate");
+                div.classList.add(columns[i].name);
+                div.setAttribute("title", val);
+                div.innerHTML = val;
+                /*
+                if (k === "datasetPercentage") {
+                    div.style.width = (val * 10) + "%";
+                }
+                */
+                cell.appendChild(div);
+                row.appendChild(cell);                                            
+            }
+            
+            if (append === true) {
+                var body = document.querySelector("#progress_table tbody");
+                body.appendChild(row);
+            }
+            
+            return row;        
+        }
+        
+                
+        // Init things
+        (function() {
+        
+            handshake();
+            subscribe("WaveAssetEvent");        
+            //subscribe("*");
+
+            setupTable();
+            
+            
+        })();
+        
+        
+        
+        // Sample JSON response for reference
+        var sample = {
+           "data":{
+              "schema":"BcvK0wrvsL_eQ0jOxekhTw",
+              "payload":{
+                 "CreatedDate":"2017-06-02T18:06:08Z",
+                 "CreatedById":"005xx000001T9hyAAC",
+                 "WaveNamespace":"Template",
+                 "EventType":"Application",
+                 "FolderId":"00lxx000000g71zAAA",
+                 "ContainerId":null,
+                 "ItemId":"00lxx000000g71zAAA",
+                 "ItemName":"DemoDemoDemo",
+                 "Index":1,
+                 "Total":1,
+                 "IsSuccessful":true,
+                 "Message":null
+              },
+              "event":{
+                 "replayId":2216
+              }
+           },
+           "channel":"/event/WaveAssetEvent"
+        };
+        
+        </script>        
+                
+    </body>
+    
+</html>
+        
+</apex:page>

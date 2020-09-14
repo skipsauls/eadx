@@ -1,0 +1,7 @@
+<design:component label="Voice Dictating">
+    <design:attribute name="currentState" label="Current State"/>
+    <design:attribute name="config" label="Config"/>
+    <design:attribute name="configId" label="Config ID"/>
+    <design:attribute name="configName" label="Config Name"/>
+    <design:attribute name="inputText" label="Input Text"/>    
+</design:component>

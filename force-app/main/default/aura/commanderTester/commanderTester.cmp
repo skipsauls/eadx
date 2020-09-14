@@ -1,0 +1,56 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+    <c:commanderContainer/>
+<!--
+    <aura:attribute name="name" type="String" access="global" default="showDashboard"/>
+    <aura:attribute name="config" type="String" access="global" default="{}"/>
+    <aura:attribute name="config2" type="String" access="global" default="{}"/>
+    <aura:attribute name="commandIndex" type="Integer" access="global"/>
+    <aura:attribute name="command" type="Object" access="global"/>
+    <aura:attribute name="commands" type="List" access="global"/>
+    <aura:attribute name="uid" type="String" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{!v.commandIndex}" action="{!c.handleCommandChange}"/>    
+    
+    <wave:sdk aura:id="sdk"/>
+    <c:commander aura:id="commander"/>
+    <c:analyticsEventMonitor/>
+    
+    <lightning:card title="Commands">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+                <lightning:select value="{!v.commandIndex}" label="Commands" class="slds-m-bottom_small">
+                    <aura:iteration items="{!v.commands}" var="command" indexVar="idx">
+                        <option value="{!idx}">{!command.label}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <lightning:button label="Clone" onclick="{!c.cloneCommand}"/>
+                <lightning:button label="New" onclick="{!c.newCommand}"/>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem size="3" flexibility="auto" padding="around-small">
+                <lightning:input label="Name" type="text" value="{!v.command.name}" class="slds-m-bottom_small"/>
+                <lightning:input label="Label" type="text" value="{!v.command.label}" class="slds-m-bottom_small"/>
+                <lightning:input label="Type" type="text" value="{!v.command.type}" class="slds-m-bottom_small"/>
+                <lightning:input label="Transcript" type="text" value="{!v.command.transcript}" class="slds-m-bottom_small"/>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem size="6" flexibility="auto" padding="around-small">
+                <lightning:textarea label="Config" class="json config" value="{!v.command.config}"/>
+                <lightning:button label="Exec" onclick="{!c.execCommand}"/>
+                <lightning:button label="Exec 2" onclick="{!c.execCommand2}"/>
+            </lightning:layoutItem>
+        </lightning:layout>        
+    </lightning:card>
+  
+    <lightning:card title="Analytics">
+        
+        <lightning:flow aura:id="flowData" onstatuschange="{!c.handleFlowStatusChange}"/>
+        
+        
+        <c:analyticsCommander aura:id="analyticsCommander"/>
+    </lightning:card>
+-->
+</aura:component>

@@ -1,0 +1,68 @@
+{
+  "name" : "Very_Nice_Dashboard_tp",
+  "label" : "Very Nice Dashboard",
+  "folder" : {
+    "id" : "${App.Folder.Id}"
+  },
+  "mobileDisabled" : false,
+  "state" : {
+    "dataSourceLinks" : [ ],
+    "filters" : [ ],
+    "gridLayouts" : [
+      {
+        "name" : "Default",
+        "numColumns" : 12,
+        "pages" : [
+          {
+            "label" : "Untitled",
+            "name" : "89af0ac4-c8de-4574-8b42-7adbae83f715",
+            "widgets" : [
+              {
+                "colspan" : 2,
+                "column" : 1,
+                "name" : "text_1",
+                "row" : 2,
+                "rowspan" : 1,
+                "widgetStyle" : {
+                  "borderEdges" : [ ]
+                }
+              }
+            ]
+          }
+        ],
+        "rowHeight" : "normal",
+        "selectors" : [ ],
+        "style" : {
+          "alignmentX" : "left",
+          "alignmentY" : "top",
+          "backgroundColor" : "#F2F6FA",
+          "cellSpacingX" : 8,
+          "cellSpacingY" : 8,
+          "fit" : "original",
+          "gutterColor" : "#C5D3E0"
+        },
+        "version" : 1.0
+      }
+    ],
+    "layouts" : [ ],
+    "steps" : { },
+    "widgetStyle" : {
+      "backgroundColor" : "#FF0000",
+      "borderColor" : "#E6ECF2",
+      "borderEdges" : [ ],
+      "borderRadius" : 0,
+      "borderWidth" : 1
+    },
+    "widgets" : {
+      "text_1" : {
+        "parameters" : {
+          "fontSize" : 20,
+          "text" : "Add text 2.",
+          "textAlignment" : "center",
+          "textColor" : "#091A3E"
+        },
+        "type" : "text"
+      }
+    }
+  }
+}

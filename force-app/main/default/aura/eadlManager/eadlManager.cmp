@@ -1,0 +1,132 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="eadlManagerController">
+    
+    <aura:attribute name="templateApiName" type="String" access="GLOBAL" description="The namespace and developer name." default="eadx__Mortgage_Calculator"/>
+    <aura:attribute name="appName" type="String" access="GLOBAL" description="The name for the app instance." default="Mortgage Calculator"/>
+    <aura:attribute name="status" type="Object" access="GLOBAL" description="The request status object."/>
+    <aura:attribute name="timeout" type="Integer" access="global" default="500"/>
+    <aura:attribute name="timer" type="Object"/>
+    <aura:attribute name="dashboards" type="Object[]" access="GLOBAL" description="The dashboards for the embedded app."/>
+    <aura:attribute name="selectedDashboard" type="Object" access="GLOBAL" description="The dashboard to preview."/>
+	<aura:attribute name="height" type="Integer" access="global" default="600"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+
+    <lightning:layout class="">
+        <lightning:layoutItem flexibility="auto" size="4">
+            <div class="slds-m-around_x-small slds-box slds-theme_default slds-align_absolute-center">
+                <lightning:button label="Create App" onclick="{!c.handleCreateApp}"/>
+                <lightning:button label="Delete App" onclick="{!c.handleDeleteApp}"/>
+            </div>
+            
+            <aura:if isTrue="{!v.status != null}">
+                <lightning:tile label="{!v.status.Name}" class="slds-box slds-theme_default slds-m-around_x-small">
+                    <aura:set attribute="media">
+                        <lightning:icon iconName="{!v.status.RequestType == 'WaveAppCreate' ? 'standard:app' : 'standard:template'}" class="{!'status-' + v.status.RequestStatus}"/>
+                    </aura:set>
+                    <dl class="slds-dl_horizontal slds-m-top_small">
+                        
+                        <dt class="slds-dl_horizontal__label">
+                            <p class="slds-truncate" title="Template API Name">Template API Name:</p>
+                        </dt>
+                        <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.status.TemplateApiName}">{!v.status.TemplateApiName}</p>
+                        </dd>
+                        
+                        <dt class="slds-dl_horizontal__label">
+                            <p class="slds-truncate" title="Template Version">Template Version:</p>
+                        </dt>
+                        <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.status.TemplateVersion}">{!v.status.TemplateVersion}</p>
+                        </dd>
+                        
+                        <dt class="slds-dl_horizontal__label">
+                            <p class="slds-truncate" title="Request Type">Request Type:</p>
+                        </dt>
+                        <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.status.RequestType}">{!v.status.RequestType}</p>
+                        </dd>
+                        
+                        <dt class="slds-dl_horizontal__label">
+                            <p class="slds-truncate" title="Request Status">Request Status:</p>
+                        </dt>
+                        <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.status.RequestStatus}">{!v.status.RequestStatus}</p>
+                        </dd>
+                        
+                        <dt class="slds-dl_horizontal__label">
+                            <p class="slds-truncate" title="Request Log">Request Log:</p>
+                        </dt>
+                        <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.status.RequestLog}">{!v.status.RequestLog}</p>
+                        </dd>
+                        
+                    </dl>
+                </lightning:tile>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.dashboards != null}">
+                <ul class="slds-box slds-theme_default slds-m-around_x-small">
+                    <aura:iteration items="{!v.dashboards}" var="dashboard" indexVar="idx">
+                        <li class="slds-item">
+                            
+                            <lightning:tile label="{!'Dashboard: ' + dashboard.label}" href="" class="slds-box slds-m-bottom_small">
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="standard:dashboard_ea"/>
+                                </aura:set>
+                                <dl class="slds-dl_horizontal slds-m-top_small">
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Label">Label:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!dashboard.label}">{!dashboard.label}</p>
+                                    </dd>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Namespace">Namespace:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!dashboard.namespace}">{!dashboard.namespace}</p>
+                                    </dd>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="Name">Name:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!dashboard.name}">{!dashboard.name}</p>
+                                    </dd>
+                                    <dt class="slds-dl_horizontal__label">
+                                        <p class="slds-truncate" title="ID">ID:</p>
+                                    </dt>
+                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                        <p class="slds-truncate" title="{!dashboard.id}">{!dashboard.id}</p>
+                                    </dd>
+                                    <dt class="slds-m-vertical_small slds-align_absolute-center">
+                                        <lightning:button label="Test Dashboard" onclick="{!c.handleTestDashboard}" value="{!idx}"/>
+                                    </dt>
+                                </dl>
+                            </lightning:tile>                                        
+                            
+                        </li>
+                    </aura:iteration>
+                    
+                </ul>                                                      
+            </aura:if>
+            
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem flexibility="auto" size="8">
+            <aura:if isTrue="{!v.selectedDashboard != null}">
+                <div class="slds-m-around_x-small slds-box slds-theme_default slds-p-around_x-small">
+                    <wave:waveDashboard dashboardId="{!v.selectedDashboard.id}"
+                                        height="{!v.height}"
+                                        openLinksInNewWindow="true"
+                                        showHeader="false"
+                                        showTitle="false"
+                                        showSharing="false"
+                                        />        	
+                </div>
+            </aura:if>              
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+</aura:component>

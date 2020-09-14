@@ -1,0 +1,4 @@
+<design:component label="EADL Dashboard">
+    <design:attribute name="developerName" label="Developer Name"/>
+    <design:attribute name="height" label="Height"/>
+</design:component>

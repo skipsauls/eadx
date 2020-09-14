@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folder>eadx__Communities_Demo</folder>
+    <masterLabel>Communities Demo</masterLabel>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>demo@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+</WaveApplication>

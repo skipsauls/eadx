@@ -1,0 +1,56 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="ApexDataLoader">
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard"/>
+    <aura:attribute name="developerName" type="String" access="GLOBAL" description="The developer name of the dashboard" default="eadx__Fortnite_Players"/>
+    <aura:attribute name="pageId" type="String" access="GLOBAL" description="The id of the dashboard page"/>
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="1024"/>
+
+    <aura:attribute name="datasetName" type="String" access="GLOBAL" default="eadx__oppty_demo" description="Dataset used for refresh"/>
+    <aura:attribute name="fieldName" type="String" access="GLOBAL" default="StageName" description="Field in the dataset used for refresh"/>
+    <aura:attribute name="fieldValue" type="String" access="GLOBAL" default="Needs Analysis" description="Value for the field in the dataset used for refresh"/>
+
+    <aura:attribute name="loading" type="Boolean" default="false" access="global"/>
+    
+    <!-- Use for platform events -->
+    <aura:attribute name="sub" type="Object" />
+    <aura:attribute name="timestamp" type="Integer"/>
+    
+    <!-- Used for change events from the player input form -->
+    <aura:attribute name="playerInfo" type="Object" access="global" description="The Fortnite player info"/>
+    <aura:attribute name="playerData" type="Object" access="global" description="The Fortnite player data"/>
+    <aura:attribute name="playerInfoMap" type="Object" access="global" description="The Fortnite player info in map form"/>
+    <aura:attribute name="playerDataMap" type="Object" access="global" description="The Fortnite player data in map form"/>
+    <!--
+	<aura:handler name="change" value="{!v.playerData}" action="{!c.handlePlayerDataUpdated}"/>
+	-->
+	<aura:handler name="change" value="{!v.playerDataMap}" action="{!c.handlePlayerDataUpdated}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:empApi aura:id="empApi"/>
+
+	<lightning:overlayLibrary aura:id="overlayLib"/>
+
+
+    <div>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="3">
+                <div class="slds-m-around_small">
+	                <c:fortnitePlayer playerInfo="{!v.playerInfo}" playerInfoMap="{!v.playerInfoMap}" playerData="{!v.playerData}" playerDataMap="{!v.playerDataMap}"/>
+                </div>
+                
+                <!-- Old UI for testing -->
+                <ul class="slds-m-around_small">
+                    <li>
+		                <lightning:button label="Test Players Updated" onclick="{!c.handlePlayerDataUpdated}"/>                    
+                    </li>
+                </ul>
+
+            </lightning:layoutItem>
+            <lightning:layoutItem size="9">
+                <div class="container slds-m-around_small">
+	                <wave:waveDashboard developerName="{!v.developerName}" height="{!v.height}" showHeader="false" showTitle="false" showSharing="false"/>                
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>	
+</aura:component>

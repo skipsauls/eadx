@@ -1,0 +1,116 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="assetType" type="String" access="global"/>
+    <aura:attribute name="asset" type="String" access="global"/>    
+    <aura:attribute name="assetDetails" type="Object"/>
+    <aura:attribute name="assetCamelType" type="String" access="global"/>
+
+    <aura:attribute name="versions" type="Object[]"/>        
+    
+    <aura:attribute name="leftVersionId" type="String"/>
+    <aura:attribute name="leftVersion" type="Object"/>
+    <aura:attribute name="leftVersionJSON" type="String"/>
+    
+    
+    <aura:attribute name="rightVersionId" type="String"/>
+    <aura:attribute name="rightVersion" type="Object"/>
+    <aura:attribute name="rightVersionJSON" type="String"/>
+    
+       
+    <aura:handler name="change" value="{!v.asset}" action="{!c.handleAssetChange}"/>
+   
+    
+<!-- Move and then delete below -->
+    
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard to show. May be null."/>
+    <aura:attribute name="datasetId" type="String" access="GLOBAL" description="The id of the dataset to show. May be null."/>
+    <aura:attribute name="lensId" type="String" access="GLOBAL" description="The id of the lens to show. May be null."/>
+    
+    
+    
+    <aura:attribute name="dashboards" type="Object[]"/>
+    <aura:attribute name="filteredDashboards" type="Object[]"/>
+    <aura:attribute name="previewDashboards" type="Object[]"/>
+<!--
+    <aura:attribute name="dashboardId" type="String"/>
+-->
+    <aura:attribute name="dashboard" type="Object"/>
+    <aura:attribute name="dashboardJSON" type="String"/>
+    
+    <aura:attribute name="versionId" type="String"/>
+    <aura:attribute name="version" type="Object"/>
+    <aura:attribute name="versionJSON" type="String"/>
+    
+    <aura:attribute name="versionTempId" type="String"/>
+    
+    <aura:attribute name="diff" type="String"/>
+    <aura:attribute name="annotatedDiff" type="String"/>    
+    
+    
+    
+    <aura:handler name="change" value="{!v.leftVersionId}" action="{!c.handleSelectLeftVersion}"/>
+    <aura:handler name="change" value="{!v.rightVersionId}" action="{!c.handleSelectRightVersion}"/>
+    
+<!--    
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.handleSelectDashboard}"/>
+-->    
+    <aura:handler name="change" value="{!v.versionId}" action="{!c.handleSelectVersion}"/>
+    <aura:handler name="change" value="{!v.version}" action="{!c.doDiff}"/>
+    
+    <ltng:require styles="{!join(',',$Resource.jsondiffpatch_html,$Resource.jsondiffpatch_annotated)}" scripts="{!$Resource.jsondiffpatch_umd}" afterScriptsLoaded="{!c.scriptsLoaded}"/>
+    
+    <c:proxy aura:id="proxy"/>
+    <wave:sdk aura:id="sdk"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <div class="outer">
+        <lightning:layout class="compare" horizontalAlign="end" verticalAlign="start" pullToBoundary="small" multipleRows="false">            
+            
+            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="2">
+                
+                <lightning:card iconName="standard:hierarchy" title="Analytics Assets" class="container">
+                    <aura:set attribute="title">
+                        <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+                            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                                <h1 class="">Analytics Assets</h1>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                                <lightning:buttonGroup class="">
+                                    <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Refresh the List" iconName="utility:refresh" onclick="{!c.handleRefresh}"/>
+                                    <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="View the Selected Item in Analytics Studio" iconName="utility:preview" onclick="{!c.handleView}"/>
+                                    <lightning:buttonIcon class="" alternativeText="Edit the Selected Item in Analytics Studio" iconName="utility:edit" onclick="{!c.handleEdit}"/>
+                                </lightning:buttonGroup>
+                            </lightning:layoutItem>
+                        </lightning:layout>                    
+                    </aura:set>
+                    <div class="asset-tree-container">
+                        <c:analyticsTree aura:id="analytics_tree" assetId="{!v.assetId}" assetType="{!v.assetType}" asset="{!v.asset}"/>
+                    </div>
+                    <aura:set attribute="footer">
+                    </aura:set>
+                </lightning:card>
+                
+                
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="5">
+                
+                <c:analyticsDiffViewer class="container" title="A" asset="{!v.asset}" versionId="{!v.leftVersionId}"/>
+                
+            </lightning:layoutItem>
+            
+            
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="5">
+                
+
+                <c:analyticsDiffViewer class="container" title="B" asset="{!v.asset}" versionId="{!v.rightVersionId}"/>
+                
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+    </div>
+    
+</aura:component>

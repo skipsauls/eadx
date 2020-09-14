@@ -1,0 +1,43 @@
+<aura:component access="global" controller="CommanderUtils">
+    <aura:attribute name="action" type="Object" access="global"/>
+    <aura:attribute name="actionTypes" type="String[]" access="global"/>
+    <aura:attribute name="commandTargets" type="Object[]" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <div class="action-editor details slds-p-horizontal_small">
+        <div class="slds-form" role="list">
+            
+            <div class="slds-form__row">                
+                <lightning:input type="text" label="Label" value="{!v.action.label}" class="slds-size_2-of-2" required="true" onblur="{!c.handleLabelBlur}"/>
+            </div>
+            <div class="slds-form__row">
+                <lightning:input type="text" label="Name" value="{!v.action.name}" class="slds-size_2-of-2" required="true"/>
+            </div>
+            <div class="slds-form__row">
+                <lightning:select label="Type" value="{!v.action.type}" class="slds-size_2-of-2" required="true">
+                    <option value="" disabled="true">Please select an Action Type</option>
+                    <aura:iteration items="{!v.actionTypes}" var="type">
+                        <option value="{!type}" checked="{!type == v.action.type}">{!type}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <aura:if isTrue="{!v.action.type == 'InvocableActionApex'}">
+                <div class="slds-form__row">
+                    <lightning:select label="Command Target" value="{!v.action.commandTarget.name}" class="slds-size_2-of-2" required="true">
+                        <option value="" disabled="true">Please select an Action Type</option>
+                        <aura:iteration items="{!v.commandTargets}" var="commandTarget">
+                            <option value="{!commandTarget.Id}" checked="{!commandTarget.Id == v.action.commandTarget.id}">{!commandTarget.DeveloperName}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </aura:if>
+            <div class="slds-form__row">
+                <lightning:textarea label="Description" value="{!v.action.description}" class="slds-size_2-of-2"/>
+            </div>
+        </div>
+        
+    </div>	
+</aura:component>

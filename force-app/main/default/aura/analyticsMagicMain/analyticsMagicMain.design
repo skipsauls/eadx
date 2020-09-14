@@ -1,0 +1,8 @@
+<design:component label="Analytics Magic Main">
+    <design:attribute name="title" label="Title"/>
+    <design:attribute name="iconName" label="Icon Name"/>
+    <design:attribute name="recordId" label="Record ID"/>	
+    <design:attribute name="config" label="Config"/>
+    <design:attribute name="configId" label="Config ID"/>
+    <design:attribute name="configName" label="Config Name"/>
+</design:component>

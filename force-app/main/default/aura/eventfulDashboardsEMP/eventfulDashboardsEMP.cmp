@@ -1,0 +1,21 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="dashboardName" type="String" access="GLOBAL" default="eadx__Eventful_Dashboard" description="Dashboard to send events to"/>
+    <aura:attribute name="datasetName" type="String" access="GLOBAL" default="eadx__AB_Switch_Dataset" description="Dataset used for refresh"/>
+    <aura:attribute name="fieldName" type="String" access="GLOBAL" default="Value" description="Field in the dataset used for refresh"/>
+    <aura:attribute name="fieldSwitch" type="String" access="GLOBAL" default="A" description="Value for the A/B switching on refresh"/>
+    <aura:attribute name="sub" type="Object"/>
+    <aura:attribute name="record" type="Object" access="GLOBAL"/>
+	
+    <aura:registerEvent name="update" type="wave:update"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<aura:handler name="change" value="{!v.record}" action="{!c.recordUpdated}"/>
+    
+	<lightning:empApi aura:id="empApi"/>
+    
+    <force:recordData recordId="{!v.recordId}"
+                      layoutType="FULL"
+                      targetFields="{!v.record}"/>    
+    
+</aura:component>

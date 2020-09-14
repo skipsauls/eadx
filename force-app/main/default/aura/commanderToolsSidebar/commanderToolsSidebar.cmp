@@ -1,0 +1,109 @@
+<aura:component access="global">
+    <aura:attribute name="topic" type="String" access="global" default="analytics"/>
+    <aura:attribute name="items" type="List" access="global"/>
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <lightning:card>
+    
+        <aura:set attribute="title">
+            
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                   	<div class="header-icon slds-icon_container">
+                    	<img src="https://trailhead.salesforce.com/assets/new-trailhead-logo-86df2c10154e03fb8b18110597a115ecce58d8bb2887e33a155ae8784cca5784.svg"/>
+					</div>
+                </div>
+                
+                <div class="slds-media__body">
+                    <p class="slds-card__header-title slds-text-title header-title">
+                        <lightning:formattedText value="Learn More"/>
+                    </p>
+                    <p class="subtitle">
+                        <lightning:formattedText value="Get started with Salesforce Einstein Analytics"/>
+                    </p>
+                </div>
+            </div>
+        </aura:set>
+        
+        <div class="slds-m-around_small">
+            <ul>
+                <aura:iteration items="{!v.items}" var="item">
+                	<li>
+                        <div class="slsd-col">
+                            <div class="item slds-m-horizontal_small">
+                                <div class="">
+                                    <img class="icon" src="{!item.iconUrl}"/>
+                                </div>
+                                <div>
+									<p class="item-subtitle" data-aura-rendered-by="432:0">
+                                        <lightning:formattedUrl value="{!item.linkUrl}" label="{!item.title}" target="_blank"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>                        
+                    </li>
+                </aura:iteration>
+            </ul>
+        </div>
+        
+    </lightning:card>
+<!--
+    
+    <article class="slds-card trails-card" data-aura-rendered-by="453:0">
+        <header class="slds-card__header slds-grid" data-aura-rendered-by="454:0">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate" data-aura-rendered-by="455:0">
+                <div class="slds-media__body slds-truncate" data-aura-rendered-by="457:0">
+                    <h2 data-aura-rendered-by="458:0">
+                        <span class="slds-text-heading_small" data-aura-rendered-by="459:0">
+                            <div class="slds-grid slds-wrap" data-aura-rendered-by="442:0">
+                                <div class="slds-col icon-right-panel-container " data-aura-rendered-by="443:0">
+                                    <img class="iconEV" src="/resource/1560191428000/vociebriefings__EVConfigureResources/trailhead_logo.png" data-aura-rendered-by="444:0"/>
+                                 </div>
+                                  <div class="slds-col" data-aura-rendered-by="445:0">
+                                      <p class="right-panel-header-title" data-aura-rendered-by="446:0">
+                                          <lightning-formatted-text data-aura-rendered-by="447:0">Learn with Trailhead</lightning-formatted-text></p>
+                                      <p class="right-panel-header-subtitle" data-aura-rendered-by="448:0"><lightning-formatted-text data-aura-rendered-by="449:0">Get started with Salesforce Einstein on</lightning-formatted-text><span class="trailhead-font" data-aura-rendered-by="450:0"><lightning-formatted-text data-aura-rendered-by="451:0">Trailhead</lightning-formatted-text></span></p></div></div></span></h2></div>
+            </div>
+        </header>
+        <div class="slds-card__body" data-aura-rendered-by="462:0">
+            <div class="slds-p-around_medium trails-items-container" data-aura-rendered-by="420:0">
+                <div class="inner-trails-item" data-aura-rendered-by="421:0">
+                    <div class="" data-aura-rendered-by="422:0"><img class="iconEV" src="/resource/1560191428000/vociebriefings__EVConfigureResources/ai_basics_logo.png" data-aura-rendered-by="423:0"></div>
+                    <div data-aura-rendered-by="424:0">
+                        <p class="item-subtitle" data-aura-rendered-by="425:0">
+                            <lightning-formatted-text data-aura-rendered-by="426:0">Artificial Intelligence Basics</lightning-formatted-text>
+                        </p>
+                    </div>
+                </div>
+                <div class="slsd-col" data-aura-rendered-by="427:0">
+                    <div class="inner-trails-item" data-aura-rendered-by="428:0">
+                        <div class="" data-aura-rendered-by="429:0"><img class="iconEV" src="/resource/1560191428000/vociebriefings__EVConfigureResources/salesforce_einstein_logo.png" data-aura-rendered-by="430:0"></div>
+                        <div data-aura-rendered-by="431:0">
+                            <p class="item-subtitle" data-aura-rendered-by="432:0">
+                                <lightning-formatted-text data-aura-rendered-by="433:0">Get Smart about Salesforce Einstein</lightning-formatted-text>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slsd-col" data-aura-rendered-by="434:0">
+                    <div class="inner-trails-item last-inner-item" data-aura-rendered-by="435:0">
+                        <div class="" data-aura-rendered-by="436:0"><img class="iconEV" src="/resource/1560191428000/vociebriefings__EVConfigureResources/einstein_badge.png" data-aura-rendered-by="437:0"></div>
+                        <div data-aura-rendered-by="438:0">
+                            <p class="item-subtitle" data-aura-rendered-by="439:0">
+                                <lightning-formatted-text data-aura-rendered-by="440:0">Einstein Voice</lightning-formatted-text>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-panel-list" data-aura-rendered-by="441:0"></div>
+        </div>
+        <div class="slds-card__footer" data-aura-rendered-by="465:0">
+            <button class="slds-button slds-button_neutral right-panel-btn" type="button" data-aura-rendered-by="415:0">
+            </button>
+        </div>
+    </article>
+<!-->
+
+
+</aura:component>

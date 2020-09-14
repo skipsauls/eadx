@@ -1,0 +1,17 @@
+.THIS {
+}
+
+.THIS .select label {
+    display: none;
+}
+
+.THIS .slds-form-element__row .slds-form-element__control {
+    line-height: 1.5rem;
+}
+
+.THIS .header {
+    background-image: url(/resource/1558030288000/eadx__letsrace1);
+    background-size: 120px 120px;
+    background-repeat: no-repeat;
+    background-position: 0px -30px;
+}

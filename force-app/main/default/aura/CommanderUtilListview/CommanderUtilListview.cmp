@@ -1,0 +1,25 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="CommanderUtilController">
+
+    <aura:attribute name="sObjectName" type="String" access="global"/>
+    <aura:attribute name="fields" type="String[]" access="global"/>
+    <aura:attribute name="keyField" type="String" access="global" default="Id"/>
+    
+    <aura:attribute name="columns" type="Object"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="maxRowSelection" type="Integer" default="5"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.refresh}"/>
+              
+    <aura:handler name="change" value="{!v.sObjectName}" action="{!c.refresh}"/>
+    <aura:handler name="change" value="{!v.fields}" action="{!c.refresh}"/>
+    
+    <div class="outer">
+        <lightning:datatable aura:id="datatable"
+                             columns="{!v.columns}"
+                             data="{!v.data}"
+                             keyField="{!v.keyField}"
+                             maxRowSelection="{!v.maxRowSelection}"
+                             onrowselection="{!c.updateSelectedText}"/>
+    </div>
+    
+</aura:component>

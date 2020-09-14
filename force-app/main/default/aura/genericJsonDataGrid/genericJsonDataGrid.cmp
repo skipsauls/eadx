@@ -1,0 +1,17 @@
+<aura:component >
+    <aura:attribute name="items" type="List" access="global"/>
+    <aura:attribute name="cols" type="List" access="global"/>
+    <aura:attribute name="onselect" type="Aura.Action" access="global"/>
+     
+    <aura:attribute name="keyAttr" type="List" access="global"/>
+    <aura:attribute name="columns" type="List" access="private"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div>
+        <lightning:datatable columns="{! v.columns }"
+                            data="{! v.items }" 
+                            keyField="{! v.keyAttr }"
+                            maxRowSelection="1"
+                            onrowselection="{! c.onRowSelection }"/>
+    </div>	
+</aura:component>

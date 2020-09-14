@@ -1,0 +1,42 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+
+    <aura:attribute name="dashboardId" 
+                    type="String" 
+                    access="GLOBAL"/>
+    
+    <aura:attribute name="pageId" 
+                    type="String" 
+                    access="GLOBAL"/>
+
+    <aura:attribute name="filters" 
+                    type="String" 
+                    access="GLOBAL"/>
+
+    <aura:attribute name="forceRefresh" 
+                    type="Boolean" 
+                    access="GLOBAL"/>
+
+    <aura:handler name="init" 
+                  value="{!this}" 
+                  action="{!c.init}"/>
+
+    <aura:handler name="change" 
+                  value="{!v.pageReference}" 
+                  action="{!c.dashboardChanged}"/>
+
+    <aura:handler event="c:ShowDashboardEvent" 
+                  action="{!c.handleDashboardEvent}"/>
+        
+    <aura:registerEvent name="update" type="wave:update"/> 
+    
+    <section class="outer-container" aura:id="outer_container">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            <div class="slds-p-right--small slds-p-left--xx-small slds-size--2-of-2 slds-medium-size--6-of-6 slds-large-size--12-of-12">
+                <div class="dashboard-outer" aura:id="dashboard-outer">
+                    <div aura:id="dashboard-div" class="dashboard-container">        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>	
+</aura:component>

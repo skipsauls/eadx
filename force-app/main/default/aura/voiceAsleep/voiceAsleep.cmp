@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,lightning:availableForFlowScreens" access="global">
+	
+    
+    <div class="outer">
+        <lightning:layout class="main" horizontalAlign="spread" verticalAlign="stretch" pullToBoundary="small" multipleRows="true">
+            <lightning:layoutItem flexibility="auto" padding="around-x_small" size="12" >
+                <h1>Asleep</h1>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

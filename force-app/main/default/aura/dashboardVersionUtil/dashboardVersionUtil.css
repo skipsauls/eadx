@@ -1,0 +1,25 @@
+.THIS {
+}
+
+.THIS .version-select {
+    width: 20rem;
+}
+
+.THIS .version-select.nolabel label {
+    display: none;
+}
+
+.THIS .tab-content {
+    min-height: 40rem;
+}
+
+.THIS .container {
+    min-height: 50rem;
+    height: 50rem;
+    overflow: hidden;
+}
+
+.THIS .slds-vertical-tabs {
+    border-bottom: 0 none;
+    border-left: 0 none;
+}

@@ -1,0 +1,13 @@
+{
+  "pages" : [
+    {
+      "title": "Set Dashboard Title",
+      "variables": [
+        {
+          "name": "asdf_label"
+        }
+      ]
+    }    
+   ],
+  "displayMessages" : [ ]
+}

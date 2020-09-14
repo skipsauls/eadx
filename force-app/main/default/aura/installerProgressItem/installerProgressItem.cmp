@@ -1,0 +1,14 @@
+<aura:component access="global">
+    <aura:attribute name="category" type="String" access="global"/>
+    <aura:attribute name="name" type="String" access="global"/>
+    <aura:attribute name="size" type="String" access="global"/>
+    <aura:attribute name="variant" type="String" access="global"/>
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="content" type="String" access="global"/>   
+    <li class="progress-item">
+        <span class="slds-p-around_small">
+			<lightning:icon iconName="{!v.category + ':' + v.name}" size="{!v.size}" variant="{!v.variant}" class="{!v.class}"/>
+        </span>
+        <span class="content">{!v.content}</span>
+    </li>
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/> 
+    <aura:handler event="wave:discoverResponse" action="{!c.handleDiscoverResponse}"/> 
+    
+    <wave:sdk aura:id="sdk"/>    
+    
+    <div class="main">
+        <lightning:button label="Discover" onclick="{!c.handleDiscoverClicked}"/>
+    </div>
+</aura:component>

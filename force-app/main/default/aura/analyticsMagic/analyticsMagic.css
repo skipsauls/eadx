@@ -1,0 +1,15 @@
+.THIS {
+}
+
+.THIS.outer {
+
+}
+
+.THIS .flowruntimeBody.centerWrapper {
+    margin-top: 0;
+}
+
+.THIS .slds-card__header {
+    padding: .75rem 0rem 0;
+    margin: 0 0 .75rem;
+}

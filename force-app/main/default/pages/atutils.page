@@ -1,0 +1,394 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+        <apex:slds />
+        <title>Analytics Template Utils</title>
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+            }
+            
+            html {
+                padding: 5px;
+            }
+            
+            .hidden {
+                display: none;
+            }
+            
+            .slds-scope img.icon--medium {
+                max-width: 120px;
+                max-height: 100px;
+                min-width: 60px;
+                min-height: 50px;            
+            }
+            
+            .slds-scope .slds-form-element__label {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .slds-scope .item-clickable {
+                cursor: pointer;
+                border: 1px solid transparent;
+            }
+
+            .slds-scope .item-clickable:hover {
+                background-color: #F0F8FC;
+            }
+            
+            .slds-scope .item-clickable.selected {
+                background-color: #FFFFFF;
+            }
+            
+            .slds-scope .item-clickable.selected .slds-image--card {
+                border-right: 1px solid #DDDDDD;
+            }
+            
+            .slds-scope .item-clickable .slds-image--card {
+                width: 130px;
+                padding: 2px;
+                border: 0px none;
+                background: transparent;
+            }                
+            
+            .slds-scope .button-bar {
+                min-height: 2rem;
+            }
+            
+            .slds-scope textarea#json {
+                display: block;
+                width: 100%;
+                min-height: 30rem;
+                resize: vertical;
+                font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+            }
+
+            .slds-scope #modal textarea.json {
+                display: block;
+                width: 100%;
+                min-height: 10rem;
+                resize: vertical;
+                font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+            }
+            
+            .slds-scope .toast-hidden, .slds-scope .modal-hidden, .slds-scope .backdrop-hidden {
+                display: none;
+            }
+            
+            .slds-scope .slds-form-element__control {
+                width: 62% !important;
+                margin: 0 2px;
+            }
+            
+            .slds-scope .slds-modal__container {
+                width: 50% !important;
+                max-width: 100% !important;
+            }
+
+            .slds-scope .slds-modal__container.wide {
+                width: 80% !important;
+                max-width: 100% !important;
+            }
+            
+            .slds-scope .slds-form--horizontal {
+                height: 32rem;
+                overflow-x: hidden;
+                overflow-y: auto;
+                padding-right: 1rem;
+            }
+            
+            .slds-scope button.copy-button {
+                float: right;
+            }
+            
+            .slds-scope .resource-label {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: inline-block;
+                width: 100%;                    
+            }
+
+            .slds-scope .resource-ns-name {
+                font-style: italic;
+                font-size: smaller;
+            }
+            
+            .slds-scope .slds-image--card {
+                background: transparent;
+                border: none;
+                box-shadow: none;                
+            }            
+                  
+            .slds-scope ul#resource-list {
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: 42rem;
+            }
+            
+            .pagespinner {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 10px;
+                z-index: 100000010;
+                background-color: rgba(255,255,255,.5);
+            }
+
+            .slds-scope #preview {
+                min-height: 10rem;
+            }
+            
+            .slds-scope img.preview-image {
+                max-height: 160px;
+                display: block;
+                margin: 5px;
+                border: 1px solid #F0F0F0;
+                padding: 10px;
+            }
+
+            .slds-scope .preview-message {
+                margin: 0 5px;
+                display: block;
+            }
+                     
+        </style>
+    </head>
+    
+    <body>
+                            
+    <div class="slds-scope slds-p-horizontal--x-small">
+        
+        <div class="slds-notify_container toast-hidden" id="toast">
+            <div class="slds-notify slds-notify--toast" role="alert">
+                <span class="slds-assistive-text">Info</span>
+                <button class="slds-button slds-notify__close slds-button--icon-inverse" title="Close" id="toast-close">
+                    <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-notify__content">
+                    <h2 class="slds-text-heading--small" id="toast-message"></h2>
+                    <p id="toast-details"></p>
+                </div>
+            </div>
+        </div>
+               
+        <div class="slds-tabs--default slds-p-vertical--small">
+            <ul class="slds-tabs--default__nav" role="tablist" id="resource-tab-list"></ul>
+        </div>
+            
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            <div class="slds-p-horizontal--x-small slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--4-of-12">
+                <div class="slds-box slds-box--small slds-theme--shade slds-text-align--center slds-m-horizontal--small">
+                    <ul id="resource-list"></ul>                    
+                </div>
+            </div>
+            <div class="slds-p-horizontal--x-small slds-size--1-of-2 slds-medium-size--4-of-6 slds-large-size--8-of-12">
+           
+                <div class="button-bar slds-m-vertical--x-small">
+                    <div class="slds-button-group__" role="group" id="action-buttons"></div>
+                </div> 
+                           
+                <div class="slds-tabs--scoped" id="details-content">
+                    <ul class="slds-tabs--scoped__nav" role="tablist" id="details-tab-list">
+                        <li class="slds-tabs--scoped__item slds-active" title="Attributes" role="presentation" id="tab-attributes__outer">
+                            <a class="slds-tabs--scoped__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-attributes" id="tab-attributes__item">Attributes</a>
+                        </li>
+                        <li class="slds-tabs--scoped__item" title="JSON" role="presentation" id="tab-json__outer">
+                            <a class="slds-tabs--scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-json" id="tab-json__item">JSON</a>
+                        </li>
+                        <li class="slds-tabs--scoped__item" title="Preview" role="presentation" id="tab-preview__outer">
+                            <a class="slds-tabs--scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-preview" id="tab-preview__item">Preview</a>
+                        </li>
+                    </ul>
+                    
+                    <div id="tab-attributes" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-attributes__item">
+                        <div class="slds-clearfix">
+                            <div class="slds-float--left">
+                                <input type="search" id="attribute-search" class="slds-input slds-lookup__search-input slds-size--large slds-m-around--small" placeholder="Search Attributes" onkeyup="searchAttributes(this);"/>
+                                <label id="match-count-label" class="hidden"><span id="match-count"/>&nbsp;matches</label>
+                            </div>
+                        </div>
+                        <div class="slds-form--horizontal" id="attributes"></div>
+                    </div>
+                    <div id="tab-json" class="slds-tabs--scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-json__item">
+                        <textarea id="json"/>
+                    </div>
+                    <div id="tab-preview" class="slds-tabs--scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-preview__item">
+                        <div id="preview">TBD</div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+            
+        <div id="modal" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open modal-hidden">
+            <div class="slds-modal__container wide">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                        <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#close')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-header" class="slds-text-heading--medium">Create Template JSON</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <ul id="attributes" class="slds-has-dividers--top"></ul>
+                    <label for="variableDef">Variable</label>
+                    <button class="slds-button slds-button--icon copy-button" title="Copy to Clipboard" onclick="copyToClipboard('#variableDef', 'variable definition JSON');">
+                        <svg class="slds-button__icon slds-button__icon--medium" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#copy')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Copy to Clipboard</span>
+                    </button>
+                    <textarea id="variableDef" class="json" spellcheck="false">></textarea>
+                    <label for="ruleDef">Rule</label>
+                    <button class="slds-button slds-button--icon copy-button" title="Copy to Clipboard" onclick="copyToClipboard('#ruleDef', 'rule definition JSON');">
+                        <svg class="slds-button__icon slds-button__icon--medium" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#copy')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Copy to Clipboard</span>
+                    </button>
+                    <textarea id="ruleDef" class="json" spellcheck="false">></textarea>
+                    <label for="pageDef">Page</label>
+                    <button class="slds-button slds-button--icon copy-button" title="Copy to Clipboard" onclick="copyToClipboard('#pageDef', 'page definition JSON');">
+                        <svg class="slds-button__icon slds-button__icon--medium" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#copy')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Copy to Clipboard</span>
+                    </button>
+                    <textarea id="pageDef" class="json" spellcheck="false"></textarea>
+                </div>
+                <div class="slds-modal__footer">
+                    <button name="cancelButton" class="slds-button slds-button--neutral">Cancel</button>
+                    <button name="saveButton" class="slds-button slds-button--brand">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="template_update_modal" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open modal-hidden">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                        <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#close')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-header" class="slds-text-heading--medium">Update Template JSON</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div class="slds-form-element">
+                      <label class="slds-form-element__label" for="dataflow_select">Select Dataflow</label>
+                      <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                          <select id="dataflow_select" class="slds-select">
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button name="cancelButton" class="slds-button slds-button--neutral">Cancel</button>
+                    <button name="updateButton" class="slds-button slds-button--brand">Update</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="backdrop" class="slds-backdrop slds-backdrop--open backdrop-hidden"></div>
+
+        <c:loadinganalytics />
+
+    </div>
+        
+    <apex:includeScript value="{!URLFOR($Resource.atutils)}"/>
+
+    <script>
+        
+        var _svgUrl = "{!URLFOR($Asset.SLDS, 'assets/icons/%%TYPE%%-sprite/svg/symbols.svg#%%NAME%%')}";
+        //console.warn("__svgUrl: ", _svgUrl);
+        
+        // These are in the VF page to allow for easy use of REST
+        
+        function createRequest() {
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            return xhr;
+        }            
+        
+        function getSID() {
+            return "{!$Api.Session_ID}";
+        }
+        
+        function sendRequest(config, callback) {
+            var req = createRequest();
+            req.onreadystatechange = function() {
+                
+                if (req.readyState != 4) {
+                    return;
+                }
+                
+                var response = {};
+                
+                //console.warn("req.status: ", req.status);
+                //console.warn("req.response: ", req.response);
+                
+                if (req.status < 200 || req.status > 299) {
+                    response = {
+                        response: req.response,
+                        status: req.status,
+                        statusText: req.statusText,
+                        headers: req.getAllResponseHeaders(),
+                        config: config
+                    };
+                } else {
+                    response = req.response;
+                }
+                
+                if (req.responseType === "xml") {
+                    response.xml = req.responseXML;
+                }
+                
+                if (typeof callback === "function") {
+                    callback(response);
+                }
+            }
+            
+            req.open(config.method, config.url, true);
+            
+            // Set the Authorization header for local calls
+            req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+            
+            if (config.headers) {
+                for (var key in config.headers) {
+                    req.setRequestHeader(key, config.headers[key]);
+                }
+            }
+            
+            // Not necessary when using proxy?
+            req.setRequestHeader("Access-Control-Allow-Origin", "*");
+            
+            //req.setRequestHeader("Accept", config.responseType || "json");
+            
+            req.responseType = config.responseType || "json";
+            
+            if (config.method === "POST" || config.method === "PUT" || config.method === "PATCH") {
+                req.send(config.body);
+            } else {
+                req.send();
+            }
+        }        
+    </script>
+    </body>
+</html>
+</apex:page>

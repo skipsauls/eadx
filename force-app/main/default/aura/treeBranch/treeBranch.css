@@ -1,0 +1,13 @@
+.THIS {
+}
+
+
+.THIS .slds-tree [role=treeitem][aria-highlighted=true]>.slds-tree__item {
+    background: rgba(138, 138, 138, 0.3);
+    box-shadow: rgb(138, 138, 138) 4px 0 0 inset;
+}
+            
+.THIS .slds-tree [role=treeitem][aria-selected=true]>.slds-tree__item {
+    background: rgba(21, 137, 238, 0.1);
+    box-shadow: rgb(21, 137, 238) 4px 0 0 inset;
+}

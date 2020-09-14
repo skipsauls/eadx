@@ -1,0 +1,26 @@
+<aura:component controller="CommanderResource" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    <aura:attribute name="dashboardName" type="String" access="global"/>
+
+    <aura:method name="execCommand2" action="{!c.execCommand2}"  description="Executes the command"> 
+        <aura:attribute name="command" type="Object" description="Configuration for the command"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="execCommand" action="{!c.execCommand}"  description="Executes the command"> 
+        <aura:attribute name="command" type="Object" description="Configuration for the command"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="showDashboard" action="{!c.showDashboard}"  description="Displays the specified dashboard"> 
+        <aura:attribute name="config" type="String" description="Configuration for the dashboard"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <div class="outer slds-clearfix slds-card">
+        <div class="container">
+            <div aura:id="dashboard" class="dashboard-container"></div>
+        </div>    
+    </div>
+</aura:component>

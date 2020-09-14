@@ -1,0 +1,69 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="assetType" type="String" access="global"/>
+    <aura:attribute name="asset" type="Object" access="global"/>
+
+    <aura:attribute name="assetHistoryColumns" type="List" access="global" description="The columns to display for asset history. May be null."/>    
+    <aura:attribute name="assetHistory" type="Object" access="global" description="The currently selected asset history. May be null."/>    
+    <aura:attribute name="assetHistoryData" type="Object" access="global" description="The currently selected asset history for display in table (flattened). May be null."/>    
+
+    <aura:attribute name="selectedAssetHistoryId" type="String" access="global" description="The id of the currently selected asset history. May be null."/>    
+    <aura:attribute name="selectedRows" type="List" access="global" description="The list of selected rows for diffs."/>    
+
+    <aura:attribute name="versionA" type="Object" access="global"/>    
+    <aura:attribute name="versionB" type="Object" access="global"/>    
+    <aura:attribute name="versionDetailsA" type="Object" access="global"/>    
+    <aura:attribute name="versionDetailsB" type="Object" access="global"/>    
+    <aura:attribute name="versionJsonA" type="String" access="global"/>    
+    <aura:attribute name="versionJsonB" type="String" access="global"/>    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />	
+    
+	<aura:handler name="change" value="{!v.asset}" action="{!c.handleAssetChange}"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem size="3" class="slds-p-around_x-small">
+            <lightning:card iconName="standard:folder"
+                            title="Analytics Assets">
+                 <div class="asset-tree-container">
+		             <c:analyticsTree aura:id="analytics_tree" assetId="{!v.assetId}" assetType="{!v.assetType}" asset="{!v.asset}" assetTypes="dashboards,dataflows,lenses" showDetails="true"/>
+                </div>
+            </lightning:card>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="9" class="slds-p-around_x-small">
+            <lightning:card iconName="standard:drafts"
+                            title="{!v.asset.label ? (v.asset.label + ' Asset History') : ''}" class="{!v.asset != null ? '' : 'slds-hide'}">
+                <aura:set attribute="actions">
+                    <!--
+                    <div style="{!'visibility: ' + (v.selectedRows.length == 2 ? 'visible' : 'hidden')}">
+	                    <lightning:button label="Diff" onclick="{!c.handleDiff}"/>
+                    </div>
+					-->
+                </aura:set>
+                <lightning:datatable
+                                     keyField="id"
+                                     data="{!v.assetHistory}"
+                                     columns="{!v.assetHistoryColumns}"
+                                     hideCheckboxColumn="true"
+                                     maxRowSelection="2"
+                                     onrowselection="{!c.handleRowSelection}"
+                                     onrowaction="{!c.handleRowAction}"
+                                     />
+                <!--
+			    <lightning:layout>
+        			<lightning:layoutItem size="6" class="slds-p-around_x-small">
+                        <lightning:textarea aura:id="json_view" value="{!v.versionJsonA}" class="json-view" label="{!v.versionA.label + ' / ' + v.versionA.name}"/>
+                    </lightning:layoutItem>
+        			<lightning:layoutItem size="6" class="slds-p-around_x-small">
+                         <lightning:textarea aura:id="json_view" value="{!v.versionJsonB}" class="json-view" label="{!v.versionB.label+ ' / ' + v.versionB.name}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+				-->
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

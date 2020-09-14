@@ -1,0 +1,22 @@
+<apex:component access="global">
+    <apex:includeLightning />
+    <apex:attribute name="loApp" type="String" required="true" access="global" description="The Lightning Out app"/>
+    <apex:attribute name="dashboardId" type="String" required="true" access="global" description="The dashboard id"/>
+    <apex:attribute name="width" type="String" access="global" description="The width"/>
+    <apex:attribute name="height" type="String" access="global" description="The height"/>
+    <apex:attribute name="filter" type="String" access="global" description="The filter"/>
+    <div id="dashboard"/>
+    <script>
+        console.warn('filter: ', {!filter});        
+        $Lightning.use('{!loApp}', function(evt) {
+            var config = {
+                dashboardId: "{!dashboardId}",
+                width: "{!width}",
+                height: "{!height}",
+                filter: "{!filter}"
+            };
+            $Lightning.createComponent('wave:waveDashboard', config, 'dashboard', function(cmp, msg, err) {
+            });
+        });    
+   </script>    
+</apex:component>

@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" access="global" description="Custom event for speech and text output">
+    <aura:attribute name="speech" type="String"/>
+    <aura:attribute name="text" type="String"/>    
+</aura:event>

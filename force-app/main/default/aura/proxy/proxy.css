@@ -1,0 +1,8 @@
+.THIS {
+    display: none;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    border: 0 none;
+    background: transparent;
+}

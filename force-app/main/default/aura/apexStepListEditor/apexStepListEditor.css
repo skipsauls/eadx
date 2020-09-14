@@ -1,0 +1,13 @@
+.THIS {
+}
+
+.THIS .item-list {
+	height: 10rem;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.THIS .item-list-input input {
+    width: 10rem;
+    border: 0 none;
+}

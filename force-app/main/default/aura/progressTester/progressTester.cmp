@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <lightning:progressIndicator currentStep="step2" variant="shaded" type="path">
+        <lightning:progressStep label="Step One" value="step1"/>
+        <lightning:progressStep label="Step Two" value="step2"/>
+        <lightning:progressStep label="Step Three" value="step3"/>
+    </lightning:progressIndicator>
+    
+</aura:component>

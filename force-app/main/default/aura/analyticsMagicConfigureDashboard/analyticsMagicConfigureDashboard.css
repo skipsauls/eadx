@@ -1,0 +1,39 @@
+.THIS {
+}
+
+.THIS .column {
+    position: relative;
+}
+
+.THIS .dashboard-outer {
+    opacity: 1;
+	transition: opacity 3s ease;    
+}
+
+.THIS .dashboard-outer.fadeout {
+	transition-duration: 0.5s;    
+    opacity: 0;
+}
+
+.THIS .dashboard-outer.fadein {
+	transition-duration: 4s;
+    opacity: 1;
+}
+
+.THIS .dashboard-outer.hidden {
+    display: none;
+}
+
+.THIS .dashboard-container {
+	min-height: 300px;
+}
+
+.THIS .select {
+    min-width: 5rem;
+}
+
+.THIS .controls {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

@@ -1,0 +1,16 @@
+{
+  "hooks": [
+    {
+      "type": "PackageInstall",
+      "requestName": "Installing/Upgrading the Mortgage Calculator app"
+    }
+  ],
+  "configuration": {
+    "appConfiguration": {
+      "autoShareWithLicensedUsers": true,
+      "autoShareWithOriginator": true,
+      "deleteAppOnConstructionFailure": true,
+      "values": {}
+    }
+  }
+}

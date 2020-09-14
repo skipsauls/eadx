@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <wave:waveDashboard developerName="eadx__New_Dashboard_2" aura:id="mydashboard"/>
+    <lightning:button variant="base" label="Get State" title="Base action" onclick="{! c.getState }"/>
+</aura:component>

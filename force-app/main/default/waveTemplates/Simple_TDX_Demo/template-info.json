@@ -1,0 +1,48 @@
+{
+  "templateType" : "app",
+  "label" : "Simple TDX Demo",
+  "name" : "Simple_TDX_Demo",
+  "namespace" : "eadx",
+  "templateIcon" : "default.png",
+  "assetIcon" : "16.png",
+  "assetVersion" : 40.0,
+  "uiDefinition" : "ui.json",
+  "variableDefinition" : "variables.json",
+  "apexCallback" : {
+    "namespace" : "eadx",
+    "name" : "SimpleSpideringTemplateModifier"
+  },
+  "rules" : [
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    },
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.1",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Conditional Dashboard",
+      "name" : "Conditional_Dashboard_tp",
+      "condition" : "${Variables.CreateConditionalDashboard}",
+      "file" : "dashboards/Conditional_Dashboard.json"
+    },
+    {
+      "label" : "Simple Dashboard",
+      "name" : "Simple_Dashboard_tp",
+      "file" : "dashboards/Simple_Dashboard.json"
+    }
+  ],
+  "eltDataflows" : [ ],
+  "datasetFiles" : [ ],
+  "imageFiles" : [ ]
+}

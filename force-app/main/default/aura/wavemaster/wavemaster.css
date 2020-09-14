@@ -1,0 +1,88 @@
+.THIS .container {
+    width: 100%;
+    height: 80px;
+}
+
+.THIS .main {
+    
+    /*
+    background:radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #B7E8EB 100%);
+    */
+    overflow: hidden;
+    
+    width: 100%;
+    height: 80px;
+}
+
+.THIS .ocean { 
+    /*
+    height: 5%;
+    width:100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+    background: #015871;
+    */
+    
+    height: 80px;
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    background: transparent;    
+    
+}
+
+.THIS .wave {
+    /*
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+    position: absolute;
+    width: 6400px;
+    height: 198px;
+    animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+    */
+    
+    
+    top: 0px;
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x;
+    position: relative;
+    width: 6400px;
+	height: 198px;
+    animation: wave 1s cubic-bezier(0.24, 0.54, 0.68, 0.29) infinite;
+    transform: translate3d(0, 0, 0)    
+}
+
+.THIS .wave:nth-of-type(2) {
+    /*
+    top: -175px;
+    animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+    opacity: 1;
+    */
+    
+    top: -175px;
+    animation: wave 1.5s cubic-bezier(0.24, 0.54, 0.68, 0.29) -.125s infinite,swell 1.5s ease -1.25s infinite;
+    opacity: 0.7;   
+}
+
+.THIS .wave.paused, .THIS .wave:nth-of-type(2).paused {
+    animation-play-state: paused;
+}
+
+@keyframes wave {
+    0% {
+        margin-left: 0;
+    }
+    100% {
+        margin-left: -1600px;
+    }
+}
+
+@keyframes swell {
+    0%, 100% {
+        transform: translate3d(0px,-5px,0);
+    }
+    50% {
+        transform: translate3d(0px,5px,0);
+    }
+}

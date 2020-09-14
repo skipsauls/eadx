@@ -1,0 +1,21 @@
+<apex:page >
+    <div>
+        UserRole.Name: {!$UserRole.Name}
+    </div>
+    <div>
+        UserRole.DeveloperName: {!$UserRole.DeveloperName}
+    </div>
+    <div>
+        User.Division: {!$User.Division}
+    </div>
+    <div>
+        User.Department: {!$User.Department}
+    </div>
+    <div>
+        User.Alias: {!$User.Alias}
+    </div>    
+    <div>
+		developerName: eadx__Role_Test{!IF(ISNULL($UserRole.DeveloperName),'','/?pageId=' + $UserRole.DeveloperName + '_Page')}
+    </div>
+    <wave:dashboard developerName="eadx__Role_Test{!IF(ISNULL($UserRole.DeveloperName),'','/?pageId=' + $UserRole.DeveloperName + '_Page')}"/>
+</apex:page>

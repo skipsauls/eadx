@@ -1,0 +1,32 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FKB00000002OMvOAM"/>
+    <aura:attribute name="layoutType" type="String" access="global" default="FULL"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="fields" type="Object"/>
+    <aura:attribute name="error" type="String" access="global"/>
+    <aura:attribute name="filter" type="String" access="global"/>
+    
+	<aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.handleRecordIdChange}"/>
+    <aura:handler name="change" value="{!v.record}" action="{!c.handleRecordChange}"/>
+    <aura:handler name="change" value="{!v.record.Industry}" action="{!c.handleIndustryChange}"/>
+    
+    <force:recordData aura:id="forceRecordCmp"
+                      recordId="{!v.recordId}"
+                      layoutType="{!v.layoutType}"
+                      mode="VIEW"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.fields}"
+                      targetError="{!v.error}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    <div style="display: none">
+        <h1>Record ID: {!v.recordId}</h1>
+        <h1>Error: {!v.error}</h1>
+        <h1>record.Id: {!v.record.id}</h1>
+        <h1>Employees: {!v.fields.NumberOfEmployees}</h1>
+    </div>    
+</aura:component>

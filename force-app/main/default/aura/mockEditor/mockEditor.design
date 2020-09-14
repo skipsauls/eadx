@@ -1,0 +1,6 @@
+<design:component label="Mock Editor">
+    <design:attribute name="dashboardId" label="Dashboard Id" description="The ID of the Analytics Dashboard to target."/>
+    <design:attribute name="datasetName" label="Dataset Name" description="The name of a Dataset in the target Dashboard."/>
+    <design:attribute name="fieldName" label="Field Name" description="The name of a field in the Dataset in the target Dashboard."/>
+    <design:attribute name="fieldValue" label="Field Value" description="A valid value for the field in the Dataset in the target Dashboard."/>
+</design:component>

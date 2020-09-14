@@ -1,0 +1,29 @@
+<aura:component access="global" controller="ApexSAQLQueryController">
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FKB00000009f9DOAQ"/>
+    <aura:attribute name="dashboardIdReference" type="String" access="global" default="0FKB00000009f9DOAQ"/>
+    <aura:attribute name="queryName" type="String" access="global" default="test"/>
+    <aura:attribute name="saql" type="String" access="global"/>
+
+    <aura:attribute name="datasetName" type="String" access="global" default="eadx__opportunity" description="Dataset used for refresh"/>
+    <aura:attribute name="fieldName" type="String" access="global" default="StageName" description="Field in the dataset used for refresh"/>
+    <aura:attribute name="fieldValue" type="String" access="global" default="Needs Analysis" description="Value for the field in the dataset used for refresh"/>
+    <aura:attribute name="fieldSwitch" type="String" access="global" default="A" description="Value for the A/B switching on refresh"/>
+
+    <aura:method name="updateDashboard" action="{!c.updateDashboard}" description="Forces dashboard to update">
+        <aura:attribute name="saql" type="String"/>        
+    </aura:method>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="queryName" action="{!c.queryNameUpdated}"/>
+    
+    <aura:registerEvent name="update" type="wave:update"/>
+    
+	<div class="outer">
+        <div class="dashboard-outer" aura:id="dashboard-outer">
+            <div aura:id="dashboard" class="dashboard-container">        
+            </div>
+        </div>
+    </div>    
+    
+</aura:component>

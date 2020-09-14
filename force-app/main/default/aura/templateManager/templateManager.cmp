@@ -1,0 +1,62 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:attribute name="folders" type="Object[]"/>
+    <aura:attribute name="templates" type="Object[]"/>
+    <aura:attribute name="columns" type="List"/>    
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="sortedBy" type="String"/>
+    <aura:attribute name="sortedDirection" type="String"/>
+    <aura:attribute name="defaultSortDirection" type="String" default="asc"/>
+
+    <aura:attribute name="selectedRows" type="List" access="global"/>
+    
+    <aura:attribute name="flowName" type="String" access="global" default="Template_Wizard"/>
+    <aura:attribute name="title" type="String" access="global" default="Create Analytics App"/>
+    <aura:attribute name="inputVariables" type="Object[]" access="global" description="Initial values for the flow."/>    
+    
+	<aura:registerEvent name="datatableRowSelection" type="c:datatableRowSelection"/>
+
+    <aura:handler event="c:datatableRowSelection" action="{!c.handleDatatableRowSelectionEvent}"/>
+    
+    <aura:handler name="change" value="{!v.selectedRows}" action="{!c.handleSelectedRowsChange}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <c:wizardLauncher aura:id="launcher"/>
+    
+    <div class="outer">
+        <lightning:card >
+            <aura:set attribute="title">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning:icon iconName="utility:einstein" alternativeText="Einstein Analytics" size="small"/>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="title">Einstein Analytics Templates</h2>
+                    </div>
+                </header>
+            </aura:set>
+            <aura:set attribute="actions">
+                <lightning:buttonMenu aura:id="menu" onselect="{!c.handleCreateMenuSelect}" alternativeText="Show menu" iconName="utility:threedots" menuAlignment="right">
+                    <li class="slds-dropdown__header" role="separator"><span class="slds-text-title--caps">Create</span></li>
+                    <lightning:menuItem value="app" label="App" iconName="utility:chart"/>
+                </lightning:buttonMenu>                
+            </aura:set>
+            <lightning:datatable aura:id="datatable"
+                                 keyField="label"
+                                 columns="{!v.columns}" 
+                                 data="{!v.data}"
+                                 selectedRows="{!v.selectedRows}"
+                                 onrowselection="{!c.handleRowSelection}"
+                                 onrowaction="{!c.handleRowAction}"
+                                 onsort="{!c.handleSort}"
+                                 sortedBy="{!v.sortedBy}"
+                                 sortedDirection="{!v.sortedDirection}"
+                                 defaultSortDirection="{!v.defaultSortDirection}"
+                                 />
+            <aura:set attribute="footer">
+            </aura:set>
+        </lightning:card>
+    </div>
+</aura:component>

@@ -1,0 +1,40 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:availableForFlowScreens" access="global" >
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="assetType" type="String" access="global"/>
+    <aura:attribute name="asset" type="Object" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<aura:handler event="wave:selectionChanged" action="{!c.onWaveSelectionChanged}"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="3">  
+            <lightning:card iconName="standard:drafts" title="Analytics Explorer">
+                <aura:set attribute="title">
+                    <lightning:layout horizontalAlign="spread" verticalAlign="center" pullToBoundary="small">
+						<lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            <h1 class="">Analytics Explorer</h1>
+                        </lightning:layoutItem>
+						<lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                            <lightning:buttonGroup class="">
+                                <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="Refresh the List" iconName="utility:refresh" onclick="{!c.handleRefresh}"/>
+                                <lightning:buttonIcon class="slds-m-horizontal_small" alternativeText="View the Selected Item in Analytics Studio" iconName="utility:preview" onclick="{!c.handleView}"/>
+                                <lightning:buttonIcon class="" alternativeText="Edit the Selected Item in Analytics Studio" iconName="utility:edit" onclick="{!c.handleEdit}"/>
+                            </lightning:buttonGroup>
+                        </lightning:layoutItem>
+                    </lightning:layout>                    
+                </aura:set>
+                <div class="asset-tree-container">
+                    <c:analyticsTree aura:id="analytics_tree" assetId="{!v.assetId}" assetType="{!v.assetType}" asset="{!v.asset}" assetTypes="*" showDetails="true"/>
+                </div>
+                <aura:set attribute="footer">
+                </aura:set>
+            </lightning:card>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="9">
+			<lightning:spinner aura:id="spinner" alternativeText="Loading" variant="brand" size="large" class="slds-hide"/>            
+            <div class="{!'asset-viewer' + (v.asset == null ? ' hide' : ' show')}">
+	            <c:analyticsAssetViewer assetId="{!v.assetId}" assetType="{!v.assetType}" asset="{!v.asset}"/>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>    
+</aura:component>

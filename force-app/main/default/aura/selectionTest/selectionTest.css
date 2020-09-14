@@ -1,0 +1,19 @@
+.THIS.container {
+    border: 0 none;
+    padding: 0;
+    width: 100%;
+    overflow: auto;
+    margin: 0 auto;
+}
+
+.THIS .uiInputText {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.THIS .selection_text textarea {
+    width: 100%;
+    height: 10rem;
+    resize: none;
+    vertical-align: top;
+}

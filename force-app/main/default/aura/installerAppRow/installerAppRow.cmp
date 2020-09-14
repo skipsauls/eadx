@@ -1,0 +1,24 @@
+<aura:component access="global">
+    <aura:attribute name="app" type="Object" access="global"/>
+    <aura:attribute name="index" type="Integer" access="global"/>
+    <aura:attribute name="actions" type="Object[]" access="global"/>
+    <aura:attribute name="handler" type="Object" access="global"/>
+    
+    <tr>
+        <td>{!v.index}</td>
+        <td>
+            <a href="{!v.app.assetSharingUrl}" target="_blank">{!v.app.label}</a>
+        </td>
+        <td>{!v.app.template ? v.app.template.label : ''}</td>
+        <td>{!v.app.description}</td>
+        <td>{!v.app.lastModifiedDate}</td>
+        <td>
+            <lightning:buttonMenu alternativeText="Action" onselect="{!c.handleMenuSelect}">
+                <lightning:menuItem label="View" value="view"/>
+                <lightning:menuItem label="Reconfigure" value="reconfigure"/>
+                <lightning:menuItem label="Delete" value="delete"/>
+            </lightning:buttonMenu>	        
+        </td>
+    </tr>
+    
+</aura:component>

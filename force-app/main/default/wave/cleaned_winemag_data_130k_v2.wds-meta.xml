@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveDataset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <application>eadx__Oenolytics</application>
+    <description>Created from the cleaned_winemag-data-130k-v2 recipe.</description>
+    <masterLabel>cleaned-wine-data-v2</masterLabel>
+    <templateAssetSourceName>cleaned_winemag_data_130k_v2_tp</templateAssetSourceName>
+</WaveDataset>

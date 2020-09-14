@@ -1,0 +1,7 @@
+.THIS {
+}
+
+.THIS .outer {
+    height: 200px;
+    overflow: auto;
+}

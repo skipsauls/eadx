@@ -1,0 +1,31 @@
+<aura:component controller="ListViewDemo" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="objectApiName" type="String" access="global" default="Opportunity"/>
+    <aura:attribute name="fields" type="String" access="global" default="Name,ForecastCategoryName,Type,Owner.Name"/>
+    <aura:attribute name="listName" type="String" access="global" default="df17eadx__RecentlyViewedAccounts"/>
+    
+    <lightning:layout horizontalAlign="space">
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="4">
+            <c:soqlDatatable objectApiName="Opportunity"
+                             fields="Name,ForecastCategoryName,Type,Owner.Name"
+                             rows="10"
+                             title="Opportunities"
+                             />
+            <c:soqlDatatable objectApiName="Account"
+                             listName="Recent"
+                             fields="Name,Site,Phone,Owner.Alias"
+                             rows="5"
+                             title="Recently Viewed Accounts"
+                             />
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" size="8">
+            <wave:waveDashboard developerName="eadx__Sales_Stage_Analysis4"
+                                height="800"
+                                openLinksInNewWindow="false"
+                                showHeader="false"
+                                showTitle="false"
+                                showSharing="false"
+                                />
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

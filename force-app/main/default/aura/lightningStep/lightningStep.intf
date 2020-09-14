@@ -1,0 +1,3 @@
+<aura:interface description="Interface for Lightning Steps" access="global">
+	<aura:attribute name="example" type="String" default="" description="An example attribute."/>
+</aura:interface>

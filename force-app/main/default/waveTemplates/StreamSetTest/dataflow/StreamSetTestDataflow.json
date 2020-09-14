@@ -1,0 +1,364 @@
+{
+  "isDeletable": true,
+  "notificationLevel": "",
+  "workflowDefinition": {
+    "120": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "opptytest111",
+        "alias": "${App.Datasets.opptytest111.Alias}",
+        "source": "119"
+      }
+    },
+    "110": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "eadx__Broker__c"},
+          {"name": "Name"}
+        ],
+        "object": "eadx__Property__c"
+      }
+    },
+    "111": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "Name"}
+        ],
+        "object": "eadx__Broker__c"
+      }
+    },
+    "101": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Amount"},
+          {"name": "CloseDate"},
+          {"name": "Description"},
+          {"name": "ExpectedRevenue"},
+          {"name": "Fiscal"},
+          {"name": "FiscalQuarter"},
+          {"name": "FiscalYear"},
+          {"name": "ForecastCategory"},
+          {"name": "LeadSource"},
+          {"name": "Name"},
+          {"name": "Id"},
+          {"name": "Type"},
+          {"name": "eadx__OrderNumber__c"},
+          {"name": "Probability"},
+          {"name": "TotalOpportunityQuantity"},
+          {"name": "StageName"},
+          {"name": "IsWon"}
+        ],
+        "object": "Opportunity"
+      }
+    },
+    "112": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "109",
+        "left_key": ["eadx__Property__c"],
+        "right_select": [
+          "Id",
+          "eadx__Broker__c"
+        ],
+        "right": "110",
+        "relationship": "eadx__Property__c"
+      }
+    },
+    "102": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "oppty_demo",
+        "alias": "${App.Datasets.oppty_demo.Alias}",
+        "source": "101"
+      }
+    },
+    "113": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "112",
+        "left_key": ["eadx__Property__c.eadx__Broker__c"],
+        "right_select": ["Id"],
+        "right": "111",
+        "relationship": "eadx__Property__c.eadx__Broker__c"
+      }
+    },
+    "103": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Name"},
+          {"name": "CreatedDate"},
+          {"name": "IsDeleted"},
+          {"name": "eadx__Email__c"},
+          {"name": "LastModifiedDate"},
+          {"name": "LastReferencedDate"},
+          {"name": "LastViewedDate"},
+          {"name": "eadx__Mobile_Phone__c"},
+          {"name": "eadx__Phone__c"},
+          {"name": "eadx__Picture__c"},
+          {"name": "eadx__Picture_IMG__c"},
+          {"name": "Id"},
+          {"name": "SystemModstamp"},
+          {"name": "eadx__Title__c"}
+        ],
+        "object": "eadx__Broker__c"
+      }
+    },
+    "114": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "Favorite Rel",
+        "alias": "${App.Datasets.Favorite_Rel.Alias}",
+        "source": "113"
+      }
+    },
+    "104": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "Broker",
+        "alias": "${App.Datasets.Broker.Alias}",
+        "source": "103"
+      }
+    },
+    "115": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Description"},
+          {"name": "Fax"},
+          {"name": "Id"},
+          {"name": "Name"},
+          {"name": "AccountNumber"},
+          {"name": "Phone"},
+          {"name": "Rating"},
+          {"name": "Site"},
+          {"name": "AccountSource"},
+          {"name": "Type"},
+          {"name": "eadx__Active__c"},
+          {"name": "AnnualRevenue"},
+          {"name": "BillingCity"},
+          {"name": "BillingCountry"},
+          {"name": "BillingGeocodeAccuracy"},
+          {"name": "BillingLatitude"},
+          {"name": "BillingLongitude"},
+          {"name": "BillingState"},
+          {"name": "BillingStreet"},
+          {"name": "BillingPostalCode"},
+          {"name": "CreatedDate"},
+          {"name": "eadx__CustomerPriority__c"},
+          {"name": "IsDeleted"},
+          {"name": "NumberOfEmployees"},
+          {"name": "Industry"},
+          {"name": "LastActivityDate"},
+          {"name": "LastViewedDate"},
+          {"name": "eadx__NumberofLocations__c"},
+          {"name": "Ownership"},
+          {"name": "ShippingCity"},
+          {"name": "ShippingCountry"},
+          {"name": "eadx__UpsellOpportunity__c"},
+          {"name": "YearStarted"}
+        ],
+        "object": "Account"
+      }
+    },
+    "105": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "eadx__Zip__c"},
+          {"name": "eadx__Title__c"},
+          {"name": "eadx__Thumbnail__c"},
+          {"name": "eadx__Tags__c"},
+          {"name": "SystemModstamp"},
+          {"name": "eadx__Status__c"},
+          {"name": "eadx__State__c"},
+          {"name": "eadx__Record_Link__c"},
+          {"name": "Id"},
+          {"name": "Name"},
+          {"name": "eadx__Price__c"},
+          {"name": "eadx__Picture__c"},
+          {"name": "eadx__Thumbnail_IMG__c"},
+          {"name": "eadx__Picture_IMG__c"},
+          {"name": "eadx__Location__Longitude__s"},
+          {"name": "eadx__Location__Latitude__s"},
+          {"name": "LastViewedDate"},
+          {"name": "LastReferencedDate"},
+          {"name": "LastModifiedDate"},
+          {"name": "LastActivityDate"},
+          {"name": "eadx__Description__c"},
+          {"name": "IsDeleted"},
+          {"name": "eadx__Days_On_Market__c"},
+          {"name": "eadx__Date_Pre_Market__c"},
+          {"name": "eadx__Date_Listed__c"},
+          {"name": "eadx__Date_Contracted__c"},
+          {"name": "eadx__Date_Closed__c"},
+          {"name": "eadx__Date_Agreement__c"},
+          {"name": "CreatedDate"},
+          {"name": "eadx__City__c"},
+          {"name": "eadx__Beds__c"},
+          {"name": "eadx__Baths__c"},
+          {"name": "eadx__Assessed_Value__c"},
+          {"name": "eadx__Address__c"}
+        ],
+        "object": "eadx__Property__c"
+      }
+    },
+    "116": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "AcctDS",
+        "alias": "${App.Datasets.AcctDS.Alias}",
+        "source": "115"
+      }
+    },
+    "106": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "Property",
+        "alias": "${App.Datasets.Property.Alias}",
+        "source": "105"
+      }
+    },
+    "117": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Amount"},
+          {"name": "CloseDate"},
+          {"name": "IsClosed"},
+          {"name": "CreatedDate"},
+          {"name": "IsDeleted"},
+          {"name": "eadx__DeliveryInstallationStatus__c"},
+          {"name": "Description"},
+          {"name": "ExpectedRevenue"},
+          {"name": "Fiscal"},
+          {"name": "FiscalQuarter"},
+          {"name": "FiscalYear"},
+          {"name": "ForecastCategory"},
+          {"name": "ForecastCategoryName"},
+          {"name": "HasOpportunityLineItem"},
+          {"name": "HasOpenActivity"},
+          {"name": "HasOverdueTask"},
+          {"name": "LastActivityDate"},
+          {"name": "LastModifiedDate"},
+          {"name": "LeadSource"},
+          {"name": "eadx__MainCompetitors__c"},
+          {"name": "Name"},
+          {"name": "NextStep"},
+          {"name": "Id"},
+          {"name": "Type"},
+          {"name": "eadx__OrderNumber__c"},
+          {"name": "Probability"},
+          {"name": "TotalOpportunityQuantity"},
+          {"name": "StageName"},
+          {"name": "IsWon"}
+        ],
+        "object": "Opportunity"
+      }
+    },
+    "107": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "CreatedDate"},
+          {"name": "IsDeleted"},
+          {"name": "Name"},
+          {"name": "LastModifiedDate"},
+          {"name": "Id"},
+          {"name": "SystemModstamp"}
+        ],
+        "object": "eadx__Favorite__c"
+      }
+    },
+    "118": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "OpptyDS",
+        "alias": "${App.Datasets.OpptyDS.Alias}",
+        "source": "117"
+      }
+    },
+    "108": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "Favorite",
+        "alias": "${App.Datasets.Favorite.Alias}",
+        "source": "107"
+      }
+    },
+    "119": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "CloseDate"},
+          {"name": "CreatedDate"},
+          {"name": "Description"},
+          {"name": "LastActivityDate"},
+          {"name": "LastModifiedDate"},
+          {"name": "HasOverdueTask"},
+          {"name": "StageName"},
+          {"name": "Probability"},
+          {"name": "IsPrivate"},
+          {"name": "eadx__OrderNumber__c"},
+          {"name": "Amount"},
+          {"name": "IsClosed"},
+          {"name": "eadx__CurrentGenerators__c"},
+          {"name": "IsDeleted"},
+          {"name": "eadx__DeliveryInstallationStatus__c"},
+          {"name": "ExpectedRevenue"},
+          {"name": "Fiscal"},
+          {"name": "FiscalQuarter"},
+          {"name": "FiscalYear"},
+          {"name": "ForecastCategory"},
+          {"name": "ForecastCategoryName"},
+          {"name": "HasOpportunityLineItem"},
+          {"name": "HasOpenActivity"},
+          {"name": "LastReferencedDate"},
+          {"name": "LastViewedDate"},
+          {"name": "LeadSource"},
+          {"name": "eadx__MainCompetitors__c"},
+          {"name": "Name"},
+          {"name": "NextStep"},
+          {"name": "Id"},
+          {"name": "Type"},
+          {"name": "TotalOpportunityQuantity"},
+          {"name": "SystemModstamp"},
+          {"name": "eadx__TrackingNumber__c"},
+          {"name": "IsWon"}
+        ],
+        "object": "Opportunity"
+      }
+    },
+    "109": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "eadx__Property__c"},
+          {"name": "CreatedDate"},
+          {"name": "IsDeleted"},
+          {"name": "Name"},
+          {"name": "LastModifiedDate"},
+          {"name": "Id"},
+          {"name": "SystemModstamp"}
+        ],
+        "object": "eadx__Favorite__c"
+      }
+    }
+  },
+  "DataflowType": "USER",
+  "_type": "dataflow",
+  "name": "eadx__StreamSetTestDataflow",
+  "description": "This is the default Salesforce dataflow.",
+  "MasterLabel": "StreamSetTest Dataflow",
+  "_url": "/insights/internal_api/v1.0/esObject/workflow//json",
+  "_uid": "",
+  "nextRun": "",
+  "WorkflowStatus": "Inactive"
+}

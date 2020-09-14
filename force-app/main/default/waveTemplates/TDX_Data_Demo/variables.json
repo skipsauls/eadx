@@ -1,0 +1,161 @@
+{
+    "UseAccountSObject": {
+        "label": "Do you want to load the Account sObject?",
+        "description": "Check for yes",
+        "defaultValue": true,
+        "variableType": {
+            "type": "BooleanType"
+        }
+    },
+    "UseOpptySObject": {
+        "label": "Do you want to load the Opportunity sObject?",
+        "description": "Check for yes",
+        "defaultValue": false,
+        "variableType": {
+            "type": "BooleanType"
+        }
+    },
+    "LoadAcctDB1": {
+        "label": "Do you want to create the Account Details dashboard?",
+        "description": "Check for yes",
+        "defaultValue": false,
+        "variableType": {
+            "type": "BooleanType"
+        }
+    },
+    "LoadAcctDB2": {
+        "label": "Do you want to create the Account Type dashboard?",
+        "description": "Check for yes",
+        "defaultValue": false,
+        "variableType": {
+            "type": "BooleanType"
+        }
+    },
+    "LoadOpptyDB1": {
+        "label": "Do you want to create the Opportunity Details dashboard?",
+        "description": "Check for yes",
+        "defaultValue": false,
+        "variableType": {
+            "type": "BooleanType"
+        }
+    },
+    "LoadOpptyDB2": {
+        "label": "Do you want to create the Opportunity Stage dashboard?",
+        "description": "Check for yes",
+        "defaultValue": false,
+        "variableType": {
+            "type": "BooleanType"
+        }
+    },
+    "Account_Fields": {
+        "label": "Pick fields for Account sObject analysis",
+        "description": "Fields for the sObject dataset - Id and Type are built in",
+        "defaultValue": [
+            {
+                "sobjectName": "Account",
+                "fieldName": ""
+            }
+        ],
+        "required": false,
+        "variableType": {
+            "type": "ArrayType",
+            "itemsType": {
+                "type": "SobjectFieldType"
+            },
+            "sizeLimit": {"min":0}
+        },
+        "excludeSelected": false,
+        "excludes": [
+            "Id",
+            "Type"
+        ]
+    },
+    "Oppty_Fields": {
+        "label": "Pick fields for Opportunity sObject analysis",
+        "description": "Fields for the sObject dataset - Id and StageName are built in",
+        "defaultValue": [
+            {
+                "sobjectName": "Opportunity",
+                "fieldName": ""
+            }
+        ],
+        "required": false,
+        "variableType": {
+            "type": "ArrayType",
+            "itemsType": {
+                "type": "SobjectFieldType"
+            },
+            "sizeLimit": {"min":0}
+        },
+        "excludeSelected": false,
+        "excludes": [
+            "Id",
+            "StageName",
+            "Type",
+            "Amount"
+        ]
+    },
+  "Demo_VFDashboard_state_widgets_chart_1_parameters_visualizationType": {
+    "label": "Chart 1 Type",
+    "description": "Sets the chart type for Chart 1",
+    "defaultValue":"stackhbar",
+    "variableType": {
+		"type": "StringType",
+		"enums": ["combo","stackhbar","stackvbar","hbar","vbar"]
+    } 
+  },
+  "Demo_VFDashboard_state_gridLayouts0_style_backgroundColor": {
+    "label": "Chart 1 Background Color",
+    "description": "Sets the background color for Chart 1",
+    "defaultValue": "#FFFFFF",
+    "variableType": {
+      "type": "StringType"
+    }
+  },
+    "Overrides" : {
+    "label" : "Overrides",
+    "description" : "Internal configuration to allow asset creation overrides, not to be displayed in UI.",
+    "defaultValue" : {
+      "createAllDashboards" : true,
+      "createAllLenses" : true,
+      "createAllExternalFiles" : true,
+      "createDataflow" : true,
+      "createAllDatasetFiles" : true,
+      "createAllImages" : true
+    },
+    "required" : true,
+    "excludeSelected" : false,
+    "excludes" : [ ],
+    "variableType" : {
+      "required" : [ "createAllExternalFiles", "createAllDashboards", "createAllImages", "createAllDatasetFiles", "createAllLenses", "createDataflow" ],
+      "type" : "ObjectType",
+      "properties" : {
+        "createAllDashboards" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllLenses" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllExternalFiles" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createDataflow" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllDatasetFiles" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        },
+        "createAllImages" : {
+          "type" : "BooleanType",
+          "enums" : [ true, false ]
+        }
+      },
+      "strictValidation" : true
+    }
+  }
+}

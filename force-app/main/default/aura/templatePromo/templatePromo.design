@@ -1,0 +1,6 @@
+<design:component label="Analytics Template Promo">
+    <design:attribute name="appName" label="App Name" description="The unique name for the app"/>
+    <design:attribute name="appLabel" label="App Label" description="The label for the app"/>
+    <design:attribute name="appDescription" label="App Name" description="The description of the app"/>
+    <design:attribute name="templateDeveloperName" label="Template Developer Name" description="The unique name or namespace__name for the target template"/>
+</design:component>

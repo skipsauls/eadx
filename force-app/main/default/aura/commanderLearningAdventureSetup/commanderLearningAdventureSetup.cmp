@@ -1,0 +1,14 @@
+<aura:component >
+    <aura:attribute name="class" type="String" access="global"/>
+    <aura:attribute name="style" type="String" access="global"/>
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="utility:setup"/>
+             Learning Adventure
+        </aura:set>
+        <div class="{!'outer slds-m-around_small ' + v.class}" style="{!v.style}">
+            Einstein Commander works directly with the Learning Adventure app to help demonstrate the power of Einstein Analytics.
+            <lightning:input type="toggle" label="Learning Adventure Application" name="input1"/>
+        </div>
+    </lightning:card>
+</aura:component>

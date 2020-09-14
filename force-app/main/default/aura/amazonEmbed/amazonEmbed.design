@@ -1,0 +1,3 @@
+<design:component label="Amazon Item Lookup">
+    <design:attribute name="asin" label="ASIN"/>
+</design:component>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folder>eadx__Package_Test</folder>
+    <masterLabel>Package Test</masterLabel>
+    <shares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>skip@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>eadx__Package_Test</templateOrigin>
+    <templateVersion>1.1</templateVersion>
+</WaveApplication>

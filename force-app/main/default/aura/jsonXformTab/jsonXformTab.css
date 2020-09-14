@@ -1,0 +1,11 @@
+.THIS {
+}
+
+.THIS .text textarea {
+    height: 26rem;
+    resize: none;
+}
+
+.THIS .hidden {
+    display: none;
+}

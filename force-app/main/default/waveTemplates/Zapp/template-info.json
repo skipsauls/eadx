@@ -1,0 +1,62 @@
+{
+  "templateType" : "app",
+  "label" : "Zapp",
+  "name" : "Zapp",
+  "namespace" : "eadx",
+  "assetVersion" : 45.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.0",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Zapp Dashboard",
+      "name" : "New_dashboard55_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/New_dashboard55.json"
+    }
+  ],
+  "eltDataflows" : [
+    {
+      "label" : "Zapp Dataflow",
+      "name" : "ZappDataflow",
+      "condition" : "${Variables.Overrides.createDataflow}",
+      "file" : "dataflow/ZappDataflow.json"
+    }
+  ],
+  "datasetFiles" : [
+    {
+      "label" : "oppty1",
+      "name" : "oppty1_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/oppty1_XMD.json"
+    }
+  ],
+  "storedQueries" : [ ],
+  "imageFiles" : [ ],
+  "extendedTypes" : { },
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templateDetail" : { }
+  }
+}

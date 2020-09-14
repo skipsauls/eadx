@@ -1,0 +1,88 @@
+<aura:component controller="VoiceUtilityBarController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="config" type="Object" description="Stores the config object for sync with server"/>
+    <aura:attribute name="configName" type="String" description="The name associaed with the configuration" default="Default"/>
+
+    <aura:attribute name="wakeWords" type="String" default="Einstein"/>
+    <aura:attribute name="wakeTimeout" type="Integer" default="10"/>
+    <aura:attribute name="speakOutput" type="Boolean" default="true"/>    
+    <aura:attribute name="voiceName" type="String"/>
+    
+    <!-- For Hot Keys -->
+    <aura:attribute name="hotKeys" type="Object[]"/> 
+    <aura:attribute name="useHotKeys" type="Boolean" default="false"/>
+
+    
+    <aura:attribute name="hotKeyColumns" type="List"/>
+    
+    <aura:attribute name="voices" type="Object[]"/>
+
+    <aura:attribute name="dirty" type="Boolean" default="false"/>    
+
+    <aura:attribute name="standaloneApp" type="Boolean" default="false"/>
+
+    <aura:attribute name="selectedCommanderChannel" type="Object" default="{}"/>
+
+    <aura:handler name="change" value="{!v.wakeWords}" action="{!c.updateSettings}"/>
+    <aura:handler name="change" value="{!v.wakeTimeout}" action="{!c.updateSettings}"/>
+    <aura:handler name="change" value="{!v.speakOutput}" action="{!c.updateSettings}"/>
+    <aura:handler name="change" value="{!v.voiceName}" action="{!c.updateSettings}"/>
+    <aura:handler name="change" value="{!v.hotKeys}" action="{!c.updateSettings}"/>
+    <aura:handler name="change" value="{!v.useHotKeys}" action="{!c.updateSettings}"/>
+    <aura:handler name="change" value="{!v.selectedCommanderChannel}" action="{!c.updateSettings}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<!--
+    <c:voiceProxy aura:id="voiceProxy"/>
+	-->
+	<!--
+    <c:voiceProxy aura:id="voiceSettingsProxy" baseUrl="https://analytics-ltngout-playground.herokuapp.com/voiceproxy" vf_voice_proxy_id="vf_voice_settings_frame"/>
+	-->
+    
+    <div class="outer">
+        <lightning:layout class="tools">
+            <lightning:layoutItem class="slds-p-around_small" size="3">               
+                <lightning:buttonIconStateful
+                                              iconName="{!v.speakOutput ? 'utility:volume_high' : 'utility:volume_off'}"
+                                              alternativeText="{!v.speakOutput ? 'Stop Speaking' : 'Start Speaking'}"
+                                              selected="{!v.speakOutput ? true : false}"
+                                              onclick="{!c.toggleSpeakOutput}"
+                                              variant="border-filled"
+                                              class="slds-m-left_x-small"                                          
+                                              />                
+                <lightning:input type="text" label="Wake Word(s)" value="{!v.wakeWords}" class="slds-p-vertical_small"/>
+                <lightning:input type="number" name="wakeTimeout" label="Wake Timeout" value="{!v.wakeTimeout}" min="3" max="60" step="1"/>
+                <lightning:select value="{!v.voiceName}" label="Voices">
+                    <aura:iteration items="{!v.voices}" var="voice">
+                        <option value="{!voice.name}" title="{!voice.name + ' (' + voice.lang + ')'}">{!voice.name + ' (' + voice.lang + ')'}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <lightning:button class="slds-m-vertical_x-small" label="Update" disabled="{!v.dirty ? 'false' : 'true'}" variant="brand" onclick="{!c.saveSettings}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-p-around_small" size="9">
+                <lightning:buttonIconStateful
+                                              iconName="{!v.useHotKeys ? 'utility:type' : 'utility:type'}"
+                                              alternativeText="{!v.useHotKeys ? 'Disable Hot Keys' : 'Enable HotKeys'}"
+                                              selected="{!v.useHotKeys ? true : false}"
+                                              onclick="{!c.toggleUseHotKeys}"
+                                              variant="border-filled"
+                                              class="slds-m-right_x-small"                                          
+                                              />                
+                <lightning:button label="New" name="new-button" onclick="{!c.handleNew}"/>
+                <lightning:datatable
+                                     aura:id="hotkey-table"
+                                     class="hotkey-table"
+                                     columns="{!v.hotKeyColumns}"
+                                     data="{!v.hotKeys}"
+                                     keyField="id"
+                                     onrowselection="{!c.handleRowSelection}"
+                                     onrowaction="{!c.handleRowAction}"
+                                     onsave="{!c.handleSave}"
+                                     oncancel="{!c.handleCancel}"
+                                     oncellchange="{!c.handleCellChange}"
+                                     />
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

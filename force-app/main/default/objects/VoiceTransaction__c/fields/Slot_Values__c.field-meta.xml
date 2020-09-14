@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Slot_Values__c</fullName>
+    <description>The key=value pairs for slots</description>
+    <externalId>false</externalId>
+    <label>Slot Values</label>
+    <length>8192</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

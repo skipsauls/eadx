@@ -1,0 +1,54 @@
+{
+  "templateType" : "app",
+  "label" : "Cool Demo",
+  "name" : "Cool_Demo",
+  "namespace" : "eadx",
+  "description" : "Is your company a complete and total mess? Sort of like Dunder Mifflin? Before you turn into Holly Flax and lose your mind, check out our awesome HR analytics components and get your company in order!",
+  "assetVersion" : 42.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.1",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Cool Dashboard",
+      "name" : "Cool_Dashboard1_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Cool_Dashboard1.json"
+    },
+    {
+      "label" : "Very Nice Dashboard",
+      "name" : "Very_Nice_Dashboard_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Very_Nice_Dashboard.json"
+    }
+  ],
+  "eltDataflows" : [ ],
+  "datasetFiles" : [ ],
+  "storedQueries" : [ ],
+  "imageFiles" : [ ],
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templateDetail" : { }
+  }
+}

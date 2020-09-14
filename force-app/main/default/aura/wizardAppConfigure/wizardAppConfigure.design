@@ -1,0 +1,8 @@
+<design:component label="Configure App from Template">
+    <design:attribute label="Start From" name="startFrom"/>
+    <design:attribute label="Template Config ID" name="configId"/>
+    <design:attribute label="Next Step" name="nextStep"/>
+	<design:attribute label="Template ID" name="templateId" description="The selected template ID"/>
+	<design:attribute label="Selected Type" name="selectedType" description="The selected template type (app or dashboard)"/>
+
+</design:component>

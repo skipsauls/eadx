@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <div class="outer">
+        <lightning:layout >
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="9">  
+		        <c:templateManager/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="3">  
+            </lightning:layoutItem>        
+        </lightning:layout>        
+    </div>	
+</aura:component>

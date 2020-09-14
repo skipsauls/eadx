@@ -1,0 +1,14 @@
+.THIS {
+}
+
+.THIS .title {
+    font-weight: bold;
+}
+
+.THIS .icon {
+    width: 64px;
+}
+
+.THIS .icon img {
+    width: 100%;
+}

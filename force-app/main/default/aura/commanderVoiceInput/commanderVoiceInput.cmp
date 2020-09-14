@@ -1,0 +1,191 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="CommanderUtils">    
+    <aura:attribute name="inputText" type="String"/>
+    <aura:attribute name="lastCommandText" type="String"/>
+    <aura:attribute name="lexOrigin" type="String"/>
+    <aura:attribute name="vfOrigin" type="String"/>
+    <aura:attribute name="vfPage" type="String" default="commanderVoiceInput"/>
+    <aura:attribute name="vfToken" type="String"/>
+    <aura:attribute name="voices" type="Object[]"/>
+    <aura:attribute name="voiceMap" type="Map"/>
+    <aura:attribute name="voiceName" type="String"/>
+    <aura:attribute name="languages" type="String[]"/>
+    <aura:attribute name="lang" type="String" default="{!$Locale.langLocale}"/>
+    <aura:attribute name="state" type="String" default="initial"/>
+
+    <aura:attribute name="speechText" type="String" access="global"/>
+    <aura:attribute name="systemLogText" type="String" access="global"/>
+    <aura:attribute name="userLogText" type="String" access="global"/>
+
+    <aura:attribute name="commanderEvent" type="Object" access="global"/>
+    
+    <aura:attribute name="commanderState" type="String" access="global"/>
+    <aura:attribute name="command" type="String" default="" access="global"/>
+    <aura:attribute name="commanderChannel" type="Object" access="global"/>
+    <aura:attribute name="recordingSession" type="Object" access="global"/>    
+    
+    <aura:attribute name="proxyReady" type="Boolean" access="global" default="false"/>    
+    <aura:attribute name="proxy" type="Aura.Component" access="global"/>
+    
+    <aura:attribute name="handlers" type="Map" access="global"/>
+
+    <aura:attribute name="userDetails" type="Object" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{!v.proxyReady}" action="{!c.handleProxyReady}"/>
+    <aura:handler name="change" value="{!v.commanderEvent}" action="{!c.handleCommanderEventChange}"/>
+    <aura:handler name="change" value="{!v.speechText}" action="{!c.handleSpeechTextChange}"/>
+    <aura:handler name="change" value="{!v.systemLogText}" action="{!c.handleSystemLogTextChange}"/>
+    <aura:handler name="change" value="{!v.userLogText}" action="{!c.handleUserLogTextChange}"/>
+
+    
+    <aura:handler name="onCommanderAction" 
+                  event="einsteinconduit:commanderActionEvent" 
+                  action="{!c.handleCommanderEvent}"
+                  includeFacets="true"/>
+    
+    <!--
+    <aura:handler event="c:CommanderOutputEvent" action="{! c.handleCommanderOutputEvent }"/>
+    -->
+
+    <aura:handler name="ChannelSubscribe" 
+   			event="c:ChannelSubscribeEvent" 
+            action="{! c.handleCommanderEventPayload }"/>
+
+    <aura:handler name="ChannelUnsubscribe" 
+   			event="c:ChannelUnsubscribeEvent" 
+            action="{! c.handleCommanderEventPayload }"/>
+
+    <aura:handler name="ViewSobjectType" 
+   			event="c:ViewSobjectTypeEvent" 
+            action="{! c.handleCommanderEventPayload}"
+            includeFacets="true"/>
+
+    <aura:handler name="ViewAnalyticsDashboard"  
+   			event="c:ViewAnalyticsDashboardEvent" 
+            action="{! c.handleCommanderEventPayload }"/>
+
+    <aura:handler name="AnalyticsDashboardUpdatePage" 
+   			event="c:AnalyticsDashboardUpdatePageEvent" 
+            action="{! c.handleCommanderEventPayload }"/>
+
+    <aura:handler name="DatasetFilter"
+   			event="c:FilterDatasetEvent" 
+            action="{! c.handleCommanderEventPayload }"/>
+
+    <aura:handler name="DatasetSelection" 
+   			event="c:FilterDatasetEvent" 
+            action="{! c.handleCommanderEventPayload }"/>
+
+    <aura:handler name="InvocableActionApex" 
+   			event="c:InvocableActionApexEvent" 
+            action="{! c.handleCommanderEventPayload }"/>
+    
+    <c:proxy aura:id="proxy" ready="{!v.proxyReady}"/>
+    
+<!--
+
+
+    <c:commanderVoiceAliasHandler commanderEvent="{!v.commanderEvent}" speechText="{!v.speechText}" systemLogText="{!v.systemLogText}" userLogText="{!v.userLogText}" proxy="{!v.proxy}"/>
+
+    
+-->
+    
+    <div class="outer slds-m-horizontal_small">
+        <div class="{!'enable ' + (v.state != 'initial' ? 'show' : 'hide')}">
+            <lightning:buttonIcon iconName="{!v.state == 'settings' ? 'utility:home' : 'utility:settings'}"
+                                  variant="bare"
+                                  alternativeText="{!!v.state == 'home' ? 'Settings' : 'Home'}"
+                                  onclick="{!c.handleSettingsClick}"/>
+        </div>
+        
+        <lightning:layout verticalAlign="end">
+            
+            <!-- Settings -->
+            <lightning:layoutItem size="12" class="{!v.state == 'settings' ? 'show' : 'hide'}">
+                
+                <lightning:layout horizontalAlign="stretch" verticalAlign="start" class="slds-m-vertical_small">
+                    <lightning:layoutItem size="6">    
+                        <lightning:select value="{!v.lang}" label="Language">
+                            <aura:iteration items="{!v.languages}" var="lang">
+                                <option value="{!lang}" selected="{!lang == v.lang}">{!lang}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6">    
+                        <lightning:select value="{!v.voiceName}" label="Voice">
+                            <option value="">Please Select a Voice</option>
+                            <aura:iteration items="{!v.voices}" var="voice">
+                                <aura:if isTrue="{!voice.lang == v.lang}">
+                                    <option value="{!voice.name}" selected="{!voice.name == v.voiceName}">{!voice.name}</option>
+                                </aura:if>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                </lightning:layout>                
+
+                <lightning:layout horizontalAlign="stretch" verticalAlign="start" class="slds-m-vertical_small" >
+                    <lightning:layoutItem size="12">    
+		                <lightning:button label="Test Speech" onclick="{!c.testSpeech}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+            </lightning:layoutItem>
+
+            <!-- Main -->            
+            <lightning:layoutItem size="12" class="{!v.state == 'settings' ? 'hide' : 'show'}">
+
+                <lightning:layout horizontalAlign="stretch" verticalAlign="end">
+                    <lightning:layoutItem size="12" class="pinned">    
+                        <!-- The Visualforce page to send data to -->
+                        <!--
+                        <aura:if isTrue="{!v.vfOrigin != null}">
+                        	<iframe aura:id="vfFrame" allow="microphone" src="{!v.vfOrigin + '/apex/' + v.vfPage + '?t=' + v.vfToken + '&amp;lexOrigin=' + v.lexOrigin}" onload="{!c.iframeLoaded}"/>        
+                        </aura:if>
+						-->
+                        <iframe aura:id="vfFrame" allow="microphone" src="{!v.vfOrigin + '/apex/' + v.vfPage + '?t=' + v.vfToken + '&amp;lexOrigin=' + v.lexOrigin}" onload="{!c.iframeLoaded}"/>        
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+                <lightning:layout horizontalAlign="stretch" verticalAlign="end">
+                    <lightning:layoutItem size="12">
+                        <c:voiceLog aura:id="log" height="26rem"/>    
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+                <lightning:layout horizontalAlign="space" verticalAlign="center" pullToBoundary="medium" class="{!v.state == 'home' ? 'show' : 'hide'}">
+                    <lightning:layoutItem flexibility="stretch">
+                        <lightning:buttonGroup>
+                            <lightning:buttonIcon iconName="utility:type"  alternativeText="Type" onclick="{!c.type}"/>
+                            <lightning:buttonIcon iconName="utility:unmuted"  alternativeText="Talk" onclick="{!c.listen}"/>
+                        </lightning:buttonGroup>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+                <lightning:layout horizontalAlign="stretch" verticalAlign="end" class="{!v.state == 'speaking' ? 'show' : 'hide'}">
+                    <lightning:layoutItem flexibility="auto">    
+                        <lightning:formattedText value="{!v.inputText}"/>                
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="no-grow" >    
+                        <lightning:buttonIcon iconName="utility:type"  alternativeText="Type" onclick="{!c.type}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+                <lightning:layout horizontalAlign="stretch" verticalAlign="end" class="{!v.state == 'typing' ? 'show' : 'hide'}">
+                    <lightning:layoutItem flexibility="auto">
+                        <span onkeypress="{!c.keyCheck}">
+                            <lightning:input aura:id="text-input" type="text" label="Input" variant="label-hidden" value="{!v.inputText}" placeholder="Type a message"/>
+                        </span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="no-grow" >    
+                        <lightning:buttonIcon iconName="utility:chevronright" alternativeText="Send" onclick="{!c.callCommander}"/>                
+                        <lightning:buttonIcon iconName="utility:unmuted"  alternativeText="Talk" onclick="{!c.listen}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+    </div>
+    
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component access="global">
+    <aura:attribute name="appId" type="String" access="global"/>
+    <aura:attribute name="cell" type="Object" access="global"/>
+    <aura:attribute name="actions" type="Object[]" access="global"/>
+    <lightning:buttonMenu alternativeText="Action" onselect="{!c.handleMenuSelect}">
+        <aura:iteration var="action" items="{!v.actions}">
+            <lightning:menuItem aura:id="actionMenuItems" label="{!action.label}" value="{!action.value}"/>
+        </aura:iteration>
+    </lightning:buttonMenu>	
+</aura:component>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveDataset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <application>eadx__Oenolytics</application>
+    <masterLabel>dirty-wine-data-v1</masterLabel>
+    <templateAssetSourceName>winemag_data_130k_v1_tp</templateAssetSourceName>
+</WaveDataset>

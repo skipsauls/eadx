@@ -1,0 +1,13 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+
+    <aura:method name="launch" action="{!c.launch}"  description="Launches the wizard."> 
+        <aura:attribute name="flowName" type="String" description="The name of the flow to launch."/>
+        <aura:attribute name="inputVariables" type="Object[]" description="The input variables to pass to the flow."/>
+        <aura:attribute name="showCloseButton" type="Boolean" default="true"/>
+        <aura:attribute name="title" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <div class="outer"></div>
+</aura:component>

@@ -1,0 +1,37 @@
+.THIS{
+    width: 95%;
+    max-width: 1000px;
+}
+.THIS .template-badge{
+    width: 32px;
+    height: auto;
+}
+.THIS .template-info {
+    text-align: left;
+    padding-left: 20px;
+}
+.THIS .template-info-col {
+    border-right: 1px solid #d8dde6;
+}
+.THIS .template-preview {
+    text-align: center;
+}
+.THIS .template-text {
+    display: block;
+    padding-left: 10px;
+}
+.THIS .template-section {
+    padding-top: 10px;
+}
+.THIS .tag-section {
+    padding-left: 10px;
+}
+.THIS .slds-text-heading_small{
+    padding-top: 10px;
+    display: block;
+}
+.THIS .action-button{
+    float: right;
+}
+.THIS .slds-carousel{
+}

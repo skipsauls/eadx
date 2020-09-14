@@ -1,0 +1,157 @@
+<aura:component>
+    <aura:attribute name="commanderState" type="String" access="global"/>
+    <aura:attribute name="command" type="String" default="" access="global"/>
+    <aura:attribute name="commanderChannel" type="Object" access="public"/>
+    <aura:attribute name="recordingSession" type="Object" access="public"/>
+    
+    <aura:attribute name="requestInProgress" type="Boolean" access="private" default="false"/>
+    <aura:attribute name="history" type="List" access="private"/>
+    <aura:attribute name="historyIndex" type="Integer" access="private"/>
+    <aura:attribute name="helpOpen" type="Boolean" access="private" default="false"/>
+    
+    <aura:attribute name="expanded" type="Boolean" access="private" default="true"/>
+    <aura:attribute name="collapsedSize" type="Map" access="private" default="{width: 340, height: 105}"/>
+    <aura:attribute name="expandedSize" type="Map" access="private" default="{width: 340, height: 620}"/>
+
+    <!-- Commander Events for use by the Voice Input -->
+    <aura:attribute name="commanderEvent" type="Object"/>
+    
+    <aura:attribute name="keyTypeDelayMilliseconds" 
+                    type="List" 
+                    default="[40,65,90,110,140]"
+                    access="private"/>
+    
+    <aura:attribute name="keypressTimer" 
+                    type="Integer" 
+                    access="PUBLIC"/>
+    
+    <aura:attribute name="externalCommand" 
+                    type="String" 
+                    default="" 
+                    access="PUBLIC"/>
+    
+    <aura:registerEvent name="ViewSobjectType" 
+                        type="c:ViewSobjectTypeEvent"
+                        access="GLOBAL"/>
+    
+    <aura:registerEvent name="ViewAnalyticsDashboard" 
+                        type="c:ViewAnalyticsDashboardEvent"
+                        access="GLOBAL"/>
+    
+    <aura:registerEvent name="AnalyticsDashboardUpdatePage" 
+                        type="c:AnalyticsDashboardUpdatePageEvent"
+                        access="GLOBAL"/>
+    
+    <aura:registerEvent name="InvocableActionApex" 
+                        type="c:InvocableActionApexEvent"
+                        access="GLOBAL"/>
+    
+    <aura:registerEvent name="ChannelSubscribe" 
+                        type="c:ChannelSubscribeEvent"
+                        access="GLOBAL"/>
+    
+    <aura:registerEvent name="ChannelUnsubscribe" 
+                        type="c:ChannelUnsubscribeEvent"
+                        access="GLOBAL"/>
+    
+    <aura:registerEvent name="DatasetFilter" 
+                        type="c:FilterDatasetEvent"
+                        access="GLOBAL"/>
+    
+    <aura:registerEvent name="DatasetSelection" 
+                        type="c:FilterDatasetEvent"
+                        access="GLOBAL"/>
+
+    <aura:registerEvent name="RecordedSessionReloadEvent"
+                        type="c:RecordedSessionReloadEvent"
+                        access="GLOBAL"/>
+    
+    <aura:handler name="init" 
+                  value="{!this}" 
+                  action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{! v.requestInProgress }" 
+                  action="{! c.onRequestInProgressChange }"/>
+    
+    <aura:handler name="change" value="{! v.recordingSession }" 
+                  action="{! c.onRecordingSessionChange }"/>
+    
+    <aura:handler name="change" value="{! v.commanderChannel }" 
+                  action="{! c.onCommanderChannelChange }"/>
+    
+    <aura:handler name="onCommanderAction" 
+                  event="einsteinconduit:commanderActionEvent" 
+                  action="{!c.handleCommanderEvent}"
+                  includeFacets="true"/>
+    
+    <aura:handler name="onCommanderError" 
+                  event="einsteinconduit:commanderApiErrorEvent" 
+                  action="{!c.handleCommanderError}"
+                  includeFacets="true"/> 
+    
+    <aura:handler event="c:ExternalCommanderPhraseEvent" 
+                  action="{!c.handleExternalPhraseEvent}"
+                  includeFacets="true"/> 
+    
+    <einsteinconduit:commanderApi aura:id="commanderApi" 
+                                  limit="10"
+                                  readyOnly="true" 
+                                  expandedView="true"
+                                  subscribedChannel="{! v.commanderChannel }"
+                                  contextualState="{! v.commanderState }"/>
+
+    <c:sessionRecordingApi aura:id="sessionRecordingApi"/>
+    
+    <lightning:utilityBarAPI aura:id="utilitybar"/>
+
+    <lightning:layout verticalAlign="start" class="main">
+        <lightning:layoutItem size="12" class="noscrollbars" flexibility="flex">
+            <div class="expander slds-m-around_xx_small">
+                <lightning:buttonIcon iconName="{!v.expanded ? 'utility:down' : 'utility:up'}"
+                                      variant="bare"
+                                      size="small"
+                                      onclick="{!c.handleExpandedClick}"
+                                      alternativeText="{!v.expanded ? 'Collapse' : 'Expand'}"
+                                      />            
+            </div>
+            <lightning:tabset>
+                <lightning:tab label="Assistant">
+                    <c:commanderVoiceInput commanderEvent="{!v.commanderEvent}"
+                                           commanderChannel="{!v.commanderChannel}"
+                                           commanderState="{! v.commanderState }"
+                                           recordingSession="{! v.recordingSession }"
+                                           />
+                </lightning:tab>
+                <lightning:tab label="Recordings">
+            		<c:commanderLog currentRecording="{! v.recordingSession }"
+                            		class="{!v.expanded ? 'slds-show' : 'slds-hide'}"/>
+                </lightning:tab>
+            </lightning:tabset>
+            
+            <!--
+            <div class="pinned">
+                <lightning:layout horizontalAlign="space" class="pinned slds-m-horizontal_small slds-m-bottom_small">
+                    <lightning:layoutItem size="11">
+                        <span onkeypress="{!c.checkForEnter}" onkeydown="{!c.checkForArrow}">
+                            <lightning:input aura:id="command" 
+                                             label="Command" 
+                                             name="command"
+                                             value="{!v.command}"/>
+                        </span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="1">
+                        <lightning:buttonIcon iconName="utility:chevronright" 
+                                              onclick="{!c.callCommander}"
+                                              class=""
+                                              disabled="{! v.requestInProgress }"
+                                              alternativeText="Run"
+                                              />
+                    </lightning:layoutItem>
+                </lightning:layout>      
+                
+            </div>
+			-->
+        </lightning:layoutItem>            
+    </lightning:layout>
+    
+</aura:component>

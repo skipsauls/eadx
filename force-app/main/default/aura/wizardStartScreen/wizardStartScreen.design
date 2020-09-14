@@ -1,0 +1,5 @@
+<design:component label="Wizard Start Screen">
+    <design:attribute label="Start From" name="startFrom"/>
+    <design:attribute label="Stages" name="stages"/>
+    <design:attribute label="Current Stage" name="currentStage"/>
+</design:component>

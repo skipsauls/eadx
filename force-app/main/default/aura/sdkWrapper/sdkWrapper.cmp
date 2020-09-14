@@ -1,0 +1,12 @@
+<aura:component access="global">
+    <aura:method name="invokeMethod" action="{!c.invokeMethod}" description="Logs the text for the specified user"> 
+        <aura:attribute name="context" type="Object" required="true"/> 
+        <aura:attribute name="methodName" type="String" required="true"/> 
+        <aura:attribute name="methodParameters" type="object" required="true"/> 
+        <aura:attribute name="callback" type="Function" required="true"/> 
+    </aura:method>
+    <aura:method name="ping" action="{!c.ping}" description="Ping"> 
+        <aura:attribute name="callback" type="Function" required="true"/> 
+    </aura:method>
+    <wave:sdk aura:id="sdk"/>
+</aura:component>

@@ -1,0 +1,65 @@
+.THIS {
+}
+
+.THIS .tab-container {
+    border-radius: .25rem;
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+.THIS .tab-container .slds-card {
+    border-radius: 0;
+    border: 0px none;
+}
+
+.THIS .slds-tabs_default__content, .THIS .slds-tabs--default__content {
+    position: relative;
+    padding: 1rem 0;
+}
+
+.THIS .slds-tabs_default.main-tabset {
+    background-color: transparent;
+}
+
+.THIS .slds-tabs_default__nav, .THIS .slds-tabs--default__nav {
+    background-color: #FFFFFF;
+}
+
+.THIS .slds-tabs_default__item {
+    padding: 0 30px;
+    text-align: center;
+    width: 150px;
+}
+
+
+.THIS .main-container {
+    border-right: 1px solid rgb(221, 219, 218);
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+}
+
+
+.THIS .main-container {
+    border-right: 1px solid rgb(221, 219, 218);
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+}
+
+.THIS .right-container {
+    height: 100%;
+    min-height: 700px;
+}
+
+.THIS .right-panel-container {
+    color: #16325c;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+}

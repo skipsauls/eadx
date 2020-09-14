@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveLens xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <content xsi:nil="true"/>
+    <application>eadx__Solution_Overview_App</application>
+    <datasets>eadx__opportunity2</datasets>
+    <description>Get actionable insights from your opportunities data, starting with pushed opportunities. Narrow the time period to look at pushed opportunities for a year, quarter, month, and so on. Select a new grouping, such as by team or by opportunity owner. Or filter by a different stage, status, product, or any other way you break down opportunities.</description>
+    <masterLabel>Explore Opportunities</masterLabel>
+    <templateAssetSourceName>Explore_Opportunities</templateAssetSourceName>
+    <visualizationType>pyramid</visualizationType>
+</WaveLens>

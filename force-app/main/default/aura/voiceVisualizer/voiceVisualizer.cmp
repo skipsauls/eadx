@@ -1,0 +1,30 @@
+<aura:component access="global">
+    <aura:attribute name="getByteTimeDomainData" type="Object" access="global"/>
+ 	<aura:attribute name="visualSetting" type="String" access="global" default="frequencybars"/>
+    <aura:attribute name="interimResults" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="awake" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="listening" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="showVisualization" type="Boolean" access="global" default="false"/>
+    
+    <aura:attribute name="drawVisual" type="Object"/>    
+    <aura:attribute name="voiceAnalysisProxyReady" type="Boolean" default="false" description="Enables tracking via change event"/>
+    
+    <aura:handler name="change" value="{!v.voiceAnalysisProxyReady}" action="{!c.voiceAnalysisProxyReady}"/>
+    <aura:handler name="change" value="{!v.showVisualization}" action="{!c.showVisualizationChange}"/>
+    
+    <c:voiceProxy aura:id="voiceAnalysisProxy"
+                  baseUrl="https://analytics-ltngout-playground.herokuapp.com/voiceanalysisproxy"
+                  query_params="{!'&amp;visual_setting=' + v.visualSetting}"
+                  vf_voice_proxy_id="vf_voice_analysis_proxy_frame"
+                  ready="{!v.voiceAnalysisProxyReady}"
+                  />
+    
+    <div>
+        <div aura:id="visualizer-container" class="visualizer-container">
+            <canvas aura:id="visualizer" class="{!'visualizer ' + (v.awake == true ? 'awake' : '')}" width="480" height="68"></canvas> 
+            <div class="mic">
+                <img class="" src="{!v.awake == true ? $Resource.mic_on : $Resource.mic_off}" onclick="{!c.toggleAwake}"/>
+            </div>
+        </div>  
+    </div>
+</aura:component>

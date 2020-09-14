@@ -1,0 +1,24 @@
+.THIS .slds-form-element__label {
+    display : none;
+    visibility : hidden;
+}
+
+.THIS.main {
+    height: 100%;
+}
+
+.THIS .noscrollbars {
+    overflow: hidden;
+}
+
+.THIS .pinned {
+    background-color: #FFFFFF;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.THIS .expander {
+
+}

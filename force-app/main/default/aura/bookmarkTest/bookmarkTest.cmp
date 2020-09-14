@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="dashboardId" type="String" access="global" default="0FK1I000000Du0wWAC"/>
+    <aura:attribute name="selectedDashboardId" type="String" access="global"/>
+    <aura:attribute name="developerName" type="String" access="global"/>
+
+    <aura:attribute name="linkUrl" type="String" access="global"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    <aura:handler event="wave:discoverResponse" action="{!c.handleDiscoverResponse}"/>
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.selectDashboard}"/>
+    <aura:handler name="change" value="{!v.developerName}" action="{!c.selectDashboard}"/>
+
+    <lightning:button label="Discover" onclick="{!c.discover}"/>
+    <lightning:button label="Copy Bookmark" onclick="{!c.copyBookmark}"/>
+    
+    <input class="link_url" type="text" value="{!v.linkUrl}"/>
+    
+    <wave:waveDashboard dashboardId="{!v.dashboardId}" developerName="{!v.developerName}" height="800" openLinksInNewWindow="false" showHeader="false" showTitle="false" showSharing="false"/>
+    
+</aura:component>

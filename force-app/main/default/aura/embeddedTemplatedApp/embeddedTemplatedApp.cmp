@@ -1,0 +1,177 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="templateApiName" 
+                    type="String" 
+                    access="global" 
+                    description="The Einstein Analytics embedded app template API name."/>
+
+    <aura:attribute name="dashboardHeight" 
+                    type="Integer" 
+                    access="global" 
+                    required="false"
+                    default="500"
+                    description="The height of the dashboard being viewed."/>
+
+    <aura:attribute name="dashboardTemplates" 
+                    type="String" 
+                    access="global" 
+                    required="false"
+                    default=""
+                    description="The list of dashboard templates to filter on."/>
+    
+    <aura:attribute name="filter" 
+                    type="String" 
+                    access="global" 
+                    description="Filter string to provide to the Einstein Analytics dashboard."/>
+
+    <aura:attribute name="title" 
+                    type="String" 
+                    access="global" 
+                    required="false"
+                    default="Change Title"
+                    description="The title shown for this embedded templated app"/>
+
+    <aura:attribute name="header" 
+                    type="String" 
+                    access="global" 
+                    required="false"
+                    default="Change Header"
+                    description="The title shown for this embedded templated app"/>
+
+    <aura:attribute name="canManageDataflow" 
+                    type="Boolean" 
+                    access="global" 
+                    default="false"
+                    description="Set to true if the application template has a dataflow. If true, the component will allow the user to manually start the dataflow."/>
+
+    <aura:attribute name="defaultTemplateBadge"
+                    type="String"
+                    default="/analytics/wave/static/images/WaveCommon/static/images/template/icons/default.png"
+                    access="private"/>
+    
+    <aura:attribute name="headerConfig" type="Map" 
+                    default="{titleEnabled: false, requestActionsEnabled: false, dashboardActionsEnabled: false}"/>
+
+    <aura:attribute name="busy" 
+                    type="Boolean" 
+                    access="private" 
+                    default="false"/>
+    
+	<aura:attribute name="upgradeResetLabel"
+                    type="Object"/>
+
+    <aura:attribute name="wairPermissions"
+                    type="Object"/>
+
+    <aura:attribute name="templateMetadata"
+                    type="Object"/>
+    
+	<aura:attribute name="recentWair"
+                    type="Object"/>
+
+    <aura:attribute name="dashboardData"
+                    type="Map"
+                    default="{selected: null, data:[]}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:handler name="change" 
+                  value="{!v.recentWair}" 
+                  action="{!c.handleWairUpdate}"/>
+
+    <aura:handler name="change" 
+                  value="{!v.dashboardData}" 
+                  action="{!c.handleDashboardDataChange}"/>
+    
+    <aura:handler name="change" 
+                  value="{!v.wairPermissions}" 
+                  action="{!c.handlePermissionsUpdate}"/>
+
+    <aura:handler name="change" 
+                  value="{!v.templateMetadata}" 
+                  action="{!c.handleTemplateMetadataUpdate}"/>
+
+    <wave:autoInstallRequest aura:id="wairApi"/>
+    
+    <lightning:notificationsLibrary aura:id="notifyLib"/>
+    
+    <wave:sdk aura:id="wave-sdk"/>
+
+    <lightning:card aura:id="embedded-main-card">
+        <lightning:spinner aura:id="spinner" alternativeText="Loading" 
+                           variant="brand" size="small" 
+                           class="{! v.busy ? '' : 'slds-hide'}"/>
+        <aura:set attribute="title">
+            <div aura:id="component-title" class="{! v.headerConfig.titleEnabled ? '' : 'slds-hide' }">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <img class="template-badge" 
+                             src="{! empty(v.templateMetadata.icons.templateBadge) ? 
+                                  v.defaultTemplateBadge : 
+                                  v.templateMetadata.icons.templateBadge.url }"/>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-card__header-title slds-text-title_caps">
+                            <lightning:formattedText value="{! v.title }"/>
+                        </p>
+                        <h1>
+                            <lightning:formattedText value="{! v.header }"/>
+                        </h1>
+                        <div aura:id="app-template-state" class="slds-text-body_small">
+                            <lightning:formattedText value="{! v.templateMetadata.label + 
+                                                            ' ' + v.templateMetadata.releaseInfo.templateVersion }"/>
+                            <lightning:button variant="base" 
+                                              iconName="utility:info_alt"
+                                              class="slds-m-left_x-small action-button-no-border"/>
+                            
+                            <aura:if isTrue="{! v.wairPermissions.canCreate }">
+                                <lightning:button variant="base" 
+                                                  label="{! v.upgradeResetLabel }" title="{! v.upgradeResetLabel }" 
+                                                  onclick="{! c.handleUpdateAppAction }" class="slds-m-left_x-small action-button-no-border"/>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:set>
+        
+        <aura:set attribute="actions">
+            <div aura:id="actions">
+                <lightning:buttonMenu aura:id="requestActions" 
+                                      class="{! v.headerConfig.requestActionsEnabled ? '' : 'slds-hide' }"
+                                      alternativeText="App Actions" 
+                                      variant="bare"
+                                      iconName="utility:settings"
+                                      onselect="{! c.handleMenuAction }"
+                                      menuAlignment="right">
+                    <lightning:menuItem label="Delete App" value="deleteApp" 
+                                        disabled="{! empty(v.recentWair.folderId) }"/>
+                    <aura:if isTrue="{! v.canManageDataflow }">
+                        <lightning:menuItem label="Start Dataflow" value="startDataflow" 
+                                            disabled="{! empty(v.recentWair.folderId) }"/>
+                    </aura:if>
+                </lightning:buttonMenu>
+                <lightning:buttonMenu aura:id="dashboardList" alternativeText="App Actions" 
+                                      class="{! v.headerConfig.dashboardActionsEnabled ? '' : 'slds-hide' }"                                      
+                                      variant="bare"
+                                      iconName="utility:chart"
+                                      onselect="{! c.handleDashboardSelect }"
+                                      menuAlignment="right">
+                    <aura:iteration var="dashboard" items="{! v.dashboardData.data }">
+                        <lightning:menuItem aura:id="{! dashboard.id }" 
+                                            label="{! dashboard.label }" 
+                                            value="{! dashboard.id }"
+                                            checked="{! v.dashboardData.selected == dashboard.id }"/>
+                    </aura:iteration>
+                </lightning:buttonMenu>
+            </div>
+        </aura:set>
+        
+        <div aura:id="view-container">
+            <div class="slds-text-align_left waiting-container">
+                <img aura:id="einstein-image" class="slds-illustration__svg" src="{!$Resource.einstein}"/>
+                <lightning:formattedText class="slds-text-heading_large" value="Please wait..."/>
+            </div>
+        </div>
+    </lightning:card>    
+                    
+</aura:component>

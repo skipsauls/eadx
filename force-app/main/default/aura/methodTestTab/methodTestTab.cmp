@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="foobar">
+    <aura:method name="test" description="Test method">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>   
+    <aura:method name="testRemote" description="Test method remote">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>   
+    <aura:method name="testXHR" description="Test XHR">
+        <aura:attribute name="sessionId" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>   
+    <lightning:button label="Test Remote" onclick="{!c.testRemote}"/>    
+    <lightning:button label="Test XHR" onclick="{!c.testXHR}"/>    
+</aura:component>

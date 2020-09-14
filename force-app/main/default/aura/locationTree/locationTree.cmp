@@ -1,0 +1,33 @@
+<aura:component controller="LocationTreeController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+    <aura:attribute name="objectType" type="String" access="global" default="Account" description="The object to use as the source for locations."/>
+    <aura:attribute name="objectAddressPrefix" type="String" access="global" default="" description="The prefix for the address (Billing, Shipping, Mailing, etc.)."/>
+    <aura:attribute name="countryField" type="String" access="global" default="Country" description="The field for the country."/>
+    <aura:attribute name="stateField" type="String" access="global" default="State" description="The field for the state."/>
+    <aura:attribute name="cityField" type="String" access="global" default="City" description="The field for the city."/>
+    <aura:attribute name="streetField" type="String" access="global" default="Street" description="The field for the street."/>
+    <aura:attribute name="statecode" type="String" access="global" default="" description="The selected statecode."/>
+    
+    <aura:attribute name="title" type="String" access="global" default="Locations"/>
+    <aura:attribute name="iconName" type="String" access="global" default="standard:location"/>
+    <aura:attribute name="dashboardId" type="String" access="global"/>
+    <aura:attribute name="developerName" type="String" access="global"/>
+    <aura:attribute name="datasetName" type="String" access="global"/>
+    <aura:attribute name="height" type="String" access="global" default="200px"/>
+    
+    <aura:attribute name="items" type="Object" access="private"/>
+    <aura:attribute name="itemMap" type="Object" access="private"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <div class="tree">
+        <lightning:card title="{!v.title}" iconName="{!v.iconName}">
+            <div class="outer" style="{!'height: ' + v.height}">
+	            <lightning:tree items="{! v.items }" onselect="{!c.handleSelect}"/>
+            </div>
+        </lightning:card>
+    </div>    
+    
+</aura:component>

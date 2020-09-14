@@ -1,0 +1,28 @@
+<aura:component access="global" controller="FortniteAPIController2">
+	
+    <aura:method name="lookupAccountIdByUsername" action="{!c.handleLookupAccountIdByUsername}"  description="Returns the user ID."> 
+        <aura:attribute name="username" type="String" description="The username for the player"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getGlobalPlayerStats" action="{!c.handleGetGlobalPlayerStats}"  description="Returns the player stats."> 
+        <aura:attribute name="username" type="String" description="The username for the player"/>
+        <aura:attribute name="season" type="String" description="The season to get the stats for. Defaults to all."/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="getRecentMatches" action="{!c.handleGetRecentMatches}"  description="Returns the recent matches for player."> 
+        <aura:attribute name="username" type="String" description="The username for the player"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="listGameModes" action="{!c.handleListGameModes}"  description="Returns a list of game modes."> 
+        <aura:attribute name="lang" type="String" description="The language to use, defaults to en."/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="listSeasons" action="{!c.handleListSeasons}"  description="Returns a list of seasons."> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+</aura:component>

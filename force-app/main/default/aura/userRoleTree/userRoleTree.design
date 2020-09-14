@@ -1,0 +1,7 @@
+<design:component label="User Role Tree">
+    <design:attribute label="Title" name="title" description="The title to display."/>
+    <design:attribute label="Icon Name" name="iconName" description="The icon to display in category:name form."/>
+    <design:attribute label="Height" name="height" description="The height of the tree in XXpx format."/>
+    <design:attribute label="Dashboard ID" name="dashboardId" description="The ID of the dashboard to target."/>
+    <design:attribute label="Developer Name" name="developerName" description="The developer name of the dashboard to target."/>
+</design:component>

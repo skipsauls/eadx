@@ -1,0 +1,93 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="QuipDemoController">
+    <aura:attribute name="tabId" type="String" access="GLOBAL" description="The tab ID set by the Lightning Console"/>    
+    <aura:attribute name="userIds" type="String" access="global" default="ssauls@salesforce.com"/>
+    <aura:attribute name="folderIds" type="String" access="global"/>
+    <aura:attribute name="users" type="Object[]"/>
+    <aura:attribute name="folders" type="Object[]"/>
+    <aura:attribute name="threads" type="Object[]"/>
+    <aura:attribute name="crumbs" type="Object[]"/>
+    <aura:attribute name="currentCrumb" type="Object"/>
+    <aura:attribute name="selectedThread" type="Object"/>
+    <aura:attribute name="selectedThreadId" type="String" access="global"/>    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler event="c:showQuipThread" action="{!c.showQuipThread}"/>
+    
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <section class="main" aura:id="main">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+            <div class="slds-p-left--small slds-p-right--x-small slds-size--1-of-2 slds-medium-size--2-of-6 slds-large-size--4-of-12">
+                
+                <article class="slds-card slds-p-around--xx-small">
+                    <div class="slds-form-element slds-m-around_xx-small">
+                        <div class="slds-m-bottom_xx-small">
+                            <lightning:icon iconName="standard:quip" size="small" alternativeText="Quip"/>
+                            <div class="slds-float_right">
+                                <lightning:buttonGroup >
+                                    <lightning:buttonIcon alternativeText="Updates" iconName="utility:description" onclick="{!c.showUpdates}"/>
+                                    <lightning:buttonIcon alternativeText="Folders" iconName="utility:opened_folder" onclick="{!c.showFolders}"/>
+                                    <lightning:buttonicon alternativeText="History" iconName="utility:clock" onclick="{!c.showHistory}"/>
+                                </lightning:buttonGroup>
+                            </div>
+                        </div>
+                        <div class="slds-clearfix">
+                            <div class="slds-float_left title">
+                                {!v.currentCrumb.title}
+                            </div>                                
+                            <div class="slds-float_right">
+                                <lightning:buttonIcon iconName="utility:left" variant="bare" onclick="{!c.previousCrumb}" alternativeText="Previous"/>
+                                <lightning:buttonIcon iconName="utility:right" variant="bare" onclick="{!c.nextCrumb}" alternativeText="Next"/>
+                            </div>
+                        </div>
+                        <!--
+                        <ul class="slds-list_horizontal breadcrumbs">
+                            <aura:iteration items="{!v.crumbs}" var="crumb">
+                                <li data-crumb-id="{!crumb.id}" data-crumb-type="{!crumb.type}" onclick="{!c.selectCrumb}">{!crumb.title}</li>
+                            </aura:iteration>
+                        </ul>
+      -->
+                    </div>
+                </article>
+                
+                <article class="slds-card slds-p-around--xx-small">
+                    <div class="slds-card__body">
+                        <div class="slds-form-element slds-m-around_small">
+                            <label class="slds-form-element__label" for="folder_list">Folders</label>                
+                            <aura:renderIf isTrue="{!v.folders != null}">
+                                <ul class="list folders" aura:id="folder_list">
+                                    <aura:iteration items="{!v.folders}" var="folder">
+                                        <li data-folder-id="{!folder.folder.id}" onclick="{!c.selectFolder}">{!folder.folder.title}</li>
+                                    </aura:iteration>
+                                </ul>
+                            </aura:renderIf>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="slds-card slds-p-around--xx-small">
+                    <div class="slds-card__body">
+                        <div class="slds-form-element slds-m-around_small">
+                            <label class="slds-form-element__label" for="thread_list">Threads</label>                
+                            <aura:renderIf isTrue="{!v.threads != null}">
+                                <ul class="list threads" aura:id="thread_list">
+                                    <aura:iteration items="{!v.threads}" var="thread">
+                                        <li data-thread-id="{!thread.thread.id}" onclick="{!c.selectThread}">{!thread.thread.title}</li>
+                                    </aura:iteration>
+                                </ul>
+                            </aura:renderIf>
+                        </div>
+                    </div>
+                </article>
+                
+            </div>
+            
+            <div class="slds-p-right--small slds-p-left--xx-small slds-size--1-of-2 slds-medium-size--4-of-6 slds-large-size--8-of-12">
+                <div class="doc-viewer">
+                    <c:quipDocViewer threadId="{!v.selectedThreadId}"/>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+</aura:component>

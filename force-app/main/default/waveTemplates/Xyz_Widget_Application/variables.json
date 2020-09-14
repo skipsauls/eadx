@@ -1,0 +1,30 @@
+{
+  "BasicEnabled":{
+    "defaultValue": true,
+    "required":false,
+    "variableType": {
+        "type":"BooleanType"
+    }
+  },
+  "ExtendedEnabled":{
+    "defaultValue": false,
+    "required":false,
+    "variableType": {
+        "type":"BooleanType"
+    }
+  },
+  "GrowthEnabled":{
+    "defaultValue": false,
+    "required":false,
+    "variableType": {
+        "type":"BooleanType"
+    }
+  },
+  "AppLabel":{
+      "defaultValue": "Dataflow App",
+      "required":true,
+      "variableType": {
+          "type":"StringType"
+      }
+  }
+}

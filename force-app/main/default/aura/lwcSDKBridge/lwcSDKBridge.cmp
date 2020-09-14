@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+	
+    <aura:attribute name="waveSDKResponse" type="String" access="global" default="{}"/>
+    <aura:attribute name="sdkReference" type="Object" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!-- Aura component -->
+    <wave:sdk aura:id="sdk"/>
+    
+	<!-- LWC component -->
+    <c:lwcSDKTest aura:id="lwcSDKTest" sdkReference="{!v.sdkReference}"/>
+    
+</aura:component>

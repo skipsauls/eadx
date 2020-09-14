@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Fired when an analytics asset is selected in the tree" access="global">
+    <aura:attribute name="assetType" type="String" access="global"/>
+    <aura:attribute name="assetId" type="String" access="global"/>
+    <aura:attribute name="asset" type="Object" access="global"/>
+</aura:event>

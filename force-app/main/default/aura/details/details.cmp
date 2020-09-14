@@ -1,0 +1,85 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global"
+                controller="ListViewController">
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <aura:attribute name="recordId" type="String" access="global"/>    
+    <aura:attribute name="recordType" type="String" access="global" default="opportunity" required="true"/> 
+    <aura:attribute name="recordTypePlural" type="String" access="global" default="opportunities" required="true"/>
+    <aura:attribute name="recordTitle" type="String" access="global" default="Opportunities" required="true"/>     
+    <aura:attribute name="fields" type="String" access="global" default="Name, StageName, LeadSource"/> 
+    <aura:attribute name="labels" type="String" access="global" default="Name, Stage, Lead Source"/> 
+
+    <aura:attribute name="where" type="String" access="global"/> 
+
+    <aura:attribute name="query" type="String" access="global"/>     
+
+    <aura:attribute name="limit" type="Integer" access="global" default="200"/>    
+    <aura:attribute name="height" type="Integer" access="global" default="300"/>
+    <aura:attribute name="records" type="SObject[]"/>
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" default="0FKB000000029OkOAI"/>
+    <aura:attribute name="dataset" type="String" access="GLOBAL" default="opportunity"/>
+    
+    <aura:attribute name="checkboxes" type="Object[]" description="Instance of checkboxes to check state"/>
+    
+    
+    <aura:attribute name="layoutType" type="String" access="global" default="FULL"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="recordFields" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    
+	<aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.handleRecordIdChange}"/>
+    <aura:handler name="change" value="{!v.record.NumberOfEmployees}" action="{!c.handleRecordChange}"/>
+    
+    <force:recordData aura:id="forceRecordCmp"
+                      recordId="{!v.recordId}"
+                      layoutType="{!v.layoutType}"
+                      mode="VIEW"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.recordFields}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    
+    <!--
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    -->
+    
+    <div class="container slds-p-around--small">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <c:svgIcon svgPath="{!'/img/slds-icons/v7.6.0/standard-sprite/svg/symbols.svg#' + v.recordType}" category="standard" size="medium" name="{!v.recordType}"/>
+                        </div>
+                        <div class="slds-media__body">
+                            <p class="slds-text-title--caps slds-line-height--reset">{!v.recordTypePlural}</p>
+                            <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate" title="this should match the Record Title">{!v.recordTitle}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                    
+                    <div class="slds-button-group" role="group">
+                        <button class="slds-button slds-button--icon-border">
+                            <c:svgIcon svgPath="/img/slds-icons/v7.6.0/action-sprite/svg/symbols.svg#refresh" button="true" category="standard" size="xxsmall" name="refresh"/>
+                            <span class="slds-assistive-text">Refresh</span>                        
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="listview-table-container slds-scrollable slds-is-relative" style="{!'height: ' + v.height + 'px'}">
+            <table class="slds-table slds-table--bordered listview-table" style="max-height: 300px;">
+                <thead aura:id="thead"></thead>
+                <tbody aura:id="tbody"></tbody>
+            </table>
+        </div>
+    </div>	
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component access="global">
+    <aura:attribute name="flowName" type="String" access="global" description="The name of the flow to use"/>
+	<aura:attribute name="inputVariables" type="Object[]" access="global" description="Initial values for the flow."/>    
+    <aura:attribute name="title" type="String" access="global" description="The title for the modal"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<div class="outer">
+		<lightning:flow aura:id="flowData" onstatuschange="{!c.handleFlowStatusChange}"/>
+    </div>
+</aura:component>

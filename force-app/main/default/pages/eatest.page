@@ -1,0 +1,11 @@
+<apex:page >      
+    <div>
+        This is a Test VF page with wave:dashboard component
+    </div>
+    <wave:dashboard developerName="eadx__Demo_Dashboard_2"
+                    height="3000"
+                    openLinksInNewWindow="false"
+                    showTitle="false"
+                    showHeader="false"
+                    />
+</apex:page>

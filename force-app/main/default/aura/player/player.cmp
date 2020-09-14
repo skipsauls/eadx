@@ -1,0 +1,140 @@
+<aura:component controller="AnalyticsEventController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="interval" type="Object"/>
+    <aura:attribute name="names" type="String[]"/>
+    <aura:attribute name="ids" type="String[]"/>
+    <aura:attribute name="steps" type="String[]"/>
+    <aura:attribute name="fields" type="String[]"/>
+    <aura:attribute name="name" type="String"/>
+    <aura:attribute name="id" type="String"/>
+    <aura:attribute name="step" type="String"/>
+    <aura:attribute name="field" type="String"/>
+    <aura:attribute name="events" type="Object[]"/>
+    <aura:attribute name="eventsCleaned" type="Boolean" default="true"/>
+    <aura:attribute name="tablefields" type="String[]" access="global" default="id,step,fields,selection"/>
+    <aura:attribute name="selectedField" type="String" default=""/>
+    <aura:attribute name="dashboardId" type="String" access="global"/>    
+    
+	<aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>    
+    <aura:handler event="wave:discoverResponse" action="{!c.handleDiscoverResponse}"/>
+
+	<aura:registerEvent name="update" type="wave:update"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="container">
+        <h1>name: {!v.name}</h1>
+        <h1>eventsCleaned: {!v.eventsCleaned}</h1>
+        <article class="slds-card slds-p-around--x-small">
+            <div class="slds-grid slds-grid--pull-padded slds-p-horizontal--medium">
+                <lightning:button iconName="utility:refresh" class="" iconPosition="right" variant="neutral" onclick="{!c.refresh}" label="Refresh" title="Refresh"/>
+                <lightning:button iconName="utility:magicwand" class="" iconPosition="right" variant="neutral" onclick="{!c.discover}" label="Discover" title="Discover"/>
+                <lightning:button iconName="utility:thunder" class="" iconPosition="right" variant="neutral" onclick="{!c.clean}" label="Clean" title="Clean"/>
+                <lightning:button iconName="utility:photo" class="" iconPosition="right" variant="neutral" onclick="{!c.snapshot}" label="Snapshot" title="Snapshot"/>
+                <lightning:button iconName="utility:right" class="" iconPosition="right" variant="neutral" onclick="{!c.play}" label="Play" title="Play"/>
+                <lightning:button iconName="utility:metrics" class="" iconPosition="right" variant="neutral" onclick="{!c.showDashboard}" label="Show Dashboard" title="Show Dashboard"/>
+            </div>
+            <div class="slds-grid slds-grid--pull-padded slds-p-horizontal--medium">
+                <div class="slds-size_1-of-2 slds-p-around--xx-small">
+                    <lightning:select name="name_select" label="Select a Name" required="false" value="{!v.name}" onchange="{!c.selectName}">
+                        <option value="">-- None --</option>
+                        <aura:iteration items="{!v.names}" var="name">
+                            <option value="{!name}" text="{!name}"></option>
+                        </aura:iteration>
+                    </lightning:select>                
+                </div>
+                <div class="slds-size_1-of-2 slds-p-around--xx-small">
+                    <lightning:select name="id_select" label="Select an Id" required="false" value="{!v.id}" onchange="{!c.selectId}">
+                        <option value="">-- None --</option>
+                        <aura:iteration items="{!v.ids}" var="id">
+                            <option value="{!id}" text="{!id}"></option>
+                        </aura:iteration>
+                    </lightning:select>                
+                </div>
+            </div>                    
+            
+            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-horizontal--medium">
+                
+                <div class="slds-size_1-of-2 slds-p-around--xx-small">
+                    <lightning:select name="step_select" label="Select a Step" required="false" value="{!v.step}" onchange="{!c.selectStep}">
+                        <option value="">-- None --</option>
+                        <aura:iteration items="{!v.steps}" var="step">
+                            <option value="{!step}" text="{!step}"></option>
+                        </aura:iteration>
+                    </lightning:select>                
+                </div>
+                <div class="slds-size_1-of-2 slds-p-around--xx-small">
+                    <lightning:select name="field_select" label="Select a Field" required="false" value="{!v.field}" onchange="{!c.selectField}">
+                        <option value="">-- None --</option>
+                        <aura:iteration items="{!v.fields}" var="field">
+                            <option value="{!field}" text="{!field}"></option>
+                        </aura:iteration>
+                    </lightning:select>                
+                </div>
+            </div>                    
+            
+            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-horizontal--medium">
+                
+                <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+                    <thead aura:id="table-head">
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Name">Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="ID">Dashboard ID</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Step">Step</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Dataset Name">Dataset Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Selection">Selection</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Fields">Fields</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Actions">Actions</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody aura:id="table-body">
+                        <aura:iteration items="{!v.events}" var="event" indexVar="idx">
+                            <tr>
+                                <td scope="row" data-label="Name">
+                                    <div class="slds-truncate" title="{!event.name}">{!event.name}</div>
+                                </td>
+                                <td scope="row" data-label="ID">
+                                    <div class="slds-truncate" title="{!event.id}">{!event.id}</div>
+                                </td>
+                                <td scope="row" data-label="Step">
+                                    <div class="slds-truncate" title="{!event.step}">{!event.step}</div>
+                                </td>
+                                <td scope="row" data-label="Dataset Name">
+                                    <div class="slds-truncate" title="{!event.dataset_name}">{!event.dataset_name}</div>
+                                </td>
+                                <td scope="row" data-label="Fields">
+                                    <div class="slds-truncate" title="{!event.fields}">{!event.fields}</div>
+                                </td>
+                                <td scope="row" data-label="Selection">
+                                    <div class="slds-truncate" title="{!event.selection}">{!event.selection}</div>
+                                </td>
+                                <td scope="row" data-label="Actions">
+                                    <lightning:buttonIcon iconName="utility:delete" size="large" alternativeText="Delete" value="{!idx}" onclick="{!c.deleteEvent}"/>
+                                    <lightning:buttonIcon iconName="utility:right" size="large" alternativeText="Fire Event" value="{!idx}" onclick="{!c.fireEvent}"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+                
+            </div>                    
+        </article>
+        
+        
+    </div>
+    
+</aura:component>

@@ -1,0 +1,213 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+        <apex:slds />
+        <title>Color Test</title>
+        <!-- Move the styles into a CSS file -->
+        <style>
+            body {
+                margin: 5px;
+                padding: 0;
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: 800px;
+            }
+            
+            .slds-scope .slds-input.jscolor {
+                height: 80px;
+                width: 80px;
+                border-radius: 40px;    
+                vertical-align: middle;
+                text-align: center;
+                border: 1px solid #A0A0A0;
+            }
+
+           
+                        
+        </style>    
+    </head>
+    <body>
+        <div class="slds-scope">
+            <div class="logo">
+                <div class="slds-container--medium" id="container">
+                    <div class="slds-form--stacked" id="form"></div>
+                </div>
+            </div>                        
+        </div>
+                
+        <script type="text/javascript" src="/analytics/wave/sdk/js/40.0/wizard-min.js"></script>
+        <apex:includeScript value="{!$Resource.jscolor}"/>        
+
+        <script>
+        
+            // Note that the SLDS sizes are smaller than the wizard counterparts
+            var containerSizeClasses = {
+                "small": ["slds-container--medium"],
+                "medium": ["slds-container--large"],
+                "large": ["slds-container--x-large"]
+            };
+            
+            function setSize(size) {
+                for (var key in containerSizeClasses) {
+                    document.querySelector("#container").classList.remove(containerSizeClasses[key].join("\",\""));
+                }
+                document.querySelector("#container").classList.add(containerSizeClasses[size].join("\",\""));
+            }
+                                    
+            /* Simplified renderControl method, specific to color pickers*/
+            function renderColorPicker(name, index, options, value, def) {
+                console.warn("renderControl: ", name, index, options, value, def);
+
+                var currentValue = value || def.mostRecentValue || def.computedValue || def.defaultValue || "#FFFFFF";
+                currentValue = currentValue.replace("#", "");
+                
+                var form = document.querySelector("#form");
+
+                var formEl = document.createElement("div");
+                formEl.classList.add("slds-form-element", "slds-m-bottom_x-large");
+                
+                var label = document.createElement("label")
+                label.classList.add("slds-form-element__label", "slds-text-heading_small");
+                label.setAttribute("for", name);
+                label.innerHTML = def.label;
+                
+                formEl.appendChild(label);
+                
+                var desc = document.createElement("p");
+                desc.classList.add("slds-text-color--weak", "slds-text-title", "slds-m-bottom_small");
+                desc.innerHTML = def.description;
+                
+                formEl.appendChild(desc);
+                
+                var input = document.createElement("input");
+                input.classList.add("slds-input", "slds-m-around_large");
+                input.setAttribute("id", name);
+                input.setAttribute("data-name", name);
+                input.classList.add("jscolor");
+                var picker = new jscolor(input);
+                
+                picker.fromString(currentValue);
+                                                
+                input.onchange = function(evt) {
+                    var picker = evt.target;
+                    var name = picker.getAttribute("data-name");
+                    var value = picker.value;
+                    if (value.indexOf("#") !== 0) {
+                        value = "#" + value;
+                    }
+
+                    Controller.update({name: name, value: value}, function(variables) {
+                        console.warn("update returned: ", variables);
+                    });            
+                        
+                }                
+
+                formEl.appendChild(input);
+                
+                form.appendChild(formEl);    
+            }
+            
+            function renderControls(metadata) {
+                var page = metadata.page;
+                var values = metadata.values;
+                var defs = metadata.variableDefinitions;
+                var name = null;
+                var value = null;
+                var def = null;
+                page.variables.forEach(function(v, i) {
+                    if (v.visiblity !== false) {
+                        Controller.options(v.name, i, function(name, index, options) {
+                            def = defs[name];
+                            value = values[name]
+                            renderColorPicker(name, index, options, value, def);
+                        });
+                    }
+                });
+            
+            }
+           
+            function addLoadEvent(func) { 
+                var oldonload = window.onload; 
+                if (typeof window.onload != 'function') { 
+                    window.onload = func; 
+                } 
+                else { 
+                    window.onload = function() { 
+                        if (oldonload) { 
+                            oldonload(); 
+                        } 
+                        func(); 
+                    } 
+                } 
+            }     
+    
+
+            
+            (function (global, wave) {
+                "use strict";
+                var metadata = {};
+                
+                var methods = {
+                
+                    ready: function(size, callback) {
+                        size = size || "small";
+                        wave.wizard.publish({name : 'wizard.ready',  "payload" : {size : size}, callback : function (response) {
+                            var payload = response.payload;
+                            metadata = {
+                                page : payload.page,
+                                variableDefinitions : payload.variableDefinitions,
+                                values : payload.initialValues
+                            };
+                            if (callback instanceof Function) {
+                                callback(metadata);
+                            }                    
+                        }});
+                    },
+                    options: function (name, index, callback) {
+                        wave.wizard.publish({name : 'wizard.options',  payload : {name: name}, callback : function (response) {
+                            //console.warn("wizard.options returned: ", response);
+                            var options = response.payload.options;
+                            if (callback instanceof Function) {
+                                callback(name, index, options);
+                            }
+                        }});
+                    },                    
+                    update: function (payload, callback) {
+                        wave.wizard.publish({name : 'wizard.update',  payload : payload, callback : function (response) {
+                            //console.warn("wizard.update returned: ", response);
+                            var variables = response.payload;
+                            if (callback instanceof Function) {
+                                callback(variables);
+                            }
+                        }});
+                    },
+                    subscribe: function(name, callback) {
+                        wave.wizard.subscribe({name: 'wizard.' + name, function(response) {
+                            console.warn("wizard.subscribe ' + name + ' returned: ", response);
+                        
+                        }});
+                        
+                    }                  
+
+                };
+                
+                if (!global.Controller) {
+                    global.Controller = {};
+                }
+                
+                global.Controller = methods;
+                
+            } (window, Wave));
+            
+            addLoadEvent(function() {
+                var size = "medium";
+                setSize(size);
+                Controller.ready(size, function(metadata) {
+                    renderControls(metadata);
+                });
+            });
+                      
+        </script>
+    </body>
+</html>    
+</apex:page>

@@ -1,0 +1,146 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="assetId" type="String" access="GLOBAL" description="The id of the asset."/>
+    <aura:attribute name="assetType" type="String" access="GLOBAL" description="The type of the asset."/>
+    <aura:attribute name="asset" type="Object" access="global" description="The currently selected asset object. May be null."/>
+    <aura:attribute name="assetDetails" type="Object" access="global" description="The currently selected asset object. May be null."/>    
+    <aura:attribute name="assetHistoryColumns" type="List" access="global" description="The columns to display for asset history. May be null."/>    
+    <aura:attribute name="assetHistory" type="Object" access="global" description="The currently selected asset history. May be null."/>    
+    <aura:attribute name="assetHistoryData" type="Object" access="global" description="The currently selected asset history for display in table (flattened). May be null."/>    
+    <aura:attribute name="selectedAssetHistoryId" type="String" access="global" description="The id of the currently selected asset history. May be null."/>    
+    <aura:attribute name="assetCamelType" type="String" access="GLOBAL" description="The camelcase type label of the asset."/>
+    <aura:attribute name="assetProductName" type="String" access="GLOBAL" description="The product name to display based on the type label of the asset." default="Analytics"/>
+    <aura:attribute name="json" type="String" access="GLOBAL" description="The JSON resprsentation of the asset."/>
+    
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard to show. May be null."/>
+    <aura:attribute name="datasetId" type="String" access="GLOBAL" description="The id of the dataset to show. May be null."/>
+    <aura:attribute name="dataflowId" type="String" access="GLOBAL" description="The id of the dataflow to show. May be null."/>
+    <aura:attribute name="lensId" type="String" access="GLOBAL" description="The id of the lens to show. May be null."/>
+    <aura:attribute name="folderId" type="String" access="GLOBAL" description="The id of the folder to show. May be null."/>
+    <aura:attribute name="templateId" type="String" access="GLOBAL" description="The id of the template to show. May be null."/>
+    <aura:attribute name="analysisId" type="String" access="GLOBAL" description="The id of the analysis to show. May be null."/>
+    <aura:attribute name="selectedTabId" type="String" access="GLOBAL" description="The id of the selectd tab. May be null."/>
+    
+    <aura:handler name="change" value="{!v.asset}" action="{!c.handleAssetChange}"/>
+    
+    <c:proxy aura:id="proxy"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <lightning:card >
+        <aura:set attribute="title">
+            
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="slds-icon_container">
+                        <div lightning-primitiveicon_primitiveicon-host="">
+                            <div class="slds-icon slds-icon_small">
+                                <aura:if isTrue="{!v.asset.type == 'dashboard'}">
+                                	<img src="/analytics/wave/static/images/WaveCommon/static/images/thumbs/thumb-dashboard.png"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.type == 'lens'}">
+                                    <img src="{!'/analytics/wave/static/images/WaveCommon/static/images/thumbs/thumb-chart-' + (v.asset.visualizationType || 'thumb-chart-stackvbar') + '.png'}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.type == 'dataset'}">
+                                	<img src="/analytics/wave/static/images/WaveCommon/static/images/thumbs/thumb-edgemart.png"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.type == 'dataflow'}">
+                                	<img src="/analytics/wave/static/images/WaveCommon/static/images/thumbs/thumb-edgemart.png"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.type == 'folder'}">
+                                	<img src="{!v.asset.icon.url}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.templateType == 'app'}">
+                                	<img src="{!v.assetDetails.icons.templateBadge.url}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.templateType == 'dashboard'}">
+                                	<img src="/analytics/wave/web/proto/images/template/icons/thumb-three-column.svg"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.asset.type == 'analysis'}">
+                                    <lightning:icon iconName="utility:einstein" alternativeText="Analysis" size="small"/>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-media__body slds-truncate">
+                    <h2>
+                        <span class="slds-text-heading_small">
+                            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-grid_pull-padded">
+                                <div class="slds-p-right_small slds-p-left_small slds-col">
+                                    <h1 class="">{!v.assetProductName + ' ' + v.assetCamelType + ': ' + v.asset.label}</h1>
+                                </div>
+                            </div>
+                        </span>
+                    </h2>
+                </div>
+            </div>
+        </aura:set>
+        
+        <aura:set attribute="actions">
+            <lightning:select onchange="{!c.handlePreviewVersion}" value="{!v.selectedAssetHistoryId}" label="History">
+                <option value="" selected="selected"></option>
+                <aura:iteration items="{!v.assetHistory}" var="version">
+                    <aura:if isTrue="{!version.label != 'PREVIEW'}">
+                        <option value="{!version.id}">{!version.label + ' by ' + version.createdByName + ' on ' + version.createdDateFormatted} </option>
+                    </aura:if>
+                </aura:iteration>
+            </lightning:select>
+        </aura:set>        
+        <div class="asset-outer" aura:id="asset-outer">
+            <lightning:tabset selectedTabId="{!v.selectedTabId}">                    
+                <lightning:tab label="Preview" id="Preview_Tab">
+                    <div class="panel viewer slds-m-horizontal_small">
+                        <div class="{!v.assetType == 'dashboard' ? 'show' : 'hide'}">
+                            <c:analyticsDashboardViewer dashboardId="{!v.dashboardId}"/>
+                        </div>                          
+                        <div class="{!v.assetType == 'lens' ? 'show' : 'hide'}">
+                            <c:analyticsLensViewer lensId="{!v.lensId}"/>
+                        </div>                          
+                        <div class="{!v.assetType == 'dataset' ? 'show' : 'hide'}">
+                            <c:analyticsDatasetViewer datasetId="{!v.datasetId}"/>
+                        </div>              
+                        <div class="{!v.assetType == 'folder' ? 'show' : 'hide'}">
+                            <c:analyticsFolderViewer folderId="{!v.folderId}" folder="{!v.asset}"/>
+                        </div>              
+                        <div class="{!v.assetType == 'template' ? 'show' : 'hide'}">
+                            <c:analyticsTemplateViewer templateId="{!v.templateId}"/>
+                        </div>              
+                        <div class="{!v.assetType == 'analysis' ? 'show' : 'hide'}">
+                            <c:analyticsAnalysisViewer analysisId="{!v.analysisId}" analysis="{!v.asset}"/>
+                        </div>              
+                    </div>
+                </lightning:tab>
+                <lightning:tab label="Details" id="Details_Tab">
+                    <div class="panel details slds-m-horizontal_small">
+                        <lightning:layout>
+                            <lightning:layoutItem flexibility="auto" padding="around-small" size="4">  
+		                        <c:assetJsonTreeView aura:id="json_tree_view" json="{!v.json}" asset="{!v.asset}" assetDetails="{!v.assetDetails}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:layoutItem flexibility="auto" padding="around-small" size="8">  
+							Tools here
+                        </lightning:layoutItem>
+                    </div>
+                </lightning:tab>
+                <lightning:tab label="JSON" id="JSON_Tab">
+                    <div class="panel json slds-m-horizontal_small">
+                        <lightning:textarea aura:id="json_view" value="{!v.json}" class="json-view" label="{!v.asset.label}"/>
+                    </div>
+                </lightning:tab>
+                <aura:if isTrue="{!and(v.asset, v.asset.historiesUrl != null)}">
+                <lightning:tab label="History" id="History_Tab">
+                    <div class="panel history slds-m-horizontal_small">
+                        <lightning:datatable
+                                             keyField="id"
+                                             data="{!v.assetHistory}"
+                                             columns="{!v.assetHistoryColumns}"
+                                             hideCheckboxColumn="true"
+                                             onrowaction="{!c.handleAssetHistoryRowAction}"
+                                             /> 
+                    </div>
+                </lightning:tab>
+                </aura:if> 
+            </lightning:tabset>                    
+        </div>
+    </lightning:card>            
+</aura:component>

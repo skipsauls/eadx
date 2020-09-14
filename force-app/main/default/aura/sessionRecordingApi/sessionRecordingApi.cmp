@@ -1,0 +1,69 @@
+<aura:component controller="SessionRecordingInvocable" access="PUBLIC">
+
+    <aura:method name="createSession" description="Creates and returns a new session."
+                 action="{!c.createSession}"  access="PUBLIC"> 
+        <aura:attribute name="sessionName" type="String" required="true" description="Name of the session"/>
+        <aura:attribute name="inSession" type="Boolean" required="true" description="Is the session currently recording?"/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+
+    <aura:method name="updateSession" description="Updates session name."
+                 action="{!c.updateSession}"  access="PUBLIC"> 
+        <aura:attribute name="id" type="String" required="true" description="The command session id."/>
+        <aura:attribute name="sessionName" type="String" required="true" description="Name of the session"/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+
+    <aura:method name="deleteSession" description="Deletes a session by id."
+                 action="{!c.deleteSession}"  access="PUBLIC"> 
+        <aura:attribute name="id" type="String" required="true" description="The command session id."/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+    
+    <aura:method name="getSessions" description="Returns the list of recording sessions."
+                 action="{!c.getSessions}"  access="PUBLIC"> 
+        <aura:attribute name="search" type="String" required="false" description="Optional name search for session"/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+
+    <aura:method name="getRecordedSessionTree" description="Returns full list of sessions, with phrase data as children."
+                 action="{!c.getRecordedSessionTree}"  access="PUBLIC"> 
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+
+    <aura:method name="getSessionPhrases" description="Returns the list of recording session commands."
+                 action="{!c.getSessionPhrases}"  access="PUBLIC"> 
+        <aura:attribute name="sessionId" type="String" required="true" description="Returns commands associated with a recording session."/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+
+    <aura:method name="createPhrase" description="Updates a command phrase."
+                 action="{!c.createPhrase}"  access="PUBLIC"> 
+        <aura:attribute name="sessionId" type="String" required="true" description="The session id."/>
+        <aura:attribute name="phrase" type="String" required="true" description="The new command phrase."/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+
+    <aura:method name="updatePhrase" description="Updates a command phrase."
+                 action="{!c.updatePhrase}"  access="PUBLIC"> 
+        <aura:attribute name="id" type="String" required="true" description="The command phrase id."/>
+        <aura:attribute name="phrase" type="String" required="true" description="The new command phrase."/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+
+    <aura:method name="deletePhrase" description="Updates a command phrase."
+                 action="{!c.deletePhrase}"  access="PUBLIC"> 
+        <aura:attribute name="id" type="String" required="true" description="The command phrase id."/>
+        <aura:attribute name="onSuccess" type="Function" description="Invoked with session results."/>
+        <aura:attribute name="onFailure" type="Function" description="Invoked with error information."/>
+    </aura:method>
+    
+</aura:component>

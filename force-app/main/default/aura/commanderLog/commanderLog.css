@@ -1,0 +1,22 @@
+.THIS {
+}
+
+.THIS .commands {
+    height: 10rem;
+    overflow: auto;
+    white-space: no-wrap;
+}
+
+.THIS .command .slds-input {
+    border: 0px none;
+    border-radius: 0;
+}
+
+.THIS .command input {
+    background: #F0F0F0;
+    cursor: pointer;
+}
+
+.THIS .command.selected input {
+    background: #FFFFFF;
+}

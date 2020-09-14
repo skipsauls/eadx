@@ -1,0 +1,30 @@
+<aura:component access="global" >
+    
+    <aura:attribute name="vfHost" type="String" default="adx-dev-ed--eadx.gus.visual.force.com"/>
+    <aura:attribute name="vfPage" type="String" default="jsonXformProxy"/>
+    <aura:attribute name="ready" type="Boolean" default="false" description="Flag for VF proxy being ready."/>
+    
+    <!-- These are objects that map to the JSON, which makes validation more robust -->
+    <aura:attribute name="document" type="Object" access="global" description="The source document object."/>
+    <aura:attribute name="values" type="Object" access="global" description="The values (variables) object for the transformation."/>    
+    <aura:attribute name="definition" type="Object" access="global" description="The defintion (rules) object for the transformation."/>
+    <aura:attribute name="result" type="Object" access="global" description="The resulting document object."/>
+    <aura:attribute name="enabled" type="Boolean" access="global" default="false" description="Flag for enabling transforms."/>
+    <aura:attribute name="errors" type="Object[]" access="global" description="Array of errors."/>
+
+    <aura:attribute name="requestId" type="String" description="Used to verify request origin."/>
+    
+    <aura:handler name="change" value="{!v.document}" action="{!c.transform}"/>
+    <aura:handler name="change" value="{!v.values}" action="{!c.transform}"/>
+    <aura:handler name="change" value="{!v.definition}" action="{!c.transform}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:method name="transform" action="{!c.doTransform}" description="Calls transform directly."> 
+    </aura:method>
+    
+    <div class="outer">
+        <!-- The Visualforce page to send data to -->
+        <iframe aura:id="vfFrame" src="{!'https://' + v.vfHost + '/apex/' + v.vfPage}" onload="{!c.iframeLoaded}"/>
+    </div>
+</aura:component>

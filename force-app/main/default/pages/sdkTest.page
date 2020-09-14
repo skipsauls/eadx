@@ -1,0 +1,232 @@
+<apex:page lightningStylesheets="true">
+    <apex:slds />
+    <apex:includeLightning />
+    
+    
+    <div class="slds-scope">
+        
+        <h1>Method Test - Headless Component</h1>
+        <div id="method_test"></div>    
+        
+        <h1>SDK - Headless SDK Component</h1>
+        <div id="sdk"></div>
+        
+        <h1>Execute Query - Embedded Component with UI</h1>
+        <div id="execute_query"></div>
+        
+        <h1>Local UI - Calls to Component Methods</h1>
+        <ul class="slds-has-dividers_top-space">
+            <li class="slds-item">
+                <button class="slds-button slds-button_neutral" onclick="testMethod();" label="methodTest.test()">methodTest.test()</button>    
+            </li>
+            
+            <li class="slds-item">
+                <button class="slds-button slds-button_neutral" onclick="testMethodRemote();" label="methodTest.testRemote()">methodTest.testRemote()</button>    
+            </li>
+            
+            <li class="slds-item">
+                <button class="slds-button slds-button_neutral" onclick="testXHR();" label="methodTest.testXHR()">methodTest.testXHR()</button>    
+            </li>
+            
+            <li class="slds-item">
+                <button class="slds-button slds-button_neutral" onclick="testSDKExecuteQuery();" label="sdk.executeQuery()">sdk.invokeMethod executeQuery</button>
+            </li>
+            
+            <li class="slds-item">
+                <button class="slds-button slds-button_neutral" onclick="listDashboards();" label="listDashboards()">sdk.invokeMethod listDashboards</button>    
+            </li>
+            
+            <li class="slds-item">
+                <button class="slds-button slds-button_neutral" onclick="listDatasets();" label="listDatasets()">sdk.invokeMethod listDatasets</button>    
+            </li>
+            
+            <li class="slds-item">
+                <button class="slds-button slds-button_neutral" onclick="listFolders();" label="listFolders()">sdk.invokeMethod listFolders</button>    
+            </li>
+        </ul>
+        
+        <h1>
+            Return Items:
+        </h1>
+        <ul id="items" class="slds-has-dividers_top-space"></ul>
+        
+    </div>
+    <!--
+	<apex:includeScript value="{!$Resource.sdkTest}"/>
+	-->
+    
+    <script>
+    var sessionId = '{!$Api.Session_ID}';
+    var loAppName = "c:loApp";
+    var sdk = null;
+    var methodTest = null;    
+    
+    $Lightning.use(loAppName, function(evt) {
+        var config = {};
+        
+        
+        $Lightning.createComponent("eadx:methodTestTab", {}, "method_test", function(cmp, msg, err) {
+            console.warn('createComponent - eadx:methodTestTab returned: ', cmp, msg, err);
+            methodTest = cmp;
+        });
+        
+        $Lightning.createComponent("eadx:executeQueryTab", config, "execute_query", function(cmp, msg, err) {});
+        
+        $Lightning.createComponent("c:sdkWrapper", {"aura:id": "sdk"}, "sdk", function(cmp, msg, err) {
+            sdk = cmp;
+            let invokeMethod = sdk.invokeMethod;
+            sdk.invokeMethod = function(context, methodName, methodParameters, callback) {
+                invokeMethod(context, methodName, methodParameters, callback);
+                sdk.ping($A.getCallback(function() {}));
+            }
+        });
+    });      
+    
+    function setItems(items) {
+        let itemList = document.getElementById('items');
+        itemList.innerHTML = null;        
+        let itemEl = null;
+        items.forEach(function(item) {
+            itemEl = document.createElement('li');
+            itemEl.classList.add('slds-item');
+            itemEl.innerText = item;
+            itemList.appendChild(itemEl);
+        });
+	} 
+    
+    function testMethod() {
+        console.warn('testMethod - methodTest: ', methodTest);
+        methodTest.test(function(err, resp) {
+            console.warn('methodTest returned: ', err, resp);
+        });
+    }
+    
+    function testMethodRemote() {
+        console.warn('testMethodRemote - methodTest: ', methodTest);
+        methodTest.testRemote(function(err, resp) {
+            console.warn('methodTestRemote returned: ', err, resp);
+        });
+        listDashboards();
+    }
+
+    function testXHR() {
+        console.warn('testXHR - methodTest: ', methodTest);
+        methodTest.testXHR(sessionId, function(err, resp) {
+            console.warn('methodTestRemote returned: ', err, resp);
+        });
+    }
+    
+    function testSDKExecuteQuery() {
+        console.warn('testSDKExecuteQuery');
+        var query = "q = load \"0FbB0000000BWZRKA4/0FcB0000002OPtKKAW\";q = foreach q generate 'CloseDate' as 'CloseDate', 'ExpectedRevenue' as 'ExpectedRevenue', 'Fiscal' as 'Fiscal', 'FiscalQuarter' as 'FiscalQuarter', 'FiscalYear' as 'FiscalYear', 'ForecastCategory' as 'ForecastCategory', 'Id' as 'Id', 'IsWon' as 'IsWon', 'LeadSource' as 'LeadSource', 'Name' as 'Name', 'Probability' as 'Probability', 'StageName' as 'StageName', 'Type' as 'Type', 'eadx__OrderNumber__c' as 'eadx__OrderNumber__c';q = limit q 100;";
+        var context = {apiVersion: '46'};
+        var methodName = 'executeQuery';
+        var methodParameters = {
+            query: query
+        };
+        sdk.invokeMethod(context, methodName, methodParameters, $A.getCallback(function(err, data) {
+            if (err !== null) {
+				console.error('executeQuery error: ', err);
+            } else {
+				console.warn('executeQuery returned: ', data);
+            }
+        }));        
+        
+        return;
+        executeQuery(query, function(err, resp) {
+            console.warn('executeQuery returned: ', err, resp);
+            if (resp) {
+                let items = [];
+                resp.results.records.forEach(function(record) {
+                	items.push(JSON.stringify(record)); 
+                });
+                setItems(items);
+            }
+        });
+    }
+    
+    function executeQuery(query, callback) {
+        var context = {apiVersion: '46'};
+        var methodName = 'executeQuery';
+        var methodParameters = {
+            query: query
+        };
+        sdk.invokeMethod(context, methodName, methodParameters, $A.getCallback(function(err, data) {
+            if (err !== null) {
+                if (callback !== null && typeof callback !== 'undefined') {
+                    callback(err, null);
+                } else {
+                    return err;
+                }
+            } else {
+                let resp = typeof data === 'string' ? JSON.parse(data) : data;
+                if (callback !== null && typeof callback !== 'undefined') {
+                    callback(null, resp);
+                } else {
+                    return data;
+                }
+            }
+        }));
+    }
+    
+    function listDashboards() {
+        var context = {apiVersion: '46'};
+        var methodName = 'listDashboards';
+        var methodParameters = {};
+        console.warn('sdk: ', sdk);
+        sdk.invokeMethod(context, methodName, methodParameters, $A.getCallback(function(err, data) {
+            if (err !== null) {
+                console.error(err);
+            } else {
+                console.warn(data);
+                let items = [];
+                data.dashboards.forEach(function(dashboard) {
+                    items.push(dashboard.label + ' (' + dashboard.id + ')'); 
+                });
+                setItems(items);
+            }
+        }));
+    }
+
+    function listDatasets() {
+        var context = {apiVersion: '46'};
+        var methodName = 'listDatasets';
+        var methodParameters = {};
+        console.warn('sdk: ', sdk);
+        sdk.invokeMethod(context, methodName, methodParameters, $A.getCallback(function(err, data) {
+            if (err !== null) {
+                console.error(err);
+            } else {
+                console.warn(data);
+                let items = [];
+                data.datasets.forEach(function(dataset) {
+                    items.push(dataset.label + ' (' + dataset.id + ')'); 
+                });
+                setItems(items);                
+            }
+        }));
+    }
+    
+    function listFolders() {
+        var context = {apiVersion: "46"};
+        var methodName = 'listFolders';
+        var methodParameters = {
+            //q: 'My_Demo_App',
+            //sort: 'Name'
+        };
+        console.warn('sdk: ', sdk);        
+        sdk.invokeMethod(context, methodName, methodParameters, $A.getCallback(function(err, data) {
+            if (err !== null) {
+                console.error(err);
+            } else {
+                console.warn(data);
+                let items = [];
+                data.folders.forEach(function(folder) {
+                    items.push(folder.label + ' (' + folder.id + ')'); 
+                });
+                setItems(items);                                
+            }
+        }));        
+    }
+    </script>
+</apex:page>

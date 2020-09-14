@@ -1,0 +1,19 @@
+<aura:component access="global">
+    <aura:attribute name="dashboardDef" type="Object" access="global"/>
+    <aura:attribute name="height" type="Integer" access="global" default="600"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="outer">
+		<aura:if isTrue="{!v.dashboardDef != null}">
+            <wave:waveDashboard dashboardId="{!v.dashboardDef.Id}"
+                                height="{!v.height}"
+                                openLinksInNewWindow="true"
+                                showHeader="false"
+                                showTitle="false"
+                                showSharing="false"
+                                />        	
+        </aura:if>                 
+    </div>
+    
+</aura:component>

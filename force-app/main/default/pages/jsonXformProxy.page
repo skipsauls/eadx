@@ -1,0 +1,235 @@
+<apex:page standardStylesheets="false" sidebar="false" lightningStylesheets="true">
+    
+    <script>
+    
+    /*
+     * VF-Lightning communication
+     */
+    const lexOrigin = 'https://adx-dev-ed.lightning.force.com';
+    
+    window.addEventListener('message', function(event) {
+        if (event.origin !== lexOrigin) {
+            // Not the expected origin: reject message!
+            return;
+        }
+        // Handle message
+        
+       	let payload = event.data;
+        if (payload.action) {
+            let actionName = payload.action;
+            let actionParams = payload.params || null;
+            let actionCallback = payload.callback || null;
+            let requestId = payload.requestId || null;
+			try {
+				window[actionName](actionParams, function(err, resp) {
+                    // Send results back to Lightning
+                    if (actionCallback) {
+						let responsePayload = {
+    	                    callback: actionCallback,
+                            error: err,
+                            response: resp,
+                            requestId: requestId
+                        };
+                        sendToLC(responsePayload);
+                    }
+                });
+            } catch (e) {
+                console.error('Exception: ', e);
+            }
+		}        
+    }, false);
+        
+    function sendToLC(payload) {
+        parent.postMessage(payload, lexOrigin);
+    }
+    
+    let _apiVersion = '0.0';
+    
+    // Get some basic information
+    (function setup() {
+        getApiVersion(function(err, apiVersion) {
+            _apiVersion = apiVersion;
+        });
+    })();
+    
+    function getApiVersion(callback) {
+        let uri = '/services/data';
+        let config = {
+            url: uri,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Chatter-Entity-Encoding': false
+            }
+        };
+        sendRequest(config, function(err, response) {
+            let versions = response.body;
+            let currentVersion = {
+                label: null,
+                url: null,
+                version: '0.0'
+            };
+            versions.forEach(function(version) {
+                if (version.version >= currentVersion.version) {
+                    currentVersion = version;
+                }
+            });
+
+            if (typeof callback === 'function') {
+                callback(err, currentVersion);
+            }
+        });        
+    }
+    
+    function transform(params, callback) {
+        let document = params.document;
+        let values = params.values;
+        let definition = params.definition;
+
+        let postData = {
+            document: document,
+            values: values,
+            definition: definition
+        };
+        
+        let version = _apiVersion.version;
+        let uri = '/services/data/v' + version + '/jsonxform/transformation';
+        let config = {
+            url: uri,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Chatter-Entity-Encoding': false
+            },
+            body: postData
+        };
+        
+        sendRequest(config, function(err, response) {
+            console.warn('POST jsonxform/transformation returned: ', err, response);
+            if (err) {
+                //console.error('error: ', err);
+	            if (typeof callback === 'function') {
+    	            callback(err, null);
+        	    }
+            } else {
+	            let data = response.body;
+                //console.warn('data: ', data);
+	            if (typeof callback === 'function') {
+    	            callback(null, data);
+        	    }
+            }
+        });
+    }
+
+    
+    function createRequest() {
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return xhr;
+    }            
+    
+    function sendRequest(config, callback) {
+        //console.warn('sendRequest: ', config);
+        var req = createRequest();
+
+        req.onerror = function(e) {
+            console.warn('req.onerror: ', e);
+            
+            let err = {
+                status: req.status,
+                statusText: req.statusText,
+                body: req.response,
+                type: req.responseType,
+                headers: req.getAllResponseHeaders(),
+                config: config
+            };
+            
+            if (typeof callback === 'function') {
+                callback(err, null);
+            }                        
+        }
+        
+        req.onreadystatechange = function() {
+            if (req.readyState != 4) {
+                return;
+            }
+            
+            let error = null;
+            let response = null;
+            
+            if (req.status < 200 || req.status > 299) {
+                error = {
+                    status: req.status,
+                    statusText: req.statusText,
+                    body: req.response,
+                    type: req.responseType,                    
+                    headers: req.getAllResponseHeaders(),
+                    config: config
+                };
+            } else {                
+                response = {
+                    status: req.status,
+                    statusText: req.statusText,
+                    body: req.response,
+                    type: req.responseType,
+                    headers: req.getAllResponseHeaders(),
+                    config: config
+                };
+            }
+            
+            if (req.responseType === "xml") {
+                response.xml = req.responseXML;
+            }
+            
+            if (typeof callback === 'function') {
+                callback(error, response);
+            }
+        }
+        
+        //console.warn('config.url: ', config.url);
+        
+        if (config.url.indexOf("http") < 0) {
+            req.open(config.method, config.url, true);
+            // Set the Authorization header for local calls
+            req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+            
+        } else {
+            // Use the proxy
+            req.open(config.method, UserContext.siteUrlPrefix + "/services/proxy", true);
+            
+            // Set the endpoint accordingly for using the proxy
+            req.setRequestHeader("SalesforceProxy-Endpoint", config.url);
+            
+            req.setRequestHeader("Authorization", 'Bearer {!$Api.Session_ID}');
+            
+        }
+        
+        
+        if (config.headers) {
+            for (var key in config.headers) {
+                req.setRequestHeader(key, config.headers[key]);
+            }
+        }
+        
+        /*
+        if (config.method !== "POST") {
+            req.responseType = config.responseType || "json";
+        }
+        */
+        req.responseType = config.responseType || "json";
+        
+        if (config.method === "POST") {
+            //console.warn('POSTING config.body: ', config.body);
+            req.send(JSON.stringify(config.body));
+        } else {
+            req.send();
+        }        
+    }
+    
+    
+    </script>
+</apex:page>

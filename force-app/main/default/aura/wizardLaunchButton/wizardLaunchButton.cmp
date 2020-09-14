@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <div class="outer">
+        <div class="settings">
+            <lightning:buttonIcon iconName="utility:settings" variant="bare" size="medium" alternativeText="Configure Dashboard" onclick="{!c.configureDashboard}"/>
+        </div>
+    </div>	
+</aura:component>

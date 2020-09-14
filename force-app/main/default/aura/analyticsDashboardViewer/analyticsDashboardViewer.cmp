@@ -1,0 +1,40 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" >
+    <!--
+    <aura:attribute name="name" type="String" access="GLOBAL" description="Name to use for identifying component."/>
+    <aura:attribute name="title" type="String" access="GLOBAL" description="Title to display."/>
+
+ -->
+    <aura:attribute name="dashboardId" type="String" access="GLOBAL" description="The id of the dashboard"/>
+    <aura:attribute name="versionId" type="String" access="GLOBAL" description="The id of the dashboard version"/>
+    <aura:attribute name="height" type="String" access="GLOBAL" description="Height of the dashboard." default="700"/>
+    
+    <aura:attribute name="dashboard" type="Object"/>
+    <aura:attribute name="versions" type="Object[]"/>
+    
+    <aura:attribute name="dashboards" type="Object[]"/>
+    <aura:attribute name="filteredDashboards" type="Object[]"/>
+    <aura:attribute name="previewDashboards" type="Object[]"/>
+    
+    
+    <aura:handler name="change" value="{!v.dashboardId}" action="{!c.handleDashboardIdChange}"/>
+    <aura:handler name="change" value="{!v.versionId}" action="{!c.handleVersionIdChange}"/>
+    
+    <wave:sdk aura:id="sdk"/>
+    
+    <div class="main">
+        <div class="container">
+            <div aura:id="dashboard" class="dashboard-container">
+                <aura:if isTrue="{!v.dashboardId != null}">
+                    <wave:waveDashboard dashboardId="{!v.dashboardId}"
+                                        height="{!v.height}"
+                                        openLinksInNewWindow="true"
+                                        showHeader="false"
+                                        showTitle="false"
+                                        showSharing="false"
+                                        />
+                </aura:if>
+            </div>
+        </div>
+    </div>    
+    
+</aura:component>

@@ -1,0 +1,89 @@
+{
+  "templateType" : "embeddedapp",
+  "label" : "Xyz Widget Application",
+  "name" : "Xyz_Widget_Application",
+  "namespace" : "eadx",
+  "description" : "Example embedded app for Xyz Widget Company.",
+  "assetVersion" : 50.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [ ],
+  "releaseInfo" : {
+    "templateVersion" : "1.12",
+    "notesFile" : "releaseNotes.html"
+  },
+  "apexCallback" : {
+    "namespace" : "eadx",
+    "name" : "FeaturedConfigurationModifier"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Amount By Lead Source",
+      "name" : "Amount_By_Lead_Source_tp",
+      "condition" : "${Variables.BasicEnabled}",
+      "file" : "dashboards/Amount_By_Lead_Source.json"
+    },
+    {
+      "label" : "Amount by Oppty Type",
+      "name" : "Amount_by_Oppty_Type_tp",
+      "condition" : "${Variables.ExtendedEnabled}",
+      "file" : "dashboards/Amount_by_Oppty_Type.json"
+    },
+    {
+      "label" : "Expected Amt by Stage",
+      "name" : "Expected_Amt_by_Stage_tp",
+      "condition" : "${Variables.GrowthEnabled}",
+      "file" : "dashboards/Expected_Amt_by_Stage.json"
+    }
+  ],
+  "eltDataflows" : [
+    {
+      "label" : "Xyz Dataflow",
+      "name" : "xyz_dataflow",
+      "file" : "dataflow/xyz_dataflow.json"
+    }
+  ],
+  "recipes" : [ ],
+  "datasetFiles" : [
+    {
+      "label" : "Opportunity",
+      "name" : "Opportunity_tp",
+      "userXmd" : "dataset_files/Opportunity_XMD.json"
+    }
+  ],
+  "storedQueries" : [ ],
+  "imageFiles" : [ ],
+  "customAttributes" : [
+    {
+      "label" : "Objects",
+      "values" : [
+        "Opportunity"
+      ]
+    },
+    {
+      "label" : "Publisher",
+      "values" : [
+        "Einstein Analytics"
+      ]
+    }
+  ],
+  "extendedTypes" : { },
+  "templateDependencies" : [ ],
+  "tags" : [
+    "dataflow",
+    "dashboard",
+    "dataset"
+  ],
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templatePreviews" : [ ]
+  }
+}

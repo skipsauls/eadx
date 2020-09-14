@@ -1,0 +1,16 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="dogs" type="List"/>
+    <aura:attribute name="name" type="String" default="Fido"/>
+    <ltng:require scripts="{!$Resource.zoo}" afterScriptsLoaded="{!c.scriptsLoaded}"/>
+    <div class="slds-m-around_small slds-p-around_small">
+        <lightning:input class="slds-m-around_small" type="text" label="Dog Name" value="{!v.name}"/>
+        <lightning:button class="slds-m-around_small" label="Create Dog" onclick="{!c.doDog}"/>
+        <ul class="slds-has-dividers_around-space slds-m-around_small">
+            <aura:iteration items="{!v.dogs}" var="dog" indexVar="index">
+                <li class="slds-item">                
+                    <lightning:button label="{!dog.name}" name="{!index}" onclick="{!c.doSpeak}"/> - <span>{!dog.barks}</span>
+                </li>
+            </aura:iteration>
+        </ul>
+    </div>
+</aura:component>

@@ -1,0 +1,18 @@
+<aura:component controller="CommanderController" access="global">
+    
+    <c:streaming channel="/event/CommandEvent__e" onMessage="{!c.handleCommandEvent}"/>
+
+    <aura:method name="execCommand" action="{!c.execCommand}"  description="Executes the specified call"> 
+        <aura:attribute name="name" type="String" description="The name for the command"/>
+        <aura:attribute name="config" type="String" description="The JSON config body for the command"/>
+        <aura:attribute name="uid" type="String" description="Unique ID for async commands, etc."/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <aura:method name="execCommand2" action="{!c.execCommand2}"  description="Executes the specified call"> 
+        <aura:attribute name="name" type="String" description="The name for the command"/>
+        <aura:attribute name="config" type="String" description="The JSON config body for the command"/>
+        <aura:attribute name="uid" type="String" description="Unique ID for async commands, etc."/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+</aura:component>

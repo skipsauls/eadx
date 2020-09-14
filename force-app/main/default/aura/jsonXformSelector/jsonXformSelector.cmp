@@ -1,0 +1,39 @@
+<aura:component access="global" controller="jsonXformController">
+    <aura:attribute name="xforms" type="Object[]"/>
+    <aura:attribute name="xform" type="Object"/>
+    <aura:attribute name="name" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>        
+    
+    <div class="outer">
+        <lightning:layout>
+            <lightning:layoutItem size="12" class="slds-p-around_small">        
+                <ul class="list slds-box slds-box_xx-small">
+                    <li class="item header slds-border_bottom">                        
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="name slds-p-around_small slds-border_right">        
+                                <span class="">Name</span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="id slds-p-around_small">        
+                                <span class="">Id</span>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </li>
+                    <aura:iteration items="{!v.xforms}" var="xform">
+                        <li value="{!xform.Id}" class="item slds-border_bottom" onclick="{!c.selectItem}" data-id="{!xform.Id}" data-name="{!xform.Name}">                            
+                            <lightning:layout>
+                                <lightning:layoutItem size="6" class="name slds-p-around_small slds-border_right">        
+									<span class="">{!xform.Name}</span>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="6" class="id slds-p-around_small">        
+									<span class="">{!xform.Id}</span>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </li>
+                    </aura:iteration>                                                                
+                </ul>
+
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

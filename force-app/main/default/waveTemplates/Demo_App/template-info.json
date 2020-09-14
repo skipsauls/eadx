@@ -1,0 +1,73 @@
+{
+  "templateType" : "app",
+  "label" : "Demo App",
+  "name" : "Demo_App",
+  "namespace" : "eadx",
+  "description" : "This is a demo app for testing the SDK, etc.",
+  "assetVersion" : 40.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.15",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Demo Dashboard",
+      "name" : "Demo_Dashboard10_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Demo_Dashboard10.json"
+    }
+  ],
+  "eltDataflows" : [
+    {
+      "label" : "Demo App",
+      "name" : "Demo_App",
+      "condition" : "${Variables.Overrides.createDataflow}",
+      "file" : "dataflow/Demo_App.json"
+    }
+  ],
+  "datasetFiles" : [
+    {
+      "label" : "oppty_demo",
+      "name" : "oppty_demo",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/oppty_demo_XMD.json"
+    }
+  ],
+  "storedQueries" : [ ],
+  "imageFiles" : [
+    {
+      "name" : "lightning_h412jpg",
+      "condition" : "${Variables.Overrides.createAllImages}",
+      "file" : "images/lightning_h412.jpg"
+    }
+  ],
+  "extendedTypes" : { },
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "namespace" : "eadx",
+      "name" : "df17_icon"
+    },
+    "templateDetail" : {
+      "namespace" : "eadx",
+      "name" : "df17_detail"
+    }
+  }
+}

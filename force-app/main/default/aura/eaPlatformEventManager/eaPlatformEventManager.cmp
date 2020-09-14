@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="datasetName" type="String" access="GLOBAL" default="eadx__oppty2" description="Dataset used for refresh"/>
+    <aura:attribute name="fieldName" type="String" access="GLOBAL" default="StageName" description="Field in the dataset used for refresh"/>
+    <aura:attribute name="fieldValue" type="String" access="GLOBAL" default="Needs Analysis" description="Value for the field in the dataset used for refresh"/>
+    <aura:registerEvent name="update" type="wave:update"/>
+    <!--
+    <c:streaming channel="/event/df17eadx__EinsteinAnalyticsEvent__e" onMessage="{!c.handlePlatformEvent}"/>
+	-->
+    <c:streaming channel="/event/WaveAssetEvent" onMessage="{!c.handlePlatformEvent}"/>
+    
+</aura:component>

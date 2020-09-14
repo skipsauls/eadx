@@ -1,0 +1,26 @@
+<aura:component controller="VoiceSFXController" access="global">
+    <aura:attribute name="resourceName" type="String" description="The name of the static resource" access="global"/>
+    <aura:attribute name="soundResources" type="Object[]" description="Array of named resources to load" access="global"/>
+    
+    <aura:attribute name="voiceSFXProxyReady" type="Boolean" default="false" description="Enables tracking via change event"/>
+    <aura:attribute name="loading" type="Boolean" default="false" description="Prevent duplicate loading"/>
+
+    <aura:handler name="change" value="{!v.voiceSFXProxyReady}" action="{!c.voiceSFXProxyReady}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:method name="playSound" action="{!c.playSound}" description="Plays the specified sound">
+        <aura:attribute name="name" type="String"/>
+    </aura:method>
+    
+    <aura:method name="stopSound" action="{!c.stopSound}" description="Stops the specified sound">
+        <aura:attribute name="name" type="String"/>
+    </aura:method>
+    
+    <c:voiceProxy aura:id="voiceSFXProxy"
+                  baseUrl="https://analytics-ltngout-playground.herokuapp.com/voicesfxproxy"
+                  query_params=""
+                  vf_voice_proxy_id="vf_voice_sfx_proxy_frame"
+                  ready="{!v.voiceSFXProxyReady}"
+                  />
+</aura:component>

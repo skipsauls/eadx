@@ -1,0 +1,10 @@
+<aura:component access="GLOBAL">
+    <aura:handler name="AnalyticsAppCreate" 
+   			event="c:AnalyticsAppCreateEvent" 
+            action="{! c.handleAnalyticsAppCreate }"/>
+
+    <lightning:overlayLibrary aura:id="overlayApi"/>
+
+    <c:commanderEventHandler/>
+    
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+	<aura:attribute name="isDoneRendering" type="Boolean" default="false" access="global"/>
+	<aura:attribute name="priv_isDoneRendering" type="Boolean" default="false"/>
+    <aura:handler name="change" value="{!v.priv_isDoneRendering}" action="{!v.handleDoneRendering}"/>
+	<aura:dependency resource="c:doneRendering" type="EVENT"/>
+    
+    <div>
+    	<h1>Lifecycle Demo</h1>
+    </div>
+</aura:component>

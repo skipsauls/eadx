@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Platform__c</fullName>
+    <description>The platform name in human readable form</description>
+    <externalId>false</externalId>
+    <label>Platform</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Xbox One</fullName>
+                <default>false</default>
+                <label>Xbox One</label>
+            </value>
+            <value>
+                <fullName>PlayStation 4</fullName>
+                <default>false</default>
+                <label>PlayStation 4</label>
+            </value>
+            <value>
+                <fullName>PC</fullName>
+                <default>false</default>
+                <label>PC</label>
+            </value>
+            <value>
+                <fullName>iOS</fullName>
+                <default>false</default>
+                <label>iOS</label>
+            </value>
+            <value>
+                <fullName>Android</fullName>
+                <default>false</default>
+                <label>Android</label>
+            </value>
+            <value>
+                <fullName>Switch</fullName>
+                <default>false</default>
+                <label>Switch</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
