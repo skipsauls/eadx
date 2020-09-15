@@ -1,4 +1,5 @@
-({      
+({
+    
 	handleProxyReady: function (component, event, helper) {
         console.warn('handleProxyReady');
     },
@@ -10,11 +11,10 @@
         let proxy = component.find('proxy');
 
 		let methodName = 'authenticate';        
-        let serverUrl = 'us-west-2b.online.tableau.com';
+        let serverUrl = 'XXXXXXXX';
         let name = 'XXXXXXXX';
         let password = 'XXXXXXXX';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let siteName = 'XXXXXXXX';
         let config = {};
         
         let url = '/services/apexrest/eadx/tableau?methodName=' + methodName;
@@ -39,11 +39,10 @@
         let proxy = component.find('proxy');
 
 		let methodName = 'authenticate';        
-        let serverUrl = 'us-west-2b.online.tableau.com';
+        let serverUrl = 'XXXXXXXX';
         let name = 'XXXXXXXX';
         let password = 'XXXXXXXX';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let siteName = 'XXXXXXXX';
         let config = {};
         
         let url = '/services/apexrest/eadx/tableau?methodName=' + methodName;
@@ -66,10 +65,9 @@
         let proxy = component.find('proxy');
 
 		let methodName = 'list_views';
-        let serverUrl = 'us-west-2b.online.tableau.com';
-        let name = 'ssauls@salesforce.com';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let serverUrl = 'XXXXXXXX';
+        let name = 'XXXXXXXX';
+        let siteName = 'XXXXXXXX';
         
         let url = '/services/apexrest/eadx/tableau?methodName=' + methodName;
         

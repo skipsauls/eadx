@@ -72,7 +72,7 @@ global with sharing class ApexFortnitePlayerController {
         
         System.debug('platforms: ' + platforms);
         
-        List<Fortnite_Player_Data__c> playerDataList= [SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.username__c LIKE : userNames AND platform__c LIKE : platforms AND window__c =: window ORDER BY Fortnite_Player__r.username__c ASC];
+        List<Fortnite_Player_Data__c> playerDataList= null;//[SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.username__c LIKE : userNames AND platform__c LIKE : platforms AND window__c =: window ORDER BY Fortnite_Player__r.username__c ASC];
 /*        
         List<String> cacheNames = new List<String>();
         if (usernameList != null) {
@@ -192,9 +192,9 @@ global with sharing class ApexFortnitePlayerController {
             for (String key: defaultDimensions) {
                 if (dimensions == '*' || dimensionMap.get(key) != null) {
                     if (key == 'username') {
-	                    record.put(key, playerData.Fortnite_Player__r.username__c);                        
+	                    //record.put(key, playerData.Fortnite_Player__r.username__c);                        
                     } else if (key == 'uid') {
-                        record.put(key, playerData.Fortnite_Player__r.uid__c);                        
+                        //record.put(key, playerData.Fortnite_Player__r.uid__c);                        
                     } else if (key == 'platform') {
                         record.put(key, playerData.platform__c);                        
                     } else if (key == 'window') {

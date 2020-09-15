@@ -60,10 +60,13 @@ global with sharing class FortniteAPIController2 {
     @AuraEnabled
     global static String getGlobalPlayerStats(String username, String season) {
         
+        System.debug('season: ' + season);
+        
         if (season == null || season == '') {
-            season = 'all';
+            season = '14';
         }
 
+        System.debug('season: ' + season);
 
         FortnitePlayer player = null;
         
@@ -90,12 +93,13 @@ global with sharing class FortniteAPIController2 {
         System.debug('playerRecord: ' + playerRecord);
         
         List<Fortnite_Player__c> playerStatsRecords = null;
-     
+        Fortnite_Player_Stats__c playerStatsRecord = null;
+        
         try {
             playerStatsRecords = [SELECT Id,Name,uid__c,username__c,
-                           			(SELECT Id,input__c,gametype__c,kills__c,kd__c,score__c,bestscore__c,matchesplayed__c,minutesplayed__c,placetop1__c,placetop3__c,placetop5__c,placetop6__c,placetop10__c,placetop25__c,playersoutlived__c,winrate__c
-                            			FROM Fortnite_Player_Stats__r)
-                           			FROM Fortnite_Player__c WHERE username__c =: playerRecord.username__c];
+                                  (SELECT Id,input__c,gametype__c,kills__c,kd__c,score__c,bestscore__c,matchesplayed__c,minutesplayed__c,placetop1__c,placetop3__c,placetop5__c,placetop6__c,placetop10__c,placetop25__c,playersoutlived__c,winrate__c
+                                   FROM Fortnite_Player_Stats__r)
+                                  FROM Fortnite_Player__c WHERE username__c =: playerRecord.username__c];
         } catch (Exception e) {
             System.debug('Exception: ' + e);
             playerStatsRecords = new List<Fortnite_Player__c>();            
@@ -104,24 +108,31 @@ global with sharing class FortniteAPIController2 {
         System.debug('playerStatsRecords: ' + playerStatsRecords);        
         
         List<Fortnite_Player_Stats__c> playerStats = [SELECT Id,input__c,gametype__c,kills__c,kd__c,score__c,bestscore__c,matchesplayed__c,minutesplayed__c,placetop1__c,placetop3__c,placetop5__c,placetop6__c,placetop10__c,placetop25__c,playersoutlived__c,winrate__c
-                            			FROM Fortnite_Player_Stats__c];
+                            			FROM Fortnite_Player_Stats__c WHERE Fortnite_Player__r.username__c =: username];        
 
         System.debug('playerStats: ' + playerStats);        
-        
+       
         Map<String, Fortnite_Player_Stats__c> playerStatsMap = new Map<String, Fortnite_Player_Stats__c>();
+
         String key = null;
+        
         for (Fortnite_Player_Stats__c stats: playerStats) {
             System.debug('stats: ' + stats);
             key = (stats.input__c == null) ? '' : stats.input__c;
             key += '_' + stats.gametype__c;
             System.debug('key: ' + key);
             playerStatsMap.put(key, stats);
+            
             //System.debug('playerStatsRecord: ' + (Fortnite_Player_Stats__c) playerStatsRecord.Id);
             //key = (playerStatsRecord.input__c == null) ? 'global' : playerStatsRecord.input__c;
             //playerStatsRecordMap.put(key, playerStatsRecord);
         }
         
+        System.debug('season: ' + season);
+        
         String url = 'https://fortniteapi.io/stats?account=' + player.account_id + '&season=' + season;
+        
+        System.debug('url: ' + url);
         
         HttpRequest request = new HttpRequest();        
         Http http = new Http();
@@ -147,14 +158,15 @@ global with sharing class FortniteAPIController2 {
 		FortniteStatDetails statDetails = null;
 		Map<String, FortniteStatDetails> statDetailsMap = null;
         
-        Fortnite_Player_Stats__c playerStatsRecord = null;
+        //Fortnite_Player_Stats__c playerStatsRecord = null;
         
         for (String gameType: gameTypes) {
             System.debug('gameType: ' + gameType);
             statDetails = (FortniteStatDetails) stats.global_stats.get(gameType);
             System.debug('statDetails: ' + statDetails);
             if (statDetails != null) {
-                playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, null, gameType, statDetails);
+                playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, null, gameType, null, statDetails);
+
                 System.debug('playerStatsRecord: ' + playerStatsRecord);
                 
                 upsert playerStatsRecord;
@@ -170,7 +182,7 @@ global with sharing class FortniteAPIController2 {
                     statDetails = (FortniteStatDetails) statDetailsMap.get(gameType);
                     System.debug('statDetails: ' + statDetails);
                     if (statDetails != null) {
-                        playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, inputType, gameType, statDetails);
+                        playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, inputType, gameType, season, statDetails);
                         System.debug('playerStatsRecord: ' + playerStatsRecord);
                         
                         upsert playerStatsRecord;
@@ -203,7 +215,7 @@ global with sharing class FortniteAPIController2 {
     }
     
 
-    global static Fortnite_Player_Stats__c createFortnitePlayerStatsRecord(Fortnite_Player__c playerRecord, String input, String gametype, FortniteStatDetails details) {
+    global static Fortnite_Player_Stats__c createFortnitePlayerStatsRecord(Fortnite_Player__c playerRecord, String input, String gametype, String season, FortniteStatDetails details) {
         System.debug('updateFortnitePlayerStatsRecord: ' + playerRecord + ', ' + input + ', ' + gametype);
         System.debug('updateFortnitePlayerStatsRecord: ' + details);
         
@@ -228,6 +240,7 @@ global with sharing class FortniteAPIController2 {
         stats.matchesplayed__c = details.matchesplayed;
         stats.kills__c = details.kills;
         stats.kd__c = details.kd;
+        stats.season__c = season;
         
         return stats;
         

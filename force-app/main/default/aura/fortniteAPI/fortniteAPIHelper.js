@@ -133,8 +133,10 @@
     
 	callAPI: function(component, event, methodName) {
 		var params = event.getParam('arguments');
+        console.warn('params: ', params);
         var actionName = 'c.' + methodName;
         var action = component.get(actionName);
+        console.warn('action: ', action);
         action.setParams(params);
         var self = this;       
         action.setCallback(this, function(response) {

@@ -38,15 +38,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <relatedLists>
-        <fields>Name</fields>
-        <fields>Content</fields>
-        <fields>Persona</fields>
-        <fields>Posted</fields>
-        <fields>Parent</fields>
-        <fields>PostUrl</fields>
-        <relatedList>SocialPosts</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>

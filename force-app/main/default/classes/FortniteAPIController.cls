@@ -27,8 +27,8 @@ global with sharing class FortniteAPIController {
         Map<String, Object> totals;
         Map<String, Object> stats;
         public FortnitePlayerDataObj(Fortnite_Player_Data__c p) {
-            username = p.Fortnite_Player__r.username__c;
-            uid = p.Fortnite_Player__r.uid__c;
+            //username = p.Fortnite_Player__r.username__c;
+            //uid = p.Fortnite_Player__r.uid__c;
             window = p.window__c;
             platform = p.platform__c;
             totals = (Map<String, Object>) JSON.deserializeUntyped(p.totals__c);
@@ -202,7 +202,7 @@ global with sharing class FortniteAPIController {
         FortnitePlayerDataObj playerDataObj = null;
         
         try {
-            playerData = [SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.uid__c =: player.uid__c AND platform__c =: platform AND window__c =: window];
+            playerData = null;//[SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.uid__c =: player.uid__c AND platform__c =: platform AND window__c =: window];
             if (DateTime.now().getTime() > (playerData.LastModifiedDate.getTime() + cache_timeout)) {            
                 playerData = null;
             }
@@ -232,7 +232,7 @@ global with sharing class FortniteAPIController {
             if (resp.get('error') != true) {
                 if (playerData == null) {
 	                playerData = new Fortnite_Player_Data__c();
-                    playerData.Fortnite_Player__c = player.Id;
+                    //playerData.Fortnite_Player__c = player.Id;
                     //playerData.Fortnite_Player__r.username__c = player.username__c;
                     //playerData.Fortnite_Player__r.uid__c = player.uid__c;
                     playerData.platform__c = (String) resp.get('platform');
@@ -253,7 +253,7 @@ global with sharing class FortniteAPIController {
                 System.debug('platform: ' + platform);
                 System.debug('window: ' + window);
                     
-	            playerDataList= [SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.username__c =: player.username__c AND platform__c =: platform AND window__c =: window];
+	            playerDataList= null; //[SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.username__c =: player.username__c AND platform__c =: platform AND window__c =: window];
                 System.debug('playerDataList: ' + playerDataList);
                 playerData = playerDataList.get(0);
                 
@@ -296,7 +296,7 @@ global with sharing class FortniteAPIController {
         FortnitePlayerDataObj playerDataObj = null;
         
         try {
-            playerData = [SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.uid__c =: player.uid__c AND platform__c =: platform AND window__c =: window];
+            playerData = null;//[SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE Fortnite_Player__r.uid__c =: player.uid__c AND platform__c =: platform AND window__c =: window];
             if (DateTime.now().getTime() > (playerData.LastModifiedDate.getTime() + cache_timeout)) {            
                 playerData = null;
             }

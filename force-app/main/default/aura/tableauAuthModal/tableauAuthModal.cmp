@@ -1,9 +1,9 @@
 <aura:component access="global">
 
-    <aura:attribute name="serverUrl" type="String" access="global" default="us-west-2b.online.tableau.com"/>
-    <aura:attribute name="siteNames" type="String[]" access="global" default="eadx,einsteinsandbox"/>
-    <aura:attribute name="siteName" type="String" access="global" default="eadx"/>
-    <aura:attribute name="username" type="String" access="global" default="df19codey@gmail.com"/>
+    <aura:attribute name="serverUrl" type="String" access="global" default="XXXXXXXX"/>
+    <aura:attribute name="siteNames" type="String[]" access="global" default="XXXXXXXX"/>
+    <aura:attribute name="siteName" type="String" access="global" default="XXXXXXXX"/>
+    <aura:attribute name="username" type="String" access="global" default="XXXXXXXX"/>
     <aura:attribute name="password" type="String"/>
     <aura:attribute name="tableauAuth" type="Object" access="global"/>
 

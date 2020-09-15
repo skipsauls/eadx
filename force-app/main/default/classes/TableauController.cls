@@ -158,7 +158,8 @@ global with sharing class TableauController {
     @HttpPost            
     global static String queryForDashboard(String methodName, String params) {
         
-        System.debug('query: ' + methodName + ', ' + params);        
+        System.debug('query: ' + methodName + ', ' + params);
+        
         if (params == null || params == '') {
             params = '{}';
         }
@@ -166,11 +167,10 @@ global with sharing class TableauController {
         Map<String, Object> paramMap = (Map<String, Object>) JSON.deserializeUntyped(params);
         
         /* Hard-coded for now!!!!! */
-        String serverUrl = 'us-west-2b.online.tableau.com';
+        String serverUrl = 'XXXXXXXX';
         String name = 'XXXXXXXX';
         String password = 'XXXXXXXX';
-        String siteName = 'eadx';
-
+        String siteName = 'XXXXXXXX';
 
         List<String> strings = new List<String>(); 
         List<String> numbers = new List<String>(); 

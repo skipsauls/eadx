@@ -19,6 +19,7 @@
             deleteAppOnConstructionFailure: true,
             autoShareWithLicensedUsers: true,
             autoShareWithOriginator: true,
+            failOnDuplicateNames: true,
             values: values
         };
 

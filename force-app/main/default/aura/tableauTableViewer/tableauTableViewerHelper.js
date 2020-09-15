@@ -23,10 +23,9 @@
         var proxy = component.find('proxy');
         
         
-        let serverUrl = 'us-west-2b.online.tableau.com';
-        let name = 'ssauls@salesforce.com';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let serverUrl = 'XXXXXXXX';
+        let name = 'XXXXXXXX';
+        let siteName = 'XXXXXXXX';
         
         let url = '/services/apexrest/eadx/tableau?methodName=' + methodName;
         

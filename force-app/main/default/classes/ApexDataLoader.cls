@@ -6,7 +6,7 @@ global with sharing class ApexDataLoader {
         window = window == null ? 'alltime' : window;
         
         //System.debug('getFortnitePlayers - platform: ' + platform + ', window: ' + window);
-   		List<Fortnite_Player_Data__c> players = [SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE platform__c LIKE : platform AND window__c =: window];
+   		List<Fortnite_Player_Data__c> players = null; //[SELECT Id, Name, Fortnite_Player__r.uid__c, Fortnite_Player__r.username__c, platform__c, window__c, totals__c, stats__c, LastModifiedDate FROM Fortnite_Player_Data__c WHERE platform__c LIKE : platform AND window__c =: window];
         
         /*
         for (Fortnite_Player_Data__c player : players) {
@@ -48,9 +48,9 @@ global with sharing class ApexDataLoader {
             csvLine = '';
             delim = '';
             
-            csvLine += delim + player.Fortnite_Player__r.username__c;
+            //csvLine += delim + player.Fortnite_Player__r.username__c;
             delim = ',';            
-            csvLine += delim + player.Fortnite_Player__r.uid__c;
+            //csvLine += delim + player.Fortnite_Player__r.uid__c;
             csvLine += delim + player.platform__c;
             csvLine += delim + player.window__c; 
 

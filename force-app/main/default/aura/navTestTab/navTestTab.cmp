@@ -1,0 +1,19 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <lightning:layout>        
+        <lightning:layoutItem size="6">
+            <wave:waveDashboard developerName="eadx__New_Dashboard59"
+                                height="600"
+                                showHeader="false"
+                                showTitle="false"
+                                openLinksInNewWindow="false"
+                                />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="6">
+            <wave:waveDashboard developerName="eadx__New_Dashboard59"
+                                height="600"
+                                showHeader="false"
+                                showTitle="false"
+                                />
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

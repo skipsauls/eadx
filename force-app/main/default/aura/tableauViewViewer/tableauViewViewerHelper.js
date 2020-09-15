@@ -64,10 +64,9 @@
         
         var proxy = component.find('proxy');
         
-        let serverUrl = 'us-west-2b.online.tableau.com';
-        let name = 'ssauls@salesforce.com';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let serverUrl = 'XXXXXXXX';
+        let name = 'XXXXXXXX';
+        let siteName = 'XXXXXXXX';
         
         // Construct/generate this!!!!!!!!!!!!!!!!
         let url = '/services/apexrest/eadx/tableau?methodName=' + methodName;
@@ -114,10 +113,9 @@
         
        	let self = this;
 
-        let serverUrl = 'us-west-2b.online.tableau.com';
-        let name = 'ssauls@salesforce.com';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let serverUrl = 'XXXXXXXX';
+        let name = 'XXXXXXXX';
+        let siteName = 'XXXXXXXX';
         
          /*
          https://us-west-2b.online.tableau.com/t/eadx/views/Superstore/Overview?:showAppBanner=false&amp;:display_count=n&amp;:showVizHome=n&amp;:origin=viz_share_link
@@ -193,10 +191,9 @@
         url += '&viewName=' + view.viewUrlName;
 */        
         
-        let serverUrl = 'us-west-2b.online.tableau.com';
-        let name = 'ssauls@salesforce.com';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let serverUrl = 'XXXXXXXX';
+        let name = 'XXXXXXXX';
+        let siteName = 'XXXXXXXX';
         
         let url = '/services/apexrest/eadx/tableau?methodName=' + methodName;
         
@@ -255,10 +252,9 @@
         url += '&viewName=' + view.viewUrlName;
 */        
         
-        let serverUrl = 'us-west-2b.online.tableau.com';
-        let name = 'ssauls@salesforce.com';
-        //let siteName = 'einsteinsandbox';
-        let siteName = 'eadx';
+        let serverUrl = 'XXXXXXXX';
+        let name = 'XXXXXXXX';
+        let siteName = 'XXXXXXXX';
         
         let url = '/services/apexrest/eadx/tableau?methodName=' + methodName;
         

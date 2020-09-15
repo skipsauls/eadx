@@ -19,10 +19,6 @@
                 <behavior>Edit</behavior>
                 <field>window__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Fortnite_Player__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

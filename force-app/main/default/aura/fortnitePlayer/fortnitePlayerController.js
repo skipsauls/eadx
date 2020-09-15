@@ -24,7 +24,7 @@
             
             //helper.listSeasons(component, null);
             
-            let season = '13';
+            let season = '14';
 
             helper.getGlobalPlayerStats(component, username, season);
 

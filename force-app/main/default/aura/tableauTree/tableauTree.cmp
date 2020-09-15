@@ -14,7 +14,7 @@
     <aura:attribute name="proxyReady" type="Boolean" access="global" default="false"/>
 
 
-    <aura:attribute name="siteName" type="String" access="global" description="The selected Tableau Site" default="eadx"/>
+    <aura:attribute name="siteName" type="String" access="global" description="The selected Tableau Site" default="XXXXXXXX"/>
     <aura:attribute name="site" type="Object" access="global" description="The Tableau Site"/>
     <aura:attribute name="sites" type="Object[]" access="global" description="The Tableau Site(s)"/>
 

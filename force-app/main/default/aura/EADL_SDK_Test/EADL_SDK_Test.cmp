@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="developerName" type="String" default="Test_Dashboard1" access="GLOBAL"/>
+    <aura:attribute name="height" type="Integer" default="500" access="GLOBAL"/>
+    
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+    
+    <lightning:layout>        
+        <lightning:layoutItem flexibility="auto" size="6">
+            <div class="slds-box slds-box_x-small slds-theme_default" style="{!'height: ' + v.height + 'px'}">
+                <lightning:datatable
+                                     keyField="alpha-2"
+                                     data="{!v.data}"
+                                     columns="{!v.columns}"
+                                     hideCheckboxColumn="true"
+                                     onrowselection="{!c.updateSelectedCountries}"
+                                     />
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" size="6">
+            <wave:waveDashboard developerName="{!v.developerName}"
+                                height="{!v.height}"
+                                openLinksInNewWindow="true"
+                                showHeader="false"
+                                showTitle="false"
+                                showSharing="false"
+                                />        	
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>
