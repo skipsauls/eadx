@@ -2,11 +2,11 @@
   "templateType" : "embeddedapp",
   "label" : "Mortgage Calculator EADL",
   "name" : "Mortgage_Calculator",
-  "autoInstallDefinition" : "auto-install.json",
-  "description" : "Application template that demonstrates the power of the Einstein Analytics app template framework.",
   "namespace" : "eadx",
+  "description" : "Application template that demonstrates the power of the Einstein Analytics app template framework.",
   "assetVersion" : 50.0,
   "variableDefinition" : "variables.json",
+  "autoInstallDefinition" : "auto-install.json",
   "rules" : [
     {
       "type" : "templateToApp",
@@ -18,7 +18,7 @@
     }
   ],
   "releaseInfo" : {
-    "templateVersion" : "1.11",
+    "templateVersion" : "1.14",
     "notesFile" : "releaseNotes.html"
   },
   "folderDefinition" : "folder.json",
@@ -52,16 +52,6 @@
       "file" : "images/bg_main_mountain.jpg"
     }
   ],
-  "extendedTypes" : { },
-  "templateDependencies" : [ ],
-  "tags" : [
-    "rules",
-    "macros",
-    "mortgage",
-    "ammortization",
-    "finance",
-    "EADL"
-  ],
   "customAttributes" : [
     {
       "label" : "Features",
@@ -77,6 +67,16 @@
         "Einstein Analytics"
       ]
     }
+  ],
+  "extendedTypes" : { },
+  "templateDependencies" : [ ],
+  "tags" : [
+    "rules",
+    "macros",
+    "mortgage",
+    "ammortization",
+    "finance",
+    "EADL"
   ],
   "icons" : {
     "appBadge" : {

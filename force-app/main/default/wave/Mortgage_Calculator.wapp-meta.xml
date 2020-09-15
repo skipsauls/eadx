@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assetIcon>/analytics/wave/web/proto/images/app/icons/16.png</assetIcon>
+    <folder>eadx__Mortgage_Calculator</folder>
+    <masterLabel>Mortgage Calculator</masterLabel>
+    <shares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>skip@eadx.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </shares>
+    <templateOrigin>eadx__Mortgage_Calculator</templateOrigin>
+    <templateVersion>1.14</templateVersion>
+</WaveApplication>

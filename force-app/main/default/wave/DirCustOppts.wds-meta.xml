@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveDataset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <application>eadx__Alpha_App</application>
+    <description>Created from the Direct Customer Opportunities recipe.</description>
+    <masterLabel>Direct Customer Opportunities</masterLabel>
+</WaveDataset>
