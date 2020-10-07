@@ -19,5 +19,9 @@
     handleListSeasons: function (component, event, helper) {
         helper.callAPI(component, event, 'listSeasons');
     },
+
+    handleExecuteQuery: function (component, event, helper) {
+        helper.executeQuery(component, event);
+    },
     
 })

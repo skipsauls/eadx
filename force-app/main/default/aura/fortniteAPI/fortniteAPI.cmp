@@ -24,5 +24,10 @@
     <aura:method name="listSeasons" action="{!c.handleListSeasons}"  description="Returns a list of seasons."> 
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
+
+    <aura:method name="executeQuery" action="{!c.handleExecuteQuery}"  description="Returns the results of a query."> 
+        <aura:attribute name="query" type="String" description="The SOQL query to execute."/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
     
 </aura:component>

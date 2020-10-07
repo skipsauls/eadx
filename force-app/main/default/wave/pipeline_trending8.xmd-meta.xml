@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>pipeline_trending8</dataset>
+    <dimensions>
+        <customActionsEnabled>true</customActionsEnabled>
+        <field>CreatedDate</field>
+        <isDerived>false</isDerived>
+        <isMultiValue>false</isMultiValue>
+        <label>CreatedDate</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <salesforceActionsEnabled>true</salesforceActionsEnabled>
+        <showDetailsDefaultFieldIndex>0</showDetailsDefaultFieldIndex>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>-1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <customActionsEnabled>true</customActionsEnabled>
+        <field>CloseDate</field>
+        <isDerived>false</isDerived>
+        <isMultiValue>false</isMultiValue>
+        <label>CloseDate</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <salesforceActionsEnabled>true</salesforceActionsEnabled>
+        <showDetailsDefaultFieldIndex>5</showDetailsDefaultFieldIndex>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>-1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Account.Name</field>
+        <isDerived>false</isDerived>
+        <label>Account Name</label>
+        <linkTemplate>/{{row.Opportunity.AccountId}}</linkTemplate>
+        <linkTooltip>Open Account</linkTooltip>
+        <recordIdField>Opportunity.AccountId</recordIdField>
+        <showDetailsDefaultFieldIndex>2</showDetailsDefaultFieldIndex>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <customActionsEnabled>true</customActionsEnabled>
+        <field>RAG</field>
+        <isDerived>true</isDerived>
+        <isMultiValue>false</isMultiValue>
+        <label>RAG</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <members>
+            <color>#C03757</color>
+            <member>Red</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <members>
+            <color>#44517D</color>
+            <member>Gray</member>
+            <sortIndex>1</sortIndex>
+        </members>
+        <members>
+            <color>#0BA976</color>
+            <member>Green</member>
+            <sortIndex>2</sortIndex>
+        </members>
+        <salesforceActionsEnabled>true</salesforceActionsEnabled>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Name</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity Name</label>
+        <linkTemplate>/{{row.OpportunityId}}</linkTemplate>
+        <linkTooltip>Open Opportunity</linkTooltip>
+        <recordIdField>OpportunityId</recordIdField>
+        <showDetailsDefaultFieldIndex>1</showDetailsDefaultFieldIndex>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <customActionsEnabled>true</customActionsEnabled>
+        <field>Bucket</field>
+        <isDerived>true</isDerived>
+        <isMultiValue>false</isMultiValue>
+        <label>Bucket</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <members>
+            <label>Expand</label>
+            <member>3_EXPAND</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <members>
+            <label>Open Pipe (Start)</label>
+            <member>0_START</member>
+            <sortIndex>1</sortIndex>
+        </members>
+        <members>
+            <label>Reopen</label>
+            <member>2_REOPEN</member>
+            <sortIndex>2</sortIndex>
+        </members>
+        <members>
+            <label>Closed Lost</label>
+            <member>8_CLOSED_LOST</member>
+            <sortIndex>3</sortIndex>
+        </members>
+        <members>
+            <label>Moved Out</label>
+            <member>5_MOVED_OUT</member>
+            <sortIndex>4</sortIndex>
+        </members>
+        <members>
+            <label>Reduce</label>
+            <member>6_REDUCE</member>
+            <sortIndex>5</sortIndex>
+        </members>
+        <members>
+            <label>Closed Won</label>
+            <member>7_CLOSED_WON</member>
+            <sortIndex>6</sortIndex>
+        </members>
+        <members>
+            <label>Moved In</label>
+            <member>4_MOVED_IN</member>
+            <sortIndex>7</sortIndex>
+        </members>
+        <members>
+            <label>Open Pipe (End)</label>
+            <member>9_END</member>
+            <sortIndex>8</sortIndex>
+        </members>
+        <members>
+            <label>New</label>
+            <member>1_NEW</member>
+            <sortIndex>9</sortIndex>
+        </members>
+        <salesforceActionsEnabled>true</salesforceActionsEnabled>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.CloseDate</field>
+        <isDerived>false</isDerived>
+        <label>CloseDate</label>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Owner.UniqueUserName</field>
+        <isDerived>false</isDerived>
+        <label>Owner</label>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Account.Industry</field>
+        <isDerived>false</isDerived>
+        <label>Industry</label>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>StageName</field>
+        <isDerived>false</isDerived>
+        <label>Historical Stage Name</label>
+        <showDetailsDefaultFieldIndex>3</showDetailsDefaultFieldIndex>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.ForecastCategoryName</field>
+        <isDerived>false</isDerived>
+        <label>Forecast Category</label>
+        <sortIndex>6</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Owner.Name</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity Owner</label>
+        <linkTemplate>/{{row.Opportunity.OwnerId}}</linkTemplate>
+        <linkTooltip>Open Owner</linkTooltip>
+        <recordIdField>Opportunity.OwnerId</recordIdField>
+        <sortIndex>7</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Account.BillingCountry</field>
+        <isDerived>false</isDerived>
+        <label>Billing Country</label>
+        <sortIndex>8</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>OpportunityId</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity ID</label>
+        <sortIndex>9</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.LeadSource</field>
+        <isDerived>false</isDerived>
+        <label>Lead Source</label>
+        <sortIndex>10</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.StageName</field>
+        <isDerived>false</isDerived>
+        <label>Stage Name</label>
+        <sortIndex>11</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Account.BillingState</field>
+        <isDerived>false</isDerived>
+        <label>Billing State/Province</label>
+        <sortIndex>12</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Account.AccountSource</field>
+        <isDerived>false</isDerived>
+        <label>Account Source</label>
+        <sortIndex>13</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Account.Type</field>
+        <isDerived>false</isDerived>
+        <label>Account Type</label>
+        <sortIndex>14</sortIndex>
+    </dimensions>
+    <measures>
+        <field>Amount</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>2</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Pipeline Amount</label>
+        <showDetailsDefaultFieldIndex>4</showDetailsDefaultFieldIndex>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>percent</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>percent</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>Opportunity.Amount</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>2</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Amount</label>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>AmountPrev</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>2</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <sortIndex>2</sortIndex>
+    </measures>
+</WaveXmd>

@@ -1,0 +1,78 @@
+{
+  "templateType" : "app",
+  "label" : "Meteorites vs UFOs",
+  "name" : "Meteorites_vs_UFOs",
+  "namespace" : "eadx",
+  "description" : "",
+  "assetVersion" : 50.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.0",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [
+    {
+      "label" : "Meteorite_Landings",
+      "name" : "Meteorite_Landings",
+      "condition" : "${Variables.Overrides.createAllExternalFiles}",
+      "file" : "external_files/Meteorite_Landings.csv",
+      "type" : "CSV",
+      "schema" : "external_files/Meteorite_Landings.json",
+      "userXmd" : "external_files/Meteorite_Landings_XMD.json",
+      "rows" : 5
+    },
+    {
+      "label" : "UFOs_scrubbed",
+      "name" : "UFOs_scrubbed",
+      "condition" : "${Variables.Overrides.createAllExternalFiles}",
+      "file" : "external_files/UFOs_scrubbed.csv",
+      "type" : "CSV",
+      "schema" : "external_files/UFOs_scrubbed.json",
+      "userXmd" : "external_files/UFOs_scrubbed_XMD.json",
+      "rows" : 5
+    }
+  ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Meteorites in the USA",
+      "name" : "Meteorites_in_the_USA_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Meteorites_in_the_USA.json"
+    },
+    {
+      "label" : "UFOs in the USA",
+      "name" : "UFOs_in_the_USA_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/UFOs_in_the_USA.json"
+    }
+  ],
+  "eltDataflows" : [ ],
+  "recipes" : [ ],
+  "datasetFiles" : [ ],
+  "storedQueries" : [ ],
+  "imageFiles" : [ ],
+  "extendedTypes" : { },
+  "templateDependencies" : [ ],
+  "icons" : {
+    "appBadge" : {
+      "name" : "16.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templatePreviews" : [ ]
+  }
+}

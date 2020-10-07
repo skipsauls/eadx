@@ -1,5 +1,5 @@
 ({
-    backgroundNames: ['jailbirds','sun_strider','norse_emblem','battle_royale','carbide','visitor','rex','poolside'],
+    backgroundNames: ['marvel_01','marvel_02','jailbirds','sun_strider','norse_emblem','battle_royale','carbide','visitor','rex','poolside'],
 
     rotateBackground: function(component) {
         var self = this;

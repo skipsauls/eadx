@@ -2,4 +2,5 @@
 <WaveDataset xmlns="http://soap.sforce.com/2006/04/metadata">
     <application>eadx__Meteorites_vs_UFOs</application>
     <masterLabel>Meteorite_Landings</masterLabel>
+    <templateAssetSourceName>Meteorite_Landings</templateAssetSourceName>
 </WaveDataset>

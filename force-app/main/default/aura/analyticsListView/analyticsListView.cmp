@@ -1,12 +1,15 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="sobjectType" type="String" access="global" default="Opportunity"/>
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__AllOpportunities"/>
     
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     
-    <lightning:listView aura:id="listViewAccounts"
-                        objectApiName="Account"
-                        listName="My_Accounts"
+    <lightning:listView aura:id="listView"
+                        objectApiName="Opportunity"
+                        listName="eadx__AllOpportunities"
                         rows="5"
                         showActionBar="false"
-                        enableInlineEdit="true"
+                        enableInlineEdit="false"
                         showRowLevelActions="false"
                         />
     

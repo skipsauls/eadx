@@ -1,5 +1,5 @@
 <aura:application extends="force:slds" access="global">
     
-    <c:datatableTab/>
+    <c:forecastDemoTab2/>
     
 </aura:application>

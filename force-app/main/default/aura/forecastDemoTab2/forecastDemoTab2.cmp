@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+	
+    <c:datatableTab sobjectType="Opportunity" 
+                    developerName="eadx__AllOpportunities"
+                    dashboardDeveloperName="eadx__Sales_Ops_Pipeline_Changes"
+                    dashboardHeight="660"
+                    tableHeight="340"/>
+    
+</aura:component>

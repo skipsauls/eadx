@@ -55,7 +55,18 @@ global with sharing class FortniteAPIController2 {
         public List<Integer> seasons_available { get; set; }
         public String season { get; set; }
     }
+    
+    @AuraEnabled
+    global static List<Object> executeQuery(String query) {
+        List<Object> records = new List<Object>();
 
+        try {
+            records = Database.query(query);
+        } catch (System.QueryException qe) {
+        }
+
+		return records;        
+    }
     
     @AuraEnabled
     global static String getGlobalPlayerStats(String username, String season) {
@@ -75,7 +86,7 @@ global with sharing class FortniteAPIController2 {
         String uid = null;
 
         try {
-            playerRecord = [SELECT Id, Name, uid__c, username__c, platforms__c, seasons__c, LastModifiedDate FROM Fortnite_Player__c WHERE username__c =: username];
+            playerRecord = [SELECT Id, Name, uid__c, username__c, platforms__c, seasons__c, account_level__c, account_progress_pct__c, LastModifiedDate FROM Fortnite_Player__c WHERE username__c =: username];
             player = new FortnitePlayer();
             player.account_id = playerRecord.uid__c;
             player.username = playerRecord.username__c;
@@ -107,7 +118,7 @@ global with sharing class FortniteAPIController2 {
         
         System.debug('playerStatsRecords: ' + playerStatsRecords);        
         
-        List<Fortnite_Player_Stats__c> playerStats = [SELECT Id,input__c,gametype__c,kills__c,kd__c,score__c,bestscore__c,matchesplayed__c,minutesplayed__c,placetop1__c,placetop3__c,placetop5__c,placetop6__c,placetop10__c,placetop25__c,playersoutlived__c,winrate__c
+        List<Fortnite_Player_Stats__c> playerStats = [SELECT Id,uid__c,input__c,gametype__c,kills__c,kd__c,score__c,bestscore__c,matchesplayed__c,minutesplayed__c,placetop1__c,placetop3__c,placetop5__c,placetop6__c,placetop10__c,placetop25__c,playersoutlived__c,winrate__c
                             			FROM Fortnite_Player_Stats__c WHERE Fortnite_Player__r.username__c =: username];        
 
         System.debug('playerStats: ' + playerStats);        
@@ -145,87 +156,132 @@ global with sharing class FortniteAPIController2 {
         System.debug('response.body: ' + response.getBody());
     
         
-       	upsert playerRecord;
+       	//upsert playerRecord;
 
+        String resJson = null;
         
-        FortniteStats stats = (FortniteStats) JSON.deserialize(response.getBody(), FortniteStats.class);
+        Integer statusCode = response.getStatusCode();
         
-        System.debug('stats: ' + stats);
-        
-        List<String> inputTypes = new List<String>{ 'touch', 'gamepad', 'keyboardmouse' };
-        List<String> gameTypes = new List<String>{ 'solo', 'duo', 'squad', 'ltm' };
+        if (statusCode < 200 || statusCode >= 300) {
             
-		FortniteStatDetails statDetails = null;
-		Map<String, FortniteStatDetails> statDetailsMap = null;
-        
-        //Fortnite_Player_Stats__c playerStatsRecord = null;
-        
-        for (String gameType: gameTypes) {
-            System.debug('gameType: ' + gameType);
-            statDetails = (FortniteStatDetails) stats.global_stats.get(gameType);
-            System.debug('statDetails: ' + statDetails);
-            if (statDetails != null) {
-                playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, null, gameType, null, statDetails);
+            resJson = '{"error":"foo"}';
+            
+        } else {
+            FortniteStats stats = (FortniteStats) JSON.deserialize(response.getBody(), FortniteStats.class);
+            
+            System.debug('stats: ' + stats);
+            
+            
+			playerRecord.account_level__c = stats.account.level;
+			playerRecord.account_progress_pct__c = stats.account.progress_pct;
+                                                                         
+	       	upsert playerRecord;
 
-                System.debug('playerStatsRecord: ' + playerStatsRecord);
+            
+            List<String> inputTypes = new List<String>{ 'touch', 'gamepad', 'keyboardmouse' };
+            List<String> gameTypes = new List<String>{ 'solo', 'duo', 'squad', 'ltm' };
                 
-                upsert playerStatsRecord;
+            FortniteStatDetails statDetails = null;
+            Map<String, FortniteStatDetails> statDetailsMap = null;
+            
+            //Fortnite_Player_Stats__c playerStatsRecord = null;
+            
+            for (String gameType: gameTypes) {
+                System.debug('gameType: ' + gameType);
+                statDetails = (FortniteStatDetails) stats.global_stats.get(gameType);
+                System.debug('statDetails: ' + statDetails);
+                if (statDetails != null) {
+                    playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, playerStats, null, gameType, null, statDetails);
+    
+                    System.debug('playerStatsRecord: ' + playerStatsRecord);
+                    
+                    upsert playerStatsRecord;
+                }
             }
-        }
-
-        for (String inputType: inputTypes) {
-            System.debug('inputType: ' + inputType);
-            statDetailsMap = (Map<String, FortniteStatDetails>) stats.per_input.get(inputType);
-            if (statDetailsMap != null) {
-                for (String gameType: gameTypes) {
-                    System.debug('gameType: ' + gameType);
-                    statDetails = (FortniteStatDetails) statDetailsMap.get(gameType);
-                    System.debug('statDetails: ' + statDetails);
-                    if (statDetails != null) {
-                        playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, inputType, gameType, season, statDetails);
-                        System.debug('playerStatsRecord: ' + playerStatsRecord);
-                        
-                        upsert playerStatsRecord;
-
+    
+            for (String inputType: inputTypes) {
+                System.debug('inputType: ' + inputType);
+                statDetailsMap = (Map<String, FortniteStatDetails>) stats.per_input.get(inputType);
+                if (statDetailsMap != null) {
+                    for (String gameType: gameTypes) {
+                        System.debug('gameType: ' + gameType);
+                        statDetails = (FortniteStatDetails) statDetailsMap.get(gameType);
+                        System.debug('statDetails: ' + statDetails);
+                        if (statDetails != null) {
+                            playerStatsRecord = createFortnitePlayerStatsRecord(playerRecord, playerStats, inputType, gameType, season, statDetails);
+                            System.debug('playerStatsRecord: ' + playerStatsRecord);
+                            
+                            upsert playerStatsRecord;
+    
+                        }
                     }
                 }
             }
+            
+            /*       
+            Boolean result;
+            String source;
+            String mode;
+            String name;
+            FortniteAccountStats account;
+            FortniteStatsByGameType global_stats;
+            FortniteStatsByControllerType per_input;
+            List<Integer> seasons_available;
+            String season;        
+       */     
+    
+            
+    //        SELECT Id,Name,eadx__uid__c,eadx__username__c, (SELECT Id,eadx__kills__c FROM eadx__Fortnite_Player_Stats__r) FROM eadx__Fortnite_Player__c WHERE eadx__username__c = 'Bloxitect'             
+    //        
+            // Note that second argument determines null suppression
+            resJson = JSON.serialize(stats, true);
+            
         }
         
-        /*       
-        Boolean result;
-        String source;
-        String mode;
-        String name;
-        FortniteAccountStats account;
-        FortniteStatsByGameType global_stats;
-        FortniteStatsByControllerType per_input;
-        List<Integer> seasons_available;
-        String season;        
-   */     
+        System.debug('resJson: ' + resJson);
 
-        
-//        SELECT Id,Name,eadx__uid__c,eadx__username__c, (SELECT Id,eadx__kills__c FROM eadx__Fortnite_Player_Stats__r) FROM eadx__Fortnite_Player__c WHERE eadx__username__c = 'Bloxitect'             
-//        
-        // Note that second argument determines null suppression
-        String statsJson = JSON.serialize(stats, true);
-        System.debug('statsJson: ' + statsJson);
-        
-        return statsJson;
+   		return resJson;
     }
     
+    
 
-    global static Fortnite_Player_Stats__c createFortnitePlayerStatsRecord(Fortnite_Player__c playerRecord, String input, String gametype, String season, FortniteStatDetails details) {
+    global static Fortnite_Player_Stats__c createFortnitePlayerStatsRecord(Fortnite_Player__c playerRecord,
+                                                                           List<Fortnite_Player_Stats__c> playerStats,
+                                                                           String input,
+                                                                           String gametype,
+                                                                           String season,
+                                                                           FortniteStatDetails details) {
+                                                                               
         System.debug('updateFortnitePlayerStatsRecord: ' + playerRecord + ', ' + input + ', ' + gametype);
         System.debug('updateFortnitePlayerStatsRecord: ' + details);
-        
-        Fortnite_Player_Stats__c stats = new Fortnite_Player_Stats__c();
-        
-        stats.Fortnite_Player__c = playerRecord.Id;
-        
-        stats.input__c = input;
-        stats.gametype__c = gametype;
-        
+
+        String uid = playerRecord.uid__c + '_' + season + '_' + input + '_' + gametype;
+                                                                               
+		Fortnite_Player_Stats__c stats = null;
+                                                                               
+		for (Fortnite_Player_Stats__c s: playerStats) {
+            if (s.uid__c == uid) {
+                stats = s;
+                break;
+            }                                                                           
+		}
+
+		if (stats == null) {                                                                                                                                                              
+                                                                                   
+            stats = new Fortnite_Player_Stats__c();
+            
+            // The uid combines the player uid, season, input, and gametype
+            stats.uid__c = playerRecord.uid__c + '_' + season + '_' + input + '_' + gametype;
+            
+            // The following fields will not be updated
+        	stats.Name = 'Season ' + season + ' - ' + input + ' - ' + gametype;                                                                               
+			stats.Fortnite_Player__c = playerRecord.Id;
+			stats.input__c = input;
+        	stats.gametype__c = gametype;
+	        stats.season__c = season;
+        }
+
+		// The following fields may be updated in API response
         stats.winrate__c = details.winrate;
         stats.score__c = details.score;
         stats.playersoutlived__c = details.playersoutlived;
@@ -240,8 +296,7 @@ global with sharing class FortniteAPIController2 {
         stats.matchesplayed__c = details.matchesplayed;
         stats.kills__c = details.kills;
         stats.kd__c = details.kd;
-        stats.season__c = season;
-        
+            
         return stats;
         
     }

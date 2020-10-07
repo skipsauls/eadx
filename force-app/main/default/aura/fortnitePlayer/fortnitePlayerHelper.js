@@ -155,14 +155,49 @@
         });        
     },
     
-    getGlobalPlayerStats: function(component, username, season) {
+    getGlobalPlayerStats: function(component, username, season, callback) {
         
         var self = this;
         var fortniteAPI = component.find('fortniteAPI');
         var refresh = false;
         fortniteAPI.getGlobalPlayerStats(username, season, function(err, stats) {
-            console.warn('stats: ', stats); 
+            console.warn('stats: ', stats);
+            if (typeof callback === 'function') {
+                callback(err, stats);
+            }
         });        
+    },
+    
+    refreshPlayers: function(component, callback) {
+     	let table = component.find('table');
+        table.refreshPlayers(function(err, res) {
+            console.warn('refresh returned: ', err, res);
+            if (typeof callback === 'function') {
+                callback(err, res);
+            }
+        });
+    },
+    
+    updateGlobalPlayerStats: function(component, usernames, season, callback) {
+        var self = this;
+        var fortniteAPI = component.find('fortniteAPI');
+        let counter = 0;
+        usernames.forEach(function(username) {
+            counter++;
+            console.warn('-> counter: ', counter);
+            setTimeout($A.getCallback(function() {
+	            fortniteAPI.getGlobalPlayerStats(username, season, function(err, stats) {
+    	            console.warn('stats: ', stats); 
+                   	counter--;
+                    console.warn('<- counter: ', counter);
+                    if (counter <= 0) {
+                        if (typeof callback === 'function') {
+                            callback(null, {});
+                        }
+                    }
+        	    });                        
+            }), 500);
+        });
     },
     
     getRecentMatches: function(component, username) {

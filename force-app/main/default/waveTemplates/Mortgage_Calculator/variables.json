@@ -1,101 +1,134 @@
 {
-  "AppName": {
-      "label":"The name of the app",
-      "description":"The name of the app",
-      "defaultValue": null,
-      "required":false,
-      "variableType": {
-          "type":"StringType"
-      }
-  },
-  "AppLabel": {
-      "label":"The label of the app",
-      "description":"The label of the app",
-      "defaultValue": "Mortgage Calculator",
-      "required":false,
-      "variableType": {
-          "type":"StringType"
-      }
-  },
-  "AmorizedChartType": {
-      "label":"What kind of chart would you like to use?",
-      "description":"The chart to use when representing the amortized loan.",
-      "defaultValue": "line",
-      "required":true,
-      "variableType": {
-          "type":"StringType",
-          "enums":["line", "combo", "heatmap"]
-      }
-  },
-"Overrides": {
-  "label": "Overrides",
-  "description": "Internal configuration to allow asset creation overrides, not to be displayed in UI.",
-  "defaultValue": {
-    "createAllDashboards": true,
-    "createAllLenses": true,
-    "createAllExternalFiles": true,
-    "createDataflow": true,
-    "createAllDatasetFiles": true,
-    "createAllImages": true
-  },
-  "required": true,
-  "excludeSelected": false,
-  "excludes": [],
-  "variableType": {
-    "required": [
-      "createAllExternalFiles",
-      "createAllDashboards",
-      "createAllImages",
-      "createAllDatasetFiles",
-      "createAllLenses",
-      "createDataflow"
-    ],
-    "type": "ObjectType",
-    "properties": {
-      "createAllDashboards": {
-        "type": "BooleanType",
-        "enums": [
-          true,
-          false
-        ]
-      },
-      "createAllLenses": {
-        "type": "BooleanType",
-        "enums": [
-          true,
-          false
-        ]
-      },
-      "createAllExternalFiles": {
-        "type": "BooleanType",
-        "enums": [
-          true,
-          false
-        ]
-      },
-      "createDataflow": {
-        "type": "BooleanType",
-        "enums": [
-          true,
-          false
-        ]
-      },
-      "createAllDatasetFiles": {
-        "type": "BooleanType",
-        "enums": [
-          true,
-          false
-        ]
-      },
-      "createAllImages": {
-        "type": "BooleanType",
-        "enums": [
-          true,
-          false
-        ]
-      }
+    "AppName": {
+        "label": "The name of the app",
+        "description": "The name of the app",
+        "defaultValue": null,
+        "required": false,
+        "variableType": {
+            "type": "StringType"
+        }
     },
-    "strictValidation": true
-  }
-}    
+    "AppLabel": {
+        "label": "The label of the app",
+        "description": "The label of the app",
+        "defaultValue": "Mortgage Calculator",
+        "required": false,
+        "variableType": {
+            "type": "StringType"
+        }
+    },
+    "AmortizedChartType": {
+        "label": "What kind of chart would you like to use?",
+        "description": "The chart to use when representing the amortized loan.",
+        "defaultValue": "line",
+        "required": true,
+        "variableType": {
+            "type": "StringType",
+            "enums": [
+                "line",
+                "stackvbar",
+                "stackhbar",
+                "combo",
+                "heatmap"
+            ]
+        }
+    },
+    "LoanTermYears": {
+        "label": "Enter the number of years for the loan",
+        "description": "This will be the total number of years for the loan.",
+        "defaultValue": 10,
+        "required": true,        
+        "variableType": {
+            "type": "NumberType"
+        }
+    },
+    "AnnualPercentageRate": {
+        "label": "Enter the annual percentage rate",
+        "description": "This will be the annual percentage rate for the loan.",
+        "defaultValue": 3.5,
+        "required": true,        
+        "variableType": {
+            "type": "NumberType"
+        }
+    },
+    "FinancingAmount": {
+        "label": "Enter the amount to finance",
+        "description": "This will be the amount to finance for the loan.",
+        "defaultValue": 100000,
+        "required": true,        
+        "variableType": {
+            "type": "NumberType"
+        }
+    },
+    "Overrides": {
+        "label": "Overrides",
+        "description": "Internal configuration to allow asset creation overrides, not to be displayed in UI.",
+        "defaultValue": {
+            "createAllDashboards": true,
+            "createAllLenses": true,
+            "createAllExternalFiles": true,
+            "createDataflow": true,
+            "createAllDatasetFiles": true,
+            "createAllImages": true
+        },
+        "required": true,
+        "excludeSelected": false,
+        "excludes": [],
+        "variableType": {
+            "required": [
+                "createAllExternalFiles",
+                "createAllDashboards",
+                "createAllImages",
+                "createAllDatasetFiles",
+                "createAllLenses",
+                "createDataflow"
+            ],
+            "type": "ObjectType",
+            "properties": {
+                "createAllDashboards": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllLenses": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllExternalFiles": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createDataflow": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllDatasetFiles": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllImages": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                }
+            },
+            "strictValidation": true
+        }
+    }
 }

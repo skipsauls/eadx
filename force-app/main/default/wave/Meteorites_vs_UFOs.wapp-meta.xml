@@ -7,4 +7,6 @@
         <sharedTo>skip@eadx.com</sharedTo>
         <sharedToType>User</sharedToType>
     </shares>
+    <templateOrigin>eadx__Meteorites_vs_UFOs</templateOrigin>
+    <templateVersion>1.0</templateVersion>
 </WaveApplication>

@@ -1,0 +1,41 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="FortniteAPIController2">
+    
+    <aura:attribute name="sobjectType" type="String" access="global" default="eadx__Fortnite_Player__c"/>
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__Details"/>
+    
+    <aura:attribute name="listViewDescribe" type="Object"/>
+    
+    <aura:attribute name="keyField" type="String" access="global" default="id"/>
+    <aura:attribute name="columns" type="List" access="global"/>    
+    <aura:attribute name="data" type="Object[]" access="global"/>
+    <aura:attribute name="allData" type="Object[]"/>
+    <aura:attribute name="selectedRows" type="List" access="global"/>
+    <aura:attribute name="searchTerm" type="String" access="global"/>    
+    
+    <aura:attribute name="dashboardDeveloperName" type="String" access="global" default="eadx__Demo_Dashboard_2"/>
+    
+    <aura:attribute name="proxyReady" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.searchTerm}" action="{!c.handleSearchTermChange}"/>
+    <aura:handler name="change" value="{!v.listViewDescribe}" action="{!c.handleListViewDescribeChange}"/>
+    <aura:handler name="change" value="{!v.proxyReady}" action="{!c.handleProxyReady}"/>    
+    
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+
+    <aura:method name="refreshPlayers" action="{!c.handleRefreshPlayers}"  description="Refreshes the list."> 
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    
+    <c:proxy aura:id="proxy" ready="{!v.proxyReady}"/>
+    
+    <div>
+        <lightning:datatable aura:id="datatable"
+                             class="slds-m-around_x-small"
+                             columns="{!v.columns}" 
+                             data="{!v.data}" 
+                             keyField="{!v.keyField}"
+                             onrowselection="{!c.handleRowSelection}"
+                             />
+    </div>    
+</aura:component>

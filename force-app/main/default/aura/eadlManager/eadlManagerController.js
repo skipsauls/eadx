@@ -1,5 +1,22 @@
 ({
 	init: function(component, event, helper) {
+        
+        helper.updateStatus(component, function() {
+            helper.setupTemplateConfig(component, function(err, result) {
+                helper.checkStatus(component, function(err, data) {
+                    console.warn('checkStatus returned: ', data);
+                    if (data) {
+                        component.set('v.status', data);
+                    }                
+                });
+                helper.listDashboards(component);
+            });
+        });
+
+        return;
+        
+        helper.listFolders(component);
+        helper.setupTemplateVariables(component);
         helper.checkStatus(component);
         helper.listDashboards(component);
 	},

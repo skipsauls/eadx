@@ -1,4 +1,5 @@
 {
+  "displayMessages" : [ ],  
   "pages": [
     {
       "title": "Mortgage Calculator Loan Information",
@@ -11,6 +12,14 @@
         },
         {
           "name": "AnnualPercentageRate"
+        }
+      ]
+    },
+    {
+      "title": "Mortgage Calculator Chart Customization",
+      "variables": [
+        {
+          "name": "AmortizedChartType"
         }
       ]
     }

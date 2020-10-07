@@ -69,6 +69,8 @@
                              onrowaction="{!c.handleRowAction}"
                              onsort="{!c.handleSort}"
                              
+                             editable="true"
+                             
                              resizeColumnDisabled="{!v.resizeColumnDisabled}"
                              resizeStep="{!v.resizeStep}"
                              rowNumberOffset="{!v.rowNumberOffset}"

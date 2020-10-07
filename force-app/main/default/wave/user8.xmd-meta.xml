@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>user8</dataset>
+    <dimensions>
+        <field>Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.Id}}</linkTemplate>
+        <linkTooltip>Open User</linkTooltip>
+        <recordIdField>Id</recordIdField>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>UniqueUserName</field>
+        <isDerived>false</isDerived>
+        <label>Unique User Name</label>
+        <linkTemplate>/{{row.Id}}</linkTemplate>
+        <linkTooltip>Open User</linkTooltip>
+        <recordIdField>Id</recordIdField>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <measures>
+        <field>quota_attainment</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>quota_attainment</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_win_rate</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Win Rate</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_win_rate</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Win Rate</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>2</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_cycle</field>
+        <formatCustomFormat>[&quot;#,### days&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Sales Cycle</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>3</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_cycle</field>
+        <formatCustomFormat>[&quot;#,### days&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Sales Cycle</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>4</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_closed</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Closed Won</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>5</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_closed</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Closed Won</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>6</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_commit</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Commit</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>7</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_commit</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Commit</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>8</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_best</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Best Case</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>9</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_best</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Best Case</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>10</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_pipeline</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Pipeline</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>11</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_pipeline</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Pipeline</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>12</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_size</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Average Deal Size</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>13</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_size</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Average Deal Size</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>14</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_count</field>
+        <formatCustomFormat>[&quot;#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Count</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>15</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_count</field>
+        <formatCustomFormat>[&quot;#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Count</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>16</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_activity</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Percent of Completed Activities</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>17</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_activity</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Percent of Completed Activities</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>18</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_right_quota</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Quota Attainment</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>19</sortIndex>
+    </measures>
+    <measures>
+        <field>measure_left_quota</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Quota Attainment</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>20</sortIndex>
+    </measures>
+    <measures>
+        <field>win_rate</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>win_rate</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>21</sortIndex>
+    </measures>
+</WaveXmd>

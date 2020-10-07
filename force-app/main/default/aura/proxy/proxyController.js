@@ -32,7 +32,7 @@
                 body: body
             };
             
-            //console.warn('proxyController.exec - xhrConfig: ', xhrConfig);
+            console.warn('proxyController.exec - xhrConfig: ', xhrConfig);
             
             helper.sendMessage(component, "request", xhrConfig, function(cmp, response) {
                 var callback = params.callback;

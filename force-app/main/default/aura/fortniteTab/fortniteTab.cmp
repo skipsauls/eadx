@@ -34,7 +34,7 @@
                         </aura:set>
                         <lightning:tabset class="page-tabs">
                             <lightning:tab label="Players" id="players" class="tab">
-                                <c:dataLoaderTab loading="{!v.loading}"/>
+                                <c:fortnitePlayer/>
                             </lightning:tab>
                             <lightning:tab label="Map" id="map" class="tab">
                                 <wave:waveDashboard developerName="{!v.developerName}" height="{!v.height}" showHeader="false" showTitle="false" showSharing="false"/>

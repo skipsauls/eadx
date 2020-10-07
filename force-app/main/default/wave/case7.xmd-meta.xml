@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>case7</dataset>
+    <dimensions>
+        <field>IsClosed</field>
+        <isDerived>false</isDerived>
+        <label>Closed</label>
+        <members>
+            <label>Open</label>
+            <member>false</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <members>
+            <label>Closed</label>
+            <member>true</member>
+            <sortIndex>1</sortIndex>
+        </members>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Subject</field>
+        <isDerived>false</isDerived>
+        <label>Case Subject</label>
+        <linkTemplate>/{{row.Id}}</linkTemplate>
+        <linkTooltip>Open Case</linkTooltip>
+        <recordIdField>Id</recordIdField>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <measures>
+        <field>Account.AnnualRevenue</field>
+        <formatCustomFormat>[&quot;&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Account Annual Revenue</label>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>last_activity</field>
+        <isDerived>true</isDerived>
+        <label>last_activity</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>Account.NumberOfEmployees</field>
+        <formatCustomFormat>[&quot;&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Account Employee Size</label>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>percent</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Percent</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>DurationCalculatedField</field>
+        <formatCustomFormat>[&quot;### days&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Case Duration</label>
+        <sortIndex>2</sortIndex>
+    </measures>
+    <measures>
+        <field>Days_Open</field>
+        <formatCustomFormat>[&quot;#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>Days_Open</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>2</sortIndex>
+    </measures>
+</WaveXmd>

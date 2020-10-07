@@ -12,20 +12,7 @@
     border: 0 none;
 }
 
-.THIS .slds-card__header.slds-grid {
-    border: 0 none;
-    background-color: rgb(9, 26, 62, 0.6);
-    margin: 0;
-}
 
-.THIS img.title {
-    height: 2rem;
-}
-
-.THIS .slds-tabs_default__nav, .THIS .slds-tabs--default__nav {
-    background-color: rgb(9, 26, 62, 0.3);
-    border-bottom: 1px solid #000000;
-}
 
 .THIS .slds-tabs_default__item.slds-active, .THIS .slds-tabs_default__item.slds-is-active, .THIS .slds-tabs--default__item.slds-active, .THIS .slds-tabs--default__item.slds-is-active {
     color: #FFFFFF;

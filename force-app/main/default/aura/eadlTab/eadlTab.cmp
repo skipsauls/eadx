@@ -1,15 +1,10 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
     <lightning:layout>        
-        <lightning:layoutItem size="4" class="slds-box slds-theme_default">
-            <div class="slds-align_absolute-center">
-                Test text
-            </div>
+        <lightning:layoutItem size="6">
+            <c:eadlDashboard developerName="mort_calc_Mortgage_Calculator" height="600"/>
         </lightning:layoutItem>
-        <lightning:layoutItem size="4">
-            <wave:waveDashboard developerName="eadx__mort_calc_Mortgage_Calculator" height="600"/>
-        </lightning:layoutItem>
-        <lightning:layoutItem size="4">
-            <wave:waveDashboard developerName="eadx__mort_calc_Amortized_Schedule" height="600"/>
+        <lightning:layoutItem size="6">
+            <c:eadlDashboard developerName="mort_calc_Amortized_Schedule" height="600"/>
         </lightning:layoutItem>
     </lightning:layout>
 </aura:component>

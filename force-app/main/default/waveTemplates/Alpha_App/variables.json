@@ -1,56 +1,90 @@
 {
-  "Overrides" : {
-    "label" : "Overrides",
-    "description" : "Internal configuration to allow asset creation overrides, not to be displayed in UI.",
-    "defaultValue" : {
-      "createAllDashboards" : true,
-      "createAllLenses" : true,
-      "createAllExternalFiles" : true,
-      "createDataflow" : true,
-      "createAllDatasetFiles" : true,
-      "createAllImages" : true
-    },
-    "required" : true,
-    "excludeSelected" : false,
-    "excludes" : [ ],
-    "variableType" : {
-      "required" : [ "createAllExternalFiles", "createAllDashboards", "createAllImages", "createAllDatasetFiles", "createAllLenses", "createDataflow" ],
-      "type" : "ObjectType",
-      "properties" : {
-        "createAllDashboards" : {
-          "type" : "BooleanType",
-          "enums" : [ true, false ]
+    "Overrides": {
+        "label": "Overrides",
+        "description": "Internal configuration to allow asset creation overrides, not to be displayed in UI.",
+        "defaultValue": {
+            "createAllDashboards": true,
+            "createAllLenses": true,
+            "createAllExternalFiles": true,
+            "createDataflow": true,
+            "createAllDatasetFiles": true,
+            "createAllImages": true
         },
-        "createAllLenses" : {
-          "type" : "BooleanType",
-          "enums" : [ true, false ]
-        },
-        "createAllExternalFiles" : {
-          "type" : "BooleanType",
-          "enums" : [ true, false ]
-        },
-        "createDataflow" : {
-          "type" : "BooleanType",
-          "enums" : [ true, false ]
-        },
-        "createAllDatasetFiles" : {
-          "type" : "BooleanType",
-          "enums" : [ true, false ]
-        },
-        "createAllImages" : {
-          "type" : "BooleanType",
-          "enums" : [ true, false ]
+        "required": true,
+        "excludeSelected": false,
+        "excludes": [],
+        "variableType": {
+            "required": [
+                "createAllExternalFiles",
+                "createAllDashboards",
+                "createAllImages",
+                "createAllDatasetFiles",
+                "createAllLenses",
+                "createDataflow"
+            ],
+            "type": "ObjectType",
+            "properties": {
+                "createAllDashboards": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllLenses": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllExternalFiles": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createDataflow": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllDatasetFiles": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                },
+                "createAllImages": {
+                    "type": "BooleanType",
+                    "enums": [
+                        true,
+                        false
+                    ]
+                }
+            },
+            "strictValidation": true
         }
-      },
-      "strictValidation" : true
-    }
-  },
-  "DashboardTitle": {
-    "label": "Enter a Title for Your Dashboard",
-    "description": "This will be the title of the dashboard created from the template.",
-    "defaultValue": "Opp Info with Invoiced Amount",
-    "variableType": {
-       "type": "StringType"
-     }
+    },
+    "DashboardTitle": {
+        "label": "Enter a Title for Your Dashboard",
+        "description": "This will be the title of the dashboard created from the template.",
+        "defaultValue": "Opp Info with Invoiced Amount",
+        "variableType": {
+            "type": "StringType"
+        }
+    },
+    "LoanTermYears": {
+        "defaultValue": "10"
+    },
+    "AnnualPercentageRate": {
+        "defaultValue": "3.5"
+    },
+    "FinancingAmount": {
+        "defaultValue": "100000"
     }
 }

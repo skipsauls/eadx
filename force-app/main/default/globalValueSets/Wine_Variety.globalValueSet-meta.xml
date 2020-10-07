@@ -46,9 +46,9 @@
         <label>Merlot</label>
     </customValue>
     <customValue>
-        <fullName>Nero d&#39;Avola</fullName>
+        <fullName>Nero d&apos;Avola</fullName>
         <default>false</default>
-        <label>Nero d&#39;Avola</label>
+        <label>Nero d&apos;Avola</label>
     </customValue>
     <customValue>
         <fullName>Petite Sirah</fullName>

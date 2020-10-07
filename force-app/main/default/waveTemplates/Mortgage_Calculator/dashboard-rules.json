@@ -1,10 +1,5 @@
 {
-  "constants":[
-    {"name": "LoanTermYears", "value": "10"},
-    {"name": "AnnualPercentageRate", "value": "3.5"},
-    {"name": "FinancingAmount", "value": "100000"},
-    {"name": "InteractiveMode", "value": "false"}
-  ],
+  "constants":[],
   "rules": [
     {
       "name": "GeneratePaymentScheduleStep",
@@ -17,18 +12,18 @@
         {
           "action": "eval",
           "key": "LoanTermsInMonths",
-          "value": "${Constants.LoanTermYears*12}"
+          "value": "${Variables.LoanTermYears*12}"
         },
         {
           "action": "eval",
           "key": "MPR",
-          "value": "${(Constants.AnnualPercentageRate/100)/12}"
+          "value": "${(Variables.AnnualPercentageRate/100)/12}"
         },
         {
           "description": "Calculate the monthly payment for the loan.",
           "action": "eval",
           "key": "MonthlyPayment",
-          "value": "${math:round(Constants.FinancingAmount * Rules.Eval.MPR/(1-1/math:pow(1+Rules.Eval.MPR, Rules.Eval.LoanTermsInMonths)), 2)}"
+          "value": "${math:round(Variables.FinancingAmount * Rules.Eval.MPR/(1-1/math:pow(1+Rules.Eval.MPR, Rules.Eval.LoanTermsInMonths)), 2)}"
         },
         {
           "action": "delete",
@@ -60,9 +55,9 @@
             "type": "staticflex",
             "values": [
               {
-                "Loan Amount": "${Constants.FinancingAmount}",
-                "Number of Years": "${Constants.LoanTermYears}",
-                "APR": "${Constants.AnnualPercentageRate}",
+                "Loan Amount": "${Variables.FinancingAmount}",
+                "Number of Years": "${Variables.LoanTermYears}",
+                "APR": "${Variables.AnnualPercentageRate}",
                 "Total Interest Paid": 0,
                 "Total Principal Paid": 0
               }
@@ -71,7 +66,7 @@
         },
         { 
         		"action": "eval", 
-        		"value": "${array:forEachIndex(1,Constants.LoanTermYears*12, '${mort_calc:constructAmortizedScheduleItem(index, Rules.Eval.MonthlyPayment, Constants.FinancingAmount, Rules.Eval.MPR, Rules.Eval.LoanTermsInMonths)}')}"
+        		"value": "${array:forEachIndex(1,Variables.LoanTermYears*12, '${mort_calc:constructAmortizedScheduleItem(index, Rules.Eval.MonthlyPayment, Variables.FinancingAmount, Rules.Eval.MPR, Rules.Eval.LoanTermsInMonths)}')}"
     		},
         {
             "action": "put",
@@ -94,19 +89,36 @@
         {
           "action": "set",
           "path": "$.state..loan_amount_param.parameters.content.displayTemplate",
-          "value" : "${Constants.FinancingAmount}"
+          "value" : "${Variables.FinancingAmount}"
         },
         {
           "action": "set",
           "path": "$.state..annual_percentage_rate.parameters.content.displayTemplate",
-          "value" : "${Constants.AnnualPercentageRate}"
+          "value" : "${Variables.AnnualPercentageRate}"
         },
         {
           "action": "set",
           "path": "$.state..loan_term.parameters.content.displayTemplate",
-          "value" : "${Constants.LoanTermYears}"
+          "value" : "${Variables.LoanTermYears}"
         }
       ]
-    }
+    },
+    {
+      "name": "Amortized_Schedule_Amortization_Chart_visualizationType",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "mort_calc_Amortized_Schedule_tp"
+        }
+      ],
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set the chart type in the Amortized Schedule dashboard.",
+          "path": "$.state.widgets.Amortization_Chart.parameters.visualizationType",
+          "value": "${Variables.AmortizedChartType}"
+        }
+      ]
+    }    
   ]
 }

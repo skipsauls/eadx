@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Demo</fullName>
+    <columns>gametype__c</columns>
+    <columns>input__c</columns>
+    <columns>kd__c</columns>
+    <columns>kills__c</columns>
+    <columns>placetop1__c</columns>
+    <columns>playersoutlived__c</columns>
+    <columns>matchesplayed__c</columns>
+    <columns>minutesplayed__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>Demo</label>
+</ListView>

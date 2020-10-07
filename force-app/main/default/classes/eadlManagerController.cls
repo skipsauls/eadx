@@ -17,7 +17,7 @@ global with sharing class eadlManagerController {
           	System.debug('Exception: ' + e);
         }
         
-        return app;        
+        return app;
     }
     
 	@AuraEnabled
@@ -61,8 +61,9 @@ global with sharing class eadlManagerController {
         if (app != null) {
             WaveAutoInstallRequest delRequest = new WaveAutoInstallRequest();
             delRequest.put('Name', app.Name + ' (' + templateApiName + ') WaveAppDelete request');
-            delRequest.put('RequestStatus', 'Enqueued');
+            delRequest.put('TemplateApiName', templateApiName);
             delRequest.put('FolderId', app.Id);
+            delRequest.put('RequestStatus', 'Enqueued');
             delRequest.put('RequestType', 'WaveAppDelete');
             insert delRequest;
             response = JSON.serialize(delRequest.Id);
@@ -76,6 +77,8 @@ global with sharing class eadlManagerController {
     @AuraEnabled
     global static String createEmbeddedApp(String templateApiName, String name, Map<String, Object> appConfiguration) {
         
+        String response = null;
+        
         Map<String, Object> configuration = new Map<String, Object>();
         
         configuration.put('appConfiguration', appConfiguration);
@@ -88,6 +91,8 @@ global with sharing class eadlManagerController {
         newRequest.put('Configuration', JSON.serialize(configuration));
         insert newRequest;
         
-        return JSON.serialize(newRequest.Id);
+        response = JSON.serialize(newRequest.Id);
+        
+        return response;
     }
 }

@@ -1,6 +1,23 @@
 .THIS {
 }
 
+.THIS .accordion-section-override {
+    overflow: hidden;
+}
+
+.THIS .request-status {
+    display: none;
+}
+
+.THIS .request-status-Enqueued, .THIS .request-status-InProgress, .THIS .request-status-AppInProgress {
+    display: none;
+}
+
+.THIS .request-status-Success, .THIS .request-status-Failed, .THIS .request-status-Cancelled {
+    display: block;
+}
+
+
 .THIS .status {
 }
 

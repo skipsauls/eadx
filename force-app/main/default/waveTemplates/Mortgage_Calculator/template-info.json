@@ -18,10 +18,11 @@
     }
   ],
   "releaseInfo" : {
-    "templateVersion" : "1.14",
+    "templateVersion" : "1.15",
     "notesFile" : "releaseNotes.html"
   },
   "folderDefinition" : "folder.json",
+  "uiDefinition" : "ui.json",
   "externalFiles" : [ ],
   "lenses" : [ ],
   "dashboards" : [

@@ -9,6 +9,8 @@
     var json = JSON.stringify({type: "ready", uid: _uid});
     window.parent.postMessage(json, "{!$CurrentPage.Parameters.ltng_origin}");
     
+    console.warn('after ready sent');
+    
     function messageHandler(event) {
         if (event.origin === "{!$CurrentPage.Parameters.ltng_origin}") {
             event.preventDefault();

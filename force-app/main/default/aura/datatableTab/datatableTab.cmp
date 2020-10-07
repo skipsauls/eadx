@@ -1,24 +1,58 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
-    <aura:attribute name="keyField" type="String" access="global"/>
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="DatatableController">
+    
+    <aura:attribute name="sobjectType" type="String" access="global" default="Opportunity"/>
+    <aura:attribute name="developerName" type="String" access="global" default="eadx__MyOpportunities"/>
+    <aura:attribute name="dashboardDeveloperName" type="String" access="global" default="eadx__Demo_Revenue_Forecasting"/>
+    <aura:attribute name="dashboardHeight" type="String" access="global" default="660"/>
+
+    <aura:attribute name="tableHeight" type="String" access="global" default="320"/>
+
+    <aura:attribute name="listViewDescribe" type="Object"/>
+
+    <aura:attribute name="keyField" type="String" access="global" default="Name"/>
     <aura:attribute name="columns" type="List" access="global"/>    
     <aura:attribute name="data" type="Object[]" access="global"/>
+    <aura:attribute name="allData" type="Object[]"/>
     <aura:attribute name="selectedRows" type="List" access="global"/>
     <aura:attribute name="searchTerm" type="String" access="global"/>    
+    <aura:attribute name="draftValues" type="Object" default="[]"/>
     
+    <aura:attribute name="lastState" type="Object" access="global"/>
+    <aura:attribute name="listFilters" type="Object[]"/>
+    
+    <aura:attribute name="proxyReady" type="Boolean" default="false"/>
+
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     <aura:handler name="change" value="{!v.searchTerm}" action="{!c.handleSearchTermChange}"/>
+    <aura:handler name="change" value="{!v.listViewDescribe}" action="{!c.handleListViewDescribeChange}"/>
+
+    <aura:handler name="change" value="{!v.lastState}" action="{!c.handleDashboardStateChange}"/>
+
+    <aura:handler name="change" value="{!v.listFilters}" action="{!c.handleListFiltersChange}"/>
     
-    <lightning:layout>
-        <lightning:layoutItem flexibility="auto" padding="around-small" size="8">
-            <lightning:input type="text" label="Search" value="{!v.searchTerm}" class="slds-m-around_x-small"/>
+    <aura:handler event="wave:selectionChanged" action="{!c.handleSelectionChanged}"/>
+
+    <aura:handler name="change" value="{!v.proxyReady}" action="{!c.handleProxyReady}"/>        
+    
+	<c:proxy aura:id="proxy" ready="{!v.proxyReady}"/>
+    
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="12">
+            <wave:waveDashboard aura:id="dashboard" developerName="{!v.dashboardDeveloperName}" height="{!v.dashboardHeight}" showHeader="false" showTitle="false"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="12">
+            <div style="{!'height: ' + v.tableHeight + 'px'}">
             <lightning:datatable aura:id="datatable"
                                  class="slds-m-around_x-small"
                                  columns="{!v.columns}" 
                                  data="{!v.data}" 
                                  keyField="{!v.keyField}"
                                  selectedRows="{!v.selectedRows}"
+                                 draftValues="{!v.draftValues}"
                                  onrowselection="{!c.handleRowSelection}"
+                                 onsave="{!c.handleSave}"
                                  />
+            </div>
         </lightning:layoutItem>
     </lightning:layout>
 </aura:component>

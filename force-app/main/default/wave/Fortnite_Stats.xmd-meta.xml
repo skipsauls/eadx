@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <dataset>Fortnite_Stats</dataset>
+    <dates>
+        <alias>eadx__Fortnite_Player__c.LastModifiedDate</alias>
+        <firstDayOfWeek>-1</firstDayOfWeek>
+        <fiscalMonthOffset>0</fiscalMonthOffset>
+        <label>Player Last Modified Date</label>
+        <sortIndex>0</sortIndex>
+        <type xsi:nil="true"/>
+    </dates>
+    <dimensions>
+        <field>eadx__Fortnite_Player__c.eadx__platforms__c</field>
+        <isDerived>false</isDerived>
+        <label>platforms</label>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>eadx__Fortnite_Player__c.eadx__uid__c</field>
+        <isDerived>false</isDerived>
+        <label>uid</label>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>eadx__Fortnite_Player__c.eadx__username__c</field>
+        <isDerived>false</isDerived>
+        <label>username</label>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>eadx__Fortnite_Player__c.Id</field>
+        <isDerived>false</isDerived>
+        <label>Player Record ID</label>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>eadx__Fortnite_Player__c.eadx__seasons__c</field>
+        <isDerived>false</isDerived>
+        <label>seasons</label>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>eadx__Fortnite_Player__c</field>
+        <isDerived>false</isDerived>
+        <label>Player</label>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <measures>
+        <field>eadx__Fortnite_Player__c.eadx__account_level__c</field>
+        <isDerived>false</isDerived>
+        <label>account_level</label>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>eadx__Fortnite_Player__c.eadx__account_progress_pct__c</field>
+        <isDerived>false</isDerived>
+        <label>account_progress_pct</label>
+        <sortIndex>1</sortIndex>
+    </measures>
+</WaveXmd>

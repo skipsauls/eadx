@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>activity8</dataset>
+    <dimensions>
+        <field>Opportunity.Type</field>
+        <isDerived>false</isDerived>
+        <label>Opportunity Type</label>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Related Opportunity</field>
+        <isDerived>true</isDerived>
+        <linkTemplate>/{{row.Opportunity.Id}}</linkTemplate>
+        <linkTooltip>Open Opportunity</linkTooltip>
+        <recordIdField>Opportunity.Id</recordIdField>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Subject</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.Id}}</linkTemplate>
+        <linkTooltip>Open Event</linkTooltip>
+        <recordIdField>Id</recordIdField>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>AssignedTo.UniqueUserName</field>
+        <isDerived>false</isDerived>
+        <label>Assigned To</label>
+        <linkTemplate>/{{row.OwnerId}}</linkTemplate>
+        <linkTooltip>Open User</linkTooltip>
+        <recordIdField>OwnerId</recordIdField>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Account.Name</field>
+        <isDerived>false</isDerived>
+        <label>Account Name</label>
+        <linkTemplate>/{{row.AccountId}}</linkTemplate>
+        <linkTooltip>Open Account</linkTooltip>
+        <recordIdField>Opportunity.AccountId</recordIdField>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Account.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.Opportunity.AccountId}}</linkTemplate>
+        <linkTooltip>Open Account</linkTooltip>
+        <recordIdField>Opportunity.AccountId</recordIdField>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Opportunity.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplate>/{{row.Opportunity.Id}}</linkTemplate>
+        <linkTooltip>Open Opportunity</linkTooltip>
+        <recordIdField>Opportunity.Id</recordIdField>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <measures>
+        <field>YoY</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>YoY</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>comp_act</field>
+        <formatCustomFormat>[&quot;#,###&quot;,1]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>comp_act</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>percent</field>
+        <formatCustomFormat>[&quot;#,###%&quot;,100]</formatCustomFormat>
+        <isDerived>true</isDerived>
+        <label>percent</label>
+        <showInExplorer>false</showInExplorer>
+        <sortIndex>2</sortIndex>
+    </measures>
+</WaveXmd>

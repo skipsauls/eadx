@@ -6,7 +6,12 @@
     <label>proxy</label>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>18</minorNumber>
+        <minorNumber>2</minorNumber>
+        <namespace>datacatalog</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>1</majorNumber>
+        <minorNumber>19</minorNumber>
         <namespace>sf_chttr_apps</namespace>
     </packageVersions>
     <packageVersions>
